@@ -1,8 +1,8 @@
-function drawGraph(width, height, container){
+function drawGraph(container){
   'use strict';
-  var margin = {top: 20, right: 20, bottom: 30, left: 50};
-  width = $(container).width() - margin.left - margin.right;
-  height = 500 - margin.top - margin.bottom;
+  var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = $(container).width() - margin.left - margin.right,
+    height = $(container).height() - margin.top - margin.bottom;
 
   var x = d3.time.scale()
       .range([0, width]);
@@ -68,10 +68,6 @@ function drawGraph(width, height, container){
     focus.append("circle")
         .attr("r", 4.5);
 
-    focus.append("text")
-        .attr("x", 9)
-        .attr("dy", ".35em");
-
     var focusLineG = svg.append('g')
     .attr('class', 'focusline');
     var focusLine = focusLineG.append('line')
@@ -86,8 +82,13 @@ function drawGraph(width, height, container){
       .on("mouseover", function() { 
         focus.style("display", null);
         focusLine.style("display", null);
+        tip.style("display", null);
       })
-      .on("mouseout", function() { focus.style("display", "none"); })
+      .on("mouseout", function() { 
+        focus.style("display", "none");
+        focusLine.style("display", "none");
+        tip.style("display", "none");
+      })
       .on("mousemove", mousemove);
 
     var tip = d3.select(container).append('div')
@@ -101,7 +102,6 @@ function drawGraph(width, height, container){
           d1 = data[i],
           d = x0 - d0.date > d1.date - x0 ? d1 : d0;
       focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
-      focus.select("text").text(d.close + "<br/>" + d.date);
 
       focusLine
         .attr('x1', x(d.date))
@@ -109,14 +109,15 @@ function drawGraph(width, height, container){
         .attr('y1', 0)
         .attr('y2', height)
         .attr('display', null);
-      tip.html("test")
+      tip.html("Date: " + d.date + "<br/>Close: " + d.close )
         .style("left", (d3.event.pageX + 20) + "px")
+        .style("text-alight", "left")
         .style("top", (d3.event.pageY - 20) + "px");
     }
   });
 }
 
-drawGraph(960,500, "#chart")
+drawGraph("#chart")
 
 function type(d) {
   var formatDate = d3.time.format("%d-%b-%y");

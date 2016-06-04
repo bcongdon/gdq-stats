@@ -1,9 +1,10 @@
-@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,200);
 
 body {
   background-color: #FFFFFF;
-  font-family: "Source Sans Pro";
-  font-size: 10px
+  font-family: "Roboto";
+  font-size: 10px;
+  font-weight: 400;
 }
 
 a {
@@ -17,15 +18,20 @@ a:hover {
 }
 
 h1 {
-    border-bottom: 3px solid #2F769C;
+    border-bottom: 2px solid #2F769C;
     margin-bottom: 40px;
-    font-size: 32px;
+    font-size: 30px;
+    font-weight: 200;
+}
+
+h1 a {
+  font-size: 32px;
 }
 
 .axis path,
 .axis line {
   fill: none;
-  /*shape-rendering: crispEdges;*/
+  shape-rendering: crispEdges;
 }
 
 .x.axis path {
@@ -49,7 +55,7 @@ h1 {
 }
 
 .container {
-    width: 800px;
+    width: 960px;
     margin: 0 auto;
     padding: 0;
 }
@@ -65,23 +71,38 @@ h1 {
 .section h2 {
   text-align: left;
   padding: 10px;
-  font-weight: bold;
+  margin-bottom: 0px;
   font-size: 18px;
   background-color: #ddd;
+}
+
+.content {
+  padding: 20px;
+  overflow: hidden;
+}
+
+.current_stats {
+  text-align: left;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #eee;
+  margin-top: 0px;
 }
 
 .tooltip {   
   pointer-events: none;
   position: absolute;           
-  background-color: #fff;
+  background-color: #ffffff;
   margin: 0;
   border: 2px solid #eee;
-  text-align: center;
+  text-align: left;
+}
+
+#chart {
+  height: 500px;
 }
 
 footer {
   color: #666;
   font-size: 14px;
-  vertical-align: middle;
 }
-
