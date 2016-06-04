@@ -38,6 +38,16 @@ h1 {
   stroke-width: 1.5px;
 }
 
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: #2F769C;
+  stroke: #2F769C;
+}
+
 .container {
     width: 800px;
     margin: 0 auto;
@@ -58,6 +68,15 @@ h1 {
   font-weight: bold;
   font-size: 18px;
   background-color: #ddd;
+}
+
+.tooltip {   
+  pointer-events: none;
+  position: absolute;           
+  background-color: #fff;
+  margin: 0;
+  border: 2px solid #eee;
+  text-align: center;
 }
 
 footer {

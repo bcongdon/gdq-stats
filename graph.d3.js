@@ -1,7 +1,8 @@
 function drawGraph(width, height, container){
-  var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = $(container).width() - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+  'use strict';
+  var margin = {top: 20, right: 20, bottom: 30, left: 50};
+  width = $(container).width() - margin.left - margin.right;
+  height = 500 - margin.top - margin.bottom;
 
   var x = d3.time.scale()
       .range([0, width]);
@@ -21,15 +22,21 @@ function drawGraph(width, height, container){
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y(d.close); });
 
-  var svg = d3.select("#chart").append("div")
+  var svg = d3.select(container).append("div")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  var valueline = d3.svg.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.close); });
+
   d3.tsv("data.csv", type, function(error, data) {
-    if (error) throw error;
+    if (error) {
+      throw error;
+    }
 
     x.domain(d3.extent(data, function(d) { return d.date; }));
     y.domain(d3.extent(data, function(d) { return d.close; }));
@@ -53,6 +60,59 @@ function drawGraph(width, height, container){
         .datum(data)
         .attr("class", "line")
         .attr("d", line);
+
+    var focus = svg.append("g")
+        .attr("class", "focus")
+        .style("display", "none")
+
+    focus.append("circle")
+        .attr("r", 4.5);
+
+    focus.append("text")
+        .attr("x", 9)
+        .attr("dy", ".35em");
+
+    var focusLineG = svg.append('g')
+    .attr('class', 'focusline');
+    var focusLine = focusLineG.append('line')
+      .style('display', 'none')
+      .style('stroke', '#00ADF3');
+    var lineg = svg.append('g').attr("pointer-events", "none").attr('opacity', 0);
+
+    svg.append("rect")
+      .attr("class", "overlay")
+      .attr("width", width)
+      .attr("height", height)
+      .on("mouseover", function() { 
+        focus.style("display", null);
+        focusLine.style("display", null);
+      })
+      .on("mouseout", function() { focus.style("display", "none"); })
+      .on("mousemove", mousemove);
+
+    var tip = d3.select(container).append('div')
+      .attr('class', 'tooltip');
+
+    var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+    function mousemove() {
+      var x0 = x.invert(d3.mouse(this)[0]),
+          i = bisectDate(data, x0, 1),
+          d0 = data[i - 1],
+          d1 = data[i],
+          d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+      focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
+      focus.select("text").text(d.close + "<br/>" + d.date);
+
+      focusLine
+        .attr('x1', x(d.date))
+        .attr('x2', x(d.date))
+        .attr('y1', 0)
+        .attr('y2', height)
+        .attr('display', null);
+      tip.html("test")
+        .style("left", (d3.event.pageX + 20) + "px")
+        .style("top", (d3.event.pageY - 20) + "px");
+    }
   });
 }
 
