@@ -1,0 +1,51 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200);
+
+body {
+  background-color: #FFFFFF;
+  font-family: "Source Sans Pro";
+  font-size: 10px
+}
+
+a {
+    color: #42A5DA;
+    
+}
+
+a:hover {
+    color: #59BCF9;
+    text-decoration: none;
+}
+
+h2 {
+    border-bottom: 3px solid #2F769C;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  /*shape-rendering: crispEdges;*/
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.section {
+  border-left:  5px solid #eee;
+  border-right: 5px solid #eee;
+  margin-bottom: 40px;
+  vertical-align: top;
+  border-bottom: 20px solid #eee;
+}
