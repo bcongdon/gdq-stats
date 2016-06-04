@@ -8,7 +8,7 @@ body {
 
 a {
     color: #42A5DA;
-    
+    text-decoration: none;
 }
 
 a:hover {
@@ -16,8 +16,10 @@ a:hover {
     text-decoration: none;
 }
 
-h2 {
+h1 {
     border-bottom: 3px solid #2F769C;
+    margin-bottom: 40px;
+    font-size: 32px;
 }
 
 .axis path,
@@ -32,20 +34,35 @@ h2 {
 
 .line {
   fill: none;
-  stroke: steelblue;
+  stroke: #2F769C;
   stroke-width: 1.5px;
 }
 
 .container {
-    width: 80%;
+    width: 800px;
     margin: 0 auto;
     padding: 0;
 }
 
 .section {
-  border-left:  5px solid #eee;
-  border-right: 5px solid #eee;
+  border-left:  2px solid #ddd;
+  border-right: 2px solid #ddd;
   margin-bottom: 40px;
   vertical-align: top;
-  border-bottom: 20px solid #eee;
+  border-bottom: 2px solid #ddd;
 }
+
+.section h2 {
+  text-align: left;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  background-color: #ddd;
+}
+
+footer {
+  color: #666;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
