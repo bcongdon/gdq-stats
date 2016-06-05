@@ -2,9 +2,9 @@
 var client = irc.client()
 function queryTwitch(){
     client.api({
-        url: "https://api.twitch.tv/kraken/streams/wizardworldgaming"
+        url: "https://api.twitch.tv/kraken/streams/GosuGamers"
     }, function(err, res, body) {
-        if(body && "stream" in body && "viewers" in body['stream']){
+        if(body && body['stream'] != undefined && "viewers" in body['stream']){
             console.debug("Current viewers: " + body['stream']['viewers']);
             oViewers.innerHTML = body['stream']['viewers'];
         }
@@ -12,8 +12,10 @@ function queryTwitch(){
 }
 
 function queryDonations(){
-
-    setTimeout(function() {oDonations.innerHTML = "0"}, 1000);
+    $.getJSON("https://sgdq-backend.firebaseio.com/stats.json", function(data){
+        oDonations.innerHTML = data.total_donations;
+        oDonators.innerHTML = data.num_donators;
+    });
 }
 
 function gamesCompleted(){

@@ -1,3 +1,5 @@
+var jsonSouce = "https://sgdq-backend.firebaseio.com/something"
+
 function drawGraph(container){
   'use strict';
   var margin = {top: 20, right: 20, bottom: 30, left: 50},
