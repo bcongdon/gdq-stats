@@ -1,34 +1,53 @@
 "use strict";
-var client = irc.client()
+var client = irc.client();
+var stats_ref = new Firebase("https://sgdq-backend.firebaseio.com/stats");
+
 function queryTwitch(){
     client.api({
-        url: "https://api.twitch.tv/kraken/streams/GosuGamers"
+        url: "https://api.twitch.tv/kraken/streams/OGNGlobal"
     }, function(err, res, body) {
         if(body && body['stream'] != undefined && "viewers" in body['stream']){
             console.debug("Current viewers: " + body['stream']['viewers']);
             oViewers.innerHTML = body['stream']['viewers'];
         }
+        else {
+            // Hide element when viewership data unavailable
+            $("#viewers_stat").hide()
+        }
     });
 }
 
-function queryDonations(){
-    $.getJSON("https://sgdq-backend.firebaseio.com/stats.json", function(data){
-        oDonations.innerHTML = data.total_donations;
-        oDonators.innerHTML = data.num_donators;
+var initial_vals = false;
+function setupFirebaseData(){
+    stats_ref.on("value", function(data){
+        if(!data.val() && !initial_vals) {
+            // Hide if we get a NULL object and have no other data
+            $("#donations_stat").hide();
+            $("#donators_stat").hide();
+        }
+        oDonations.innerHTML = data.val().total_donations;
+        oDonators.innerHTML = data.val().num_donators;
+        // Show stats elements when query successful
+        $("#donations_stat").show();
+        $("#donators_stat").show();
+        initial_vals = true;
+    }, function(error) {
+        // Hides stats elements when query unsuccessful
+        if(initial_vals) {
+            return;
+        }
+        $("#donations_stat").hide();
+        $("#donators_stat").hide();
+        console.debug(error);
     });
 }
 
-function gamesCompleted(){
-    setTimeout(function() {oGames.innerHTML = "163"}, 1000);
-}
-
+// Initial calls
+setupFirebaseData();
 queryTwitch();
-queryDonations();
-gamesCompleted();
 
+// Repeat the viewer data every 10 seconds
 setInterval(function(){
     queryTwitch();
-    queryDonations();
-    gamesCompleted();
 
 }, 10000);
