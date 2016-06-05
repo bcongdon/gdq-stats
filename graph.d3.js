@@ -1,4 +1,4 @@
-var jsonSouce = "https://sgdq-backend.firebaseio.com/something"
+var jsonSouce = "https://sgdq-backend.firebaseio.com/data.json"
 
 function drawGraph(container){
   'use strict';
@@ -22,7 +22,7 @@ function drawGraph(container){
 
   var line = d3.svg.line()
       .x(function(d) { return x(d.date); })
-      .y(function(d) { return y(d.close); });
+      .y(function(d) { return y(d.viewers); });
 
   var svg = d3.select(container).append("div")
       .append("svg")
@@ -33,15 +33,32 @@ function drawGraph(container){
 
   var valueline = d3.svg.line()
     .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.close); });
+    .y(function(d) { return y(d.viewers); });
 
-  d3.tsv("data.csv", type, function(error, data) {
+  d3.json(jsonSouce, function(error, data) {
+    var data_copy = [];
+    var data_val;
+    for(var key in data) {
+      // Ignore null viewer counts
+      if(data[key].v < 0){
+        continue;
+      }
+      data_val = {
+        viewers: data[key].v,
+        donators: data[key].d,
+        donations: data[key].m,
+        date: key
+      };
+      data_copy.push(data_val);
+    }
+    data = data_copy
+    console.log(data)
     if (error) {
       throw error;
     }
 
     x.domain(d3.extent(data, function(d) { return d.date; }));
-    y.domain(d3.extent(data, function(d) { return d.close; }));
+    y.domain(d3.extent(data, function(d) { return d.viewers; }));
 
     svg.append("g")
         .attr("class", "x axis")
@@ -103,7 +120,7 @@ function drawGraph(container){
           d0 = data[i - 1],
           d1 = data[i],
           d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-      focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
+      focus.attr("transform", "translate(" + x(d.date) + "," + y(d.viewers) + ")");
 
       focusLine
         .attr('x1', x(d.date))
@@ -111,7 +128,7 @@ function drawGraph(container){
         .attr('y1', 0)
         .attr('y2', height)
         .attr('display', null);
-      tip.html("Date: " + d.date + "<br/>Close: " + d.close )
+      tip.html("Date: " + (new Date(parseInt(d.date))).toString() + "<br/>Viewers: " + d.viewers )
         .style("left", (d3.event.pageX + 20) + "px")
         .style("text-alight", "left")
         .style("top", (d3.event.pageY - 20) + "px");
@@ -121,9 +138,9 @@ function drawGraph(container){
 
 drawGraph("#chart")
 
-function type(d) {
-  var formatDate = d3.time.format("%d-%b-%y");
-  d.date = formatDate.parse(d.date);
-  d.close = +d.close;
-  return d;
-}
+// function type(d) {
+//   var formatDate = d3.time.format("%d-%b-%y");
+//   d.date = formatDate.parse(d.date);
+//   d.close = +d.close;
+//   return d;
+// }
