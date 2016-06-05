@@ -2,7 +2,9 @@ var jsonSouce = "https://sgdq-backend.firebaseio.com/data.json"
 
 function drawGraph(container){
   'use strict';
-  var margin = {top: 20, right: 70, bottom: 30, left: 50},
+
+  // Setup objects for d3 to render
+  var margin = {top: 20, right: 75, bottom: 30, left: 50},
     width = $(container).width() - margin.left - margin.right,
     height = $(container).height() - margin.top - margin.bottom;
 
@@ -47,6 +49,7 @@ function drawGraph(container){
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  // Actually pull down JSON data and do the graph render
   d3.json(jsonSouce, function(error, data) {
     var data_copy = [];
     var data_val;
@@ -90,17 +93,6 @@ function drawGraph(container){
         .style("text-anchor", "end")
         .text("Viewers");
 
-    svg.append("g")
-        .attr("class", "y axis")
-        .attr("transform", "translate(" + width + " ,0)")
-        .call(donationAxis)
-      .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -4)
-        .attr("dy", ".6 0em")
-        .style("text-anchor", "end")
-        .text("Donations");
-
     svg.append("path")
         .datum(data)
         .attr("class", "line viewerLine")
@@ -111,31 +103,50 @@ function drawGraph(container){
         .attr("class", "line donationLine")
         .attr("d", donationLine);
 
-    var focus = svg.append("g")
-        .attr("class", "focus")
-        .style("display", "none")
-
-    focus.append("circle")
-        .attr("r", 4.5);
+    svg.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(" + width + " ,0)")
+        .call(donationAxis)
+      .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -6)
+        .attr("dy", ".6 0em")
+        .style("text-anchor", "end")
+        .text("Donations");
 
     var focusLineG = svg.append('g')
-    .attr('class', 'focusline');
+      .attr('class', 'focusline');
     var focusLine = focusLineG.append('line')
       .style('display', 'none')
-      .style('stroke', '#00ADF3');
+      .style('stroke', '#aaa');
     var lineg = svg.append('g').attr("pointer-events", "none").attr('opacity', 0);
+
+    var viewerFocus = svg.append("g")
+        .style("display", "none")
+    viewerFocus.append("circle")
+        .attr("r", 3)
+        .attr("class", "viewerFocus");
+
+    var donationFocus = svg.append("g")
+        .style("display", "none");
+    donationFocus.append("circle")
+        .attr("r", 3)
+        .attr("class", "donationFocus");
+
 
     svg.append("rect")
       .attr("class", "overlay")
       .attr("width", width)
       .attr("height", height)
       .on("mouseover", function() { 
-        focus.style("display", null);
+        viewerFocus.style("display", null);
+        donationFocus.style("display", null);
         focusLine.style("display", null);
         tip.style("display", null);
       })
       .on("mouseout", function() { 
-        focus.style("display", "none");
+        viewerFocus.style("display", "none");
+        donationFocus.style("display", "none");
         focusLine.style("display", "none");
         tip.style("display", "none");
       })
@@ -151,7 +162,8 @@ function drawGraph(container){
           d0 = data[i - 1],
           d1 = data[i],
           d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-      focus.attr("transform", "translate(" + x(d.date) + "," + y0(d.viewers) + ")");
+      viewerFocus.attr("transform", "translate(" + x(d.date) + "," + y0(d.viewers) + ")");
+      donationFocus.attr("transform", "translate(" + x(d.date) + "," + y1(d.donations) + ")");
 
       focusLine
         .attr('x1', x(d.date))
@@ -159,7 +171,7 @@ function drawGraph(container){
         .attr('y1', 0)
         .attr('y2', height)
         .attr('display', null);
-      tip.html("Date: " + (new Date(parseInt(d.date))).toString() + "<br/>Viewers: " + d.viewers )
+      tip.html("Date: " + (new Date(parseInt(d.date))).toString() + "<br/>Viewers: " + d.viewers + "<br/>Donations: " + d.donations)
         .style("left", (d3.event.pageX + 20) + "px")
         .style("text-alight", "left")
         .style("top", (d3.event.pageY - 20) + "px");

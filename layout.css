@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,200);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,200);
 
 body {
   background-color: #FFFFFF;
@@ -8,17 +8,17 @@ body {
 }
 
 a {
-    color: #42A5DA;
+    color: #F21847;
     text-decoration: none;
 }
 
 a:hover {
-    color: #59BCF9;
+    color: #A20023;
     text-decoration: none;
 }
 
 h1 {
-    border-bottom: 2px solid #2F769C;
+    border-bottom: 2px solid #00AEEF;
     margin-bottom: 40px;
     font-size: 30px;
     font-weight: 200;
@@ -26,6 +26,16 @@ h1 {
 
 h1 a {
   font-size: 32px;
+}
+
+.axis {
+  font-size: 13px;
+  fill: #999;
+  font-weight: 200;
+}
+.axis text {
+  fill: #222;
+  font-weight: 300;
 }
 
 .axis path,
@@ -41,22 +51,27 @@ h1 a {
   stroke-width: 1.5px;
 }
 
-.viewerLine {
-  stroke: #2F769C;
-}
-
-.donationLine {
-  stroke: #333333;
-}
-
 .overlay {
   fill: none;
   pointer-events: all;
 }
 
-.focus circle {
-  fill: #2F769C;
-  stroke: #2F769C;
+.viewerLine {
+  stroke: #00AEEF;
+}
+
+.viewerFocus {
+  fill: #00AEEF;
+  stroke: #00AEEF;
+}
+
+.donationLine {
+  stroke: #F21847;
+}
+
+.donationFocus {
+  fill: #F21847;
+  stroke: #F21847;
 }
 
 .container {

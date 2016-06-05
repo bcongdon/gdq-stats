@@ -4,7 +4,7 @@ var stats_ref = new Firebase("https://sgdq-backend.firebaseio.com/stats");
 
 function queryTwitch(){
     client.api({
-        url: "https://api.twitch.tv/kraken/streams/OGNGlobal"
+        url: "https://api.twitch.tv/kraken/streams/ESL_Heroes"
     }, function(err, res, body) {
         if(body && body['stream'] != undefined && "viewers" in body['stream']){
             console.debug("Current viewers: " + body['stream']['viewers']);
