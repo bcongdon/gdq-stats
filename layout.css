@@ -30,18 +30,23 @@ h1 a {
 
 .axis path,
 .axis line {
-  fill: none;
   shape-rendering: crispEdges;
-}
-
-.x.axis path {
-  display: none;
+  stroke: #ddd;
+  /*display: none;*/
+  fill: none;
 }
 
 .line {
   fill: none;
-  stroke: #2F769C;
   stroke-width: 1.5px;
+}
+
+.viewerLine {
+  stroke: #2F769C;
+}
+
+.donationLine {
+  stroke: #333333;
 }
 
 .overlay {

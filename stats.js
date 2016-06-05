@@ -25,12 +25,13 @@ function setupFirebaseData(){
             $("#donations_stat").hide();
             $("#donators_stat").hide();
         }
+        initial_vals = true;
         oDonations.innerHTML = data.val().total_donations;
-        oDonators.innerHTML = data.val().num_donators;
+        oDonators.innerHTML  = data.val().num_donators;
+        oGames.innerHTML     = data.val().games_played;
         // Show stats elements when query successful
         $("#donations_stat").show();
         $("#donators_stat").show();
-        initial_vals = true;
     }, function(error) {
         // Hides stats elements when query unsuccessful
         if(initial_vals) {

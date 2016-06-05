@@ -2,14 +2,17 @@ var jsonSouce = "https://sgdq-backend.firebaseio.com/data.json"
 
 function drawGraph(container){
   'use strict';
-  var margin = {top: 20, right: 20, bottom: 30, left: 50},
+  var margin = {top: 20, right: 70, bottom: 30, left: 50},
     width = $(container).width() - margin.left - margin.right,
     height = $(container).height() - margin.top - margin.bottom;
 
   var x = d3.time.scale()
       .range([0, width]);
 
-  var y = d3.scale.linear()
+  var y0 = d3.scale.linear()
+      .range([height, 0]);
+
+  var y1 = d3.scale.linear()
       .range([height, 0]);
 
   var xAxis = d3.svg.axis()
@@ -17,12 +20,25 @@ function drawGraph(container){
       .orient("bottom");
 
   var yAxis = d3.svg.axis()
-      .scale(y)
+      .scale(y0)
       .orient("left");
 
-  var line = d3.svg.line()
+  var donationAxis = d3.svg.axis()
+      .scale(y1)
+      .orient("right")
+      .tickFormat(function(d) { return '$' + d3.format(",.0f")(d) });;
+
+  var viewerLine = d3.svg.line()
       .x(function(d) { return x(d.date); })
-      .y(function(d) { return y(d.viewers); });
+      .y(function(d) { return y0(d.viewers); })
+      // .defined(function(d) { return d.date > 0 && d.viewers > 0 })
+      .interpolate("basis");
+
+  var donationLine = d3.svg.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return y1(d.donations); })
+      // .defined(function(d) {return d.date > 0 && d.donations > 0 })
+      .interpolate("basis");
 
   var svg = d3.select(container).append("div")
       .append("svg")
@@ -30,10 +46,6 @@ function drawGraph(container){
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  var valueline = d3.svg.line()
-    .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.viewers); });
 
   d3.json(jsonSouce, function(error, data) {
     var data_copy = [];
@@ -49,16 +61,19 @@ function drawGraph(container){
         donations: data[key].m,
         date: key
       };
+      if(data_val.donations == undefined) {
+        data_val.donations = -1;
+      }
       data_copy.push(data_val);
     }
     data = data_copy
-    console.log(data)
     if (error) {
       throw error;
     }
 
     x.domain(d3.extent(data, function(d) { return d.date; }));
-    y.domain(d3.extent(data, function(d) { return d.viewers; }));
+    y0.domain(d3.extent(data, function(d) { return d.viewers; }));
+    y1.domain(d3.extent(data, function(d) { return d.donations; }));
 
     svg.append("g")
         .attr("class", "x axis")
@@ -75,10 +90,26 @@ function drawGraph(container){
         .style("text-anchor", "end")
         .text("Viewers");
 
+    svg.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(" + width + " ,0)")
+        .call(donationAxis)
+      .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -4)
+        .attr("dy", ".6 0em")
+        .style("text-anchor", "end")
+        .text("Donations");
+
     svg.append("path")
         .datum(data)
-        .attr("class", "line")
-        .attr("d", line);
+        .attr("class", "line viewerLine")
+        .attr("d", viewerLine);
+
+    svg.append("path")
+        .datum(data)
+        .attr("class", "line donationLine")
+        .attr("d", donationLine);
 
     var focus = svg.append("g")
         .attr("class", "focus")
@@ -120,7 +151,7 @@ function drawGraph(container){
           d0 = data[i - 1],
           d1 = data[i],
           d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-      focus.attr("transform", "translate(" + x(d.date) + "," + y(d.viewers) + ")");
+      focus.attr("transform", "translate(" + x(d.date) + "," + y0(d.viewers) + ")");
 
       focusLine
         .attr('x1', x(d.date))
@@ -137,10 +168,3 @@ function drawGraph(container){
 }
 
 drawGraph("#chart")
-
-// function type(d) {
-//   var formatDate = d3.time.format("%d-%b-%y");
-//   d.date = formatDate.parse(d.date);
-//   d.close = +d.close;
-//   return d;
-// }
