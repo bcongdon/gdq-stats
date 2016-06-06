@@ -33,13 +33,13 @@ function drawGraph(container){
   var viewerLine = d3.svg.line()
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y0(d.viewers); })
-      // .defined(function(d) { return d.date > 0 && d.viewers > 0 })
+      .defined(function(d) { return d.date > 0 && d.viewers > 0 })
       .interpolate("basis");
 
   var donationLine = d3.svg.line()
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y1(d.donations); })
-      // .defined(function(d) {return d.date > 0 && d.donations > 0 })
+      .defined(function(d) { return d.date > 0 && d.donations > 0 })
       .interpolate("basis");
 
   var svg = d3.select(container).append("div")
@@ -93,7 +93,7 @@ function drawGraph(container){
         .style("text-anchor", "end")
         .text("Viewers");
 
-    svg.append("path")
+        svg.append("path")
         .datum(data)
         .attr("class", "line viewerLine")
         .attr("d", viewerLine);
@@ -118,7 +118,7 @@ function drawGraph(container){
       .attr('class', 'focusline');
     var focusLine = focusLineG.append('line')
       .style('display', 'none')
-      .style('stroke', '#aaa');
+      .style('stroke', '#bbb');
     var lineg = svg.append('g').attr("pointer-events", "none").attr('opacity', 0);
 
     var viewerFocus = svg.append("g")

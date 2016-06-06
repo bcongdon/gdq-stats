@@ -1,8 +1,18 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,200);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,200|Open+Sans);
+
+
+@font-face{ 
+  font-family: 'Cubano';
+  src: url('font/cubano-regular-webfont.eot');
+  src: url('font/cubano-regular-webfont.eot?#iefix') format('embedded-opentype'),
+       url('font/cubano-regular-webfont.woff') format('woff'),
+       url('font/cubano-regular-webfont.ttf') format('truetype'),
+       url('font/cubano-regular-webfont.svg#webfont') format('svg');
+}
 
 body {
   background-color: #FFFFFF;
-  font-family: "Roboto";
+  font-family: "Open Sans";
   font-size: 10px;
   font-weight: 400;
 }
@@ -17,15 +27,20 @@ a:hover {
     text-decoration: none;
 }
 
-h1 {
-    border-bottom: 2px solid #00AEEF;
-    margin-bottom: 40px;
+h1, h2, h3 {
     font-size: 30px;
-    font-weight: 200;
+    font-weight: 400;
+    font-family: "Cubano"
 }
 
 h1 a {
   font-size: 32px;
+  border-bottom: 2px solid #00AEEF;
+  margin-bottom: 40px;
+}
+
+h1 {
+  color: #555;
 }
 
 .axis {
