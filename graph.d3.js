@@ -6,9 +6,14 @@ function drawGraph(container){
   // Setup objects for d3 to render
   var margin = {top: 20, right: 75, bottom: 30, left: 50},
     width = $(container).width() - margin.left - margin.right,
-    height = $(container).height() - margin.top - margin.bottom;
+    height = $(container).height() - 75 - margin.top - margin.bottom,
+    margin2 = {top: height + 50, right: 10, bottom: 35, left: 0},
+    height2 = $(container).height() - margin2.top - margin2.bottom;
 
   var x = d3.time.scale()
+      .range([0, width]);
+
+  var x2 = d3.time.scale()
       .range([0, width]);
 
   var y0 = d3.scale.linear()
@@ -17,8 +22,15 @@ function drawGraph(container){
   var y1 = d3.scale.linear()
       .range([height, 0]);
 
+  var y3 = d3.scale.linear()
+      .range([height2, 0])
+
   var xAxis = d3.svg.axis()
       .scale(x)
+      .orient("bottom");
+
+  var xAxis2 = d3.svg.axis()
+      .scale(x2)
       .orient("bottom");
 
   var yAxis = d3.svg.axis()
@@ -28,7 +40,11 @@ function drawGraph(container){
   var donationAxis = d3.svg.axis()
       .scale(y1)
       .orient("right")
-      .tickFormat(function(d) { return '$' + d3.format(",.0f")(d) });;
+      .tickFormat(function(d) { return '$' + d3.format(",.0f")(d) });
+
+  var brush = d3.svg.brush()
+    .x(x2)
+    .on("brush", brushed);
 
   var viewerLine = d3.svg.line()
       .x(function(d) { return x(d.date); })
@@ -42,12 +58,33 @@ function drawGraph(container){
       .defined(function(d) { return d.date > 0 && d.donations > 0 })
       .interpolate("basis");
 
+  var brushLine = d3.svg.line()
+      .x(function(d) { return x2(d.date); })
+      .y(function(d) { return y3(d.viewers); })
+      .defined(function(d) { return d.date > 0 && d.viewers > 0 })
+      .interpolate("basis");
+
   var svg = d3.select(container).append("div")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      .attr("height", height + margin.top + margin.bottom + height2 + margin2.bottom + margin2.top)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var context = svg.append("g")
+      .attr("class", "context")
+      .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+  var focus = svg.append("g")
+      .attr("class", "focus")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  function brushed() {
+    x.domain(brush.empty() ? x2.domain() : brush.extent());
+    svg.select(".line.viewerLine").attr("d", viewerLine);
+    svg.select(".line.donationLine").attr("d", donationLine)
+    svg.select(".x.axis.top").call(xAxis);
+  }
 
   // Actually pull down JSON data and do the graph render
   d3.json(jsonSouce, function(error, data) {
@@ -75,11 +112,13 @@ function drawGraph(container){
     }
 
     x.domain(d3.extent(data, function(d) { return d.date; }));
+    x2.domain(x.domain());
     y0.domain(d3.extent(data, function(d) { return d.viewers; }));
     y1.domain(d3.extent(data, function(d) { return d.donations; }));
+    y3.domain(y0.domain());
 
     svg.append("g")
-        .attr("class", "x axis")
+        .attr("class", "x axis top")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
 
@@ -114,12 +153,41 @@ function drawGraph(container){
         .style("text-anchor", "end")
         .text("Donations");
 
+    context.append("path")
+      .datum(data)
+      .attr("class", "line contextLine")
+      .attr("d", brushLine);
+
+    context.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height2 + ")")
+      .call(xAxis2);
+
+    context.append("g")
+      .attr("class", "x brush")
+      .call(brush)
+    .selectAll("rect")
+      .attr("y", -6)
+      .attr("height", height2 + 7);
+
+    context.append("rect")
+      .attr("class", "contextBound")
+      .attr("width", width)
+      .attr("height", height2 + 7)
+      .attr("transform", "translate(0,-6)");
+
+    svg.append("defs").append("clipPath")
+        .attr("id", "clip")
+      .append("rect")
+        .attr("width", width)
+        .attr("height", height + 10)
+        .attr("transform", "translate(0,-5)");
+
     var focusLineG = svg.append('g')
       .attr('class', 'focusline');
     var focusLine = focusLineG.append('line')
       .style('display', 'none')
       .style('stroke', '#bbb');
-    var lineg = svg.append('g').attr("pointer-events", "none").attr('opacity', 0);
 
     var viewerFocus = svg.append("g")
         .style("display", "none")
@@ -137,7 +205,7 @@ function drawGraph(container){
     svg.append("rect")
       .attr("class", "overlay")
       .attr("width", width)
-      .attr("height", height)
+      .attr("height", height + height2)
       .on("mouseover", function() { 
         viewerFocus.style("display", null);
         donationFocus.style("display", null);

@@ -64,6 +64,7 @@ h1 {
 .line {
   fill: none;
   stroke-width: 1.5px;
+  clip-path: url(#clip);
 }
 
 .overlay {
@@ -84,9 +85,27 @@ h1 {
   stroke: #F21847;
 }
 
+.contextLine {
+  stroke: #00AEEF;
+  stroke-width: 1px;
+}
+
+.contextBound {
+  stroke: #000;
+  fill: none;
+  stroke-width: 0.5px;
+}
+
 .donationFocus {
   fill: #F21847;
   stroke: #F21847;
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  fill: #00AEEF;
+  shape-rendering: crispEdges;
 }
 
 .container {
@@ -143,7 +162,7 @@ h1 {
 }
 
 #chart {
-  height: 500px;
+  height: 600px;
 }
 
 footer {
