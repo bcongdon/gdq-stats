@@ -1,5 +1,5 @@
 'use strict';
-var jsonSource = "https://sgdq-backend.firebaseio.com/data.json"
+var jsonSource = "https://sgdq-backend.firebaseio.com/.json"
 
 var svg, brush;
 
@@ -48,7 +48,7 @@ function drawGraph(container){
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y0(d.viewers); })
       .defined(function(d) { return d.date > 0 && d.viewers > 0 })
-      .interpolate("basis");
+      .interpolate("monotone");
 
   var donationLine = d3.svg.line()
       .x(function(d) { return x(d.date); })
@@ -83,8 +83,11 @@ function drawGraph(container){
     if (error) {
       throw error;
     }
+    var games = data.games;
+    data = data.data;
     var data_copy = [];
     var data_val;
+    // Condition data
     for(var key in data) {
       // Ignore null viewer counts
       if(data[key].v < 0){
@@ -101,6 +104,14 @@ function drawGraph(container){
       }
       data_copy.push(data_val);
     }
+
+    // Condition games
+    var games_arr = [];
+    for(var key in games) {
+      games_arr.push(games[key])
+    }
+    games = games_arr;
+
     var raw_data = data_copy;
     data = raw_data;
 
@@ -110,6 +121,9 @@ function drawGraph(container){
 
     function numPointsInDomain(){
       var total = 0;
+      var loBound = binarySearch(raw_data, {date: x.domain()[0]}, function(a, b){ return a.date - b.date });
+      var hiBound = binarySearch(raw_data, {date: x.domain()[1]}, function(a, b){ return a.date - b.date });
+      return hiBound - loBound;
       raw_data.forEach(function(d) { 
         if(inDomainX(d)) total += 1;
       });
@@ -139,14 +153,13 @@ function drawGraph(container){
       .x(x2)
       .on("brush", brushed);
 
-
     x.domain(d3.extent(data, function(d) { return d.date; }));
     x2.domain(x.domain());
     y0.domain(d3.extent(data, function(d) { return d.viewers; }));
     y1.domain(d3.extent(data, function(d) { return d.donations; }));
     y3.domain(y0.domain());
 
-    brushed();
+    data = resample();
 
     svg.append("g")
         .attr("class", "x axis top")
@@ -232,6 +245,14 @@ function drawGraph(container){
         .attr("r", 3)
         .attr("class", "donationFocus");
 
+    svg.selectAll(".dot")
+        .data(games)
+      .enter().append("circle")
+        .attr("class","dot")
+        .attr("r", "0.5")
+        .attr("cx", function(d) { return x(d.start_time) })
+        .attr("cy", function(d) { return y0(11000) });
+
 
     svg.append("rect")
       .attr("class", "overlay")
@@ -279,18 +300,37 @@ function drawGraph(container){
 }
 
 var a = 3;
+var b = 1;
 function adjustBrush(){
   var i = new Date("12:00:00 7-" + a +"-16");
   a += 1;
+  b += 1;
   var j = i.getTime();
-  i.setHours(i.getHours() + 23);
+  i.setHours(i.getHours() + (23 * b));
   i = i.getTime();
-  console.log(new Date(i));
-  console.log(new Date(j))
+  console.log(brush.empty());
   svg.transition()
     .duration(1000)
     .call(brush.extent([j,i]))
     .call(brush.event);
 }
+
+function binarySearch(ar, el, compare_fn) {
+    var m = 0;
+    var n = ar.length - 1;
+    while (m <= n) {
+        var k = (n + m) >> 1;
+        var cmp = compare_fn(el, ar[k]);
+        if (cmp > 0) {
+            m = k + 1;
+        } else if(cmp < 0) {
+            n = k - 1;
+        } else {
+            return k;
+        }
+    }
+    return m + 1;
+}
+
 // setTimeout(setInterval(adjustBrush,2000),2000);
 drawGraph("#chart")
