@@ -1,7 +1,9 @@
-var jsonSouce = "https://sgdq-backend.firebaseio.com/data.json"
+'use strict';
+var jsonSource = "https://sgdq-backend.firebaseio.com/data.json"
+
+var svg, brush;
 
 function drawGraph(container){
-  'use strict';
 
   // Setup objects for d3 to render
   var margin = {top: 20, right: 75, bottom: 30, left: 50},
@@ -42,10 +44,6 @@ function drawGraph(container){
       .orient("right")
       .tickFormat(function(d) { return '$' + d3.format(",.0f")(d) });
 
-  var brush = d3.svg.brush()
-    .x(x2)
-    .on("brush", brushed);
-
   var viewerLine = d3.svg.line()
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y0(d.viewers); })
@@ -64,7 +62,7 @@ function drawGraph(container){
       .defined(function(d) { return d.date > 0 && d.viewers > 0 })
       .interpolate("basis");
 
-  var svg = d3.select(container).append("div")
+  svg = d3.select(container).append("div")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom + height2 + margin2.bottom + margin2.top)
@@ -79,15 +77,12 @@ function drawGraph(container){
       .attr("class", "focus")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  function brushed() {
-    x.domain(brush.empty() ? x2.domain() : brush.extent());
-    svg.select(".line.viewerLine").attr("d", viewerLine);
-    svg.select(".line.donationLine").attr("d", donationLine)
-    svg.select(".x.axis.top").call(xAxis);
-  }
 
   // Actually pull down JSON data and do the graph render
-  d3.json(jsonSouce, function(error, data) {
+  d3.json(jsonSource, function(error, data) {
+    if (error) {
+      throw error;
+    }
     var data_copy = [];
     var data_val;
     for(var key in data) {
@@ -106,10 +101,44 @@ function drawGraph(container){
       }
       data_copy.push(data_val);
     }
-    data = data_copy
-    if (error) {
-      throw error;
+    var raw_data = data_copy;
+    data = raw_data;
+
+    function inDomainX(d) {
+      return d.date < x.domain()[1].getTime() && d.date > x.domain()[0].getTime()
     }
+
+    function numPointsInDomain(){
+      var total = 0;
+      raw_data.forEach(function(d) { 
+        if(inDomainX(d)) total += 1;
+      });
+      return total;
+    }
+
+    function resample(){
+      var dataPerPixel = numPointsInDomain()/width;
+      return raw_data.filter(
+        function(d, i) { return i % Math.ceil(dataPerPixel) == 0 && inDomainX(d); }
+      )
+    }
+
+    function brushed() {
+      x.domain(brush.empty() ? x2.domain() : brush.extent());
+      data = resample();
+      y0.domain(d3.extent(data, function(d) { return d.viewers; }));
+      y1.domain(d3.extent(data, function(d) { return d.donations; }));
+      svg.select(".line.viewerLine").datum(data).attr("d", viewerLine);
+      svg.select(".line.donationLine").datum(data).attr("d", donationLine)
+      svg.select(".x.axis.top").call(xAxis);
+      svg.select(".y.axis.leftAxis").call(yAxis);
+      svg.select(".y.axis.rightAxis").call(donationAxis);
+    }
+
+    brush = d3.svg.brush()
+      .x(x2)
+      .on("brush", brushed);
+
 
     x.domain(d3.extent(data, function(d) { return d.date; }));
     x2.domain(x.domain());
@@ -117,13 +146,15 @@ function drawGraph(container){
     y1.domain(d3.extent(data, function(d) { return d.donations; }));
     y3.domain(y0.domain());
 
+    brushed();
+
     svg.append("g")
         .attr("class", "x axis top")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
 
     svg.append("g")
-        .attr("class", "y axis")
+        .attr("class", "y axis leftAxis")
         .call(yAxis)
       .append("text")
         .attr("transform", "rotate(-90)")
@@ -132,7 +163,7 @@ function drawGraph(container){
         .style("text-anchor", "end")
         .text("Viewers");
 
-        svg.append("path")
+    svg.append("path")
         .datum(data)
         .attr("class", "line viewerLine")
         .attr("d", viewerLine);
@@ -143,7 +174,7 @@ function drawGraph(container){
         .attr("d", donationLine);
 
     svg.append("g")
-        .attr("class", "y axis")
+        .attr("class", "y axis rightAxis")
         .attr("transform", "translate(" + width + " ,0)")
         .call(donationAxis)
       .append("text")
@@ -247,4 +278,19 @@ function drawGraph(container){
   });
 }
 
+var a = 3;
+function adjustBrush(){
+  var i = new Date("12:00:00 7-" + a +"-16");
+  a += 1;
+  var j = i.getTime();
+  i.setHours(i.getHours() + 23);
+  i = i.getTime();
+  console.log(new Date(i));
+  console.log(new Date(j))
+  svg.transition()
+    .duration(1000)
+    .call(brush.extent([j,i]))
+    .call(brush.event);
+}
+// setTimeout(setInterval(adjustBrush,2000),2000);
 drawGraph("#chart")

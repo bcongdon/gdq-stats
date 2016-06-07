@@ -91,9 +91,9 @@ h1 {
 }
 
 .contextBound {
-  stroke: #000;
+  stroke: #bbb;
   fill: none;
-  stroke-width: 0.5px;
+  stroke-width: 1px;
 }
 
 .donationFocus {
