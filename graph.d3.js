@@ -245,14 +245,16 @@ function drawGraph(container){
         .attr("r", 3)
         .attr("class", "donationFocus");
 
-    svg.selectAll(".dot")
-        .data(games)
-      .enter().append("circle")
-        .attr("class","dot")
-        .attr("r", "0.5")
-        .attr("cx", function(d) { return x(d.start_time) })
-        .attr("cy", function(d) { return y0(11000) });
+    var lineGroup = svg.append("g");
 
+    for(var g in games) {
+      lineGroup.append("line")
+        .attr("class", "line gameLine")
+        .attr("x1", x(games[g].start_time))
+        .attr("x2", x(games[g].start_time))
+        .attr("y1", height - 5)
+        .attr("y2", height)
+    }
 
     svg.append("rect")
       .attr("class", "overlay")
