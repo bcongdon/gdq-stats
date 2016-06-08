@@ -128,7 +128,8 @@ function drawGraph(container){
     function resample(){
       var res = numPointsInDomain()
       var dataPerPixel = res[0]/width;
-      return raw_data.slice(res[1] - 5, res[2] + 5).filter(
+      var lo = Math.max([res[1] - 5, 0]);
+      return raw_data.slice(lo, res[2] + 5).filter(
         function(d, i) { return i % Math.ceil(dataPerPixel) == 0 && inDomainX(d); }
       );
     }
