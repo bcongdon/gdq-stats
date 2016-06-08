@@ -128,7 +128,7 @@ function drawGraph(container){
     function resample(){
       var res = numPointsInDomain()
       var dataPerPixel = res[0]/width;
-      return raw_data.slice(res[1], res[2]).filter(
+      return raw_data.slice(res[1] - 5, res[2] + 5).filter(
         function(d, i) { return i % Math.ceil(dataPerPixel) == 0 && inDomainX(d); }
       );
     }
@@ -203,7 +203,7 @@ function drawGraph(container){
         .attr("x1", function(d) { return x(d.start_time)} )
         .attr("x2", function(d) { return x(d.start_time)} )
         .attr("y1", height - 8)
-        .attr("y2", height)
+        .attr("y2", height);
 
     context.append("path")
       .datum(data)
@@ -330,5 +330,5 @@ function binarySearch(ar, el, compare_fn) {
     }
     return m + 1;
 }
-setTimeout(setInterval(adjustToGame,2000),2000);
+// setTimeout(setInterval(adjustToGame,2000),2000);
 drawGraph("#chart")
