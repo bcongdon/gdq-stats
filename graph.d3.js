@@ -77,7 +77,6 @@ function drawGraph(container){
       .attr("class", "focus")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
   // Actually pull down JSON data and do the graph render
   d3.json(jsonSource, function(error, data) {
     if (error) {
@@ -124,10 +123,6 @@ function drawGraph(container){
       var loBound = binarySearch(raw_data, {date: x.domain()[0]}, function(a, b){ return a.date - b.date });
       var hiBound = binarySearch(raw_data, {date: x.domain()[1]}, function(a, b){ return a.date - b.date });
       return hiBound - loBound;
-      raw_data.forEach(function(d) { 
-        if(inDomainX(d)) total += 1;
-      });
-      return total;
     }
 
     function resample(){
@@ -147,6 +142,9 @@ function drawGraph(container){
       svg.select(".x.axis.top").call(xAxis);
       svg.select(".y.axis.leftAxis").call(yAxis);
       svg.select(".y.axis.rightAxis").call(donationAxis);
+      lineGroup.selectAll('.line').data(games)
+        .attr("x1", function(d) { return x(d.start_time)} )
+        .attr("x2", function(d) { return x(d.start_time)} )
     }
 
     brush = d3.svg.brush()
@@ -197,6 +195,15 @@ function drawGraph(container){
         .style("text-anchor", "end")
         .text("Donations");
 
+    var lineGroup = svg.append("g");
+
+    lineGroup.selectAll('g').data(games).enter().append("line")
+        .attr("class", "line gameLine")
+        .attr("x1", function(d) { return x(d.start_time)} )
+        .attr("x2", function(d) { return x(d.start_time)} )
+        .attr("y1", height - 5)
+        .attr("y2", height)
+
     context.append("path")
       .datum(data)
       .attr("class", "line contextLine")
@@ -244,18 +251,7 @@ function drawGraph(container){
     donationFocus.append("circle")
         .attr("r", 3)
         .attr("class", "donationFocus");
-
-    var lineGroup = svg.append("g");
-
-    for(var g in games) {
-      lineGroup.append("line")
-        .attr("class", "line gameLine")
-        .attr("x1", x(games[g].start_time))
-        .attr("x2", x(games[g].start_time))
-        .attr("y1", height - 5)
-        .attr("y2", height)
-    }
-
+    
     svg.append("rect")
       .attr("class", "overlay")
       .attr("width", width)

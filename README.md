@@ -1,5 +1,17 @@
 # sgdq-stats
 > :space_invader: Stats for SGDQ 2016
 
-### Attributions
-Thanks to [alligatr](http://alligatr.co.uk/) for his previous years of doing SGDQ/AGDQ stats.
+## Frontend
+The actual visualization is done by D3.js. Other tools used include: 
+
+* `tmi.js` - Realtime twitch viewer counts
+* `odometer` - Cool JS animated odometers
+* `jQuery`
+
+## Backend
+This page uses [SGDQ-Collector](https://github.com/bcongdon/sgdq-collector) to parse the SGDQ donation tracker and to collect Twitch viewship information. This data is scraped every minute.
+
+Firebase is used as the backend data repository. SGDQ-Collector also saves more granular data to a MongoDB database for later analysis.
+
+### Attribution
+Thanks to [alligatr](http://alligatr.co.uk/) for his previous years of doing SGDQ/AGDQ stats. The initial design of this site was heavily inspired by alligatr's past work.
