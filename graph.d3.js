@@ -1,7 +1,7 @@
 'use strict';
 var jsonSource = "https://sgdq-backend.firebaseio.com/.json"
 
-var svg, brush;
+var svg, brush, games;
 
 function drawGraph(container){
 
@@ -82,7 +82,7 @@ function drawGraph(container){
     if (error) {
       throw error;
     }
-    var games = data.games;
+    games = data.games;
     data = data.data;
     var data_copy = [];
     var data_val;
@@ -122,14 +122,15 @@ function drawGraph(container){
       var total = 0;
       var loBound = binarySearch(raw_data, {date: x.domain()[0]}, function(a, b){ return a.date - b.date });
       var hiBound = binarySearch(raw_data, {date: x.domain()[1]}, function(a, b){ return a.date - b.date });
-      return hiBound - loBound;
+      return [hiBound - loBound, loBound, hiBound];
     }
 
     function resample(){
-      var dataPerPixel = numPointsInDomain()/width;
-      return raw_data.filter(
+      var res = numPointsInDomain()
+      var dataPerPixel = res[0]/width;
+      return raw_data.slice(res[1], res[2]).filter(
         function(d, i) { return i % Math.ceil(dataPerPixel) == 0 && inDomainX(d); }
-      )
+      );
     }
 
     function brushed() {
@@ -201,7 +202,7 @@ function drawGraph(container){
         .attr("class", "line gameLine")
         .attr("x1", function(d) { return x(d.start_time)} )
         .attr("x2", function(d) { return x(d.start_time)} )
-        .attr("y1", height - 5)
+        .attr("y1", height - 8)
         .attr("y2", height)
 
     context.append("path")
@@ -297,20 +298,20 @@ function drawGraph(container){
   });
 }
 
-var a = 3;
-var b = 1;
-function adjustBrush(){
-  var i = new Date("12:00:00 7-" + a +"-16");
-  a += 1;
-  b += 1;
-  var j = i.getTime();
-  i.setHours(i.getHours() + (23 * b));
-  i = i.getTime();
-  console.log(brush.empty());
+function adjustBrush(left, right){
   svg.transition()
     .duration(1000)
-    .call(brush.extent([j,i]))
+    .call(brush.extent([left,right]))
     .call(brush.event);
+}
+
+var j = 0;
+
+function adjustToGame(i) {
+  j++
+  var left = games[j].start_time;
+  var right = games[j+1].start_time;
+  adjustBrush(left, right);
 }
 
 function binarySearch(ar, el, compare_fn) {
@@ -329,6 +330,5 @@ function binarySearch(ar, el, compare_fn) {
     }
     return m + 1;
 }
-
-// setTimeout(setInterval(adjustBrush,2000),2000);
+setTimeout(setInterval(adjustToGame,2000),2000);
 drawGraph("#chart")
