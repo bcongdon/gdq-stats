@@ -257,7 +257,7 @@ function drawGraph(container){
     svg.append("rect")
       .attr("class", "overlay")
       .attr("width", width)
-      .attr("height", height + height2)
+      .attr("height", height)
       .on("mouseover", function() { 
         viewerFocus.style("display", null);
         donationFocus.style("display", null);
@@ -271,7 +271,7 @@ function drawGraph(container){
         tip.style("display", "none");
       })
       .on("mousemove", mousemove)
-      .on("click", function(){console.log("click")});
+      .on("click", click);
 
     var tip = d3.select(container).append('div')
       .attr('class', 'tooltip');
@@ -301,6 +301,15 @@ function drawGraph(container){
         .style("text-alight", "left")
         .style("top", (d3.event.pageY - 20) + "px");
     }
+    function click() {
+      if (d3.event.defaultPrevented) console.log("default");
+      var x0 = x.invert(d3.mouse(this)[0]);
+      var gi = bisectStarttime(games, x0, 1);
+
+      adjustToGame(gi);
+      d3.event.stopPropagation();
+
+    }
   });
 }
 
@@ -311,12 +320,10 @@ function adjustBrush(left, right){
     .call(brush.event);
 }
 
-var j = 0;
 
 function adjustToGame(i) {
-  j++
-  var left = games[j].start_time;
-  var right = games[j+1].start_time;
+  var left = games[i].start_time;
+  var right = games[i+1].start_time;
   adjustBrush(left, right);
 }
 
