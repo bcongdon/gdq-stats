@@ -270,18 +270,22 @@ function drawGraph(container){
         focusLine.style("display", "none");
         tip.style("display", "none");
       })
-      .on("mousemove", mousemove);
+      .on("mousemove", mousemove)
+      .on("click", function(){console.log("click")});
 
     var tip = d3.select(container).append('div')
       .attr('class', 'tooltip');
 
     var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+    var bisectStarttime = d3.bisector(function(d) { return d.start_time; }).left;
     function mousemove() {
       var x0 = x.invert(d3.mouse(this)[0]),
           i = bisectDate(data, x0, 1),
           d0 = data[i - 1],
           d1 = data[i],
-          d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+          d = d1 === undefined ?  d0 : (x0 - d0.date > d1.date - x0 ? d1 : d0);
+      var gi = bisectStarttime(games, x0, 1),
+          g = games[gi - 1];
       viewerFocus.attr("transform", "translate(" + x(d.date) + "," + y0(d.viewers) + ")");
       donationFocus.attr("transform", "translate(" + x(d.date) + "," + y1(d.donations) + ")");
 
@@ -291,7 +295,8 @@ function drawGraph(container){
         .attr('y1', 0)
         .attr('y2', height)
         .attr('display', null);
-      tip.html("Date: " + (new Date(parseInt(d.date))).toString() + "<br/>Viewers: " + d.viewers + "<br/>Donations: " + d.donations)
+      tip.html("Date: " + (new Date(parseInt(d.date))).toString() + "<br/>Viewers: " + d.viewers + "<br/>Donations: " + d.donations
+        + "<br/>Game: " + g.title)
         .style("left", (d3.event.pageX + 20) + "px")
         .style("text-alight", "left")
         .style("top", (d3.event.pageY - 20) + "px");
