@@ -3,11 +3,15 @@ var jsonSource = "https://sgdq-backend.firebaseio.com/.json"
 
 var svg, brush, games;
 
-function adjustBrush(left, right, speed=1000){
+function adjustBrush(left, right, duration=1000, clear=false){
   d3.selectAll(".brush").transition()
-    .duration(speed)
+    .duration(duration)
     .call(brush.extent([left,right]))
     .call(brush.event);
+  if(clear) setTimeout(function() {
+    console.log('called')
+    d3.selectAll(".brush").call(brush.clear()).call(brush);
+  }, duration + 50);
 }
 
 function drawGraph(container){
@@ -317,8 +321,17 @@ function drawGraph(container){
     function adjustToGame(i) {
       var left = games[i].start_time;
       var right = games[i+1].start_time;
-      if(brush.empty()) adjustBrush(x2.domain()[0], x2.domain()[1], 0);
-      adjustBrush(left, right);
+      console.log(brush.extent())
+      if(brush.empty()) {
+        adjustBrush(x2.domain()[0], x2.domain()[1], 0);
+      }
+      else if (brush.extent()[0] == left && brush.extent()[1] == right){
+        left = x2.domain()[0];
+        right = x2.domain()[1];
+        adjustBrush(left, right, 1000, true);
+        return;
+      }
+      adjustBrush(left, right); 
     }
   });
 }
