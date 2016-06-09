@@ -3,6 +3,13 @@ var jsonSource = "https://sgdq-backend.firebaseio.com/.json"
 
 var svg, brush, games;
 
+function adjustBrush(left, right, speed=1000){
+  d3.selectAll(".brush").transition()
+    .duration(speed)
+    .call(brush.extent([left,right]))
+    .call(brush.event);
+}
+
 function drawGraph(container){
 
   // Setup objects for d3 to render
@@ -306,21 +313,16 @@ function drawGraph(container){
       var gi = bisectStarttime(games, x0, 1);
       adjustToGame(gi - 1);
     }
+
+    function adjustToGame(i) {
+      var left = games[i].start_time;
+      var right = games[i+1].start_time;
+      if(brush.empty()) adjustBrush(x2.domain()[0], x2.domain()[1], 0);
+      adjustBrush(left, right);
+    }
   });
 }
 
-function adjustBrush(left, right){
-  d3.selectAll(".brush").transition()
-    .call(brush.extent([left,right]))
-    .call(brush.event);
-}
-
-
-function adjustToGame(i) {
-  var left = games[i].start_time;
-  var right = games[i+1].start_time;
-  adjustBrush(left, right);
-}
 
 function binarySearch(ar, el, compare_fn) {
     var m = 0;
