@@ -3,13 +3,15 @@ var jsonSource = "https://sgdq-backend.firebaseio.com/.json"
 
 var svg, brush, games;
 
-function adjustBrush(left, right, duration=1000, clear=false){
+function adjustBrush(left, right, duration, clear){
+  duration = duration || 1000;
+  clear    = clear || false;
   d3.selectAll(".brush").transition()
     .duration(duration)
     .call(brush.extent([left,right]))
     .call(brush.event);
+  // Clear after duration if necessary
   if(clear) setTimeout(function() {
-    console.log('called')
     d3.selectAll(".brush").call(brush.clear()).call(brush);
   }, duration + 50);
 }
@@ -84,10 +86,6 @@ function drawGraph(container){
       .attr("class", "context")
       .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-  var focus = svg.append("g")
-      .attr("class", "focus")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
   // Actually pull down JSON data and do the graph render
   d3.json(jsonSource, function(error, data) {
     if (error) {
@@ -130,7 +128,6 @@ function drawGraph(container){
     }
 
     function numPointsInDomain(){
-      var total = 0;
       var loBound = binarySearch(raw_data, {date: x.domain()[0]}, function(a, b){ return a.date - b.date });
       var hiBound = binarySearch(raw_data, {date: x.domain()[1]}, function(a, b){ return a.date - b.date });
       return [hiBound - loBound, loBound, hiBound];
@@ -306,6 +303,7 @@ function drawGraph(container){
         .attr('y1', 0)
         .attr('y2', height)
         .attr('display', null);
+
       tip.html("Date: " + (new Date(parseInt(d.date))).toString() + "<br/>Viewers: " + d.viewers + "<br/>Donations: " + d.donations
         + "<br/>Game: " + g.title)
         .style("left", (d3.event.pageX + 20) + "px")
@@ -321,10 +319,11 @@ function drawGraph(container){
     function adjustToGame(i) {
       var left = games[i].start_time;
       var right = games[i+1].start_time;
-      console.log(brush.extent())
+      // Open up brush if it's empty
       if(brush.empty()) {
         adjustBrush(x2.domain()[0], x2.domain()[1], 0);
       }
+      // Zoom out if already zoomed in
       else if (brush.extent()[0] == left && brush.extent()[1] == right){
         left = x2.domain()[0];
         right = x2.domain()[1];
@@ -336,7 +335,7 @@ function drawGraph(container){
   });
 }
 
-
+// Performance ++
 function binarySearch(ar, el, compare_fn) {
     var m = 0;
     var n = ar.length - 1;
@@ -353,5 +352,4 @@ function binarySearch(ar, el, compare_fn) {
     }
     return m + 1;
 }
-// setTimeout(setInterval(adjustToGame,2000),2000);
 drawGraph("#chart")
