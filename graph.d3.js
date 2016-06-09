@@ -302,20 +302,15 @@ function drawGraph(container){
         .style("top", (d3.event.pageY - 20) + "px");
     }
     function click() {
-      if (d3.event.defaultPrevented) console.log("default");
       var x0 = x.invert(d3.mouse(this)[0]);
       var gi = bisectStarttime(games, x0, 1);
-
-      adjustToGame(gi);
-      d3.event.stopPropagation();
-
+      adjustToGame(gi - 1);
     }
   });
 }
 
 function adjustBrush(left, right){
-  svg.transition()
-    .duration(1000)
+  d3.selectAll(".brush").transition()
     .call(brush.extent([left,right]))
     .call(brush.event);
 }
