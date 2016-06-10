@@ -1,7 +1,7 @@
 'use strict';
 var jsonSource = "https://sgdq-backend.firebaseio.com/.json"
 
-var svg, brush, games;
+var svg, brush, games, x2;
 
 function adjustBrush(left, right, duration, clear){
   duration = duration || 1000;
@@ -28,7 +28,7 @@ function drawGraph(container){
   var x = d3.time.scale()
       .range([0, width]);
 
-  var x2 = d3.time.scale()
+  x2 = d3.time.scale()
       .range([0, width]);
 
   var y0 = d3.scale.linear()
@@ -316,23 +316,25 @@ function drawGraph(container){
       adjustToGame(gi - 1);
     }
 
-    function adjustToGame(i) {
-      var left = games[i].start_time;
-      var right = games[i+1].start_time;
-      // Open up brush if it's empty
-      if(brush.empty()) {
-        adjustBrush(x2.domain()[0], x2.domain()[1], 0);
-      }
-      // Zoom out if already zoomed in
-      else if (brush.extent()[0] == left && brush.extent()[1] == right){
-        left = x2.domain()[0];
-        right = x2.domain()[1];
-        adjustBrush(left, right, 1000, true);
-        return;
-      }
-      adjustBrush(left, right); 
-    }
+    renderGames();
   });
+}
+
+function adjustToGame(i) {
+  var left = games[i].start_time;
+  var right = games[i+1].start_time;
+  // Open up brush if it's empty
+  if(brush.empty()) {
+    adjustBrush(x2.domain()[0], x2.domain()[1], 0);
+  }
+  // Zoom out if already zoomed in
+  else if (brush.extent()[0] == left && brush.extent()[1] == right){
+    left = x2.domain()[0];
+    right = x2.domain()[1];
+    adjustBrush(left, right, 1000, true);
+    return;
+  }
+  adjustBrush(left, right); 
 }
 
 // Performance ++
@@ -352,4 +354,16 @@ function binarySearch(ar, el, compare_fn) {
     }
     return m + 1;
 }
-drawGraph("#chart")
+
+function renderGames(){
+  var elm = $("<ul>");
+  for(var i in games){
+    elm.append("<li class='gameSelector' id='" + i + "'>" + games[i].title + "</li>")
+  }
+  $("#game-list").append(elm);
+  $('.gameSelector').click(function(e){
+    adjustToGame(parseInt(e.toElement.id));
+  });
+}
+
+drawGraph("#chart");

@@ -69,8 +69,47 @@
           <span class="current_header">Number of Donations:</span>  <div style="display:inline-block" id="oDonators" class="odometer"></div>
         </div>
       </div>
-      <div class="content">
+    </div>
+
+    <div class="section">
+      <h2>Viewership and Donations</h2>
+      <div class="content" style="padding-top: 5px;">
         <div id="chart"></div>
+      </div>
+    </div>
+<style>
+#game-list li {
+  font-size: 1.5em;
+  padding: .25em 1em;
+  line-height: 1em;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+#game-list li:hover, li.active {
+  background-color: #e5e5e5;
+}
+
+#game-list ul {
+  padding-left: 0px;
+  border: 1px solid #ddd;
+  max-height: 100%;
+  overflow-y: auto;
+  width: 33%;
+  margin-top: 0px;
+  list-style-type: none;
+}
+#game-list {
+  height: 200px;
+}
+
+.game-selector {
+
+}
+</style>
+    <div class="section">
+      <h2>Games</h2>
+      <div class="content">
+        <div id="game-list"></div>
       </div>
     </div>
 

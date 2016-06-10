@@ -170,6 +170,15 @@ h1 {
   height: 600px;
 }
 
+.games-selection {
+  height: 400px;
+  overflow-y: scroll;
+  width: 50%;
+  float: left;
+  padding: 0;
+  margin: 0;
+}
+
 footer {
   color: #666;
   font-size: 14px;

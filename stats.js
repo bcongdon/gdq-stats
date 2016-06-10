@@ -4,7 +4,7 @@ var stats_ref = new Firebase("https://sgdq-backend.firebaseio.com/stats");
 
 function queryTwitch(){
     client.api({
-        url: "https://api.twitch.tv/kraken/streams/ESL_Heroes"
+        url: "https://api.twitch.tv/kraken/streams/gamesdonequick"
     }, function(err, res, body) {
         if(body && body['stream'] != undefined && "viewers" in body['stream']){
             console.debug("Current viewers: " + body['stream']['viewers']);
@@ -12,7 +12,7 @@ function queryTwitch(){
         }
         else {
             // Hide element when viewership data unavailable
-            $("#viewers_stat").hide()
+            // $("#viewers_stat").hide()
         }
     });
 }
@@ -38,7 +38,7 @@ function setupFirebaseData(){
             return;
         }
         $("#donations_stat").hide();
-        $("#donators_stat").hide();
+        // $("#donators_stat").hide();
         console.debug(error);
     });
 }
