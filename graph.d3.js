@@ -356,12 +356,21 @@ function binarySearch(ar, el, compare_fn) {
 }
 
 function renderGames(){
-  var elm = $("<ul>");
+  var elm = $("<table id='gamesTable'>");
+  elm.append("<thead><tr><th>Title</th>" + 
+    "<th>Runner</th>" + 
+    "<th>Duration</th>" + 
+    "</tr></thead><tbody>")
   for(var i in games){
-    elm.append("<li class='gameSelector' id='" + i + "'>" + games[i].title + "</li>")
+    elm.append("<tr class='gameSelector' id='" + i + "'><td id ='" + i + "'>" + games[i].title + "</td>" + 
+      "<td id ='" + i + "'>" + games[i].runner + "</td>" + 
+      "<td id ='" + i + "'>" + games[i].duration + "</td>" + 
+      "</tr>")
   }
+  elm.append("</tbody>")
   $("#game-list").append(elm);
-  $('.gameSelector').click(function(e){
+  $("#gamesTable").stickyTableHeaders({scrollableArea: $('#game-list')});
+  $('.gameSelector').on("click", function(e){
     adjustToGame(parseInt(e.toElement.id));
   });
 }
