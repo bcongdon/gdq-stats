@@ -70,7 +70,6 @@ tr.selected {
 .axis line {
   shape-rendering: crispEdges;
   stroke: #ddd;
-  /*display: none;*/
   fill: none;
 }
 

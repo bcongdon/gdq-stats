@@ -288,7 +288,17 @@ function drawGraph(container){
     var tip = d3.select(container).append('div')
       .attr('class', 'tooltip')
       .attr('display', 'none')
-      .style("border", 'none');
+      .style("border", 'none')
+      .html("<div class='tool-game'></div>" + 
+        "<div class='tool-date'></div>" +
+        "<div class='tool-viewers'></div>" + 
+        "<div class='tool-donations'></div>" + 
+        "<div class='tool-footer'>Click to toggle zoom.</div>");
+
+    var toolTitle = $(".tool-game");
+    var toolDate = $(".tool-date");
+    var toolViewers = $(".tool-viewers");
+    var toolDonatinons = $(".tool-donations");
 
     var bisectDate = d3.bisector(function(d) { return d.date; }).left;
     var bisectStarttime = d3.bisector(function(d) { return d.start_time; }).left;
@@ -310,12 +320,14 @@ function drawGraph(container){
         .attr('y2', height)
         .attr('display', null);
       var comma = d3.format(",.0f");
-      tip.html("<div class='tool-game'>" + g.title + "</div>" + 
-        "<div class='tool-date'>" + moment(parseInt(d.date)).format('llll') + "</div>" +
-        "<div class='tool-viewers'>Viewers: " + comma(d.viewers) + "</div>" + 
-        "<div class='tool-donations'>Donations: $" + comma(d.donations) + "</div>" + 
-        "<div class='tool-footer'>Click to toggle zoom.</div>")
-        .style("left", (d3.event.pageX + 20) + "px")
+
+      // Update tooltip text
+      toolTitle.text(g.title);
+      toolDate.text(moment(parseInt(d.date)).format('llll'));
+      toolViewers.text("Viewers: " + comma(d.viewers));
+      toolDonatinons.text("Donations: $" + comma(d.donations))
+
+      tip.style("left", (d3.event.pageX + 20) + "px")
         .style("text-alight", "left")
         .style("top", (d3.event.pageY - 20) + "px")
         .style("border", null);
