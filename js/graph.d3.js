@@ -282,7 +282,9 @@ function drawGraph(container){
       .on("click", click);
 
     var tip = d3.select(container).append('div')
-      .attr('class', 'tooltip');
+      .attr('class', 'tooltip')
+      .attr('display', 'none')
+      .style("border", 'none');
 
     var bisectDate = d3.bisector(function(d) { return d.date; }).left;
     var bisectStarttime = d3.bisector(function(d) { return d.start_time; }).left;
@@ -311,7 +313,8 @@ function drawGraph(container){
         "<div class='tool-footer'>Click to toggle zoom.</div>")
         .style("left", (d3.event.pageX + 20) + "px")
         .style("text-alight", "left")
-        .style("top", (d3.event.pageY - 20) + "px");
+        .style("top", (d3.event.pageY - 20) + "px")
+        .style("border", null);
     }
     function click() {
       var x0 = x.invert(d3.mouse(this)[0]);
@@ -364,15 +367,18 @@ function binarySearch(ar, el, compare_fn) {
 
 function renderGames(){
   var elm = $("<table id='gamesTable'>");
-  elm.append("<thead><tr><th style='width:360px'>Title</th>" + 
-    "<th style='width:360px'>Runner</th>" + 
+  elm.append("<thead><tr><th style='width:340px'>Title</th>" + 
+    "<th style='width:340px'>Runner</th>" + 
+    "<th style='width:140px'>Starting Time</th>" + 
     "<th>Duration</th>" + 
     "</tr></thead><tbody>")
   for(var i in games){
     elm.append("<tr class='gameSelector' id='" + i + "'>" + 
-      "<td style='width:360px' id ='" + i + "'>" + games[i].title + "</td>" + 
-      "<td style='width:360px' id ='" + i + "'>" + games[i].runner + "</td>" + 
-      "<td style='margin:auto' id ='" + i + "'>" + games[i].duration + "</td>" + 
+      "<td style='width:340px' id ='" + i + "'>" + games[i].title + "</td>" + 
+      "<td style='width:340px' id ='" + i + "'>" + games[i].runner + "</td>" + 
+      "<td style='width:140px' id ='" + i + "'>" + moment(parseInt(games[i].start_time)).format("MMM D, h:mm a") + " " + 
+      (parseInt(games[i].start_time) < (new Date()).getTime() ? "✓" : "") + "</td>" + 
+      "<td id ='" + i + "'>" + games[i].duration + "</td>" + 
       "</tr>")
   }
   elm.append("</tbody>")
