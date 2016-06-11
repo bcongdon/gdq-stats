@@ -11,12 +11,11 @@ function adjustBrush(left, right, duration, clear){
     .call(brush.extent([left,right]))
     .call(brush.event)
     .each('end', function() {
+      // Clear brush after duration if necessary
       if(clear) setTimeout( function() {
         d3.selectAll(".brush").call(brush.clear()).call(brush);
       }, 50);
     });
-  // Clear after duration if necessary
-  // if(clear) setTimeout(, duration + 50);
 }
 
 function drawGraph(container){
