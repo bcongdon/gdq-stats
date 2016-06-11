@@ -9,11 +9,15 @@ function adjustBrush(left, right, duration, clear){
   d3.selectAll(".brush").transition()
     .duration(duration)
     .call(brush.extent([left,right]))
-    .call(brush.event);
+    .call(brush.event)
+    .each('end', function() {
+      console.log("end")
+      if(clear) setTimeout( function() {
+        d3.selectAll(".brush").call(brush.clear()).call(brush);
+      }, 50);
+    });
   // Clear after duration if necessary
-  if(clear) setTimeout(function() {
-    d3.selectAll(".brush").call(brush.clear()).call(brush);
-  }, duration + 50);
+  // if(clear) setTimeout(, duration + 50);
 }
 
 function drawGraph(container){
@@ -386,6 +390,8 @@ function renderGames(){
   $('.gameSelector').on("click", function(e){
     adjustToGame(parseInt(e.toElement.id));
     $(this).addClass("selected").siblings().removeClass("selected");
+    $(this).get(0).scrollIntoView();
+    $("#chart-div").get(0).scrollIntoView();
   });
 }
 
