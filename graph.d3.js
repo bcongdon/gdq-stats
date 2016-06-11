@@ -303,9 +303,12 @@ function drawGraph(container){
         .attr('y1', 0)
         .attr('y2', height)
         .attr('display', null);
-
-      tip.html("Date: " + (new Date(parseInt(d.date))).toString() + "<br/>Viewers: " + d.viewers + "<br/>Donations: " + d.donations
-        + "<br/>Game: " + g.title)
+      var comma = d3.format(",.0f");
+      tip.html("<div class='tool-game'>" + g.title + "</div>" + 
+        "<div class='tool-date'>" + (new Date(parseInt(d.date))).toLocaleString('en') + "</div>" +
+        "<div class='tool-viewers'>Viewers: " + comma(d.viewers) + "</div>" + 
+        "<div class='tool-donations'>Donations: $" + comma(d.donations) + "</div>" + 
+        "<div class='tool-footer'>Click to toggle zoom.</div>")
         .style("left", (d3.event.pageX + 20) + "px")
         .style("text-alight", "left")
         .style("top", (d3.event.pageY - 20) + "px");
@@ -326,8 +329,7 @@ function adjustToGame(i) {
   if(left > raw_data[raw_data.length - 1].date) return;
 
   // Set 'end' time to last data point if we are zooming to last game in list
-  var right = (games.length < i && games[i+1].start_time <= raw_data[raw_data.length - 1].date) ? games[i+1].start_time : raw_data[raw_data.length - 1].date;
-
+  var right = (i + 1 < games.length && games[i+1].start_time <= raw_data[raw_data.length - 1].date) ? games[i+1].start_time : raw_data[raw_data.length - 1].date;
   // Open up brush if it's empty
   if(brush.empty()) {
     adjustBrush(x2.domain()[0], x2.domain()[1], 0);

@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,200|Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,200|Open+Sans:700,400);
 
 
 @font-face{ 
@@ -18,19 +18,19 @@ body {
 }
 
 a {
-    color: #F21847;
-    text-decoration: none;
+  color: #F21847;
+  text-decoration: none;
 }
 
 a:hover {
-    color: #A20023;
-    text-decoration: none;
+  color: #A20023;
+  text-decoration: none;
 }
 
 h1, h2, h3 {
-    /*font-size: 30px;*/
-    font-weight: 400;
-    font-family: "Cubano"
+  font-size: 30px;
+  font-weight: 400;
+  font-family: "Cubano"
 }
 
 h1 a {
@@ -50,10 +50,10 @@ tr {
   display: block;
 }
 tbody > tr:hover {
-  background-color: #eee;
+  background-color: #9ee5ff;
 }
 tr.selected {
-  background-color: #9ee5ff
+  background-color: #9ee5ff;
 }
 
 .axis {
@@ -173,10 +173,44 @@ tr.selected {
 .tooltip {   
   pointer-events: none;
   position: absolute;           
-  background-color: #ffffff;
-  margin: 0;
-  border: 2px solid #eee;
-  text-align: left;
+  background-color: #fdfdfd;
+  margin: 3px solid #fdfdfd;
+  margin-right: 10px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-family: "Open Sans";
+  width: 225px;
+}
+
+.tool-game {
+  background-color: #ddd;
+  font-family: "Cubano";
+  font-weight: bold;
+  font-size: 16px;
+  height: 40px;
+}
+
+.tool-date {
+  background-color: #ddd;
+  color: #000;
+  font-style: italic;
+}
+
+.tool-viewers {
+  color: #00AEEF;
+  font-size: 14px;
+  padding-top: 5px;
+}
+.tool-donations {
+  color: #F21847;
+  font-size: 14px;
+  padding-bottom: 5px;
+}
+
+.tool-footer {
+  background-color: #ddd;
+  font-style: italic;
 }
 
 #chart {
