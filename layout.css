@@ -193,8 +193,7 @@ tr.selected {
 
 .tool-date {
   background-color: #ddd;
-  color: #000;
-  font-style: italic;
+  color: #777;
 }
 
 .tool-viewers {
@@ -210,7 +209,8 @@ tr.selected {
 
 .tool-footer {
   background-color: #ddd;
-  font-style: italic;
+  font-weight: 800;
+  color: #555;
 }
 
 #chart {

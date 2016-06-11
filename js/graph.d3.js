@@ -305,7 +305,7 @@ function drawGraph(container){
         .attr('display', null);
       var comma = d3.format(",.0f");
       tip.html("<div class='tool-game'>" + g.title + "</div>" + 
-        "<div class='tool-date'>" + (new Date(parseInt(d.date))).toLocaleString('en') + "</div>" +
+        "<div class='tool-date'>" + moment(parseInt(d.date)).format('llll') + "</div>" +
         "<div class='tool-viewers'>Viewers: " + comma(d.viewers) + "</div>" + 
         "<div class='tool-donations'>Donations: $" + comma(d.donations) + "</div>" + 
         "<div class='tool-footer'>Click to toggle zoom.</div>")
