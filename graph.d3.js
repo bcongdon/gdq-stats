@@ -372,6 +372,7 @@ function renderGames(){
   $("#game-list").append(elm);
   $('.gameSelector').on("click", function(e){
     adjustToGame(parseInt(e.toElement.id));
+    $(this).addClass("selected").siblings().removeClass("selected");
   });
 }
 
