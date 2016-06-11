@@ -1,7 +1,7 @@
 'use strict';
 var jsonSource = "https://sgdq-backend.firebaseio.com/.json"
 
-var svg, brush, games, x2;
+var svg, brush, games, x2, raw_data;
 
 function adjustBrush(left, right, duration, clear){
   duration = duration || 1000;
@@ -120,7 +120,7 @@ function drawGraph(container){
     }
     games = games_arr;
 
-    var raw_data = data_copy;
+    raw_data = data_copy;
     data = raw_data;
 
     function inDomainX(d) {
@@ -322,7 +322,12 @@ function drawGraph(container){
 
 function adjustToGame(i) {
   var left = games[i].start_time;
-  var right = games[i+1].start_time;
+  // Bail if game hasn't started yet
+  if(left > raw_data[raw_data.length - 1].date) return;
+
+  // Set 'end' time to last data point if we are zooming to last game in list
+  var right = (games.length < i && games[i+1].start_time <= raw_data[raw_data.length - 1].date) ? games[i+1].start_time : raw_data[raw_data.length - 1].date;
+
   // Open up brush if it's empty
   if(brush.empty()) {
     adjustBrush(x2.domain()[0], x2.domain()[1], 0);
