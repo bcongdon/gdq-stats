@@ -401,10 +401,13 @@ function renderGames(){
   elm.append("</tbody>")
   $("#game-list").append(elm);
   $('.gameSelector').on("click", function(e){
-    adjustToGame(parseInt(e.toElement.id));
-    $(this).addClass("selected").siblings().removeClass("selected");
-    $(this).get(0).scrollIntoView();
-    $("#chart-div").get(0).scrollIntoView();
+    var idx = parseInt(e.toElement.id);
+    adjustToGame(idx);
+    if(parseInt(games[idx].start_time) < (new Date()).getTime()) {
+      $(this).toggleClass("selected").siblings().removeClass("selected");
+      $(this).get(0).scrollIntoView();
+      $("#chart-div").get(0).scrollIntoView();
+    }
   });
 }
 
