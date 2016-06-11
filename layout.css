@@ -226,7 +226,7 @@ tr.selected {
 }
 
 #game-list thead {
-  background-color: #ddd;
+  background-color: #eee;
   padding: 0px;
   display: block;
 }
@@ -249,7 +249,7 @@ tr.selected {
   overflow: auto;
   display: block;
   width: 100%;
-  height: 468px;
+  height: 476px;
 }
 
 #gamesTable {

@@ -11,7 +11,6 @@ function adjustBrush(left, right, duration, clear){
     .call(brush.extent([left,right]))
     .call(brush.event)
     .each('end', function() {
-      console.log("end")
       if(clear) setTimeout( function() {
         d3.selectAll(".brush").call(brush.clear()).call(brush);
       }, 50);
@@ -287,13 +286,13 @@ function drawGraph(container){
 
     var tip = d3.select(container).append('div')
       .attr('class', 'tooltip')
-      .attr('display', 'none')
       .style("border", 'none')
       .html("<div class='tool-game'></div>" + 
         "<div class='tool-date'></div>" +
         "<div class='tool-viewers'></div>" + 
         "<div class='tool-donations'></div>" + 
-        "<div class='tool-footer'>Click to toggle zoom.</div>");
+        "<div class='tool-footer'>Click to toggle zoom.</div>")
+      .style('display', 'none');
 
     var toolTitle = $(".tool-game");
     var toolDate = $(".tool-date");
@@ -383,13 +382,16 @@ function binarySearch(ar, el, compare_fn) {
 
 function renderGames(){
   var elm = $("<table id='gamesTable'>");
-  elm.append("<thead><tr><th style='width:340px'>Title</th>" + 
+  elm.append("<thead><tr>" + 
+    "<th style='width:5px'></th>" + 
+    "<th style='width:340px'>Title</th>" + 
     "<th style='width:340px'>Runner</th>" + 
     "<th style='width:140px'>Starting Time</th>" + 
     "<th>Duration</th>" + 
     "</tr></thead><tbody>")
   for(var i in games){
     elm.append("<tr class='gameSelector' id='" + i + "'>" + 
+      "<td style='width:5px'></td>" + 
       "<td style='width:340px' id ='" + i + "'>" + games[i].title + "</td>" + 
       "<td style='width:340px' id ='" + i + "'>" + games[i].runner + "</td>" + 
       "<td style='width:140px' id ='" + i + "'>" + moment(parseInt(games[i].start_time)).format("MMM D, h:mm a") + " " + 
