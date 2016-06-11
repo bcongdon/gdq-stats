@@ -41,9 +41,6 @@
   <meta name="msapplication-wide310x150logo" content="img/mstile-310x150.png" />
   <meta name="msapplication-square310x310logo" content="img/mstile-310x310.png" />
 
-  <!-- jQuery Table Plugin -->
-  <script src="https://cdn.rawgit.com/jmosbech/StickyTableHeaders/master/js/jquery.stickytableheaders.min.js"></script>
-
   <!-- Google Analytics -->
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -85,16 +82,27 @@
 #game-list thead {
   background-color: #ddd;
   padding: 0px;
-  border-spacing: 0px;
+  display: block;
 }
 
 #game-list th {
-  border-collapse: collapse;
+  text-align: left;
 }
 
 #game-list {
   height: 200px;
-  overflow-y: auto;
+  overflow: hidden;
+}
+
+#game-list table {
+  height: 200px;
+}
+
+#game-list tbody {
+  overflow: auto;
+  display: block;
+  width: 100%;
+  height: 168px;
 }
 
 #gamesTable {
@@ -125,6 +133,7 @@
         <div class="stat">
           <span class="current_header">Games Completed:</span>  <div style="display:inline-block" id="oGames" class="odometer">000</div>
         </div>
+
       </div>
     </div>
     <footer style="display:inline-block"> Made with <img src="img/base_emoji_colored.png" width="16px" align="top"> by <a href="http://benjamincongdon.me">Benjamin Congdon</a>, 2016</footer>

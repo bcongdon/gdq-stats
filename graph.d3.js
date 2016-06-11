@@ -357,19 +357,19 @@ function binarySearch(ar, el, compare_fn) {
 
 function renderGames(){
   var elm = $("<table id='gamesTable'>");
-  elm.append("<thead><tr><th>Title</th>" + 
-    "<th>Runner</th>" + 
+  elm.append("<thead><tr><th style='width:360px'>Title</th>" + 
+    "<th style='width:360px'>Runner</th>" + 
     "<th>Duration</th>" + 
     "</tr></thead><tbody>")
   for(var i in games){
-    elm.append("<tr class='gameSelector' id='" + i + "'><td id ='" + i + "'>" + games[i].title + "</td>" + 
-      "<td id ='" + i + "'>" + games[i].runner + "</td>" + 
-      "<td id ='" + i + "'>" + games[i].duration + "</td>" + 
+    elm.append("<tr class='gameSelector' id='" + i + "'>" + 
+      "<td style='width:360px' id ='" + i + "'>" + games[i].title + "</td>" + 
+      "<td style='width:360px' id ='" + i + "'>" + games[i].runner + "</td>" + 
+      "<td style='margin:auto' id ='" + i + "'>" + games[i].duration + "</td>" + 
       "</tr>")
   }
   elm.append("</tbody>")
   $("#game-list").append(elm);
-  $("#gamesTable").stickyTableHeaders({scrollableArea: $('#game-list')});
   $('.gameSelector').on("click", function(e){
     adjustToGame(parseInt(e.toElement.id));
   });
