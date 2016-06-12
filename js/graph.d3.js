@@ -117,8 +117,11 @@ function drawGraph(container){
 
     // Condition games
     var games_arr = [];
+    var g;
     for(var key in games) {
-      games_arr.push(games[key])
+      g = games[key];
+      g.start_time = parseInt(g.start_time);
+      games_arr.push(g)
     }
     games = games_arr;
 
@@ -320,7 +323,7 @@ function drawGraph(container){
       var comma = d3.format(",.0f");
 
       // Update tooltip text
-      toolTitle.text(g.title);
+      toolTitle.text((d.date < g.start_time) ? "" : g.title);
       toolDate.text(moment(parseInt(d.date)).format('llll'));
       toolViewers.text("Viewers: " + comma(d.viewers));
       toolDonatinons.text("Donations: $" + comma(d.donations))

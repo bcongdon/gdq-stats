@@ -43,7 +43,7 @@ h1 {
 }
 
 h3 {
-  font-size: 20px;
+  font-size: 18px;
 }
 tr {
   display: block;
@@ -147,7 +147,7 @@ tr.selected {
 }
 
 .content {
-  padding: 20px;
+  padding: 10px;
   overflow: hidden;
 }
 
@@ -263,6 +263,17 @@ tr.selected {
 
 .game-info-box {
   border: 1px #ddd solid;
+}
+
+.column {
+  width: 45%;
+  display: inline-block;
+  vertical-align: top;
+  margin: auto;
+}
+
+.column h3 {
+  margin: 0px;
 }
 
 footer {
