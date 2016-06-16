@@ -228,6 +228,12 @@ tr.selected {
   margin: 0;
 }
 
+#game-list {
+  height: 500px;
+  overflow: hidden;
+  border-bottom: 2px solid #ddd;
+}
+
 #game-list thead {
   background-color: #eee;
   padding: 0px;
@@ -236,11 +242,6 @@ tr.selected {
 
 #game-list th {
   text-align: left;
-}
-
-#game-list {
-  height: 500px;
-  overflow: hidden;
 }
 
 #game-list table {
