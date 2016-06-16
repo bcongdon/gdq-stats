@@ -163,6 +163,10 @@ tr.selected {
   padding-right: 10px;
 }
 
+.topline_stat {
+  padding-bottom: 10px;
+}
+
 .stat {
   display: inline-block;
   width: 33%;
