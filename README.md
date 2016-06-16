@@ -1,5 +1,5 @@
 # sgdq-stats
-> :space_invader: Stats for [SGDQ](gamesdonequick.com) 2016
+> :space_invader: Stats webpage for [SGDQ](gamesdonequick.com) 2016
 
 ## Frontend
 The actual visualization is done by D3.js. Other tools used include: 

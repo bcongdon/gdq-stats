@@ -25,10 +25,14 @@ function setupFirebaseData(){
             $("#donations_stat").hide();
             $("#donators_stat").hide();
         }
+        data = data.val();
         initial_vals = true;
-        oDonations.innerHTML = data.val().total_donations;
-        oDonators.innerHTML  = data.val().num_donators;
-        oGames.innerHTML     = data.val().games_played;
+        oDonations.innerHTML = data.total_donations;
+        oDonators.innerHTML  = data.num_donators;
+        oGames.innerHTML     = data.games_played;
+        oChats.innerHTML     = data.total_chats;
+        oEmotes.innerHTML    = data.total_emotes;
+        oTweets.innerHTML    = data.total_tweets;
         // Show stats elements when query successful
         $("#donations_stat").show();
         $("#donators_stat").show();
