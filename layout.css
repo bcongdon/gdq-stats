@@ -281,6 +281,16 @@ tr.selected {
   margin: 0px;
 }
 
+.odometer {
+  display: inline-block;
+}
+
+
+.emoji {
+  display: inline-block;
+  font-size: 20px;
+}
+
 footer {
   color: #666;
   font-size: 14px;
