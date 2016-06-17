@@ -302,6 +302,12 @@ tr.selected {
   padding-left: 20px;
 }
 
+.loading-image {
+  margin: auto;
+  display: block;
+  padding: 260px;
+}
+
 footer {
   color: #666;
   font-size: 14px;

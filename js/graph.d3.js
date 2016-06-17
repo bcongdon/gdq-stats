@@ -283,6 +283,7 @@ function drawGraph(container, data){
     .on("mousemove", mousemove)
     .on("click", click);
 
+    d3.select(container).selectAll("img").remove();
   var tip = d3.select(container).append('div')
     .attr('class', 'tooltip')
     .style("border", 'none')
