@@ -19,7 +19,12 @@ function adjustBrush(left, right, duration, clear){
     });
 }
 
-function drawGraph(container, data, games){
+// Data Schema:
+//   data => Array of objects (d)
+//              - d.primVal => Blue Series w/ Left axis
+//              - d.secVal  => Red  Series w/ Right axis
+function drawGraph(container, data, primFormat, secFormat, 
+  primName, secName, games){
 
   // Setup objects for d3 to render
   var margin = {top: 20, right: 75, bottom: 30, left: 50},
@@ -58,7 +63,7 @@ function drawGraph(container, data, games){
   var y1Axis = d3.svg.axis()
       .scale(y1)
       .orient("right")
-      .tickFormat(function(d) { return  d3.format("$,.0f")(d) });
+      .tickFormat(function(d) { return  secFormat(d) });
 
   var primaryLine = d3.svg.line()
       .x(function(d) { return x(d.date); })
@@ -158,7 +163,7 @@ function drawGraph(container, data, games){
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Viewers");
+      .text(primName);
 
   svg.append("path")
       .datum(data)
@@ -179,7 +184,7 @@ function drawGraph(container, data, games){
       .attr("y", -6)
       .attr("dy", ".6 0em")
       .style("text-anchor", "end")
-      .text("Donations");
+      .text(secName);
 
   var lineGroup = svg.append("g");
 
@@ -292,13 +297,12 @@ function drawGraph(container, data, games){
       .attr('y1', 0)
       .attr('y2', height)
       .attr('display', null);
-    var comma = d3.format(",.0f");
 
     // Update tooltip text
     toolTitle.text((d.date < g.start_time) ? "" : g.title);
     toolDate.text(moment(parseInt(d.date)).format('llll'));
-    toolPrimary.text("Viewers: " + comma(d.primVal));
-    toolSecondary.text("Donations: $" + comma(d.secVal))
+    toolPrimary.text(primName + ": " + primFormat(d.primVal));
+    toolSecondary.text(secName + ": " + secFormat(d.secVal))
 
     tip.style("left", (d3.event.pageX + 20) + "px")
       .style("text-alight", "left")
@@ -410,5 +414,7 @@ function conditionData(fb_data) {
 
 ref.once("value", function(res) {
   res = res.val();
-  drawGraph("#chart", conditionData(res.data), res.games);
+  var dollarFormat = d3.format("$,.0f");
+  var commaFormat = d3.format(",.0f")
+  drawGraph("#chart", conditionData(res.data), commaFormat, dollarFormat, "Viewers", "Donations", res.games);
 });
