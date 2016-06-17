@@ -62,20 +62,20 @@ function drawGraph(container, data, games){
 
   var primaryLine = d3.svg.line()
       .x(function(d) { return x(d.date); })
-      .y(function(d) { return y0(d.viewers); })
-      .defined(function(d) { return d.date > 0 && d.viewers > 0 })
+      .y(function(d) { return y0(d.primVal); })
+      .defined(function(d) { return d.date > 0 && d.primVal > 0 })
       .interpolate("monotone");
 
   var secondaryLine = d3.svg.line()
       .x(function(d) { return x(d.date); })
-      .y(function(d) { return y1(d.donations); })
-      .defined(function(d) { return d.date > 0 && d.donations > 0 })
+      .y(function(d) { return y1(d.secVal); })
+      .defined(function(d) { return d.date > 0 && d.secVal > 0 })
       .interpolate("basis");
 
   var brushLine = d3.svg.line()
       .x(function(d) { return x2(d.date); })
-      .y(function(d) { return y3(d.viewers); })
-      .defined(function(d) { return d.date > 0 && d.viewers > 0 })
+      .y(function(d) { return y3(d.primVal); })
+      .defined(function(d) { return d.date > 0 && d.primVal > 0 })
       .interpolate("basis");
 
   svg = d3.select(container).append("div")
@@ -89,26 +89,6 @@ function drawGraph(container, data, games){
       .attr("class", "context")
       .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-  var data_copy = [];
-  var data_val;
-  // Condition data
-  for(var key in data) {
-    // Ignore null viewer counts
-    if(data[key].v < 0){
-      continue;
-    }
-    data_val = {
-      viewers: data[key].v,
-      donators: data[key].d,
-      donations: data[key].m,
-      date: key
-    };
-    if(data_val.donations == undefined) {
-      data_val.donations = -1;
-    }
-    data_copy.push(data_val);
-  }
-
   // Condition games
   var games_arr = [];
   var g;
@@ -118,9 +98,6 @@ function drawGraph(container, data, games){
     games_arr.push(g)
   }
   games = games_arr;
-
-  raw_data = data_copy;
-  data = raw_data;
 
   function inDomainX(d) {
     return d.date < x.domain()[1].getTime() && d.date > x.domain()[0].getTime()
@@ -144,8 +121,8 @@ function drawGraph(container, data, games){
   function brushed() {
     x.domain(brush.empty() ? x2.domain() : brush.extent());
     data = resample();
-    y0.domain(d3.extent(data, function(d) { return d.viewers; }));
-    y1.domain(d3.extent(data, function(d) { return d.donations; }));
+    y0.domain(d3.extent(data, function(d) { return d.primVal; }));
+    y1.domain(d3.extent(data, function(d) { return d.secVal; }));
     svg.select(".line.primaryLine").datum(data).attr("d", primaryLine);
     svg.select(".line.secondaryLine").datum(data).attr("d", secondaryLine)
     svg.select(".x.axis.top").call(xAxis);
@@ -162,8 +139,8 @@ function drawGraph(container, data, games){
 
   x.domain(d3.extent(data, function(d) { return d.date; }));
   x2.domain(x.domain());
-  y0.domain(d3.extent(data, function(d) { return d.viewers; }));
-  y1.domain(d3.extent(data, function(d) { return d.donations; }));
+  y0.domain(d3.extent(data, function(d) { return d.primVal; }));
+  y1.domain(d3.extent(data, function(d) { return d.secVal; }));
   y3.domain(y0.domain());
 
   data = resample();
@@ -306,8 +283,8 @@ function drawGraph(container, data, games){
         d = d1 === undefined ?  d0 : (x0 - d0.date > d1.date - x0 ? d1 : d0);
     var gi = bisectStarttime(games, x0, 1),
         g = games[gi - 1];
-    primaryFocus.attr("transform", "translate(" + x(d.date) + "," + y0(d.viewers) + ")");
-    secondaryFocus.attr("transform", "translate(" + x(d.date) + "," + y1(d.donations) + ")");
+    primaryFocus.attr("transform", "translate(" + x(d.date) + "," + y0(d.primVal) + ")");
+    secondaryFocus.attr("transform", "translate(" + x(d.date) + "," + y1(d.secVal) + ")");
 
     focusLine
       .attr('x1', x(d.date))
@@ -320,8 +297,8 @@ function drawGraph(container, data, games){
     // Update tooltip text
     toolTitle.text((d.date < g.start_time) ? "" : g.title);
     toolDate.text(moment(parseInt(d.date)).format('llll'));
-    toolPrimary.text("Viewers: " + comma(d.viewers));
-    toolSecondary.text("Donations: $" + comma(d.donations))
+    toolPrimary.text("Viewers: " + comma(d.primVal));
+    toolSecondary.text("Donations: $" + comma(d.secVal))
 
     tip.style("left", (d3.event.pageX + 20) + "px")
       .style("text-alight", "left")
@@ -408,7 +385,30 @@ function renderGames(){
   });
 }
 
+function conditionData(fb_data) {
+  var data_copy = [];
+  var data_val;
+  // Condition data
+  for(var key in fb_data) {
+    // Ignore null viewer counts
+    if(fb_data[key].v < 0){
+      continue;
+    }
+    data_val = {
+      primVal: fb_data[key].v,
+      secVal: fb_data[key].m,
+      date: key
+    };
+    if(data_val.secVal == undefined) {
+      data_val.secVal = -1;
+    }
+    data_copy.push(data_val);
+  }
+  raw_data = data_copy;
+  return data_copy;
+}
+
 ref.once("value", function(res) {
   res = res.val();
-  drawGraph("#chart", res.data, res.games);
+  drawGraph("#chart", conditionData(res.data), res.games);
 });
