@@ -1,5 +1,6 @@
 'use strict';
-var jsonSource = "https://sgdq-backend.firebaseio.com/.json"
+var ref = new Firebase("https://sgdq-backend.firebaseio.com");
+
 
 var svg, brush, games, x2, raw_data;
 
@@ -18,7 +19,7 @@ function adjustBrush(left, right, duration, clear){
     });
 }
 
-function drawGraph(container){
+function drawGraph(container, data){
 
   // Setup objects for d3 to render
   var margin = {top: 20, right: 75, bottom: 30, left: 50},
@@ -89,258 +90,253 @@ function drawGraph(container){
       .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
   // Actually pull down JSON data and do the graph render
-  d3.json(jsonSource, function(error, data) {
-    if (error) {
-      throw error;
+  games = data.games;
+  data = data.data;
+  var data_copy = [];
+  var data_val;
+  // Condition data
+  for(var key in data) {
+    // Ignore null viewer counts
+    if(data[key].v < 0){
+      continue;
     }
-    games = data.games;
-    data = data.data;
-    var data_copy = [];
-    var data_val;
-    // Condition data
-    for(var key in data) {
-      // Ignore null viewer counts
-      if(data[key].v < 0){
-        continue;
-      }
-      data_val = {
-        viewers: data[key].v,
-        donators: data[key].d,
-        donations: data[key].m,
-        date: key
-      };
-      if(data_val.donations == undefined) {
-        data_val.donations = -1;
-      }
-      data_copy.push(data_val);
+    data_val = {
+      viewers: data[key].v,
+      donators: data[key].d,
+      donations: data[key].m,
+      date: key
+    };
+    if(data_val.donations == undefined) {
+      data_val.donations = -1;
     }
+    data_copy.push(data_val);
+  }
 
-    // Condition games
-    var games_arr = [];
-    var g;
-    for(var key in games) {
-      g = games[key];
-      g.start_time = parseInt(g.start_time);
-      games_arr.push(g)
-    }
-    games = games_arr;
+  // Condition games
+  var games_arr = [];
+  var g;
+  for(var key in games) {
+    g = games[key];
+    g.start_time = parseInt(g.start_time);
+    games_arr.push(g)
+  }
+  games = games_arr;
 
-    raw_data = data_copy;
-    data = raw_data;
+  raw_data = data_copy;
+  data = raw_data;
 
-    function inDomainX(d) {
-      return d.date < x.domain()[1].getTime() && d.date > x.domain()[0].getTime()
-    }
+  function inDomainX(d) {
+    return d.date < x.domain()[1].getTime() && d.date > x.domain()[0].getTime()
+  }
 
-    function numPointsInDomain(){
-      var loBound = binarySearch(raw_data, {date: x.domain()[0]}, function(a, b){ return a.date - b.date });
-      var hiBound = binarySearch(raw_data, {date: x.domain()[1]}, function(a, b){ return a.date - b.date });
-      return [hiBound - loBound, loBound, hiBound];
-    }
+  function numPointsInDomain(){
+    var loBound = binarySearch(raw_data, {date: x.domain()[0]}, function(a, b){ return a.date - b.date });
+    var hiBound = binarySearch(raw_data, {date: x.domain()[1]}, function(a, b){ return a.date - b.date });
+    return [hiBound - loBound, loBound, hiBound];
+  }
 
-    function resample(){
-      var res = numPointsInDomain()
-      var dataPerPixel = res[0]/width;
-      var lo = Math.max([res[1] - 5, 0]);
-      return raw_data.slice(lo, res[2] + 5).filter(
-        function(d, i) { return i % Math.ceil(dataPerPixel) == 0 && inDomainX(d); }
-      );
-    }
+  function resample(){
+    var res = numPointsInDomain()
+    var dataPerPixel = res[0]/width;
+    var lo = Math.max([res[1] - 5, 0]);
+    return raw_data.slice(lo, res[2] + 5).filter(
+      function(d, i) { return i % Math.ceil(dataPerPixel) == 0 && inDomainX(d); }
+    );
+  }
 
-    function brushed() {
-      x.domain(brush.empty() ? x2.domain() : brush.extent());
-      data = resample();
-      y0.domain(d3.extent(data, function(d) { return d.viewers; }));
-      y1.domain(d3.extent(data, function(d) { return d.donations; }));
-      svg.select(".line.viewerLine").datum(data).attr("d", viewerLine);
-      svg.select(".line.donationLine").datum(data).attr("d", donationLine)
-      svg.select(".x.axis.top").call(xAxis);
-      svg.select(".y.axis.leftAxis").call(yAxis);
-      svg.select(".y.axis.rightAxis").call(donationAxis);
-      lineGroup.selectAll('.line').data(games)
-        .attr("x1", function(d) { return x(d.start_time)} )
-        .attr("x2", function(d) { return x(d.start_time)} )
-    }
-
-    brush = d3.svg.brush()
-      .x(x2)
-      .on("brush", brushed);
-
-    x.domain(d3.extent(data, function(d) { return d.date; }));
-    x2.domain(x.domain());
+  function brushed() {
+    x.domain(brush.empty() ? x2.domain() : brush.extent());
+    data = resample();
     y0.domain(d3.extent(data, function(d) { return d.viewers; }));
     y1.domain(d3.extent(data, function(d) { return d.donations; }));
-    y3.domain(y0.domain());
+    svg.select(".line.viewerLine").datum(data).attr("d", viewerLine);
+    svg.select(".line.donationLine").datum(data).attr("d", donationLine)
+    svg.select(".x.axis.top").call(xAxis);
+    svg.select(".y.axis.leftAxis").call(yAxis);
+    svg.select(".y.axis.rightAxis").call(donationAxis);
+    lineGroup.selectAll('.line').data(games)
+      .attr("x1", function(d) { return x(d.start_time)} )
+      .attr("x2", function(d) { return x(d.start_time)} )
+  }
 
-    data = resample();
+  brush = d3.svg.brush()
+    .x(x2)
+    .on("brush", brushed);
 
-    svg.append("g")
-        .attr("class", "x axis top")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  x2.domain(x.domain());
+  y0.domain(d3.extent(data, function(d) { return d.viewers; }));
+  y1.domain(d3.extent(data, function(d) { return d.donations; }));
+  y3.domain(y0.domain());
 
-    svg.append("g")
-        .attr("class", "y axis leftAxis")
-        .call(yAxis)
-      .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .text("Viewers");
+  data = resample();
 
-    svg.append("path")
-        .datum(data)
-        .attr("class", "line viewerLine")
-        .attr("d", viewerLine);
+  svg.append("g")
+      .attr("class", "x axis top")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
 
-    svg.append("path")
-        .datum(data)
-        .attr("class", "line donationLine")
-        .attr("d", donationLine);
+  svg.append("g")
+      .attr("class", "y axis leftAxis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Viewers");
 
-    svg.append("g")
-        .attr("class", "y axis rightAxis")
-        .attr("transform", "translate(" + width + " ,0)")
-        .call(donationAxis)
-      .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -6)
-        .attr("dy", ".6 0em")
-        .style("text-anchor", "end")
-        .text("Donations");
-
-    var lineGroup = svg.append("g");
-
-    lineGroup.selectAll('g').data(games).enter().append("line")
-        .attr("class", "line gameLine")
-        .attr("x1", function(d) { return x(d.start_time)} )
-        .attr("x2", function(d) { return x(d.start_time)} )
-        .attr("y1", height - 8)
-        .attr("y2", height);
-
-    context.append("path")
+  svg.append("path")
       .datum(data)
-      .attr("class", "line contextLine")
-      .attr("d", brushLine);
+      .attr("class", "line viewerLine")
+      .attr("d", viewerLine);
 
-    context.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height2 + ")")
-      .call(xAxis2);
+  svg.append("path")
+      .datum(data)
+      .attr("class", "line donationLine")
+      .attr("d", donationLine);
 
-    context.append("g")
-      .attr("class", "x brush")
-      .call(brush)
-    .selectAll("rect")
+  svg.append("g")
+      .attr("class", "y axis rightAxis")
+      .attr("transform", "translate(" + width + " ,0)")
+      .call(donationAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
       .attr("y", -6)
-      .attr("height", height2 + 7);
+      .attr("dy", ".6 0em")
+      .style("text-anchor", "end")
+      .text("Donations");
 
-    context.append("rect")
-      .attr("class", "contextBound")
+  var lineGroup = svg.append("g");
+
+  lineGroup.selectAll('g').data(games).enter().append("line")
+      .attr("class", "line gameLine")
+      .attr("x1", function(d) { return x(d.start_time)} )
+      .attr("x2", function(d) { return x(d.start_time)} )
+      .attr("y1", height - 8)
+      .attr("y2", height);
+
+  context.append("path")
+    .datum(data)
+    .attr("class", "line contextLine")
+    .attr("d", brushLine);
+
+  context.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height2 + ")")
+    .call(xAxis2);
+
+  context.append("g")
+    .attr("class", "x brush")
+    .call(brush)
+  .selectAll("rect")
+    .attr("y", -6)
+    .attr("height", height2 + 7);
+
+  context.append("rect")
+    .attr("class", "contextBound")
+    .attr("width", width)
+    .attr("height", height2 + 7)
+    .attr("transform", "translate(0,-6)");
+
+  svg.append("defs").append("clipPath")
+      .attr("id", "clip")
+    .append("rect")
       .attr("width", width)
-      .attr("height", height2 + 7)
-      .attr("transform", "translate(0,-6)");
+      .attr("height", height + 10)
+      .attr("transform", "translate(0,-5)");
 
-    svg.append("defs").append("clipPath")
-        .attr("id", "clip")
-      .append("rect")
-        .attr("width", width)
-        .attr("height", height + 10)
-        .attr("transform", "translate(0,-5)");
+  var focusLineG = svg.append('g')
+    .attr('class', 'focusline');
+  var focusLine = focusLineG.append('line')
+    .style('display', 'none')
+    .style('stroke', '#bbb');
 
-    var focusLineG = svg.append('g')
-      .attr('class', 'focusline');
-    var focusLine = focusLineG.append('line')
-      .style('display', 'none')
-      .style('stroke', '#bbb');
+  var viewerFocus = svg.append("g")
+      .style("display", "none")
+  viewerFocus.append("circle")
+      .attr("r", 3)
+      .attr("class", "viewerFocus");
 
-    var viewerFocus = svg.append("g")
-        .style("display", "none")
-    viewerFocus.append("circle")
-        .attr("r", 3)
-        .attr("class", "viewerFocus");
+  var donationFocus = svg.append("g")
+      .style("display", "none");
+  donationFocus.append("circle")
+      .attr("r", 3)
+      .attr("class", "donationFocus");
+  
+  svg.append("rect")
+    .attr("class", "overlay")
+    .attr("width", width)
+    .attr("height", height)
+    .on("mouseover", function() { 
+      viewerFocus.style("display", null);
+      donationFocus.style("display", null);
+      focusLine.style("display", null);
+      tip.style("display", null);
+    })
+    .on("mouseout", function() { 
+      viewerFocus.style("display", "none");
+      donationFocus.style("display", "none");
+      focusLine.style("display", "none");
+      tip.style("display", "none");
+    })
+    .on("mousemove", mousemove)
+    .on("click", click);
 
-    var donationFocus = svg.append("g")
-        .style("display", "none");
-    donationFocus.append("circle")
-        .attr("r", 3)
-        .attr("class", "donationFocus");
-    
-    svg.append("rect")
-      .attr("class", "overlay")
-      .attr("width", width)
-      .attr("height", height)
-      .on("mouseover", function() { 
-        viewerFocus.style("display", null);
-        donationFocus.style("display", null);
-        focusLine.style("display", null);
-        tip.style("display", null);
-      })
-      .on("mouseout", function() { 
-        viewerFocus.style("display", "none");
-        donationFocus.style("display", "none");
-        focusLine.style("display", "none");
-        tip.style("display", "none");
-      })
-      .on("mousemove", mousemove)
-      .on("click", click);
+  var tip = d3.select(container).append('div')
+    .attr('class', 'tooltip')
+    .style("border", 'none')
+    .html("<div class='tool-game'></div>" + 
+      "<div class='tool-date'></div>" +
+      "<div class='tool-viewers'></div>" + 
+      "<div class='tool-donations'></div>" + 
+      "<div class='tool-footer'>Click to toggle zoom.</div>")
+    .style('display', 'none');
 
-    var tip = d3.select(container).append('div')
-      .attr('class', 'tooltip')
-      .style("border", 'none')
-      .html("<div class='tool-game'></div>" + 
-        "<div class='tool-date'></div>" +
-        "<div class='tool-viewers'></div>" + 
-        "<div class='tool-donations'></div>" + 
-        "<div class='tool-footer'>Click to toggle zoom.</div>")
-      .style('display', 'none');
+  var toolTitle = $(".tool-game");
+  var toolDate = $(".tool-date");
+  var toolViewers = $(".tool-viewers");
+  var toolDonatinons = $(".tool-donations");
 
-    var toolTitle = $(".tool-game");
-    var toolDate = $(".tool-date");
-    var toolViewers = $(".tool-viewers");
-    var toolDonatinons = $(".tool-donations");
+  var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+  var bisectStarttime = d3.bisector(function(d) { return d.start_time; }).left;
+  function mousemove() {
+    var x0 = x.invert(d3.mouse(this)[0]),
+        i = bisectDate(data, x0, 1),
+        d0 = data[i - 1],
+        d1 = data[i],
+        d = d1 === undefined ?  d0 : (x0 - d0.date > d1.date - x0 ? d1 : d0);
+    var gi = bisectStarttime(games, x0, 1),
+        g = games[gi - 1];
+    viewerFocus.attr("transform", "translate(" + x(d.date) + "," + y0(d.viewers) + ")");
+    donationFocus.attr("transform", "translate(" + x(d.date) + "," + y1(d.donations) + ")");
 
-    var bisectDate = d3.bisector(function(d) { return d.date; }).left;
-    var bisectStarttime = d3.bisector(function(d) { return d.start_time; }).left;
-    function mousemove() {
-      var x0 = x.invert(d3.mouse(this)[0]),
-          i = bisectDate(data, x0, 1),
-          d0 = data[i - 1],
-          d1 = data[i],
-          d = d1 === undefined ?  d0 : (x0 - d0.date > d1.date - x0 ? d1 : d0);
-      var gi = bisectStarttime(games, x0, 1),
-          g = games[gi - 1];
-      viewerFocus.attr("transform", "translate(" + x(d.date) + "," + y0(d.viewers) + ")");
-      donationFocus.attr("transform", "translate(" + x(d.date) + "," + y1(d.donations) + ")");
+    focusLine
+      .attr('x1', x(d.date))
+      .attr('x2', x(d.date))
+      .attr('y1', 0)
+      .attr('y2', height)
+      .attr('display', null);
+    var comma = d3.format(",.0f");
 
-      focusLine
-        .attr('x1', x(d.date))
-        .attr('x2', x(d.date))
-        .attr('y1', 0)
-        .attr('y2', height)
-        .attr('display', null);
-      var comma = d3.format(",.0f");
+    // Update tooltip text
+    toolTitle.text((d.date < g.start_time) ? "" : g.title);
+    toolDate.text(moment(parseInt(d.date)).format('llll'));
+    toolViewers.text("Viewers: " + comma(d.viewers));
+    toolDonatinons.text("Donations: $" + comma(d.donations))
 
-      // Update tooltip text
-      toolTitle.text((d.date < g.start_time) ? "" : g.title);
-      toolDate.text(moment(parseInt(d.date)).format('llll'));
-      toolViewers.text("Viewers: " + comma(d.viewers));
-      toolDonatinons.text("Donations: $" + comma(d.donations))
+    tip.style("left", (d3.event.pageX + 20) + "px")
+      .style("text-alight", "left")
+      .style("top", (d3.event.pageY - 20) + "px")
+      .style("border", null);
+  }
+  function click() {
+    var x0 = x.invert(d3.mouse(this)[0]);
+    var gi = bisectStarttime(games, x0, 1);
+    adjustToGame(gi - 1);
+  }
 
-      tip.style("left", (d3.event.pageX + 20) + "px")
-        .style("text-alight", "left")
-        .style("top", (d3.event.pageY - 20) + "px")
-        .style("border", null);
-    }
-    function click() {
-      var x0 = x.invert(d3.mouse(this)[0]);
-      var gi = bisectStarttime(games, x0, 1);
-      adjustToGame(gi - 1);
-    }
-
-    renderGames();
-  });
+  renderGames();
 }
 
 function adjustToGame(i) {
@@ -414,4 +410,6 @@ function renderGames(){
   });
 }
 
-drawGraph("#chart");
+ref.once("value", function(res) {
+  drawGraph("#chart", res.val());
+});
