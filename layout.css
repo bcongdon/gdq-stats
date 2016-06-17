@@ -83,16 +83,16 @@ tr.selected {
   pointer-events: all;
 }
 
-.viewerLine {
+.primaryLine {
   stroke: #00AEEF;
 }
 
-.viewerFocus {
+.primaryFocus {
   fill: #00AEEF;
   stroke: #00AEEF;
 }
 
-.donationLine {
+.secondaryLine {
   stroke: #F21847;
 }
 
@@ -112,7 +112,7 @@ tr.selected {
   stroke-width: 1px;
 }
 
-.donationFocus {
+.secondaryFocus {
   fill: #F21847;
   stroke: #F21847;
 }
@@ -199,12 +199,12 @@ tr.selected {
   font-weight: 300;
 }
 
-.tool-viewers {
+.tool-primary {
   color: #00AEEF;
   font-size: 14px;
   padding-top: 5px;
 }
-.tool-donations {
+.tool-secondary {
   color: #F21847;
   font-size: 14px;
   padding-bottom: 5px;

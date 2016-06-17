@@ -19,7 +19,7 @@ function adjustBrush(left, right, duration, clear){
     });
 }
 
-function drawGraph(container, data){
+function drawGraph(container, data, games){
 
   // Setup objects for d3 to render
   var margin = {top: 20, right: 75, bottom: 30, left: 50},
@@ -51,22 +51,22 @@ function drawGraph(container, data){
       .scale(x2)
       .orient("bottom");
 
-  var yAxis = d3.svg.axis()
+  var y0Axis = d3.svg.axis()
       .scale(y0)
       .orient("left");
 
-  var donationAxis = d3.svg.axis()
+  var y1Axis = d3.svg.axis()
       .scale(y1)
       .orient("right")
-      .tickFormat(function(d) { return '$' + d3.format(",.0f")(d) });
+      .tickFormat(function(d) { return  d3.format("$,.0f")(d) });
 
-  var viewerLine = d3.svg.line()
+  var primaryLine = d3.svg.line()
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y0(d.viewers); })
       .defined(function(d) { return d.date > 0 && d.viewers > 0 })
       .interpolate("monotone");
 
-  var donationLine = d3.svg.line()
+  var secondaryLine = d3.svg.line()
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y1(d.donations); })
       .defined(function(d) { return d.date > 0 && d.donations > 0 })
@@ -89,9 +89,6 @@ function drawGraph(container, data){
       .attr("class", "context")
       .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-  // Actually pull down JSON data and do the graph render
-  games = data.games;
-  data = data.data;
   var data_copy = [];
   var data_val;
   // Condition data
@@ -149,11 +146,11 @@ function drawGraph(container, data){
     data = resample();
     y0.domain(d3.extent(data, function(d) { return d.viewers; }));
     y1.domain(d3.extent(data, function(d) { return d.donations; }));
-    svg.select(".line.viewerLine").datum(data).attr("d", viewerLine);
-    svg.select(".line.donationLine").datum(data).attr("d", donationLine)
+    svg.select(".line.primaryLine").datum(data).attr("d", primaryLine);
+    svg.select(".line.secondaryLine").datum(data).attr("d", secondaryLine)
     svg.select(".x.axis.top").call(xAxis);
-    svg.select(".y.axis.leftAxis").call(yAxis);
-    svg.select(".y.axis.rightAxis").call(donationAxis);
+    svg.select(".y.axis.leftAxis").call(y0Axis);
+    svg.select(".y.axis.rightAxis").call(y1Axis);
     lineGroup.selectAll('.line').data(games)
       .attr("x1", function(d) { return x(d.start_time)} )
       .attr("x2", function(d) { return x(d.start_time)} )
@@ -178,7 +175,7 @@ function drawGraph(container, data){
 
   svg.append("g")
       .attr("class", "y axis leftAxis")
-      .call(yAxis)
+      .call(y0Axis)
     .append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
@@ -188,18 +185,18 @@ function drawGraph(container, data){
 
   svg.append("path")
       .datum(data)
-      .attr("class", "line viewerLine")
-      .attr("d", viewerLine);
+      .attr("class", "line primaryLine")
+      .attr("d", primaryLine);
 
   svg.append("path")
       .datum(data)
-      .attr("class", "line donationLine")
-      .attr("d", donationLine);
+      .attr("class", "line secondaryLine")
+      .attr("d", secondaryLine);
 
   svg.append("g")
       .attr("class", "y axis rightAxis")
       .attr("transform", "translate(" + width + " ,0)")
-      .call(donationAxis)
+      .call(y1Axis)
     .append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", -6)
@@ -252,31 +249,31 @@ function drawGraph(container, data){
     .style('display', 'none')
     .style('stroke', '#bbb');
 
-  var viewerFocus = svg.append("g")
+  var primaryFocus = svg.append("g")
       .style("display", "none")
-  viewerFocus.append("circle")
+  primaryFocus.append("circle")
       .attr("r", 3)
-      .attr("class", "viewerFocus");
+      .attr("class", "primaryFocus");
 
-  var donationFocus = svg.append("g")
+  var secondaryFocus = svg.append("g")
       .style("display", "none");
-  donationFocus.append("circle")
+  secondaryFocus.append("circle")
       .attr("r", 3)
-      .attr("class", "donationFocus");
+      .attr("class", "secondaryFocus");
   
   svg.append("rect")
     .attr("class", "overlay")
     .attr("width", width)
     .attr("height", height)
     .on("mouseover", function() { 
-      viewerFocus.style("display", null);
-      donationFocus.style("display", null);
+      primaryFocus.style("display", null);
+      secondaryFocus.style("display", null);
       focusLine.style("display", null);
       tip.style("display", null);
     })
     .on("mouseout", function() { 
-      viewerFocus.style("display", "none");
-      donationFocus.style("display", "none");
+      primaryFocus.style("display", "none");
+      secondaryFocus.style("display", "none");
       focusLine.style("display", "none");
       tip.style("display", "none");
     })
@@ -289,15 +286,15 @@ function drawGraph(container, data){
     .style("border", 'none')
     .html("<div class='tool-game'></div>" + 
       "<div class='tool-date'></div>" +
-      "<div class='tool-viewers'></div>" + 
-      "<div class='tool-donations'></div>" + 
+      "<div class='tool-primary'></div>" + 
+      "<div class='tool-secondary'></div>" + 
       "<div class='tool-footer'>Click to toggle zoom.</div>")
     .style('display', 'none');
 
   var toolTitle = $(".tool-game");
   var toolDate = $(".tool-date");
-  var toolViewers = $(".tool-viewers");
-  var toolDonatinons = $(".tool-donations");
+  var toolPrimary = $(".tool-primary");
+  var toolSecondary = $(".tool-secondary");
 
   var bisectDate = d3.bisector(function(d) { return d.date; }).left;
   var bisectStarttime = d3.bisector(function(d) { return d.start_time; }).left;
@@ -309,8 +306,8 @@ function drawGraph(container, data){
         d = d1 === undefined ?  d0 : (x0 - d0.date > d1.date - x0 ? d1 : d0);
     var gi = bisectStarttime(games, x0, 1),
         g = games[gi - 1];
-    viewerFocus.attr("transform", "translate(" + x(d.date) + "," + y0(d.viewers) + ")");
-    donationFocus.attr("transform", "translate(" + x(d.date) + "," + y1(d.donations) + ")");
+    primaryFocus.attr("transform", "translate(" + x(d.date) + "," + y0(d.viewers) + ")");
+    secondaryFocus.attr("transform", "translate(" + x(d.date) + "," + y1(d.donations) + ")");
 
     focusLine
       .attr('x1', x(d.date))
@@ -323,8 +320,8 @@ function drawGraph(container, data){
     // Update tooltip text
     toolTitle.text((d.date < g.start_time) ? "" : g.title);
     toolDate.text(moment(parseInt(d.date)).format('llll'));
-    toolViewers.text("Viewers: " + comma(d.viewers));
-    toolDonatinons.text("Donations: $" + comma(d.donations))
+    toolPrimary.text("Viewers: " + comma(d.viewers));
+    toolSecondary.text("Donations: $" + comma(d.donations))
 
     tip.style("left", (d3.event.pageX + 20) + "px")
       .style("text-alight", "left")
@@ -412,5 +409,6 @@ function renderGames(){
 }
 
 ref.once("value", function(res) {
-  drawGraph("#chart", res.val());
+  res = res.val();
+  drawGraph("#chart", res.data, res.games);
 });
