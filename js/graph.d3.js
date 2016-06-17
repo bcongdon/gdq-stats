@@ -1,7 +1,6 @@
 'use strict';
 var ref = new Firebase("https://sgdq-backend.firebaseio.com");
 
-
 var svg, brush, games, x2, raw_data;
 
 function adjustBrush(left, right, duration, clear){
@@ -24,7 +23,7 @@ function adjustBrush(left, right, duration, clear){
 //              - d.primVal => Blue Series w/ Left axis
 //              - d.secVal  => Red  Series w/ Right axis
 function drawGraph(container, data, primFormat, secFormat, 
-  primName, secName, games){
+  primName, secName, games_input){
 
   // Setup objects for d3 to render
   var margin = {top: 20, right: 75, bottom: 30, left: 50},
@@ -97,8 +96,8 @@ function drawGraph(container, data, primFormat, secFormat,
   // Condition games
   var games_arr = [];
   var g;
-  for(var key in games) {
-    g = games[key];
+  for(var key in games_input) {
+    g = games_input[key];
     g.start_time = parseInt(g.start_time);
     games_arr.push(g)
   }
