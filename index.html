@@ -22,22 +22,33 @@ layout: null
       <h2>Event Stats</h2>
       <div class="current_stats">
         <div class="stat topline_stat" id="viewers_stat">
-          <span class="current_header">Current Viewers:</span> <div id="oViewers" class="odometer"></div> <div class="emoji">📺</div>
+          <span class="current_header">Current Viewers:</span>
+          <div id="oViewers" class="odometer"></div>
+          <div class="emoji">📺</div>
         </div>
         <div class="stat topline_stat" id="donations_stat">
-          <span class="current_header">Total Donations:</span>  $<div id="oDonations" class="odometer"></div> <div class="emoji">💸</div>
+          <span class="current_header">Total Donations:</span>  
+          $<div id="oDonations" class="odometer"></div>
+          <div class="emoji">💸</div>
         </div>
         <div class="stat topline_stat" id="donators_stat">
-          <span class="current_header">Number of Donations:</span>  <div id="oDonators" class="odometer"></div> <div class="emoji">🙌</div>
+          <span class="current_header">Number of Donations:</span>
+          <div id="oDonators" class="odometer"></div>
+          <div class="emoji">🙌</div>
         </div>
         <div class="stat">
-          <span class="current_header" style="padding-right: 2.2em">Twitch Chats:</span> <div id="oChats" class="odometer"></div> <div class="emoji">💬</div>
+          <span class="current_header" style="padding-right: 2.2em">Twitch Chats:</span>
+          <div id="oChats" class="odometer"></div> <div class="emoji">💬</div>
         </div>
         <div class="stat">
-          <span class="current_header" style="padding-right: 1.8em">Twitch Emotes:</span>  <div id="oEmotes" class="odometer"></div> <div class="emoji">💩</div>
+          <span class="current_header" style="padding-right: 1.8em">Twitch Emotes:</span>
+          <div id="oEmotes" class="odometer"></div>
+          <div class="emoji">💩</div>
         </div>
         <div class="stat">
-          <span class="current_header" style="padding-right: 3.25em">Tweets Tweeted:</span>  <div id="oTweets" class="odometer"></div> <div class="emoji">🐦</div>
+          <span class="current_header" style="padding-right: 3.25em">Tweets Tweeted:</span>
+          <div id="oTweets" class="odometer"></div>
+          <div class="emoji">🐦</div>
         </div>
       </div>
     </div>
@@ -56,22 +67,32 @@ layout: null
       </div>
       <div class="current_stats">
         <div class="stat">
-          <span class="current_header">Games Completed:</span>  <div style="display:inline-block" id="oGames" class="odometer"></div> <div class="emoji">🎮</div>
+          <span class="current_header">Games Completed:</span>
+          <div id="oGames" class="odometer"></div>
+          <div class="emoji">🎮</div>
         </div>
       </div>
     </div>
 
     <div class="section">
-      <h2>Info</h2>
+      <h2>Info for nerds</h2>
       <div class="content">
-        <div class="column">
-          <h3>SGDQ</h3>
+        <div class="column info-section">
+          <h3>Back end</h3>
           <ul>
-            <li></li>
+            <li>Twitch, Donation, and Twitter data is collected by <a href="https://github.com/bcongdon/sgdq-collector">sgdq-collector</a> - a package of scripts I wrote on <a href="https://nodejs.org/en/">Node.js</a></li>
+            <li>The backend database is hosted on <a href="http://firebase.google.com/">Firebase</a></li>
+            <li>A <a href="https://cloud.google.com/compute/">Google Compute Engine</a> instance is used to keep everything running throughout the event.</li>
           </ul>
         </div>
-        <div class="column">
-          <p>Relevant information</p>
+        <div class="column info-section">
+          <h3>Front end</h3>
+          <ul>
+            <li><a href="https://d3js.org/">D3.js</a> is used for all the graphs</li>
+            <li><a href="https://github.com/HubSpot/odometer">odometer</a> is used for the realtime number displays</li>
+            <li>Design was heavily inspired by <a href="http://alligatr.co.uk">alligatr</a>'s previous SGDQ stat pages</li>
+          </ul>
+          <p>This site is completely open sourced on <a href="https://github.com/bcongdon/sgdq-stats">Github</a>!</p>
         </div>
       </div>
     </div>
