@@ -311,11 +311,20 @@ tr.selected {
 .series-options {
   background-color: #eee;
   padding: 10px;
-  font-family: Cubano;
-  font-size: 12px;
+  font-family: "Cubano";
+  font-size: 14px;
 }
 
 .series-select {
+  display: inline-block;
+  text-align: center;
+  font-size: 12px;
+  font-family: "Open Sans";
+  width: 30%;
+}
+
+.series-select-title {
+  width: 20%;
   display: inline-block;
 }
 
