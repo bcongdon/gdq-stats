@@ -308,6 +308,17 @@ tr.selected {
   padding: 260px;
 }
 
+.series-options {
+  background-color: #eee;
+  padding: 10px;
+  font-family: Cubano;
+  font-size: 12px;
+}
+
+.series-select {
+  display: inline-block;
+}
+
 footer {
   color: #666;
   font-size: 14px;

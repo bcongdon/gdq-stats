@@ -411,6 +411,10 @@ function conditionData(fb_data) {
   return data_copy;
 }
 
+function selectChanged(e){
+  console.log(e)
+}
+
 ref.once("value", function(res) {
   res = res.val();
   var dollarFormat = d3.format("$,.0f");

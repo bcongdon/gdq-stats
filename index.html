@@ -54,9 +54,42 @@ layout: null
     </div>
 
     <div class="section" id="chart-div">
-      <h2>Graph: Viewership and Donations</h2>
+      <h2>Stats Graph</h2> 
       <div class="content" style="padding-top: 5px;">
         <div id="chart"><img class="loading-image" src="img/loading.gif"></div>
+      </div>
+      <div class="series-options">
+        <span>Options</span>
+        <div class="series-select">
+          <span>Series 1:</span>
+          <select id="primSelect" onchange="selectChanged()">
+            <option value="Viewers">Viewers</option>
+            <option value="Donations">Donations</option>
+            <option value="Donations per Minute">Donations per Minute</option>
+            <option value="Donators">Donators</option>
+            <option value="Tweets">Tweets</option>
+            <option value="Tweets per Minute">Tweets per Minute</option>
+            <option value="Twitch Chats">Twitch Chats</option>
+            <option value="Twitch Chats per Minute">Twitch Chats per Minute</option>
+            <option value="Twitch Emotes">Twitch Emotes</option>
+            <option value="Twitch Emotes per Minute">Twitch Emotes per Minute</option>
+          </select>
+        </div>
+        <div class="series-select">
+          <span>Series 2:</span>
+          <select id="secSelect" onchange="selectChanged()">
+            <option value="Viewers">Viewers</option>
+            <option selected value="Donations">Donations</option>
+            <option value="Donations per Minute">Donations per Minute</option>
+            <option value="Donators">Donators</option>
+            <option value="Tweets">Tweets</option>
+            <option value="Tweets per Minute">Tweets per Minute</option>
+            <option value="Twitch Chats">Twitch Chats</option>
+            <option value="Twitch Chats per Minute">Twitch Chats per Minute</option>
+            <option value="Twitch Emotes">Twitch Emotes</option>
+            <option value="Twitch Emotes per Minute">Twitch Emotes per Minute</option>
+          </select>
+        </div>
       </div>
     </div>
 
