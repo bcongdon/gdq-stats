@@ -1,7 +1,7 @@
 'use strict';
 var ref = new Firebase("https://sgdq-backend.firebaseio.com");
 
-var svg, brush, games, x2, raw_data;
+var svg, brush, games, x2, tot_data;
 
 function adjustBrush(left, right, duration, clear){
   duration = duration || 1000;
@@ -23,10 +23,12 @@ function adjustBrush(left, right, duration, clear){
 //              - d.primVal => Blue Series w/ Left axis
 //              - d.secVal  => Red  Series w/ Right axis
 function drawGraph(container, data, primFormat, secFormat, 
-  primName, secName, games_input){
+  primName, secName){
+
+  d3.select(container).selectAll("div").remove();
 
   // Setup objects for d3 to render
-  var margin = {top: 20, right: 75, bottom: 30, left: 50},
+  var margin = {top: 20, right: 75, bottom: 30, left: 75},
     width = $(container).width() - margin.left - margin.right,
     height = $(container).height() - 75 - margin.top - margin.bottom,
     margin2 = {top: height + 50, right: 10, bottom: 35, left: 0},
@@ -57,7 +59,8 @@ function drawGraph(container, data, primFormat, secFormat,
 
   var y0Axis = d3.svg.axis()
       .scale(y0)
-      .orient("left");
+      .orient("left")
+      .tickFormat(function(d) { return  primFormat(d) });
 
   var y1Axis = d3.svg.axis()
       .scale(y1)
@@ -93,23 +96,13 @@ function drawGraph(container, data, primFormat, secFormat,
       .attr("class", "context")
       .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-  // Condition games
-  var games_arr = [];
-  var g;
-  for(var key in games_input) {
-    g = games_input[key];
-    g.start_time = parseInt(g.start_time);
-    games_arr.push(g)
-  }
-  games = games_arr;
-
   function inDomainX(d) {
     return d.date < x.domain()[1].getTime() && d.date > x.domain()[0].getTime()
   }
 
   function numPointsInDomain(){
-    var loBound = binarySearch(raw_data, {date: x.domain()[0]}, function(a, b){ return a.date - b.date });
-    var hiBound = binarySearch(raw_data, {date: x.domain()[1]}, function(a, b){ return a.date - b.date });
+    var loBound = binarySearch(tot_data, {date: x.domain()[0]}, function(a, b){ return a.date - b.date });
+    var hiBound = binarySearch(tot_data, {date: x.domain()[1]}, function(a, b){ return a.date - b.date });
     return [hiBound - loBound, loBound, hiBound];
   }
 
@@ -117,7 +110,7 @@ function drawGraph(container, data, primFormat, secFormat,
     var res = numPointsInDomain()
     var dataPerPixel = res[0]/width;
     var lo = Math.max([res[1] - 5, 0]);
-    return raw_data.slice(lo, res[2] + 5).filter(
+    return tot_data.slice(lo, res[2] + 5).filter(
       function(d, i) { return i % Math.ceil(dataPerPixel) == 0 && inDomainX(d); }
     );
   }
@@ -261,7 +254,6 @@ function drawGraph(container, data, primFormat, secFormat,
     .on("mousemove", mousemove)
     .on("click", click);
 
-    d3.select(container).selectAll("img").remove();
   var tip = d3.select(container).append('div')
     .attr('class', 'tooltip')
     .style("border", 'none')
@@ -315,15 +307,16 @@ function drawGraph(container, data, primFormat, secFormat,
   }
 
   renderGames();
+  d3.select(container).selectAll("img").remove();
 }
 
 function adjustToGame(i) {
   var left = games[i].start_time;
   // Bail if game hasn't started yet
-  if(left > raw_data[raw_data.length - 1].date) return;
+  if(left > tot_data[tot_data.length - 1].date) return;
 
   // Set 'end' time to last data point if we are zooming to last game in list
-  var right = (i + 1 < games.length && games[i+1].start_time <= raw_data[raw_data.length - 1].date) ? games[i+1].start_time : raw_data[raw_data.length - 1].date;
+  var right = (i + 1 < games.length && games[i+1].start_time <= tot_data[tot_data.length - 1].date) ? games[i+1].start_time : tot_data[tot_data.length - 1].date;
   // Open up brush if it's empty
   if(brush.empty()) {
     adjustBrush(x2.domain()[0], x2.domain()[1], 0);
@@ -388,36 +381,60 @@ function renderGames(){
   });
 }
 
-function conditionData(fb_data) {
+function conditionData(fb_data, primKey, secKey) {
   var data_copy = [];
   var data_val;
   // Condition data
   for(var key in fb_data) {
-    // Ignore null viewer counts
-    if(fb_data[key].v < 0){
-      continue;
-    }
     data_val = {
-      primVal: fb_data[key].v,
-      secVal: fb_data[key].m,
+      primVal: fb_data[key][primKey] || -1,
+      secVal: fb_data[key][secKey]   || -1,
       date: key
     };
-    if(data_val.secVal == undefined) {
-      data_val.secVal = -1;
-    }
     data_copy.push(data_val);
   }
-  raw_data = data_copy;
+  tot_data = data_copy;
   return data_copy;
 }
 
-function selectChanged(e){
-  console.log(e)
+function conditionGames(games_input) {
+  var games_arr = [];
+  var g;
+  for(var key in games_input) {
+    g = games_input[key];
+    g.start_time = parseInt(g.start_time);
+    games_arr.push(g)
+  }
+  games = games_arr;
+}
+
+var seriesMap = {
+  "Viewers": { key: 'v', format: d3.format(",.0f") },
+  "Donations": { key: 'm', format: d3.format("$,.0f") },
+  "Donators": { key: 'd', format: d3.format(",.0f") },
+  "Tweets per Minute": { key: 't', format: d3.format(",.0f") },
+  "Twitch Chats per Minute": { key: 'c', format: d3.format(",.0f") },
+  "Twitch Emotes per Minute": { key: 'e', format: d3.format(",.0f") }
+}
+
+function selectChanged(){
+  var sel1 = $("#primSelect");
+  var sel2 = $("#secSelect");
+  render(sel1.find(":selected").text(),
+    sel2.find(":selected").text());
+}
+
+var raw_data;
+function render(series1, series2) {
+  var ser1 = seriesMap[series1];
+  var ser2 = seriesMap[series2];
+  drawGraph("#chart", conditionData(raw_data, ser1.key, ser2.key), ser1.format, 
+    ser2.format, series1, series2);
 }
 
 ref.once("value", function(res) {
   res = res.val();
-  var dollarFormat = d3.format("$,.0f");
-  var commaFormat = d3.format(",.0f")
-  drawGraph("#chart", conditionData(res.data), commaFormat, dollarFormat, "Viewers", "Donations", res.games);
+  raw_data = jQuery.extend(true, res.data, res.extras);
+  conditionGames(res.games);
+  render("Viewers", "Donations");
 });
