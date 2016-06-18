@@ -411,6 +411,7 @@ function conditionGames(games_input) {
 var seriesMap = {
   "Viewers": { key: 'v', format: d3.format(",.0f") },
   "Donations": { key: 'm', format: d3.format("$,.0f") },
+  "Donations per Minute": { key: 'dpm', format: d3.format("$,.0f") },
   "Donators": { key: 'd', format: d3.format(",.0f") },
   "Tweets per Minute": { key: 't', format: d3.format(",.0f") },
   "Twitch Chats per Minute": { key: 'c', format: d3.format(",.0f") },
@@ -437,9 +438,27 @@ function render(series1, series2) {
     ser2.format, series1, series2);
 }
 
+function generateSyntheticSeries(input){ 
+  // Donations per Minute
+  var prev = undefined;
+  for(var key in input){
+    if(!prev) {
+      prev = key;
+      continue;
+    }
+    input[key].dpm = input[key].m - input[prev].m
+    prev = key;
+  }
+  // Tweet Total
+  // Chat Total
+  // Emote Total
+  return input;
+}
+
 ref.once("value", function(res) {
   res = res.val();
   raw_data = jQuery.extend(true, res.data, res.extras);
+  raw_data = generateSyntheticSeries(raw_data);
   conditionGames(res.games);
   render("Viewers", "Donations");
 });
