@@ -8,7 +8,7 @@ function queryTwitch(){
     }, function(err, res, body) {
         if(body && body['stream'] != undefined && "viewers" in body['stream']){
             console.debug("Current viewers: " + body['stream']['viewers']);
-            oViewers.innerHTML = body['stream']['viewers'];
+            $("#oViewers").text = body['stream']['viewers'];
         }
         else {
             // Hide element when viewership data unavailable
@@ -27,12 +27,12 @@ function setupFirebaseData(){
         }
         data = data.val();
         initial_vals = true;
-        oDonations.innerHTML = data.total_donations;
-        oDonators.innerHTML  = data.num_donators;
-        oGames.innerHTML     = data.games_played;
-        oChats.innerHTML     = data.total_chats;
-        oEmotes.innerHTML    = data.total_emotes;
-        oTweets.innerHTML    = data.total_tweets;
+        $("#oDonations").text(data.total_donations);
+        $("#oDonators").text(data.num_donators);
+        $("#oGames").text(data.games_played);
+        $("#oChats").text(data.total_chats);
+        $("#oEmotes").text(data.total_emotes);
+        $("#oTweets").text(data.total_tweets);
         // Show stats elements when query successful
         $("#donations_stat").show();
         $("#donators_stat").show();
