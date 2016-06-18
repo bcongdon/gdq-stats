@@ -418,10 +418,15 @@ var seriesMap = {
 }
 
 function selectChanged(){
-  var sel1 = $("#primSelect");
-  var sel2 = $("#secSelect");
-  render(sel1.find(":selected").text(),
-    sel2.find(":selected").text());
+  var sel1 = $("#primSelect"),
+      sel2 = $("#secSelect"),
+      sel1val = sel1.find(":selected").text(),
+      sel2val = sel2.find(":selected").text();
+  sel1.find("option").prop('disabled', false);
+  sel2.find("option").prop('disabled', false);
+  sel1.find("option[value='" + sel2val + "']").prop('disabled', true);
+  sel2.find("option[value='" + sel1val + "']").prop('disabled', true)
+  render(sel1val, sel2val);
 }
 
 var raw_data;
