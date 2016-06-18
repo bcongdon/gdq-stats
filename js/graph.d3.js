@@ -77,7 +77,7 @@ function drawGraph(container, data, primFormat, secFormat,
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y1(d.secVal); })
       .defined(function(d) { return d.date > 0 && d.secVal > 0 })
-      .interpolate("basis");
+      .interpolate("monotone");
 
   var brushLine = d3.svg.line()
       .x(function(d) { return x2(d.date); })
@@ -413,7 +413,7 @@ var seriesMap = {
   "Donations": { key: 'm', format: d3.format("$,.0f") },
   "Donations per Minute": { key: 'dpm', format: d3.format("$,.0f") },
   "Donators": { key: 'd', format: d3.format(",.0f") },
-  "Tweets": { key: 't', format: d3.format(",.0f") },
+  "Tweets": { key: 'tt', format: d3.format(",.0f") },
   "Tweets per Minute": { key: 't', format: d3.format(",.0f") },
   "Twitch Chats": { key: 'ct', format: d3.format(",.0f") },
   "Twitch Chats per Minute": { key: 'c', format: d3.format(",.0f") },
@@ -429,7 +429,9 @@ function selectChanged(){
   sel1.find("option").prop('disabled', false);
   sel2.find("option").prop('disabled', false);
   sel1.find("option[value='" + sel2val + "']").prop('disabled', true);
-  sel2.find("option[value='" + sel1val + "']").prop('disabled', true)
+  sel2.find("option[value='" + sel1val + "']").prop('disabled', true);
+  Cookies.set('sel1', sel1val);
+  Cookies.set('sel2', sel2val);
   render(sel1val, sel2val);
 }
 
@@ -468,10 +470,22 @@ function generateSyntheticSeries(input){
   return input;
 }
 
+function loadSelectCookies() {
+  var sel1val = Cookies.get('sel1'),
+      sel2val = Cookies.get('sel2');
+  if(sel1val){
+    $("#primSelect").find("option[value='" + sel1val + "']").prop('selected', true);
+  }
+  if(sel2val){
+    $("#secSelect").find("option[value='" + sel2val + "']").prop('selected', true);
+  }
+}
+
 ref.once("value", function(res) {
   res = res.val();
   raw_data = jQuery.extend(true, res.data, res.extras);
   raw_data = generateSyntheticSeries(raw_data);
   conditionGames(res.games);
-  render("Viewers", "Donations");
+  loadSelectCookies();
+  selectChanged();
 });
