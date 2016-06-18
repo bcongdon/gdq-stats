@@ -413,8 +413,11 @@ var seriesMap = {
   "Donations": { key: 'm', format: d3.format("$,.0f") },
   "Donations per Minute": { key: 'dpm', format: d3.format("$,.0f") },
   "Donators": { key: 'd', format: d3.format(",.0f") },
+  "Tweets": { key: 't', format: d3.format(",.0f") },
   "Tweets per Minute": { key: 't', format: d3.format(",.0f") },
+  "Twitch Chats": { key: 'ct', format: d3.format(",.0f") },
   "Twitch Chats per Minute": { key: 'c', format: d3.format(",.0f") },
+  "Twitch Emotes": { key: 'et', format: d3.format(",.0f") },
   "Twitch Emotes per Minute": { key: 'e', format: d3.format(",.0f") }
 }
 
@@ -439,19 +442,29 @@ function render(series1, series2) {
 }
 
 function generateSyntheticSeries(input){ 
-  // Donations per Minute
-  var prev = undefined;
+  var prev   = undefined,
+      tweets = 0,
+      chats  = 0,
+      emotes = 0;
   for(var key in input){
     if(!prev) {
       prev = key;
       continue;
     }
+    // Donations per Minute
     input[key].dpm = input[key].m - input[prev].m
     prev = key;
+
+    // Tweet Total
+    tweets += input[key].t;
+    input[key].tt = tweets;
+    // Chat Total
+    chats += input[key].c;
+    input[key].ct = chats;
+    // Emote Total
+    emotes += input[key].e;
+    input[key].et = emotes;
   }
-  // Tweet Total
-  // Chat Total
-  // Emote Total
   return input;
 }
 
