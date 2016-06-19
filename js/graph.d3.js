@@ -50,6 +50,9 @@ function drawGraph(container, data, primFormat, secFormat,
   var y3 = d3.scale.linear()
       .range([height2, 0])
 
+  var y4 = d3.scale.linear()
+      .range([height2, 0])
+
   var xAxis = d3.svg.axis()
       .scale(x)
       .orient("bottom");
@@ -80,9 +83,15 @@ function drawGraph(container, data, primFormat, secFormat,
       .defined(function(d) { return d.date > 0 && d.secVal >= 0 })
       .interpolate("monotone");
 
-  var brushLine = d3.svg.line()
+  var primBrushLine = d3.svg.line()
       .x(function(d) { return x2(d.date); })
       .y(function(d) { return y3(d.primVal); })
+      .defined(function(d) { return d.date > 0 && d.primVal >= 0 })
+      .interpolate("basis");
+
+  var secBrushLine = d3.svg.line()
+      .x(function(d) { return x2(d.date); })
+      .y(function(d) { return y4(d.secVal); })
       .defined(function(d) { return d.date > 0 && d.primVal >= 0 })
       .interpolate("basis");
 
@@ -144,6 +153,7 @@ function drawGraph(container, data, primFormat, secFormat,
   y0.domain(d3.extent(data, function(d) { return d.primVal; }));
   y1.domain(d3.extent(data, function(d) { return d.secVal; }));
   y3.domain(y0.domain());
+  y4.domain(y1.domain());
 
   data = resample();
 
@@ -194,8 +204,13 @@ function drawGraph(container, data, primFormat, secFormat,
 
   context.append("path")
     .datum(data)
-    .attr("class", "line contextLine")
-    .attr("d", brushLine);
+    .attr("class", "line primContextLine")
+    .attr("d", primBrushLine);
+
+  context.append("path")
+    .datum(data)
+    .attr("class", "line secContextLine")
+    .attr("d", secBrushLine);
 
   context.append("g")
     .attr("class", "x axis")

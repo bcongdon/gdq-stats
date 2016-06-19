@@ -96,8 +96,13 @@ tr.selected {
   stroke: #F21847;
 }
 
-.contextLine {
+.primContextLine {
   stroke: #00AEEF;
+  stroke-width: 1px;
+}
+
+.secContextLine {
+  stroke: #F21847;
   stroke-width: 1px;
 }
 
