@@ -480,16 +480,6 @@ function generateSyntheticSeries(input){
       chats  = 0,
       emotes = 0;
   for(var key in input){
-    if(!prev) {
-      prev = key;
-      continue;
-    }
-    // Donations per Minute
-    if(input[key].m){
-      input[key].dpm = input[key].m - input[prev].m
-      prev = key;
-    } 
-
     // Tweet Total
     if(input[key].t) tweets += input[key].t;
     input[key].tt = tweets;
@@ -499,6 +489,16 @@ function generateSyntheticSeries(input){
     // Emote Total
     if(input[key].e) emotes += input[key].e;
     input[key].et = emotes;
+
+    if(!prev) {
+      prev = key;
+      continue;
+    }
+    // Donations per Minute
+    if(input[key].m >= 0){
+      input[key].dpm = input[key].m - input[prev].m
+      prev = key;
+    } 
   }
   return input;
 }

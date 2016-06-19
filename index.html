@@ -43,7 +43,7 @@ layout: null
         <div class="stat">
           <span class="current_header" style="padding-right: 1.8em">Twitch Emotes:</span>
           <div id="oEmotes" class="odometer"></div>
-          <div class="emoji">💩</div>
+          <div class="emoji" style="vertical-align:middle;"><img src="img/kappa.png" width="22"></div>
         </div>
         <div class="stat">
           <span class="current_header" style="padding-right: 3.25em">Tweets Tweeted:</span>
@@ -115,8 +115,8 @@ layout: null
         <div class="column info-section">
           <h3>Back end</h3>
           <ul>
-            <li>Twitch, Donation, and Twitter data is collected by <a href="https://github.com/bcongdon/sgdq-collector">sgdq-collector</a> - a package of scripts I wrote on <a href="https://nodejs.org/en/">Node.js</a></li>
-            <li>The backend database is hosted on <a href="http://firebase.google.com/">Firebase</a></li>
+            <li>Twitch, Donation, and Twitter data is continuously collected by <a href="https://github.com/bcongdon/sgdq-collector">sgdq-collector</a> - a package of scripts I wrote on <a href="https://nodejs.org/en/">Node.js</a></li>
+            <li>The backend database is hosted on <a href="http://firebase.google.com/">Firebase</a>. The database is updated at 1 minute intervals, which sends updates to this page via webhooks.</li>
             <li>A <a href="https://cloud.google.com/compute/">Google Compute Engine</a> instance is used to keep everything running throughout the event.</li>
           </ul>
         </div>
