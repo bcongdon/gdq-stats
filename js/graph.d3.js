@@ -14,6 +14,7 @@ function adjustBrush(left, right, duration, clear){
       // Clear brush after duration if necessary
       if(clear) setTimeout( function() {
         d3.selectAll(".brush").call(brush.clear()).call(brush);
+        $('.gameSelector').siblings().removeClass("selected");
       }, 50);
     });
 }
@@ -133,6 +134,9 @@ function drawGraph(container, data, primFormat, secFormat,
   brush = d3.svg.brush()
     .x(x2)
     .on("brush", brushed)
+    .on("brushend", function(){
+      $('.gameSelector').siblings().removeClass("selected");
+    })
     .clear();
 
   x.domain(d3.extent(data, function(d) { return d.date; }));
@@ -323,7 +327,6 @@ function drawGraph(container, data, primFormat, secFormat,
 }
 
 function adjustToGame(i) {
-  console.log(i)
   var left = games[i].start_time;
   // Bail if game hasn't started yet
   if(left > tot_data[tot_data.length - 1].date) return;
@@ -332,18 +335,15 @@ function adjustToGame(i) {
   var right = (i + 1 < games.length && games[i+1].start_time <= tot_data[tot_data.length - 1].date) ? games[i+1].start_time : tot_data[tot_data.length - 1].date;
   // Open up brush if it's empty
   if(brush.empty()) {
-    console.log("open up")
     adjustBrush(x2.domain()[0], x2.domain()[1], 0);
   }
   // Zoom out if already zoomed in
   else if (brush.extent()[0] == left && brush.extent()[1] == right){
     left = x2.domain()[0];
     right = x2.domain()[1];
-    console.log("zoom out")
     adjustBrush(left, right, 1000, true);
     return;
   }
-  console.log("zoom in")
   adjustBrush(left, right); 
 }
 
@@ -391,8 +391,8 @@ function renderGames(){
     adjustToGame(idx);
     if(parseInt(games[idx].start_time) < (new Date()).getTime()) {
       $(this).toggleClass("selected").siblings().removeClass("selected");
-      // $(this).get(0).scrollIntoView();
-      // $("#chart-div").get(0).scrollIntoView();
+      $(this).get(0).scrollIntoView();
+      $("#chart-div").get(0).scrollIntoView();
     }
   });
 }
@@ -407,7 +407,7 @@ function conditionData(fb_data, primKey, secKey) {
       secVal: fb_data[key][secKey],
       date: key
     };
-    if(data_val.primVal >= 0 || data_val.secVal >= 0) data_copy.push(data_val);
+    if(data_val.primVal >= 0 && data_val.secVal >= 0) data_copy.push(data_val);
   }
   tot_data = data_copy;
   return data_copy;
