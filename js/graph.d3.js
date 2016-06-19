@@ -70,19 +70,19 @@ function drawGraph(container, data, primFormat, secFormat,
   var primaryLine = d3.svg.line()
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y0(d.primVal); })
-      .defined(function(d) { return d.date > 0 && d.primVal > 0 })
+      .defined(function(d) { return d.date > 0 && d.primVal >= 0 })
       .interpolate("monotone");
 
   var secondaryLine = d3.svg.line()
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y1(d.secVal); })
-      .defined(function(d) { return d.date > 0 && d.secVal > 0 })
+      .defined(function(d) { return d.date > 0 && d.secVal >= 0 })
       .interpolate("monotone");
 
   var brushLine = d3.svg.line()
       .x(function(d) { return x2(d.date); })
       .y(function(d) { return y3(d.primVal); })
-      .defined(function(d) { return d.date > 0 && d.primVal > 0 })
+      .defined(function(d) { return d.date > 0 && d.primVal >= 0 })
       .interpolate("basis");
 
   svg = d3.select(container).append("div")
@@ -132,7 +132,8 @@ function drawGraph(container, data, primFormat, secFormat,
 
   brush = d3.svg.brush()
     .x(x2)
-    .on("brush", brushed);
+    .on("brush", brushed)
+    .clear();
 
   x.domain(d3.extent(data, function(d) { return d.date; }));
   x2.domain(x.domain());
@@ -279,8 +280,20 @@ function drawGraph(container, data, primFormat, secFormat,
         d = d1 === undefined ?  d0 : (x0 - d0.date > d1.date - x0 ? d1 : d0);
     var gi = bisectStarttime(games, x0, 1),
         g = games[gi - 1];
-    primaryFocus.attr("transform", "translate(" + x(d.date) + "," + y0(d.primVal) + ")");
-    secondaryFocus.attr("transform", "translate(" + x(d.date) + "," + y1(d.secVal) + ")");
+
+    if(d.primVal >= 0) {
+      primaryFocus.attr("transform", "translate(" + x(d.date) + "," + y0(d.primVal) + ")")
+        .attr('display', null);
+    } else{
+      primaryFocus.attr('display', 'none')
+    }
+
+    if(d.secVal >= 0){
+      secondaryFocus.attr("transform", "translate(" + x(d.date) + "," + y1(d.secVal) + ")")
+        .attr('display', null);
+    } else {
+      secondaryFocus.attr('display', 'none')
+    }
 
     focusLine
       .attr('x1', x(d.date))
@@ -292,8 +305,8 @@ function drawGraph(container, data, primFormat, secFormat,
     // Update tooltip text
     toolTitle.text((d.date < g.start_time) ? "" : g.title);
     toolDate.text(moment(parseInt(d.date)).format('llll'));
-    toolPrimary.text(primName + ": " + primFormat(d.primVal));
-    toolSecondary.text(secName + ": " + secFormat(d.secVal))
+    toolPrimary.text(primName + ": " + (d.primVal >= 0 ? primFormat(d.primVal) : "No data"));
+    toolSecondary.text(secName + ": " + (d.secVal >= 0 ? secFormat(d.secVal) : "No data"));
 
     tip.style("left", (d3.event.pageX + 20) + "px")
       .style("text-alight", "left")
@@ -306,11 +319,11 @@ function drawGraph(container, data, primFormat, secFormat,
     adjustToGame(gi - 1);
   }
 
-  renderGames();
   d3.select(container).selectAll("img").remove();
 }
 
 function adjustToGame(i) {
+  console.log(i)
   var left = games[i].start_time;
   // Bail if game hasn't started yet
   if(left > tot_data[tot_data.length - 1].date) return;
@@ -319,15 +332,18 @@ function adjustToGame(i) {
   var right = (i + 1 < games.length && games[i+1].start_time <= tot_data[tot_data.length - 1].date) ? games[i+1].start_time : tot_data[tot_data.length - 1].date;
   // Open up brush if it's empty
   if(brush.empty()) {
+    console.log("open up")
     adjustBrush(x2.domain()[0], x2.domain()[1], 0);
   }
   // Zoom out if already zoomed in
   else if (brush.extent()[0] == left && brush.extent()[1] == right){
     left = x2.domain()[0];
     right = x2.domain()[1];
+    console.log("zoom out")
     adjustBrush(left, right, 1000, true);
     return;
   }
+  console.log("zoom in")
   adjustBrush(left, right); 
 }
 
@@ -375,8 +391,8 @@ function renderGames(){
     adjustToGame(idx);
     if(parseInt(games[idx].start_time) < (new Date()).getTime()) {
       $(this).toggleClass("selected").siblings().removeClass("selected");
-      $(this).get(0).scrollIntoView();
-      $("#chart-div").get(0).scrollIntoView();
+      // $(this).get(0).scrollIntoView();
+      // $("#chart-div").get(0).scrollIntoView();
     }
   });
 }
@@ -387,11 +403,11 @@ function conditionData(fb_data, primKey, secKey) {
   // Condition data
   for(var key in fb_data) {
     data_val = {
-      primVal: fb_data[key][primKey] || -1,
-      secVal: fb_data[key][secKey]   || -1,
+      primVal: fb_data[key][primKey],
+      secVal: fb_data[key][secKey],
       date: key
     };
-    data_copy.push(data_val);
+    if(data_val.primVal >= 0 || data_val.secVal >= 0) data_copy.push(data_val);
   }
   tot_data = data_copy;
   return data_copy;
@@ -454,17 +470,19 @@ function generateSyntheticSeries(input){
       continue;
     }
     // Donations per Minute
-    input[key].dpm = input[key].m - input[prev].m
-    prev = key;
+    if(input[key].m){
+      input[key].dpm = input[key].m - input[prev].m
+      prev = key;
+    } 
 
     // Tweet Total
-    tweets += input[key].t;
+    if(input[key].t) tweets += input[key].t;
     input[key].tt = tweets;
     // Chat Total
-    chats += input[key].c;
+    if(input[key].c) chats += input[key].c;
     input[key].ct = chats;
     // Emote Total
-    emotes += input[key].e;
+    if(input[key].e) emotes += input[key].e;
     input[key].et = emotes;
   }
   return input;
@@ -488,4 +506,5 @@ ref.once("value", function(res) {
   conditionGames(res.games);
   loadSelectCookies();
   selectChanged();
+  renderGames();
 });
