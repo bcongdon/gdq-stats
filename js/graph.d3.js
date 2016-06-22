@@ -421,7 +421,7 @@ function conditionData(fb_data, primKey, secKey) {
       secVal: fb_data[key][secKey],
       date: key
     };
-    if(data_val.primVal >= 0 && data_val.secVal >= 0) data_copy.push(data_val);
+    if(data_val.primVal >= 0 || data_val.secVal >= 0) data_copy.push(data_val);
   }
   data_copy = data_copy.sort(function(a,b) { return a.date - b.date })
   tot_data = data_copy;
@@ -479,7 +479,10 @@ function generateSyntheticSeries(input){
       tweets = 0,
       chats  = 0,
       emotes = 0;
-  for(var key in input){
+  var key, keys = Object.keys(input);
+  keys = keys.sort();
+  for(var i = 0; i < keys.length; i++){
+    key = keys[i];
     // Tweet Total
     if(input[key].t) tweets += input[key].t;
     input[key].tt = tweets;

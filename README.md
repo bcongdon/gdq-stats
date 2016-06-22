@@ -11,7 +11,7 @@ The actual visualization is done by D3.js. Other tools used include:
 * `Jekyll` + `Reduce` to generate / minify the site's assets
 
 ## Backend
-This page uses [SGDQ-Collector](https://github.com/bcongdon/sgdq-collector) to parse the SGDQ donation tracker and to collect Twitch viewship information. This data is scraped every minute.
+This page uses [SGDQ-Collector](https://github.com/bcongdon/sgdq-collector) to parse the SGDQ donation tracker and to collect Twitch viewership information. This data is updated every minute.
 
 Firebase is used as the backend data repository. SGDQ-Collector also saves more granular data to a MongoDB database for later analysis.
 
