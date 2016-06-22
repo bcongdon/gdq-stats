@@ -345,7 +345,6 @@ function adjustToGame(i) {
   var left = games[i].start_time;
   // Bail if game hasn't started yet
   if(left > tot_data[tot_data.length - 1].date) return;
-
   // Set 'end' time to last data point if we are zooming to last game in list
   var right = (i + 1 < games.length && games[i+1].start_time <= tot_data[tot_data.length - 1].date) ? games[i+1].start_time : tot_data[tot_data.length - 1].date;
   // Open up brush if it's empty
@@ -424,6 +423,7 @@ function conditionData(fb_data, primKey, secKey) {
     };
     if(data_val.primVal >= 0 && data_val.secVal >= 0) data_copy.push(data_val);
   }
+  data_copy = data_copy.sort(function(a,b) { return a.date - b.date })
   tot_data = data_copy;
   return data_copy;
 }
