@@ -326,11 +326,20 @@ tr.selected {
   font-size: 12px;
   font-family: "Open Sans";
   width: 30%;
+  font-weight: bold;
 }
 
 .series-select-title {
   width: 20%;
   display: inline-block;
+}
+
+.series1 {
+  color: #00AEEF;
+}
+
+.series2 {
+  color: #F21847;
 }
 
 footer {
