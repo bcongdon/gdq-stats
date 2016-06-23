@@ -388,6 +388,7 @@ function renderGames(){
     "<th style='width:140px'>Starting Time</th>" + 
     "<th>Duration</th>" + 
     "</tr></thead><tbody>")
+  var curr = 0;
   for(var i in games){
     elm.append("<tr class='gameSelector' id='" + i + "'>" + 
       "<td style='width:5px'></td>" + 
@@ -397,9 +398,11 @@ function renderGames(){
       (parseInt(games[i].start_time) < (new Date()).getTime() ? "✓" : "") + "</td>" + 
       "<td id ='" + i + "'>" + games[i].duration + "</td>" + 
       "</tr>")
+    if(parseInt(games[i].start_time) < (new Date()).getTime()) curr = i;
   }
   elm.append("</tbody>")
   $("#game-list").append(elm);
+  // Setup click responders
   $('.gameSelector').on("click", function(e){
     var idx = parseInt(e.toElement.id);
     adjustToGame(idx);
@@ -409,6 +412,9 @@ function renderGames(){
       $("#chart-div").get(0).scrollIntoView();
     }
   });
+  var table = $('#game-list')
+  var curr_row = $('#' + i)
+  curr_row.get(0).scrollIntoView()
 }
 
 function conditionData(fb_data, primKey, secKey) {
