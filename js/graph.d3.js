@@ -414,7 +414,8 @@ function renderGames(){
   });
   var table = $('#game-list')
   var curr_row = $('#' + i)
-  curr_row.get(0).scrollIntoView()
+  curr_row.get(0).scrollIntoView();
+  window.scrollTo(0, 0);
 }
 
 function conditionData(fb_data, primKey, secKey) {
