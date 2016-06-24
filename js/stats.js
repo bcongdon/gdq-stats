@@ -1,6 +1,6 @@
 "use strict";
 var client = irc.client();
-var stats_ref = new Firebase("https://sgdq-backend.firebaseio.com/stats");
+var stats_ref = firebase.database().ref("stats");//new Firebase("https://sgdq-backend.firebaseio.com/stats");
 
 function queryTwitch(){
     client.api({
