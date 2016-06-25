@@ -26,6 +26,7 @@ task :minify do
     case File.extname(file)
       when ".css", ".gif", ".html", ".jpg", ".jpeg", ".js", ".png", ".xml"
         next if file.split("/").include? "lib" # Don't minify libraries that have copyright notices
+        next if file.split("/").include? 'bower_components'
         puts "Processing: #{file}"
         original += File.size(file).to_f
         min = Reduce.reduce(file)

@@ -1,0 +1,24 @@
+{
+  "name": "sgdq-stats",
+  "homepage": "https://github.com/bcongdon/sgdq-stats",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "^3.5.17",
+    "jquery": "^3.0.0",
+    "github-buttons": "^0.0.4",
+    "odometer": "^0.4.7",
+    "firebase": "^3.0.5",
+    "moment": "^2.13.0",
+    "js-cookie": "^2.1.2"
+  }
+}

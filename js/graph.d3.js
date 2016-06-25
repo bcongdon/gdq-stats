@@ -1,5 +1,5 @@
 'use strict';
-var ref = new Firebase("https://sgdq-backend.firebaseio.com");
+// var ref = new Firebase("https://sgdq-backend.firebaseio.com");
 
 var svg, brush, games, x2, tot_data;
 
@@ -524,7 +524,7 @@ function loadSelectCookies() {
   }
 }
 
-ref.once("value", function(res) {
+firebase.database().ref().once("value", function(res) {
   res = res.val();
   raw_data = jQuery.extend(true, res.data, res.extras);
   raw_data = generateSyntheticSeries(raw_data);

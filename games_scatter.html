@@ -1,0 +1,33 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <title>SGDQ 2016 Stats</title>
+
+  {% include favicon.html %}
+  {% include libraries.html %}
+  {% include google_analytics.html %}
+
+  <link rel="stylesheet" type="text/css" href="layout.css"></link>
+
+</head>
+<body>
+  <div class="container">
+    <h1><a href="https://gamesdonequick.com/">Summer Games Done Quick</a> &nbsp;&nbsp; 2016 Stats</h1>
+    <div class="section" id="chart-div">
+      <h2>Stats Graph</h2> 
+      <div class="content" style="padding-top: 5px;">
+        <div id="chart"><img class="loading-image" src="img/loading.gif"></div>
+      </div>
+    </div>
+
+    {% include footer.html %}
+
+  </div>
+  <script type="text/javascript" src="js/graph.d3.js"></script>
+  <script type="text/javascript" src="js/stats.js"></script>
+</body>

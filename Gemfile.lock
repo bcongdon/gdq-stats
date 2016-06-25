@@ -3,6 +3,7 @@ GEM
   specs:
     colorator (0.1)
     ffi (1.9.10)
+    httpclient (2.8.0)
     jekyll (3.1.6)
       colorator (~> 0.1)
       jekyll-sass-converter (~> 1.0)
@@ -16,24 +17,33 @@ GEM
       sass (~> 3.4)
     jekyll-watch (1.4.0)
       listen (~> 3.0, < 3.1)
+    json (1.8.3)
     kramdown (1.11.1)
     liquid (3.0.6)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
     mercenary (0.3.6)
+    rake (11.2.2)
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    reduce (0.3.0)
+      smusher
     rouge (1.11.0)
     safe_yaml (1.0.4)
     sass (3.4.22)
+    smusher (0.4.9)
+      httpclient (>= 2.2)
+      json
+      rake
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   jekyll (~> 3.1, >= 3.1.6)
+  reduce (~> 0.3)
 
 BUNDLED WITH
-   1.11.2
+   1.12.5
