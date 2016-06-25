@@ -524,10 +524,9 @@ function loadSelectCookies() {
   }
 }
 
-firebase.database().ref().once("value", function(res) {
-  res = res.val();
+$.get('https://www.googleapis.com/download/storage/v1/b/sgdq-backend.appspot.com/o/sample.json?alt=media', function(res){
   raw_data = jQuery.extend(true, res.data, res.extras);
-  raw_data = generateSyntheticSeries(raw_data);
+  raw_data = generateSyntheticSeries(res.data);
   conditionGames(res.games);
   loadSelectCookies();
   selectChanged();
