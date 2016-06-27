@@ -430,7 +430,7 @@ function conditionData(fb_data, primKey, secKey) {
       secVal: fb_data[key][secKey],
       date: key
     };
-    if(data_val.primVal >= 0 || data_val.secVal >= 0) data_copy.push(data_val);
+    if(data_val.primVal >= 0 && data_val.secVal >= 0) data_copy.push(data_val);
   }
   data_copy = data_copy.sort(function(a,b) { return a.date - b.date })
   tot_data = data_copy;
@@ -526,12 +526,34 @@ function loadSelectCookies() {
   }
 }
 
-firebase.database().ref().once("value", function(res) {
-  res = res.val();
+$.ajax({
+  url: 'https://www.googleapis.com/download/storage/v1/b/sgdq-backend.appspot.com/o/latest.json?alt=media',
+  async: true,
+  // retryCount and retryLimit will let you retry a determined number of times
+  retryCount: 0,
+  retryLimit: 5,
+  // retryTimeout limits the total time retrying (in milliseconds)
+  retryTimeout: 15000,
+  // timeout for each request
+  timeout: 2000,
+  // created tells when this request was created
+  created : Date.now(),
+  error : function(xhr, textStatus, errorThrown ) {
+    this.retryCount++;
+    if (this.retryCount <= this.retryLimit && Date.now() - this.created < this.retryTimeout) {
+      console.log("Retrying");
+      $.ajax(this);
+      return;
+    }
+  },
+  success: setupAll
+});
+
+function setupAll(res) {
   raw_data = jQuery.extend(true, res.data, res.extras);
   raw_data = generateSyntheticSeries(raw_data);
   conditionGames(res.games);
   loadSelectCookies();
   selectChanged();
   renderGames();
-});
+}
