@@ -531,9 +531,9 @@ $.ajax({
   retryCount: 0,
   retryLimit: 5,
   // retryTimeout limits the total time retrying (in milliseconds)
-  retryTimeout: 10000,
+  retryTimeout: 15000,
   // timeout for each request
-  timeout: 1000,
+  timeout: 2000,
   // created tells when this request was created
   created : Date.now(),
   error : function(xhr, textStatus, errorThrown ) {
