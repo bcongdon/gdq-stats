@@ -398,7 +398,7 @@ function renderGames(){
       (parseInt(games[i].start_time) < (new Date()).getTime() ? "✓" : "") + "</td>" + 
       "<td id ='" + i + "'>" + games[i].duration + "</td>" + 
       "</tr>")
-    if(parseInt(games[i].start_time) < (new Date()).getTime()) curr = i;
+    if(parseInt(games[i].start_time) < (new Date()).getTime()) curr += 1;
   }
   elm.append("</tbody>")
   $("#game-list").append(elm);
@@ -413,7 +413,7 @@ function renderGames(){
     }
   });
   var table = $('#game-list')
-  var curr_row = $('#' + i)
+  var curr_row = $('#' + curr)
   if(curr_row.get(0)) {
     curr_row.get(0).scrollIntoView();
     window.scrollTo(0, 0);
@@ -526,9 +526,9 @@ function loadSelectCookies() {
   }
 }
 
-$.get('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/latest.json', function(response){
+function getRetry(url, cb) {
   $.ajax({
-    url: response.mediaLink,
+    url: url,
     async: true,
     // retryCount and retryLimit will let you retry a determined number of times
     retryCount: 0,
@@ -547,8 +547,12 @@ $.get('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/latest
         return;
       }
     },
-    success: setupAll
+    success: cb
   });
+}
+
+getRetry('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/latest.json', (res)=>{
+  getRetry(res.mediaLink, setupAll)
 });
 
 function setupAll(res) {
