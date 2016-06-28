@@ -92,7 +92,7 @@ function drawGraph(container, data, primFormat, secFormat,
   var secBrushLine = d3.svg.line()
       .x(function(d) { return x2(d.date); })
       .y(function(d) { return y4(d.secVal); })
-      .defined(function(d) { return d.date > 0 && d.primVal >= 0 })
+      .defined(function(d) { return d.date > 0 && d.secVal >= 0 })
       .interpolate("basis");
 
   svg = d3.select(container).append("div")
@@ -430,7 +430,7 @@ function conditionData(fb_data, primKey, secKey) {
       secVal: fb_data[key][secKey],
       date: key
     };
-    if(data_val.primVal >= 0 && data_val.secVal >= 0) data_copy.push(data_val);
+    if(data_val.primVal >= 0 || data_val.secVal >= 0) data_copy.push(data_val);
   }
   data_copy = data_copy.sort(function(a,b) { return a.date - b.date })
   tot_data = data_copy;
