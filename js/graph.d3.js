@@ -551,7 +551,7 @@ function getRetry(url, cb) {
   });
 }
 
-getRetry('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/latest.json', (res)=>{
+getRetry('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/latest.json', function(res) {
   getRetry(res.mediaLink, setupAll)
 });
 
