@@ -19,6 +19,8 @@
     "odometer": "^0.4.7",
     "firebase": "^3.0.5",
     "moment": "^2.13.0",
-    "js-cookie": "^2.1.2"
+    "js-cookie": "^2.1.2",
+    "CSV-JS": "csv-js#^1.1.1",
+    "c3": "^0.4.11"
   }
 }
