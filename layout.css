@@ -179,6 +179,22 @@ tr.selected {
   margin-top: 0px;
 }
 
+.sgdq-links {
+  background-color: #e6e6e6;
+  border-top: 2px #ddd solid;
+}
+
+.sgdq-links div {
+  width: 33%;
+  display: inline-block;
+  text-align: center;
+  font-size: 16px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: bold;
+  font-family: "Cubano"
+}
+
 .current_header {
   padding-right: 10px;
 }
