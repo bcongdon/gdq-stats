@@ -21,7 +21,12 @@ body {
   text-decoration: none;
 }
 
-.sgdq-link:hover {
+a {
+  color: #F21847;
+  text-decoration: none;
+}
+
+a:hover {
   color: #A20023;
   text-decoration: none;
 }
@@ -39,6 +44,7 @@ h1, h2, h3 {
 
 .home-link:hover {
   text-decoration: underline;
+  color: #555;
 }
 
 h1 .sgdq-link {
