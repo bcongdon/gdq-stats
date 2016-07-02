@@ -54,7 +54,7 @@ function handleData(data) {
         format: {
           title: function(d) { 
             var date = moment(d).format('YYYY-MM-DD');
-            return titles[releaseDates.lastIndexOf(date) - 1] + '<br>' + date;
+            return titles[releaseDates.lastIndexOf(date) - 1] + '<br><span style="color: #000;font-weight:lighter;font-style:italic">' + date + '</span>';
           },
           value: function(value, ratio, id) { return value + ' minutes' }
         },

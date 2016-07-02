@@ -16,12 +16,12 @@ body {
   font-weight: 400;
 }
 
-a {
+.sgdq-link {
   color: #F21847;
   text-decoration: none;
 }
 
-a:hover {
+.sgdq-link:hover {
   color: #A20023;
   text-decoration: none;
 }
@@ -32,7 +32,16 @@ h1, h2, h3 {
   font-family: "Cubano"
 }
 
-h1 a {
+.home-link {
+  color: #555;
+  text-decoration: none;
+}
+
+.home-link:hover {
+  text-decoration: underline;
+}
+
+h1 .sgdq-link {
   font-size: 32px;
   border-bottom: 2px solid #00AEEF;
   margin-bottom: 40px;
