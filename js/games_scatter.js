@@ -28,7 +28,7 @@ function handleData(data) {
   console.log(columns.filter(function(d) { return d[0] == "SNES"}))
   console.log(releaseDates)
   var chart = c3.generate({
-      bindto: '#chart',
+      bindto: '#schedule_chart',
       data: {
           x: 'x',
           columns: columns,
@@ -38,13 +38,16 @@ function handleData(data) {
           x: {
               label: 'Release Date',
               tick: {
-                  format: '%Y-%m-%d',
+                  format: '%Y',
                   fit: false
               },
               type: 'timeseries'
           },
           y: {
-              label: 'SGDQ Speedrun Time'
+              label: 'SGDQ Speedrun Time',
+              min: 0,
+              max: 250,
+              padding: {top: 0, bottom: 0}
           }
       },
       point: {
@@ -54,7 +57,7 @@ function handleData(data) {
         format: {
           title: function(d) { 
             var date = moment(d).format('YYYY-MM-DD');
-            return titles[releaseDates.lastIndexOf(date) - 1] + '<br><span style="color: #000;font-weight:lighter;font-style:italic">' + date + '</span>';
+            return titles[releaseDates.lastIndexOf(date) - 1] + '<br><span style="color:#000;font-weight:200">' + date + '</span>';
           },
           value: function(value, ratio, id) { return value + ' minutes' }
         },
@@ -69,7 +72,7 @@ function handleData(data) {
 
               if (! text) {
                   title = titleFormat ? titleFormat(d[i].x) : d[i].x;
-                  text = "<table class='" + $$.CLASS.tooltip + "'>" + (title || title === 0 ? "<tr><th colspan='2'>" + title + "</th></tr>" : "");
+                  text = "<table class='" + $$.CLASS.tooltip + "'>" + (title || title === 0 ? "<tr><th colspan='2' style='background-color:#ddd; color:black; font-family:Open Sans'>" + title + "</th></tr>" : "");
               }
 
               name = nameFormat(d[i].name);

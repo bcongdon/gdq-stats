@@ -343,6 +343,23 @@ tr.selected {
   display: inline-block;
 }
 
+.other-graphs {
+  width: 18%;
+  display: inline-block;
+  text-align: right;
+  font-family: "Open Sans";
+  font-size: 12px;
+}
+
+.other-graphs a {
+  color: #333;
+  font-weight: bold;
+}
+
+.other-graphs a:hover {
+  color: #00AEEF;
+}
+
 .series1 {
   color: #00AEEF;
 }
