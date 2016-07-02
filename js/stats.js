@@ -1,6 +1,6 @@
 "use strict";
 var client = irc.client();
-var stats_ref = firebase.database().ref("stats");//new Firebase("https://sgdq-backend.firebaseio.com/stats");
+var stats_ref = firebase.database().ref("stats");
 
 function queryTwitch(){
     client.api({
@@ -54,5 +54,4 @@ queryTwitch();
 // Repeat the viewer data every 10 seconds
 setInterval(function(){
     queryTwitch();
-
 }, 10000);

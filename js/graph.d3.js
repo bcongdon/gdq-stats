@@ -551,11 +551,14 @@ function getRetry(url, cb) {
   });
 }
 
+// Grab metadata on the latest json
 getRetry('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/latest.json', function(res) {
+  // Get media link and pipe data to setupAll
   getRetry(res.mediaLink, setupAll)
 });
 
 function setupAll(res) {
+  // Combine datasets
   raw_data = jQuery.extend(true, res.data, res.extras);
   raw_data = generateSyntheticSeries(raw_data);
   conditionGames(res.games);
