@@ -2,6 +2,7 @@
 // var ref = new Firebase("https://sgdq-backend.firebaseio.com");
 
 var svg, brush, games, x2, tot_data;
+var refreshGraph = function() {};
 
 function adjustBrush(left, right, duration, clear){
   duration = duration || 1000;
@@ -413,7 +414,7 @@ function renderGames(){
     }
   });
   var table = $('#game-list')
-  var curr_row = $('#' + curr)
+  var curr_row = $('#' + (curr - 1));
   if(curr_row.get(0)) {
     curr_row.get(0).scrollIntoView();
     window.scrollTo(0, 0);
@@ -566,3 +567,32 @@ function setupAll(res) {
   selectChanged();
   renderGames();
 }
+
+// Listen for new data in 'data' and 'extras'
+var data_ref = firebase.database().ref("data");
+data_ref.on('child_changed', function(child, key) {
+  var ckey = child.getKey();
+  var val = child.val();
+  if(!raw_data[ckey]) raw_data[ckey] = {}
+  raw_data[ckey].d = raw_data[ckey].d || val.d;
+  raw_data[ckey].m = raw_data[ckey].m || val.m;
+  raw_data[ckey].v = raw_data[ckey].v || val.v;
+});
+var extras_ref = firebase.database().ref("extras");
+extras_ref.on('child_changed', function(child, key) {
+  var ckey = child.getKey();
+  var val = child.val();
+  if(!raw_data[ckey]) raw_data[ckey] = {}
+  raw_data[ckey].t = raw_data[ckey].t || val.t;
+  raw_data[ckey].e = raw_data[ckey].e || val.e;
+  raw_data[ckey].c = raw_data[ckey].c || val.c;
+});
+
+setInterval(function() {
+  raw_data = generateSyntheticSeries(raw_data);
+  console.log('Rerender')
+  console.log(Object.keys(raw_data).length + " data points")
+  // Rerender if brush is empty
+  if(brush.empty()) selectChanged();
+  else console.log('skip')
+}, 60000)

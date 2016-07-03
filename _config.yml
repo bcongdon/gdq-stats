@@ -9,4 +9,4 @@ url: "http://gdqstat.us" # the base hostname & protocol for your site
 markdown: kramdown
 
 # Exclude
-exclude: [LICENSE, README.md, Rakefile, Gemfile, Gemfile.lock]
+exclude: [LICENSE, README.md, Rakefile, Gemfile, Gemfile.lock, flipclock.html]
