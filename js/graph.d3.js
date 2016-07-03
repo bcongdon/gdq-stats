@@ -2,7 +2,6 @@
 // var ref = new Firebase("https://sgdq-backend.firebaseio.com");
 
 var svg, brush, games, x2, tot_data;
-var refreshGraph = function() {};
 
 function adjustBrush(left, right, duration, clear){
   duration = duration || 1000;
@@ -35,6 +34,14 @@ function drawGraph(container, data, primFormat, secFormat,
     height = $(container).height() - 75 - margin.top - margin.bottom,
     margin2 = {top: height + 50, right: 10, bottom: 35, left: 0},
     height2 = $(container).height() - margin2.top - margin2.bottom;
+
+  // Check old brush settings if they exist
+  var extent = undefined;
+  var pushRight = false;
+  if(brush && !brush.empty() && brush.extent()) {
+    extent = brush.extent();
+    if(x2 && x2.domain() && x2.domain()[1].toString() === extent[1].toString()) pushRight = true;
+  }
 
   var x = d3.time.scale()
       .range([0, width]);
@@ -340,6 +347,11 @@ function drawGraph(container, data, primFormat, secFormat,
   }
 
   d3.select(container).selectAll("img").remove();
+
+  if(extent) {
+    // Push to newest data point if we were already at the right-most edge
+    adjustBrush(extent[0], pushRight ? x2.domain()[1] : extent[1], 1, false);
+  }
 }
 
 function adjustToGame(i) {
@@ -592,7 +604,6 @@ setInterval(function() {
   raw_data = generateSyntheticSeries(raw_data);
   console.log('Rerender')
   console.log(Object.keys(raw_data).length + " data points")
-  // Rerender if brush is empty
-  if(brush.empty()) selectChanged();
-  else console.log('skip')
-}, 60000)
+  // Rerender
+  selectChanged();
+}, 10000)
