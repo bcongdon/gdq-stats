@@ -8,7 +8,7 @@ function queryTwitch(){
     }, function(err, res, body) {
         if(body && body['stream'] != undefined && "viewers" in body['stream']){
             console.debug("Current viewers: " + body['stream']['viewers']);
-            $("#oViewers").text = body['stream']['viewers'];
+            $("#oViewers").text(body['stream']['viewers']);
         }
         else {
             // Hide element when viewership data unavailable
