@@ -40,7 +40,8 @@ function drawGraph(container, data, primFormat, secFormat,
   var pushRight = false;
   if(brush && !brush.empty() && brush.extent()) {
     extent = brush.extent();
-    if(x2 && x2.domain() && x2.domain()[1].toString() === extent[1].toString()) pushRight = true;
+    if(x2 && x2.domain() && (x2.domain()[1].toString() === extent[1].toString() ||
+      x2.domain()[1].getTime().toString() == extent[1])) pushRight = true;
   }
 
   var x = d3.time.scale()

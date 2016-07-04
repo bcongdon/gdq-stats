@@ -7,7 +7,7 @@ function queryTwitch(){
         url: "https://api.twitch.tv/kraken/streams/gamesdonequick"
     }, function(err, res, body) {
         if(body && body['stream'] != undefined && "viewers" in body['stream']){
-            console.debug("Current viewers: " + body['stream']['viewers']);
+            // console.debug("Current viewers: " + body['stream']['viewers']);
             $("#oViewers").text(body['stream']['viewers']);
         }
         else {
