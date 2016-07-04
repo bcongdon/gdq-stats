@@ -518,13 +518,15 @@ function generateSyntheticSeries(input){
 
     if(!prev) {
       prev = key;
+      input[key].dpm = 0;
       continue;
     }
     // Donations per Minute
     if(input[key].m >= 0){
       input[key].dpm = input[key].m - input[prev].m
       prev = key;
-    } 
+    }
+    if(!input[key].dpm || input[key].dpm < 0) input[key].dpm = 0;
   }
   return input;
 }

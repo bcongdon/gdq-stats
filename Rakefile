@@ -20,7 +20,7 @@ end
 desc "Bower install"
 task :install do
   puts "##Installing..."
-  system('bower install')
+  system('bower install --force')
   puts "##Bower install complete"
 end
 
