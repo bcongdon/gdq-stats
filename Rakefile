@@ -17,6 +17,13 @@ task :build do
   })).process
 end
 
+desc "Bower install"
+task :install do
+  puts "##Installing..."
+  system('bower install')
+  puts "##Bower install complete"
+end
+
 desc "Minify _site/"
 task :minify do
   puts "\n## Compressing static assets"
@@ -43,7 +50,7 @@ end
 
 desc "Build and then minify"
 task :generate do 
-  [ "build", "minify" ].each do |t|
+  [ "install", "build", "minify" ].each do |t|
     Rake::Task[t].execute
   end
 end
