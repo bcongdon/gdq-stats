@@ -580,6 +580,8 @@ function setupAll(res) {
   renderGames();
 }
 
+var shouldRerender = false;
+
 // Listen for new data in 'data' and 'extras'
 var data_ref = firebase.database().ref("data");
 data_ref.on('child_changed', function(child, key) {
@@ -589,6 +591,7 @@ data_ref.on('child_changed', function(child, key) {
   raw_data[ckey].d = raw_data[ckey].d || val.d;
   raw_data[ckey].m = raw_data[ckey].m || val.m;
   raw_data[ckey].v = raw_data[ckey].v || val.v;
+  shouldRerender = true;
 });
 var extras_ref = firebase.database().ref("extras");
 extras_ref.on('child_changed', function(child, key) {
@@ -598,12 +601,14 @@ extras_ref.on('child_changed', function(child, key) {
   raw_data[ckey].t = raw_data[ckey].t || val.t;
   raw_data[ckey].e = raw_data[ckey].e || val.e;
   raw_data[ckey].c = raw_data[ckey].c || val.c;
+  shouldRerender = true;
 });
 
 setInterval(function() {
-  raw_data = generateSyntheticSeries(raw_data);
-  console.log('Rerender')
-  console.log(Object.keys(raw_data).length + " data points")
   // Rerender
-  selectChanged();
+  if(shouldRerender) {
+    raw_data = generateSyntheticSeries(raw_data);
+    selectChanged();
+    shouldRerender = false;
+  }
 }, 10000)
