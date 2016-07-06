@@ -81,27 +81,27 @@ function drawGraph(container, data, primFormat, secFormat,
       .tickFormat(function(d) { return  secFormat(d) });
 
   var primaryLine = d3.svg.line()
+      .defined(function(d) { return d.date > 0 && d.primVal >= 0 })
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y0(d.primVal); })
-      .defined(function(d) { return d.date > 0 && d.primVal >= 0 })
       .interpolate("monotone");
 
   var secondaryLine = d3.svg.line()
+      .defined(function(d) { return d.date > 0 && d.secVal >= 0 })
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y1(d.secVal); })
-      .defined(function(d) { return d.date > 0 && d.secVal >= 0 })
       .interpolate("monotone");
 
   var primBrushLine = d3.svg.line()
+      .defined(function(d) { return d.date > 0 && d.primVal >= 0 })
       .x(function(d) { return x2(d.date); })
       .y(function(d) { return y3(d.primVal); })
-      .defined(function(d) { return d.date > 0 && d.primVal >= 0 })
       .interpolate("basis");
 
   var secBrushLine = d3.svg.line()
+      .defined(function(d) { return d.date > 0 && d.secVal >= 0 })
       .x(function(d) { return x2(d.date); })
       .y(function(d) { return y4(d.secVal); })
-      .defined(function(d) { return d.date > 0 && d.secVal >= 0 })
       .interpolate("basis");
 
   svg = d3.select(container).append("div")
@@ -137,8 +137,8 @@ function drawGraph(container, data, primFormat, secFormat,
   function brushed() {
     x.domain(brush.empty() ? x2.domain() : brush.extent());
     data = resample();
-    y0.domain(d3.extent(data, function(d) { return d.primVal; }));
-    y1.domain(d3.extent(data, function(d) { return d.secVal; }));
+    y0.domain(d3.extent(data, function(d) { return d.primVal >= 0 ? d.primVal : NaN; }));
+    y1.domain(d3.extent(data, function(d) { return d.secVal  >= 0 ? d.secVal  : NaN; }));
     svg.select(".line.primaryLine").datum(data).attr("d", primaryLine);
     svg.select(".line.secondaryLine").datum(data).attr("d", secondaryLine)
     svg.select(".x.axis.top").call(xAxis);
@@ -159,12 +159,12 @@ function drawGraph(container, data, primFormat, secFormat,
 
   x.domain(d3.extent(data, function(d) { return d.date; }));
   x2.domain(x.domain());
-  y0.domain(d3.extent(data, function(d) { return d.primVal; }));
-  y1.domain(d3.extent(data, function(d) { return d.secVal; }));
+  
+  data = resample();
+  y0.domain(d3.extent(data, function(d) { return d.primVal >= 0 ? d.primVal : NaN; }));
+  y1.domain(d3.extent(data, function(d) { return d.secVal  >= 0 ? d.secVal  : NaN; }));
   y3.domain(y0.domain());
   y4.domain(y1.domain());
-
-  data = resample();
 
   svg.append("g")
       .attr("class", "x axis top")
