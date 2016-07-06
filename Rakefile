@@ -85,6 +85,9 @@ task :publish do
 
     Dir.chdir pwd
   end
+  system "git push origin :refs/tags/deployed"
+  system "git tag -f deployed"
+  system "git push origin master --tags"
 end
 
 desc "Deploy = Generate + Publish"
