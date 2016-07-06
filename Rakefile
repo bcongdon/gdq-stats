@@ -7,6 +7,7 @@ require 'date'
 require 'yaml'
 require 'tmpdir'
 require 'jekyll'
+require 'html-proofer'
 
 desc "Build _site"
 task :build do
@@ -22,6 +23,14 @@ task :install do
   puts "##Installing..."
   system('bower install --force')
   puts "##Bower install complete"
+end
+
+desc "HTMLProofer Tests"
+task :test do
+  system('bundle exec jekyll build')
+  HTMLProofer.check_directory("_site/", {
+    :file_ignore => [/.+\/bower_components.+/]
+  }).run()
 end
 
 desc "Minify _site/"
