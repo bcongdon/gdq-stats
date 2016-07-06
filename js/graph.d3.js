@@ -404,15 +404,22 @@ function renderGames(){
     "</tr></thead><tbody>")
   var curr = 0;
   for(var i in games){
-    elm.append("<tr class='gameSelector' id='" + i + "'>" + 
+    var fullText = "<tr class='gameSelector' id='" + i + "'>" +
       "<td style='width:5px'></td>" + 
-      "<td style='width:340px' id ='" + i + "'>" + games[i].title + "</td>" + 
-      "<td style='width:340px' id ='" + i + "'>" + games[i].runner + "</td>" + 
-      "<td style='width:140px' id ='" + i + "'>" + moment(parseInt(games[i].start_time)).format("MMM D, h:mm a") + " " + 
-      (parseInt(games[i].start_time) < (new Date()).getTime() ? "✓" : "") + "</td>" + 
-      "<td id ='" + i + "'>" + games[i].duration + "</td>" + 
-      "</tr>")
+      "<td style='width:340px' id ='" + i + "'>" + games[i].title + "</td>" +
+      "<td style='width:340px' id ='" + i + "'>" + games[i].runner + "</td>";
+    var durationText = moment(parseInt(games[i].start_time)).format("MMM D, h:mm a") + " " +
+      (parseInt(games[i].start_time) < (new Date()).getTime() ? "✓" : "");
+    fullText += "<td class='" + i + "duration' style='width:140px' id ='" + i + "'>" + durationText + "</td>";
+    fullText += "<td id ='" + i + "'>" + games[i].duration + "</td></tr>";
+    elm.append(fullText)
     if(parseInt(games[i].start_time) < (new Date()).getTime()) curr += 1;
+    // Register callback to add check mark when next games has started
+    if(parseInt(games[i].start_time) >= (new Date()).getTime()) {
+      setTimeout(function(d){
+        $("." + d + "duration").first().text(moment(parseInt(games[d].start_time)).format("MMM D, h:mm a") + " ✓");
+      }, parseInt(games[i].start_time) - (new Date()).getTime(), i);
+    }
   }
   elm.append("</tbody>")
   $("#game-list").append(elm);
