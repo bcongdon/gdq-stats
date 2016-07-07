@@ -25,8 +25,6 @@ function handleData(data) {
     newCol.unshift(platform_unique[i])
     columns.push(newCol)
   }
-  console.log(columns.filter(function(d) { return d[0] == "SNES"}))
-  console.log(releaseDates)
   var chart = c3.generate({
       bindto: '#schedule_chart',
       data: {
