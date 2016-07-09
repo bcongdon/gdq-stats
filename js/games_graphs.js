@@ -30,7 +30,74 @@ function getRetry(url, cb) {
 }
 
 function drawGamesGraphs(data){
-  totalDonationsGraph(data)
+  totalDonationsGraph(data);
+  donationsPerMinuteGraph(data);
+}
+
+function donationsPerMinuteGraph(data) {
+  var categories = [];
+  var windows = [];
+  for(var i in data.games) {
+    categories.push(data.games[i].title)
+    windows.push(parseInt(i));
+  }
+  var donationsPerMinute = windows.map(function(start_time, idx){
+    var end_time = windows.length > idx + 1 ? windows[idx + 1] : windows[windows.length - 1];
+    var max_m = 0;
+    var min_m = Infinity;
+    for(var i in data.data){
+      if(i >= start_time && i < end_time){
+        if(data.data[i].m > max_m) max_m = data.data[i].m;
+        if(data.data[i].m < min_m) min_m = data.data[i].m;
+      }
+    }
+    var minutes = (end_time - start_time) / (1000 * 60);
+    return Math.max(0, (max_m - min_m) / minutes);
+  });
+  // Zip -> Sort
+  var zipped = windows.map(function(d, idx) {return [d, donationsPerMinute[idx], categories[idx]]})
+  zipped = zipped.sort(function(a,b){ return b[1] - a[1] });
+
+  // Unzip
+  donationsPerMinute = zipped.map(function(d) {return d[1]})
+  windows = zipped.map(function(d) { return d[0]})
+  categories = zipped.map(function(d) { return d[2]})
+
+  donationsPerMinute.unshift('Average Donations Per Minute During Game')
+  var chart = c3.generate({
+      bindto: "#donationsPerMinuteGraph",
+      data: {
+          columns: [
+              donationsPerMinute
+          ],
+          type: 'bar',
+      },
+      axis: {
+          x: {
+              type: 'category',
+              categories: categories,
+              show: false
+          },
+          y: {
+            tick: {
+              format: d3.format("$,")
+            }
+          }
+      },
+      bar: {
+        width: {
+          ratio: 1
+        }
+      },
+      tooltip: {
+        format: {
+          value: function (value, ratio, id) {
+            var format = d3.format('$,.2f');
+            return format(value) + " per minute";
+          }
+        }
+      },
+  });
 }
 
 function totalDonationsGraph(data) {
@@ -52,7 +119,16 @@ function totalDonationsGraph(data) {
     }
     return Math.max(0, max_m - min_m);
   });
-  donationTotals.unshift('Donation Totals')
+  // Zip -> Sort
+  var zipped = windows.map(function(d, idx) {return [d, donationTotals[idx], categories[idx]]})
+  zipped = zipped.sort(function(a,b){ return b[1] - a[1] });
+
+  // Unzip
+  donationTotals = zipped.map(function(d) {return d[1]})
+  windows = zipped.map(function(d) { return d[0]})
+  categories = zipped.map(function(d) { return d[2]})
+
+  donationTotals.unshift('Donation Total During Game')
   var chart = c3.generate({
       bindto: "#totalDonationsGraph",
       data: {
@@ -72,6 +148,11 @@ function totalDonationsGraph(data) {
               format: d3.format("$,")
             }
           }
+      },
+      bar: {
+        width: {
+          ratio: 1
+        }
       },
       tooltip: {
         format: {
