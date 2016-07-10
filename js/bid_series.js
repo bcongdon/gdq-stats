@@ -5,14 +5,16 @@ function accumulate(arr) {
   }, []);  
 }
 
-// Grab metadata on the latest json
-getRetry('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/killVsSave.json', function(res) {
-  // Get media link and pipe data to setupAll
-  getRetry(res.mediaLink, setupBidSeries)
-});
+// // Grab metadata on the latest json
+// getRetry('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/killVsSave.json', function(res) {
+//   // Get media link and pipe data to setupAll
+//   getRetry(res.mediaLink, setupBidSeries)
+// });
+
+getRetry('/data/2016/killVsSave.json', setupBidSeries);
 
 function setupBidSeries(data) {
-  data = JSON.parse(data)
+  // data = JSON.parse(data)
   var accumulatedYs = data.ys.map(function(d) { return accumulate(d.slice(1)) })
   accumulatedYs.forEach(function(d, idx) { d.unshift(data.ys[idx][0]) })
   var chart = graphSeries('#metroid_chat', data.x, accumulatedYs);

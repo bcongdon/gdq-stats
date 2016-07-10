@@ -1,8 +1,11 @@
-// Grab metadata on the latest json
-getRetry('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/latest.json', function(res) {
-  // Get media link and pipe data to setupAll
-  getRetry(res.mediaLink, drawGamesGraphs)
-});
+// // Grab metadata on the latest json
+// getRetry('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/latest.json', function(res) {
+//   // Get media link and pipe data to setupAll
+//   getRetry(res.mediaLink, drawGamesGraphs)
+// });
+
+getRetry('/data/2016/sgdq2016final.json', drawGamesGraphs);
+
 
 function getRetry(url, cb) {
   $.ajax({

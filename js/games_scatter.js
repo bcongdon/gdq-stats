@@ -1,4 +1,4 @@
-$.get('/data/games.csv')
+$.get('/data/2016/games.csv')
   .pipe( CSV.parse )
   .done( function(rows) {
     handleData(rows)

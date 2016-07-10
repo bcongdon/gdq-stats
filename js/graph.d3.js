@@ -574,11 +574,13 @@ function getRetry(url, cb) {
   });
 }
 
-// Grab metadata on the latest json
-getRetry('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/latest.json', function(res) {
-  // Get media link and pipe data to setupAll
-  getRetry(res.mediaLink, setupAll)
-});
+// // Grab metadata on the latest json
+// getRetry('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/latest.json', function(res) {
+//   // Get media link and pipe data to setupAll
+//   getRetry(res.mediaLink, setupAll)
+// });
+
+getRetry('/data/2016/sgdq2016final.json', setupAll);
 
 function setupAll(res) {
   // Combine datasets
