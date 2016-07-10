@@ -27,7 +27,7 @@ layout: null
           <div class="emoji">📺</div>
         </div>
         <div class="stat topline_stat" id="donations_stat">
-          <span class="current_header">Total Donations:</span>  
+          <span class="current_header">Total Donations:</span>
           $<div id="oDonations" class="odometer"></div>
           <div class="emoji">💸</div>
         </div>
@@ -59,7 +59,7 @@ layout: null
     </div>
 
     <div class="section" id="chart-div">
-      <h2>Stats Graph</h2> 
+      <h2>Stats Graph</h2>
       <div class="content" style="padding-top: 5px;">
         <div id="chart"><img class="loading-image" src="img/loading.gif" alt="loading"></div>
       </div>
@@ -68,7 +68,7 @@ layout: null
           <span>Options</span>
         </div>
         <div class="series-select">
-          <span class="series1">Series 1:</span>
+          <label class="series1" for="primSelect">Series 1:</label>
           <select id="primSelect" onchange="selectChanged()">
             <option selected value="Viewers">Viewers</option>
             <option disabled value="Donations">Donations</option>
@@ -83,7 +83,7 @@ layout: null
           </select>
         </div>
         <div class="series-select">
-          <span class="series2">Series 2:</span>
+          <label class="series2" for="secSelect">Series 2:</label>
           <select id="secSelect" onchange="selectChanged()">
             <option disabled value="Viewers">Viewers</option>
             <option selected value="Donations">Donations</option>
@@ -97,7 +97,7 @@ layout: null
             <option value="Twitch Emotes per Minute">Twitch Emotes per Minute</option>
           </select>
         </div>
-        <div class='other-graphs'> 
+        <div class='other-graphs'>
           <a href='/other_graphs.html'>(Other graphs)</a>
         </div>
       </div>
