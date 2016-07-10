@@ -45,7 +45,7 @@ function donationsPerMinuteGraph(data) {
     windows.push(parseInt(i));
   }
   var donationsPerMinute = windows.map(function(start_time, idx){
-    var end_time = windows.length > idx + 1 ? windows[idx + 1] : windows[windows.length - 1];
+    var end_time = windows[idx + 1] ? windows[idx + 1] : 1468137180000;
     var max_m = 0;
     var min_m = Infinity;
     for(var i in data.data){
@@ -111,7 +111,7 @@ function totalDonationsGraph(data) {
     windows.push(parseInt(i));
   }
   var donationTotals = windows.map(function(start_time, idx){
-    var end_time = windows.length > idx + 1 ? windows[idx + 1] : windows[windows.length - 1];
+    var end_time = windows[idx + 1] ? windows[idx + 1] : 1468137180000; // Hardcoded marathon end time
     var max_m = 0;
     var min_m = Infinity;
     for(var i in data.data){
