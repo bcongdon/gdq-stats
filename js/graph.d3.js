@@ -451,7 +451,7 @@ function conditionData(fb_data, primKey, secKey) {
       secVal: fb_data[key][secKey],
       date: key
     };
-    if(data_val.primVal >= 0 && data_val.secVal >= 0) data_copy.push(data_val);
+    if(data_val.primVal >= 0 || data_val.secVal >= 0) data_copy.push(data_val);
   }
   data_copy = data_copy.sort(function(a,b) { return a.date - b.date })
   tot_data = data_copy;
@@ -479,7 +479,8 @@ var seriesMap = {
   "Twitch Chats": { key: 'ct', format: d3.format(",.0f") },
   "Twitch Chats per Minute": { key: 'c', format: d3.format(",.0f") },
   "Twitch Emotes": { key: 'et', format: d3.format(",.0f") },
-  "Twitch Emotes per Minute": { key: 'e', format: d3.format(",.0f") }
+  "Twitch Emotes per Minute": { key: 'e', format: d3.format(",.0f") },
+  "Disabled": { key: 'l', format: d3.format() }
 }
 
 function selectChanged(){
@@ -500,7 +501,10 @@ var raw_data;
 function render(series1, series2) {
   var ser1 = seriesMap[series1];
   var ser2 = seriesMap[series2];
-  drawGraph("#chart", conditionData(raw_data, ser1.key, ser2.key), ser1.format, 
+  if(series1 == "Disabled") series1 = "";
+  if(series2 == "Disabled") series2 = "";
+  var conditionedData = conditionData(raw_data, ser1.key, ser2.key);
+  drawGraph("#chart", conditionedData, ser1.format, 
     ser2.format, series1, series2);
 }
 
