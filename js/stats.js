@@ -49,9 +49,9 @@ function setupFirebaseData(){
 
 // Initial calls
 setupFirebaseData();
-queryTwitch();
+// queryTwitch();
 
 // Repeat the viewer data every 10 seconds
-setInterval(function(){
-    queryTwitch();
-}, 10000);
+// setInterval(function(){
+//     queryTwitch();
+// }, 10000);
