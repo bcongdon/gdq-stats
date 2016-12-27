@@ -2,11 +2,11 @@
 
 @font-face{ 
   font-family: 'Cubano';
-  src: url('font/cubano-regular-webfont.eot');
-  src: url('font/cubano-regular-webfont.eot?#iefix') format('embedded-opentype'),
-       url('font/cubano-regular-webfont.woff') format('woff'),
-       url('font/cubano-regular-webfont.ttf') format('truetype'),
-       url('font/cubano-regular-webfont.svg#webfont') format('svg');
+  src: url('../font/cubano-regular-webfont.eot');
+  src: url('../font/cubano-regular-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../font/cubano-regular-webfont.woff') format('woff'),
+       url('../font/cubano-regular-webfont.ttf') format('truetype'),
+       url('../font/cubano-regular-webfont.svg#webfont') format('svg');
 }
 
 body {

@@ -1,7 +1,7 @@
 # Site settings
-title: SGDQ Stats
+title: GDQ Stats
 description: > # this means to ignore newlines until "baseurl:"
-  Stats page for SGDQ
+  Stats page for GDQ
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://gdqstat.us" # the base hostname & protocol for your site
 
@@ -9,4 +9,4 @@ url: "http://gdqstat.us" # the base hostname & protocol for your site
 markdown: kramdown
 
 # Exclude
-exclude: [LICENSE, README.md, Rakefile, Gemfile, Gemfile.lock, flipclock.html]
+exclude: [LICENSE, README.md, Rakefile, Gemfile, Gemfile.lock]

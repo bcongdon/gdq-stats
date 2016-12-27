@@ -1,3 +1,6 @@
+---
+layout: null
+---
 <!DOCTYPE html>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -5,89 +8,14 @@
 <head>
   <title>SGDQ 2016 Stats</title>
 
-  <!-- jQUery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <!-- D3.js -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
-  <!-- Github button -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- odometer -->
-  <link rel="stylesheet" href="http://github.hubspot.com/odometer/themes/odometer-theme-minimal.css" />
-  <script src="http://github.hubspot.com/odometer/odometer.js"></script>
-  <!-- tmi.js -->
-  <script src="//cdn.tmijs.org/js/latest/tmi.js"></script>
-  <!-- Firebase -->
-  <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+  {% include favicon.html %}
+  {% include libraries.html %}
+  {% include google_analytics.html %}
 
-  <!-- Favicons -->
-  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="img/apple-touch-icon-57x57.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114x114.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72x72.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144x144.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="60x60" href="img/apple-touch-icon-60x60.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="img/apple-touch-icon-120x120.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="76x76" href="img/apple-touch-icon-76x76.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="img/apple-touch-icon-152x152.png" />
-  <link rel="icon" type="image/png" href="img/favicon-196x196.png" sizes="196x196" />
-  <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16" />
-  <link rel="icon" type="image/png" href="img/favicon-128.png" sizes="128x128" />
-  <meta name="application-name" content="&nbsp;"/>
-  <meta name="msapplication-TileColor" content="#FFFFFF" />
-  <meta name="msapplication-TileImage" content="img/mstile-144x144.png" />
-  <meta name="msapplication-square70x70logo" content="img/mstile-70x70.png" />
-  <meta name="msapplication-square150x150logo" content="img/mstile-150x150.png" />
-  <meta name="msapplication-wide310x150logo" content="img/mstile-310x150.png" />
-  <meta name="msapplication-square310x310logo" content="img/mstile-310x310.png" />
-
-  <!-- Google Analytics -->
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-72102716-2', 'auto');
-    ga('send', 'pageview');
-  </script>
-  <style>
-    #clockdiv{
-      color: #fff;
-      display: inline-block;
-      font-weight: 100;
-      text-align: center;
-      font-size:  60px;
-      padding: 15px;
-      padding-left: 0px;
-      width: 100%; 
-      margin: 0 auto;
-      color: #000;
-    }
-
-    #clockdiv > div{
-      padding: 10px;
-      border-radius: 3px;
-      background: #ddd;
-      display: inline-block;
-      width: 20%;
-    }
-
-    #clockdiv div > span{
-      padding: 15px;
-      border-radius: 3px;
-      background: #aaa;
-      width: 80%;
-      display: inline-block;
-    }
-
-    .smalltext{
-      padding-top: 5px;
-      font-size: 16px;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="/css/layout.css">
+  <link rel="stylesheet" type="text/css" href="/css/flipclock.css">
 </head>
 <body>
-  <link rel="stylesheet" type="text/css" href="layout.css"></link>
   <div class="container">
     <h1><a href="https://gamesdonequick.com/">Summer Games Done Quick</a> &nbsp;&nbsp; 2016 Stats</h1>
     <div class="section" style="width: 100%">
@@ -113,7 +41,7 @@
     </div>
     <footer style="display:inline-block"> Made with <img src="img/base_emoji_colored.png" width="16px" align="top"> by <a href="http://benjamincongdon.me">Benjamin Congdon</a>, 2016</footer>
     <div style="text-align:right; float:right">
-      <!-- <iframe src="https://ghbtns.com/github-btn.html?user=bcongdon&repo=sgdq-stats&type=star" frameborder="0" scrolling="0" width="65px" height="20px"></iframe> -->
+      <iframe src="https://ghbtns.com/github-btn.html?user=bcongdon&repo=sgdq-stats&type=star" frameborder="0" scrolling="0" width="65px" height="20px"></iframe>
     </div>
   </div>
   <script type="text/javascript">
@@ -155,8 +83,7 @@
       updateClock();
       var timeinterval = setInterval(updateClock, 1000);
     }
-    // console.log(Date.parse("9:30:00 7-3-16"))
-    var deadline = new Date(1467563400000);
+    var deadline = new Date(Date.parse("8:30:00 1-8-17"));
     initializeClock('clockdiv', deadline);
   </script>
 </body>

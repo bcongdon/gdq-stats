@@ -1,5 +1,5 @@
 {
-  "name": "sgdq-stats",
+  "name": "gdq-stats",
   "homepage": "https://github.com/bcongdon/sgdq-stats",
   "description": "",
   "main": "",
@@ -17,7 +17,6 @@
     "jquery": "^3.0.0",
     "github-buttons": "^0.0.4",
     "odometer": "^0.4.7",
-    "firebase": "^3.0.5",
     "moment": "^2.13.0",
     "js-cookie": "^2.1.2",
     "CSV-JS": "csv-js#^1.1.1",
