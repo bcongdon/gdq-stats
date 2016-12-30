@@ -363,17 +363,17 @@ function drawGraph(container, data, primFormat, secFormat,
 }
 
 function adjustToGame(i) {
-  var left = games[i].start_time;
+  var left = new Date(games[i].start_time);
   // Bail if game hasn't started yet
   if(left > tot_data[tot_data.length - 1].date) return;
   // Set 'end' time to last data point if we are zooming to last game in list
-  var right = (i + 1 < games.length && games[i+1].start_time <= tot_data[tot_data.length - 1].date) ? games[i+1].start_time : tot_data[tot_data.length - 1].date;
+  var right = new Date((i + 1 < games.length && games[i+1].start_time <= tot_data[tot_data.length - 1].date) ? games[i+1].start_time : tot_data[tot_data.length - 1].date);
   // Open up brush if it's empty
   if(brush.empty()) {
     adjustBrush(x2.domain()[0], x2.domain()[1], 0);
   }
   // Zoom out if already zoomed in
-  else if (brush.extent()[0] == left && brush.extent()[1] == right){
+  else if (brush.extent()[0].getTime() == left.getTime() && brush.extent()[1].getTime() == right.getTime()){
     left = x2.domain()[0];
     right = x2.domain()[1];
     adjustBrush(left, right, 1000, true);
