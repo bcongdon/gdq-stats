@@ -1,10 +1,11 @@
 'use strict';
-// var ref = new Firebase("https://sgdq-backend.firebaseio.com");
 
 var svg, brush, games, x2, tot_data;
 
 function adjustBrush(left, right, duration, clear){
-  duration = duration || 1000;
+  /**
+   * Adjusts brush with animation
+   */
   clear    = clear || false;
   d3.selectAll(".brush").transition()
     .duration(duration)
@@ -25,6 +26,9 @@ function adjustBrush(left, right, duration, clear){
 //              - d.secVal  => Red  Series w/ Right axis
 function drawGraph(container, data, primFormat, secFormat, 
   primName, secName){
+  /**
+   * Renders graph into the container
+   */
 
   d3.select(container).selectAll("div").remove();
 
@@ -463,7 +467,7 @@ function conditionGames(games_input) {
   var g;
   for(var key in games_input) {
     g = games_input[key];
-    g.start_time = parseInt(g.start_time);
+    g.start_time = Date.parse(g.start_time);
     games_arr.push(g)
   }
   games = games_arr;
@@ -504,6 +508,7 @@ function render(series1, series2) {
   if(series1 == "Disabled") series1 = "";
   if(series2 == "Disabled") series2 = "";
   var conditionedData = conditionData(raw_data, ser1.key, ser2.key);
+  console.log(conditionedData)
   drawGraph("#chart", conditionedData, ser1.format, 
     ser2.format, series1, series2);
 }
@@ -553,19 +558,9 @@ function loadSelectCookies() {
   }
 }
 
-// // Grab metadata on the latest json
-// getRetry('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/latest.json', function(res) {
-//   // Get media link and pipe data to setupAll
-//   getRetry(res.mediaLink, setupAll)
-// });
 
-getRetry('/data/2016/sgdq2016final.json', setupAll);
-
-function setupAll(res) {
-  // Combine datasets
-  raw_data = jQuery.extend(true, res.data, res.extras);
+function initialSetup() {
   raw_data = generateSyntheticSeries(raw_data);
-  conditionGames(res.games);
   loadSelectCookies();
   selectChanged();
   renderGames();
@@ -573,27 +568,33 @@ function setupAll(res) {
 
 var shouldRerender = false;
 
-// Listen for new data in 'data' and 'extras'
-var data_ref = firebase.database().ref("data");
-data_ref.on('child_changed', function(child, key) {
-  var ckey = child.getKey();
-  var val = child.val();
-  if(!raw_data[ckey]) raw_data[ckey] = {}
-  raw_data[ckey].d = raw_data[ckey].d || val.d;
-  raw_data[ckey].m = raw_data[ckey].m || val.m;
-  raw_data[ckey].v = raw_data[ckey].v || val.v;
-  shouldRerender = true;
-});
-var extras_ref = firebase.database().ref("extras");
-extras_ref.on('child_changed', function(child, key) {
-  var ckey = child.getKey();
-  var val = child.val();
-  if(!raw_data[ckey]) raw_data[ckey] = {}
-  raw_data[ckey].t = raw_data[ckey].t || val.t;
-  raw_data[ckey].e = raw_data[ckey].e || val.e;
-  raw_data[ckey].c = raw_data[ckey].c || val.c;
-  shouldRerender = true;
-});
+function handleTimeseries(ts) {
+  var data = {}
+  for(var i = 0; i < ts.length; i ++){
+    var key = Date.parse(ts[i].time)
+    data[key] = ts[i]
+  }
+  shouldRerender = true
+  raw_data = data
+}
+
+function handleSchedule(sched) {
+  conditionGames(sched);
+}
+
+DBConnection.timeseriesListeners.push(handleTimeseries)
+DBConnection.scheduleListeners.push(handleSchedule)
+
+DBConnection.getTimeseries().then(function(ts){
+  handleTimeseries(ts)
+  console.log('got ts')
+  DBConnection.getSchedule().then(function(sched){
+    console.log('got sched')
+    handleSchedule(sched)
+    initialSetup()
+  })
+})
+
 
 setInterval(function() {
   // Rerender
@@ -602,4 +603,4 @@ setInterval(function() {
     selectChanged();
     shouldRerender = false;
   }
-}, 10000)
+}, 10 * 1000)
