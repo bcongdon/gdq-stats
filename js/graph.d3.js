@@ -335,7 +335,7 @@ function drawGraph(container, data, primFormat, secFormat,
       .attr('display', null);
 
     // Update tooltip text
-    toolTitle.text((d.date < g.start_time) ? "" : g.title);
+    toolTitle.text((d.date < g.start_time) ? "" : g.name);
     toolDate.text(moment(parseInt(d.date)).format('llll'));
     toolPrimary.text(primName + ": " + (d.primVal >= 0 ? primFormat(d.primVal) : "No data"));
     toolSecondary.text(secName + ": " + (d.secVal >= 0 ? secFormat(d.secVal) : "No data"));
@@ -410,8 +410,8 @@ function renderGames(){
   for(var i in games){
     var fullText = "<tr class='gameSelector' id='" + i + "'>" +
       "<td style='width:5px'></td>" + 
-      "<td style='width:340px' id ='" + i + "'>" + games[i].title + "</td>" +
-      "<td style='width:340px' id ='" + i + "'>" + games[i].runner + "</td>";
+      "<td style='width:340px' id ='" + i + "'>" + games[i].name + "</td>" +
+      "<td style='width:340px' id ='" + i + "'>" + games[i].runners + "</td>";
     var durationText = moment(parseInt(games[i].start_time)).format("MMM D, h:mm a") + " " +
       (parseInt(games[i].start_time) < (new Date()).getTime() ? "✓" : "");
     fullText += "<td class='" + i + "duration' style='width:140px' id ='" + i + "'>" + durationText + "</td>";
@@ -453,7 +453,7 @@ function conditionData(fb_data, primKey, secKey) {
     data_val = {
       primVal: fb_data[key][primKey],
       secVal: fb_data[key][secKey],
-      date: key
+      date: parseInt(key)
     };
     if(data_val.primVal >= 0 || data_val.secVal >= 0) data_copy.push(data_val);
   }
@@ -470,6 +470,7 @@ function conditionGames(games_input) {
     g.start_time = Date.parse(g.start_time);
     games_arr.push(g)
   }
+  games_arr = games_arr.sort(function(a, b) { return a.start_time - b.start_time })
   games = games_arr;
 }
 
@@ -508,7 +509,6 @@ function render(series1, series2) {
   if(series1 == "Disabled") series1 = "";
   if(series2 == "Disabled") series2 = "";
   var conditionedData = conditionData(raw_data, ser1.key, ser2.key);
-  console.log(conditionedData)
   drawGraph("#chart", conditionedData, ser1.format, 
     ser2.format, series1, series2);
 }
@@ -582,9 +582,6 @@ function handleSchedule(sched) {
   conditionGames(sched);
 }
 
-DBConnection.timeseriesListeners.push(handleTimeseries)
-DBConnection.scheduleListeners.push(handleSchedule)
-
 DBConnection.getTimeseries().then(function(ts){
   handleTimeseries(ts)
   console.log('got ts')
@@ -592,6 +589,8 @@ DBConnection.getTimeseries().then(function(ts){
     console.log('got sched')
     handleSchedule(sched)
     initialSetup()
+    DBConnection.timeseriesListeners.push(handleTimeseries)
+    DBConnection.scheduleListeners.push(handleSchedule)
   })
 })
 

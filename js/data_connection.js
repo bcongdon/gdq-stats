@@ -7,11 +7,13 @@ var DBConnection = {
   schedule: undefined,
   timeseriesListeners: [],
   scheduleListeners: [],
-  fetchCached: function() {
+  fetchInitial: function() {
     return new Promise(function(resolve, rej){
       getRetry(GDQ_STORAGE_ENDPOINT + '/latest.json', function(res) {
         DBConnection.updateWithNewData(JSON.parse(res))
-        resolve()
+        DBConnection.fetchRecent().then(function() {
+          resolve()          
+        })
       })
     })
   },
@@ -76,7 +78,7 @@ var DBConnection = {
     return new Promise(function(res, rej){
       if(DBConnection.timeseries) res(DBConnection.timeseries)
       else {
-        DBConnection.refreshTimeseries().then(function(){
+        DBConnection.fetchInitial().then(function(){
           res(DBConnection.timeseries)
         })
       }
@@ -94,9 +96,7 @@ var DBConnection = {
   }
 }
 
-DBConnection.fetchCached().then(function(){
-  DBConnection.fetchCached()
-})
+DBConnection.fetchInitial()
 
 DBConnection.refreshSchedule()
 
