@@ -6,6 +6,9 @@ function adjustBrush(left, right, duration, clear){
   /**
    * Adjusts brush with animation
    */
+  left = new Date(left)
+  right = new Date(right)
+  duration = duration || 1000;
   clear    = clear || false;
   d3.selectAll(".brush").transition()
     .duration(duration)
