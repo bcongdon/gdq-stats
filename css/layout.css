@@ -16,7 +16,7 @@ body {
   font-weight: 400;
 }
 
-.sgdq-link {
+.gdq-link {
   color: #F21847;
   text-decoration: none;
 }
@@ -47,7 +47,7 @@ h1, h2, h3 {
   color: #555;
 }
 
-h1 .sgdq-link {
+h1 .gdq-link {
   font-size: 32px;
   border-bottom: 2px solid #00AEEF;
   margin-bottom: 40px;
@@ -179,12 +179,12 @@ tr.selected {
   margin-top: 0px;
 }
 
-.sgdq-links {
+.gdq-links {
   background-color: #e6e6e6;
   border-top: 2px #ddd solid;
 }
 
-.sgdq-links div {
+.gdq-links div {
   width: 33%;
   display: inline-block;
   text-align: center;

@@ -1,60 +1,58 @@
 ---
-layout: null
+
 ---
 <!DOCTYPE html>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
-  <title>SGDQ 2016 Stats</title>
 
   {% include favicon.html %}
   {% include libraries.html %}
   {% include google_analytics.html %}
-
-  <link rel="stylesheet" type="text/css" href="/css/layout.css">
+  {% include header.html %}
 
 </head>
 <body>
   <div class="container">
-    <h1><a class='sgdq-link' href="/">Summer Games Done Quick</a> &nbsp;&nbsp; 2016 Stats</h1>
+    <h1><a class='gdq-link' href="/">{{ site.current_event }}</a> &nbsp;&nbsp; {{ site.current_event_year }} Stats</h1>
     <div class="section">
       <h2>Event Stats</h2>
       <div class="current_stats">
         <div class="stat topline_stat" id="viewers_stat">
-          <span class="current_header">Maximum Viewers:</span>
-          <div id="oViewers" class="odometer">162210</div>
+          <span class="current_header">Viewers:</span>
+          <div id="oViewers" class="odometer">0</div>
           <div class="emoji">📺</div>
         </div>
         <div class="stat topline_stat" id="donations_stat">
           <span class="current_header">Total Donations:</span>  
-          $<div id="oDonations" class="odometer">1298039.44</div>
+          $<div id="oDonations" class="odometer">0</div>
           <div class="emoji">💸</div>
         </div>
         <div class="stat topline_stat" id="donators_stat">
           <span class="current_header">Number of Donations:</span>
-          <div id="oDonators" class="odometer">30830</div>
+          <div id="oDonators" class="odometer">0</div>
           <div class="emoji">🙌</div>
         </div>
         <div class="stat">
           <span class="current_header" style="padding-right: 2.2em">Twitch Chats:</span>
-          <div id="oChats" class="odometer">3169482</div>
+          <div id="oChats" class="odometer">0</div>
           <div class="emoji">💬</div>
         </div>
         <div class="stat">
           <span class="current_header" style="padding-right: 1.8em">Twitch Emotes:</span>
-          <div id="oEmotes" class="odometer">2234782</div>
+          <div id="oEmotes" class="odometer">0</div>
           <div class="emoji" style="vertical-align:middle;"><img src="img/kappa.png" width="22" alt="kappa"></div>
         </div>
         <div class="stat">
           <span class="current_header" style="padding-right: 3.25em">Tweets Tweeted:</span>
-          <div id="oTweets" class="odometer">193751</div>
+          <div id="oTweets" class="odometer">0</div>
           <div class="emoji">🐦</div>
         </div>
       </div>
-      <div class="sgdq-links">
+      <div class="gdq-links">
         <div><a href="https://www.twitch.tv/gamesdonequick">Livestream</a></div>
-        <div><a href="https://gamesdonequick.com/tracker/index/sgdq2016">Donation Tracker</a></div>
+        <div><a href="https://gamesdonequick.com/tracker/index/agdq2017">Donation Tracker</a></div>
         <div><a href="https://gamesdonequick.com/schedule">Schedule</a></div>
       </div>
     </div>
@@ -100,9 +98,9 @@ layout: null
             <option value="Disabled">Disabled</option>
           </select>
         </div>
-        <div class='other-graphs'> 
+        <!-- <div class='other-graphs'> 
           <a href='/other_graphs.html'>(Other graphs)</a>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -114,7 +112,7 @@ layout: null
       <div class="current_stats">
         <div class="stat">
           <span class="current_header">Games Completed:</span>
-          <div id="oGames" class="odometer">173</div>
+          <div id="oGames" class="odometer">0</div>
           <div class="emoji">🎮</div>
         </div>
       </div>
@@ -126,9 +124,9 @@ layout: null
         <div class="column info-section">
           <h3>Back end</h3>
           <ul>
-            <li>Twitch, Donation, and Twitter data is continuously collected by <a href="https://github.com/bcongdon/sgdq-collector">sgdq-collector</a> - a package of scripts I wrote with <a href="https://nodejs.org/en/">Node.js</a></li>
-            <li>The backend database is hosted on <a href="http://firebase.google.com/">Firebase</a>. The database is updated at 1 minute intervals, which sends updates to this page via webhooks.</li>
-            <li>A <a href="https://cloud.google.com/compute/">Google Compute Engine</a> instance is used to keep everything running throughout the event.</li>
+            <li>Twitch, Donation, and Twitter data is continuously collected by <a href="https://github.com/bcongdon/gdq-collector">gdq-collector</a> - a package of scripts I wrote using <a href="http://flask.pocoo.org/">Flask</a>, APScheduler, and AWS <a href="https://aws.amazon.com/lambda/">Lambda</a>.</li>
+            <li>The backend database is an AWS RDS hosted PostgreSQL server. The database is updated at 1 minute intervals.</li>
+            <li>An <a href="https://aws.amazon.com/ec2">EC2</a> instance is used to keep everything running throughout the event.</li>
           </ul>
         </div>
         <div class="column info-section">
@@ -138,22 +136,12 @@ layout: null
             <li><a href="https://github.com/HubSpot/odometer">odometer</a> is used for the realtime number displays</li>
             <li>Design was heavily inspired by <a href="http://alligatr.co.uk">alligatr</a>'s previous SGDQ stat pages</li>
           </ul>
-          <p>This site is completely open sourced on <a href="https://github.com/bcongdon/sgdq-stats">Github</a>!</p>
+          <p>This site is completely open sourced on <a href="https://github.com/bcongdon/gdq-stats">Github</a>!</p>
         </div>
       </div>
     </div>
     {% include footer.html %}
   </div>
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyB-mYwFuBObchRX-gEzHPK2doklf8fgorw",
-      authDomain: "sgdq-backend.firebaseapp.com",
-      databaseURL: "https://sgdq-backend.firebaseio.com",
-      storageBucket: "",
-    };
-    firebase.initializeApp(config);
-  </script>
   <script type="text/javascript" src="js/graph.d3.js"></script>
-  <!-- <script type="text/javascript" src="js/stats.js"></script> -->
+  <script type="text/javascript" src="js/stats.js"></script>
 </body>

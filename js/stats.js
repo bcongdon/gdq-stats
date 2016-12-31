@@ -1,57 +1,24 @@
 "use strict";
-var client = irc.client();
-var stats_ref = firebase.database().ref("stats");
 
-function queryTwitch(){
-    client.api({
-        url: "https://api.twitch.tv/kraken/streams/gamesdonequick"
-    }, function(err, res, body) {
-        if(body && body['stream'] != undefined && "viewers" in body['stream']){
-            // console.debug("Current viewers: " + body['stream']['viewers']);
-            $("#oViewers").text(body['stream']['viewers']);
-        }
-        else {
-            // Hide element when viewership data unavailable
-            // $("#viewers_stat").hide()
-        }
-    });
+function totalDonations(data){
+    return 
 }
 
-var initial_vals = false;
-function setupFirebaseData(){
-    stats_ref.on("value", function(data){
-        if(!data.val() && !initial_vals) {
-            // Hide if we get a NULL object and have no other data
-            $("#donations_stat").hide();
-            $("#donators_stat").hide();
-        }
-        data = data.val();
-        initial_vals = true;
-        $("#oDonations").text(data.total_donations);
-        $("#oDonators").text(data.num_donators);
-        $("#oGames").text(data.games_played);
-        $("#oChats").text(data.total_chats);
-        $("#oEmotes").text(data.total_emotes);
-        $("#oTweets").text(data.total_tweets);
-        // Show stats elements when query successful
-        $("#donations_stat").show();
-        $("#donators_stat").show();
-    }, function(error) {
-        // Hides stats elements when query unsuccessful
-        if(initial_vals) {
-            return;
-        }
-        $("#donations_stat").hide();
-        // $("#donators_stat").hide();
-        console.debug(error);
-    });
+function totalDonators(data){
+    return data[DBConnection.mostRecentTime()].d
 }
 
-// Initial calls
-setupFirebaseData();
-// queryTwitch();
+function populateStatsOdometers(data) {
+    $("#oDonations").text(data[data.length - 1].m);
+    $("#oDonators").text(data[data.length - 1].d);
+    $("#oViewers").text(data[data.length - 1].v);
+    // $("#oGames").text(data.games_played);
+    $("#oChats").text(data.reduce(function(a, b){ return a + b.c }, 0));
+    $("#oEmotes").text(data.reduce(function(a, b){ return a + b.e }, 0));
+    $("#oTweets").text(data.reduce(function(a, b){ return a + b.t }, 0));
+}
 
-// Repeat the viewer data every 10 seconds
-// setInterval(function(){
-//     queryTwitch();
-// }, 10000);
+DBConnection.scheduleListeners.push(populateStatsOdometers)
+DBConnection.getTimeseries().then(function(data){
+    populateStatsOdometers(data)
+})

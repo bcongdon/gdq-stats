@@ -14,7 +14,7 @@ function getRetry(url, cb) {
     error : function(xhr, textStatus, errorThrown ) {
       this.retryCount++;
       if (this.retryCount <= this.retryLimit && Date.now() - this.created < this.retryTimeout) {
-        console.log("Retrying");
+        console.log("Retrying " + url);
         $.ajax(this);
         return;
       }

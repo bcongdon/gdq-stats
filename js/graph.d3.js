@@ -1,9 +1,13 @@
 'use strict';
-// var ref = new Firebase("https://sgdq-backend.firebaseio.com");
 
 var svg, brush, games, x2, tot_data;
 
 function adjustBrush(left, right, duration, clear){
+  /**
+   * Adjusts brush with animation
+   */
+  left = new Date(left)
+  right = new Date(right)
   duration = duration || 1000;
   clear    = clear || false;
   d3.selectAll(".brush").transition()
@@ -25,6 +29,9 @@ function adjustBrush(left, right, duration, clear){
 //              - d.secVal  => Red  Series w/ Right axis
 function drawGraph(container, data, primFormat, secFormat, 
   primName, secName){
+  /**
+   * Renders graph into the container
+   */
 
   d3.select(container).selectAll("div").remove();
 
@@ -331,7 +338,7 @@ function drawGraph(container, data, primFormat, secFormat,
       .attr('display', null);
 
     // Update tooltip text
-    toolTitle.text((d.date < g.start_time) ? "" : g.title);
+    toolTitle.text((d.date < g.start_time) ? "" : g.name);
     toolDate.text(moment(parseInt(d.date)).format('llll'));
     toolPrimary.text(primName + ": " + (d.primVal >= 0 ? primFormat(d.primVal) : "No data"));
     toolSecondary.text(secName + ": " + (d.secVal >= 0 ? secFormat(d.secVal) : "No data"));
@@ -356,17 +363,17 @@ function drawGraph(container, data, primFormat, secFormat,
 }
 
 function adjustToGame(i) {
-  var left = games[i].start_time;
+  var left = new Date(games[i].start_time);
   // Bail if game hasn't started yet
   if(left > tot_data[tot_data.length - 1].date) return;
   // Set 'end' time to last data point if we are zooming to last game in list
-  var right = (i + 1 < games.length && games[i+1].start_time <= tot_data[tot_data.length - 1].date) ? games[i+1].start_time : tot_data[tot_data.length - 1].date;
+  var right = new Date((i + 1 < games.length && games[i+1].start_time <= tot_data[tot_data.length - 1].date) ? games[i+1].start_time : tot_data[tot_data.length - 1].date);
   // Open up brush if it's empty
   if(brush.empty()) {
     adjustBrush(x2.domain()[0], x2.domain()[1], 0);
   }
   // Zoom out if already zoomed in
-  else if (brush.extent()[0] == left && brush.extent()[1] == right){
+  else if (brush.extent()[0].getTime() == left.getTime() && brush.extent()[1].getTime() == right.getTime()){
     left = x2.domain()[0];
     right = x2.domain()[1];
     adjustBrush(left, right, 1000, true);
@@ -406,8 +413,8 @@ function renderGames(){
   for(var i in games){
     var fullText = "<tr class='gameSelector' id='" + i + "'>" +
       "<td style='width:5px'></td>" + 
-      "<td style='width:340px' id ='" + i + "'>" + games[i].title + "</td>" +
-      "<td style='width:340px' id ='" + i + "'>" + games[i].runner + "</td>";
+      "<td style='width:340px' id ='" + i + "'>" + games[i].name + "</td>" +
+      "<td style='width:340px' id ='" + i + "'>" + games[i].runners + "</td>";
     var durationText = moment(parseInt(games[i].start_time)).format("MMM D, h:mm a") + " " +
       (parseInt(games[i].start_time) < (new Date()).getTime() ? "✓" : "");
     fullText += "<td class='" + i + "duration' style='width:140px' id ='" + i + "'>" + durationText + "</td>";
@@ -449,7 +456,7 @@ function conditionData(fb_data, primKey, secKey) {
     data_val = {
       primVal: fb_data[key][primKey],
       secVal: fb_data[key][secKey],
-      date: key
+      date: parseInt(key)
     };
     if(data_val.primVal >= 0 || data_val.secVal >= 0) data_copy.push(data_val);
   }
@@ -463,9 +470,10 @@ function conditionGames(games_input) {
   var g;
   for(var key in games_input) {
     g = games_input[key];
-    g.start_time = parseInt(g.start_time);
+    g.start_time = Date.parse(g.start_time);
     games_arr.push(g)
   }
+  games_arr = games_arr.sort(function(a, b) { return a.start_time - b.start_time })
   games = games_arr;
 }
 
@@ -553,19 +561,9 @@ function loadSelectCookies() {
   }
 }
 
-// // Grab metadata on the latest json
-// getRetry('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/latest.json', function(res) {
-//   // Get media link and pipe data to setupAll
-//   getRetry(res.mediaLink, setupAll)
-// });
 
-getRetry('/data/2016/sgdq2016final.json', setupAll);
-
-function setupAll(res) {
-  // Combine datasets
-  raw_data = jQuery.extend(true, res.data, res.extras);
+function initialSetup() {
   raw_data = generateSyntheticSeries(raw_data);
-  conditionGames(res.games);
   loadSelectCookies();
   selectChanged();
   renderGames();
@@ -573,27 +571,32 @@ function setupAll(res) {
 
 var shouldRerender = false;
 
-// Listen for new data in 'data' and 'extras'
-var data_ref = firebase.database().ref("data");
-data_ref.on('child_changed', function(child, key) {
-  var ckey = child.getKey();
-  var val = child.val();
-  if(!raw_data[ckey]) raw_data[ckey] = {}
-  raw_data[ckey].d = raw_data[ckey].d || val.d;
-  raw_data[ckey].m = raw_data[ckey].m || val.m;
-  raw_data[ckey].v = raw_data[ckey].v || val.v;
-  shouldRerender = true;
-});
-var extras_ref = firebase.database().ref("extras");
-extras_ref.on('child_changed', function(child, key) {
-  var ckey = child.getKey();
-  var val = child.val();
-  if(!raw_data[ckey]) raw_data[ckey] = {}
-  raw_data[ckey].t = raw_data[ckey].t || val.t;
-  raw_data[ckey].e = raw_data[ckey].e || val.e;
-  raw_data[ckey].c = raw_data[ckey].c || val.c;
-  shouldRerender = true;
-});
+function handleTimeseries(ts) {
+  var data = {}
+  for(var i = 0; i < ts.length; i ++){
+    var key = Date.parse(ts[i].time)
+    data[key] = ts[i]
+  }
+  shouldRerender = true
+  raw_data = data
+}
+
+function handleSchedule(sched) {
+  conditionGames(sched);
+}
+
+DBConnection.getTimeseries().then(function(ts){
+  handleTimeseries(ts)
+  console.log('got ts')
+  DBConnection.getSchedule().then(function(sched){
+    console.log('got sched')
+    handleSchedule(sched)
+    initialSetup()
+    DBConnection.timeseriesListeners.push(handleTimeseries)
+    DBConnection.scheduleListeners.push(handleSchedule)
+  })
+})
+
 
 setInterval(function() {
   // Rerender
@@ -602,4 +605,4 @@ setInterval(function() {
     selectChanged();
     shouldRerender = false;
   }
-}, 10000)
+}, 10 * 1000)
