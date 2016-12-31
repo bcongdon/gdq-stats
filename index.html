@@ -1,5 +1,5 @@
 ---
-layout: null
+
 ---
 <!DOCTYPE html>
 <meta charset="utf-8">
@@ -100,9 +100,9 @@ layout: null
             <option value="Disabled">Disabled</option>
           </select>
         </div>
-        <div class='other-graphs'> 
+        <!-- <div class='other-graphs'> 
           <a href='/other_graphs.html'>(Other graphs)</a>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -126,9 +126,9 @@ layout: null
         <div class="column info-section">
           <h3>Back end</h3>
           <ul>
-            <li>Twitch, Donation, and Twitter data is continuously collected by <a href="https://github.com/bcongdon/sgdq-collector">sgdq-collector</a> - a package of scripts I wrote with <a href="https://nodejs.org/en/">Node.js</a></li>
-            <li>The backend database is hosted on <a href="http://firebase.google.com/">Firebase</a>. The database is updated at 1 minute intervals, which sends updates to this page via webhooks.</li>
-            <li>A <a href="https://cloud.google.com/compute/">Google Compute Engine</a> instance is used to keep everything running throughout the event.</li>
+            <li>Twitch, Donation, and Twitter data is continuously collected by <a href="https://github.com/bcongdon/gdq-collector">gdq-collector</a> - a package of scripts I wrote using <a href="http://flask.pocoo.org/">Flask</a>, APScheduler, and AWS <a href="https://aws.amazon.com/lambda/">Lambda</a>.</li>
+            <li>The backend database is an AWS RDS hosted PostgreSQL server. The database is updated at 1 minute intervals.</li>
+            <li>An <a href="https://aws.amazon.com/ec2">EC2</a> instance is used to keep everything running throughout the event.</li>
           </ul>
         </div>
         <div class="column info-section">
@@ -138,7 +138,7 @@ layout: null
             <li><a href="https://github.com/HubSpot/odometer">odometer</a> is used for the realtime number displays</li>
             <li>Design was heavily inspired by <a href="http://alligatr.co.uk">alligatr</a>'s previous SGDQ stat pages</li>
           </ul>
-          <p>This site is completely open sourced on <a href="https://github.com/bcongdon/sgdq-stats">Github</a>!</p>
+          <p>This site is completely open sourced on <a href="https://github.com/bcongdon/gdq-stats">Github</a>!</p>
         </div>
       </div>
     </div>
