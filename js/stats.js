@@ -11,6 +11,7 @@ function totalDonators(data){
 function populateStatsOdometers(data) {
     $("#oDonations").text(data[data.length - 1].m);
     $("#oDonators").text(data[data.length - 1].d);
+    $("#oViewers").text(data[data.length - 1].v);
     // $("#oGames").text(data.games_played);
     $("#oChats").text(data.reduce(function(a, b){ return a + b.c }, 0));
     $("#oEmotes").text(data.reduce(function(a, b){ return a + b.e }, 0));

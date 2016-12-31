@@ -6,18 +6,16 @@
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
-  <title>AGDQ 2017 Stats</title>
 
   {% include favicon.html %}
   {% include libraries.html %}
   {% include google_analytics.html %}
-
-  <link rel="stylesheet" type="text/css" href="/css/layout.css">
+  {% include header.html %}
 
 </head>
 <body>
   <div class="container">
-    <h1><a class='gdq-link' href="/">Awesome Games Done Quick</a> &nbsp;&nbsp; 2017 Stats</h1>
+    <h1><a class='gdq-link' href="/">{{ site.current_event }}</a> &nbsp;&nbsp; {{ site.current_event_year }} Stats</h1>
     <div class="section">
       <h2>Event Stats</h2>
       <div class="current_stats">
@@ -54,7 +52,7 @@
       </div>
       <div class="gdq-links">
         <div><a href="https://www.twitch.tv/gamesdonequick">Livestream</a></div>
-        <div><a href="https://gamesdonequick.com/tracker/index/sgdq2016">Donation Tracker</a></div>
+        <div><a href="https://gamesdonequick.com/tracker/index/agdq2017">Donation Tracker</a></div>
         <div><a href="https://gamesdonequick.com/schedule">Schedule</a></div>
       </div>
     </div>
