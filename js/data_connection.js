@@ -38,6 +38,7 @@ var DBConnection = {
       var times = DBConnection.timeseries.map(function(d) { return d.time } )
       data = data.filter(function(d) { return !times.includes(d.time) })
       DBConnection.timeseries.concat(data)
+      DBConnection.timeseries.sort(function(a, b) { return (new Date(a.time)) - (new Date(b.time))})
     }
     DBConnection.callTimeseriesListeners()
   },
@@ -71,7 +72,7 @@ var DBConnection = {
   },
   callScheduleListeners: function() {
     for (var i = 0; i < DBConnection.scheduleListeners.length; i++) {
-      DBConnection.scheduleListeners[i](DBConnection.timeseries)
+      DBConnection.scheduleListeners[i](DBConnection.schedule)
     }
   },
   getTimeseries: function() {
