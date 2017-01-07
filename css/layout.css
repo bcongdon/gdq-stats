@@ -204,8 +204,15 @@ tr.selected {
 }
 
 .stat {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   width: 33%;
+}
+
+.odometer-group {
+  padding-right: 2.5em;
+  display: inline-block;
+  margin-left: auto;
 }
 
 .tooltip {   
@@ -322,7 +329,6 @@ tr.selected {
 .odometer {
   display: inline-block;
 }
-
 
 .emoji {
   display: inline-block;
