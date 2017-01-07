@@ -64,7 +64,7 @@ task :generate do
   end
 end
 
-GITHUB_REPONAME = "bcongdon/sgdq-stats"
+GITHUB_REPONAME = "bcongdon/gdq-stats"
 
 desc "Publish site to gh-pages"
 task :publish do
