@@ -1,5 +1,5 @@
-# sgdq-stats
-> :space_invader: Stats webpage for [GamesDoneQuick](gamesdonequick.com)
+# gdq-stats
+> :space_invader: Stats webpage for [GamesDoneQuick](gamesdonequick.com). Hosted at [gdqstat.us](http://gdqstat.us)
 
 ## Frontend
 The actual visualization is done by D3.js. Other tools used include: 
@@ -10,7 +10,7 @@ The actual visualization is done by D3.js. Other tools used include:
 * `Jekyll` + `Reduce` to generate / minify the site's assets
 
 ## Backend
-This page uses [GDQ-Collector](https://github.com/bcongdon/gdq-collector) to parse the SGDQ donation tracker and to collect Twitch viewership information. This data is updated every minute.
+This page uses [gdq-collector](https://github.com/bcongdon/gdq-collector) to parse the GDQ donation tracker and to collect Twitch viewership information. This data is updated every minute.
 
 An AWS RDS PostgreSQL instance is used as the backend data repository.
 
