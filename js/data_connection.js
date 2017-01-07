@@ -35,10 +35,10 @@ var DBConnection = {
       DBConnection.timeseries = data
     }
     else{
-      var times = DBConnection.timeseries.map(function(d) { return d.time } )
-      data = data.filter(function(d) { return !times.includes(d.time) })
+      var most_recent_time = DBConnection.mostRecentTime()
+      data = data.filter(function(d) { return d.time > most_recent_time })
+      data.sort(function(a, b) { return (new Date(a.time)) - (new Date(b.time))})
       DBConnection.timeseries.concat(data)
-      DBConnection.timeseries.sort(function(a, b) { return (new Date(a.time)) - (new Date(b.time))})
     }
     DBConnection.callTimeseriesListeners()
   },
