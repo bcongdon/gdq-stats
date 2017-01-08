@@ -36,7 +36,7 @@ function populateGamesOdometer(data) {
     var num_completed = 0,
         i = 0,
         now = new Date();
-    while(data[i] < now){
+    while(data[i].start_time < now){
         num_completed += 1
         i += 1
     }

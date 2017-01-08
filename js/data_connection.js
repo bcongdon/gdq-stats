@@ -67,6 +67,10 @@ var DBConnection = {
       var url = GDQ_STORAGE_ENDPOINT + '/schedule.json'
       getRetry(url, function(res) {
         DBConnection.schedule = JSON.parse(res)
+        for (var i = 0; i < DBConnection.schedule.length; i++) {
+          DBConnection.schedule[i].start_time = new Date(Date.parse(DBConnection.schedule[i].start_time))
+        }
+        DBConnection.schedule.sort(function(a, b) { return a.start_time - b.start_time })
         DBConnection.callScheduleListeners()
         resolve(DBConnection.schedule)
       })
