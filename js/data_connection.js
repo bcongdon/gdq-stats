@@ -31,8 +31,14 @@ var DBConnection = {
     })
   },
   updateWithNewData: function(data) {
+    // Do some minor manipulations of data to keep assumptions about data correct
     for (var i = 0; i < data.length; i++) {
       data[i].time = new Date(data[i].time)
+      for(var k in data[i]) {
+        if (data[i][k] == null) {
+          data[i][k] = -1
+        }
+      }
     }
     data.sort(function(a, b) { return a.time - b.time})
     if(!DBConnection.timeseries || DBConnection.timeseries.length == 0){
