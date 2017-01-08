@@ -64,6 +64,14 @@ task :generate do
   end
 end
 
+desc "Build and serve minified version of site"
+task :serve do
+  Rake::Task['generate'].execute
+  Dir.chdir '_site/'
+  puts "\n## Serving site"
+  system "python -m SimpleHTTPServer"
+end
+
 GITHUB_REPONAME = "bcongdon/gdq-stats"
 
 desc "Publish site to gh-pages"

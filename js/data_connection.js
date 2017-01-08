@@ -22,7 +22,7 @@ var DBConnection = {
       var url = GDQ_API_ENDPOINT + '/recentEvents'
       var most_recent = DBConnection.mostRecentTime();
       if(most_recent) {
-        url += '?since=' + most_recent
+        url += '?since=' + most_recent.toISOString()
       }
       getRetry(url, function(res) {
         DBConnection.updateWithNewData(res)
