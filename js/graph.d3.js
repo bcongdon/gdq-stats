@@ -577,8 +577,8 @@ function handleTimeseries(ts) {
     var key = Date.parse(ts[i].time)
     data[key] = ts[i]
   }
-  shouldRerender = true
   raw_data = data
+  shouldRerender = true
 }
 
 function handleSchedule(sched) {
@@ -587,9 +587,9 @@ function handleSchedule(sched) {
 
 DBConnection.getTimeseries().then(function(ts){
   handleTimeseries(ts)
-  console.log('got ts')
+  // console.log('got ts')
   DBConnection.getSchedule().then(function(sched){
-    console.log('got sched')
+    // console.log('got sched')
     handleSchedule(sched)
     initialSetup()
     DBConnection.timeseriesListeners.push(handleTimeseries)

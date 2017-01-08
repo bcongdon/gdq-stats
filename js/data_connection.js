@@ -1,6 +1,6 @@
 'use strict'
-const GDQ_API_ENDPOINT = 'https://t6htp02ube.execute-api.us-east-1.amazonaws.com/dev'
-const GDQ_STORAGE_ENDPOINT = 'https://s3.amazonaws.com/agdq-2017-dev'
+const GDQ_API_ENDPOINT = 'https://api.gdqstat.us'
+const GDQ_STORAGE_ENDPOINT = 'http://storage.api.gdqstat.us'
 
 var DBConnection = {
   timeseries: undefined,
@@ -31,22 +31,23 @@ var DBConnection = {
     })
   },
   updateWithNewData: function(data) {
+    for (var i = 0; i < data.length; i++) {
+      data[i].time = new Date(data[i].time)
+    }
+    data.sort(function(a, b) { return a.time - b.time})
     if(!DBConnection.timeseries || DBConnection.timeseries.length == 0){
       DBConnection.timeseries = data
     }
     else{
       var most_recent_time = DBConnection.mostRecentTime()
       data = data.filter(function(d) { return d.time > most_recent_time })
-      data.sort(function(a, b) { return (new Date(a.time)) - (new Date(b.time))})
-      DBConnection.timeseries.concat(data)
+      DBConnection.timeseries = DBConnection.timeseries.concat(data)
     }
     DBConnection.callTimeseriesListeners()
   },
   mostRecentTime: function() {
     if(!DBConnection.timeseries) return 0;
-    return DBConnection.timeseries.reduce(function(a, b){
-      return Math.max(a.t, b.t)
-    }, 0)
+    return DBConnection.timeseries[DBConnection.timeseries.length - 1].time
   },
   refreshTimeseries: function() {
     return new Promise(function(res, rej){
