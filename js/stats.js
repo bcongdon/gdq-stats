@@ -17,7 +17,8 @@ function accumulateStats(data) {
 }
 
 function populateStatsOdometers(data) {
-    $("#oDonations").text(data[data.length - 1].m);
+    var donations = data[data.length - 1].m.toFixed(2);
+    $("#oDonations").text(donations);
     $("#oDonators").text(data[data.length - 1].d);
     $("#oViewers").text(data[data.length - 1].v);
     var acc_stats = accumulateStats(data)
