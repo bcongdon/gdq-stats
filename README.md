@@ -14,6 +14,12 @@ This page uses [gdq-collector](https://github.com/bcongdon/gdq-collector) to par
 
 An AWS RDS PostgreSQL instance is used as the backend data repository.
 
+## Run it yourself:
+
+1. Clone the repo.
+2. Run `bundle install` to pull down the dependencies.
+3. Run `bundle exec jekyll serve` to build and serve the website to `localhost`.
+
 ### Attribution
 * [alligatr](http://alligatr.co.uk/) - for his previous years of doing SGDQ/AGDQ stats. The initial design of this site was heavily inspired by alligatr's past work.
 * [David Ensinger](http://davidensinger.com/2013/08/how-i-use-reduce-to-minify-and-optimize-assets-for-production/) - for his great minifier Rakefile blog post
