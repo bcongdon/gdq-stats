@@ -2,6 +2,16 @@
 
 var svg, brush, games, x2, tot_data;
 
+function adjustToLast(ms) {
+  var now = new Date();
+  if (now - ms < tot_data[0].date) {
+    openBrush({clearAtEnd: true});
+  }
+  else {
+    adjustBrush(now - ms, now);    
+  }
+}
+
 function adjustBrush(left, right, duration, clear){
   /**
    * Adjusts brush with animation
@@ -21,6 +31,14 @@ function adjustBrush(left, right, duration, clear){
         $('.gameSelector').siblings().removeClass("selected");
       }, 50);
     });
+}
+
+function openBrush(opts) {
+  var left = x2.domain()[0];
+  var right = x2.domain()[1];
+  var duration = opts.duration || 1000
+  var clearAtEnd = opts.clearAtEnd || false
+  adjustBrush(left, right, duration, clearAtEnd);
 }
 
 // Data Schema:
@@ -370,13 +388,11 @@ function adjustToGame(i) {
   var right = new Date((i + 1 < games.length && games[i+1].start_time <= tot_data[tot_data.length - 1].date) ? games[i+1].start_time : tot_data[tot_data.length - 1].date);
   // Open up brush if it's empty
   if(brush.empty()) {
-    adjustBrush(x2.domain()[0], x2.domain()[1], 0);
+    openBrush({duration: 0})
   }
   // Zoom out if already zoomed in
   else if (brush.extent()[0].getTime() == left.getTime() && brush.extent()[1].getTime() == right.getTime()){
-    left = x2.domain()[0];
-    right = x2.domain()[1];
-    adjustBrush(left, right, 1000, true);
+    openBrush({clearAtEnd: true})
     return;
   }
   adjustBrush(left, right); 

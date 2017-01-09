@@ -371,21 +371,21 @@ tr.selected {
   display: inline-block;
 }
 
-.other-graphs {
-  width: 18%;
-  display: inline-block;
-  text-align: right;
+.graph-time-select {
+  display: inline;
   font-family: "Open Sans";
   font-size: 12px;
+  text-align: right;
 }
 
-.other-graphs a {
+.graph-time-select a {
   color: #333;
   font-weight: bold;
+  padding-right: 5px;
 }
 
-.other-graphs a:hover {
-  color: #00AEEF;
+.graph-time-select a:hover {
+  color: #666;
 }
 
 .series1 {

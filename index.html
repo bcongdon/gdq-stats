@@ -110,9 +110,14 @@
             <option value="Disabled">Disabled</option>
           </select>
         </div>
-        <!-- <div class='other-graphs'> 
-          <a href='/other_graphs.html'>(Other graphs)</a>
-        </div> -->
+        <div class='graph-time-select'>
+          <a onclick="adjustToLast(60 * 60 * 1000)" href='#'>1hr</a>
+          <a onclick="adjustToLast(6 * 60 * 60 * 1000)" href='#'>6hr</a>
+          <a onclick="adjustToLast(12 * 60 * 60 * 1000)" href='#'>12hr</a>
+          <a onclick="adjustToLast(24 * 60 * 60 * 1000)" href='#'>1d</a>
+          <a onclick="adjustToLast(3 * 24 * 60 * 60 * 1000)" href='#'>3d</a>
+          <a onclick="openBrush({clearAtEnd: true})" href='#'>All</a>
+        </div>
       </div>
     </div>
 
