@@ -361,10 +361,18 @@ function drawGraph(container, data, primFormat, secFormat,
     toolPrimary.text(primName + ": " + (d.primVal >= 0 ? primFormat(d.primVal) : "No data"));
     toolSecondary.text(secName + ": " + (d.secVal >= 0 ? secFormat(d.secVal) : "No data"));
 
-    tip.style("left", (d3.event.pageX + 20) + "px")
-      .style("text-alight", "left")
+    tip.style("text-alight", "left")
       .style("top", (d3.event.pageY - 20) + "px")
       .style("border", null);
+
+    // Check if enough space to the right of mouse
+    if(d3.event.pageX + 20 + tip.node().getBoundingClientRect().width < window.innerWidth) {
+      tip.style("left", (d3.event.pageX + 20) + "px");
+    }
+    else{
+      tip.style("left", (d3.event.pageX - 20 - tip.node().getBoundingClientRect().width) + "px")
+    }
+
   }
   function click() {
     var x0 = x.invert(d3.mouse(this)[0]);
