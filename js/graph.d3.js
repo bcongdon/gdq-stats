@@ -169,9 +169,10 @@ function drawGraph(container, data, primFormat, secFormat,
     svg.select(".x.axis.top").call(xAxis);
     svg.select(".y.axis.leftAxis").call(y0Axis);
     svg.select(".y.axis.rightAxis").call(y1Axis);
+    var now = new Date();
     lineGroup.selectAll('.line').data(games)
-      .attr("x1", function(d) { return x(d.start_time)} )
-      .attr("x2", function(d) { return x(d.start_time)} )
+      .attr("x1", function(d) { return d.start_time < now ? x(d.start_time) : 0 } )
+      .attr("x2", function(d) { return d.start_time < now ? x(d.start_time) : 0 } )
   }
 
   brush = d3.svg.brush()
@@ -228,11 +229,12 @@ function drawGraph(container, data, primFormat, secFormat,
       .text(secName);
 
   var lineGroup = svg.append("g");
-
+  var now = new Date();
   lineGroup.selectAll('g').data(games).enter().append("line")
       .attr("class", "line gameLine")
       .attr("x1", function(d) { return x(d.start_time)} )
       .attr("x2", function(d) { return x(d.start_time)} )
+      .style("display", function(d) { return d.start_time < now ? "" : "none" })
       .attr("y1", height - 8)
       .attr("y2", height);
 
