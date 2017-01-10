@@ -458,7 +458,8 @@ function renderGames(){
   $("#game-list").append(elm);
   // Setup click responders
   $('.gameSelector').on("click", function(e){
-    var idx = parseInt(e.toElement.id);
+    var target = e.toElement || e.currentTarget;
+    var idx = parseInt(target.id);
     adjustToGame(idx);
     if(parseInt(games[idx].start_time) < (new Date()).getTime()) {
       $(this).toggleClass("selected").siblings().removeClass("selected");
@@ -496,7 +497,7 @@ function conditionGames(games_input) {
   var g;
   for(var key in games_input) {
     g = games_input[key];
-    g.start_time = Date.parse(g.start_time);
+    g.start_time = moment(g.start_time).valueOf();
     games_arr.push(g)
   }
   games_arr = games_arr.sort(function(a, b) { return a.start_time - b.start_time })
