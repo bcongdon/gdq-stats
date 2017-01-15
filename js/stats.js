@@ -20,7 +20,10 @@ function populateStatsOdometers(data) {
     var donations = data[data.length - 1].m.toFixed(2);
     $("#oDonations").text(donations);
     $("#oDonators").text(data[data.length - 1].d);
-    $("#oViewers").text(data[data.length - 1].v);
+    // $("#oViewers").text(data[data.length - 1].v);
+    $("#oViewers").text(Math.max(data.reduce(function(a,b) { 
+        return a > b.v ? a : b.v;
+    }, 0)));
     var acc_stats = accumulateStats(data)
     $("#oChats").text(acc_stats.c);
     $("#oEmotes").text(acc_stats.e);
@@ -33,15 +36,15 @@ DBConnection.getTimeseries().then(function(data){
 })
 
 function populateGamesOdometer(data) {
-    var num_completed = 0,
-        i = 0,
-        now = new Date();
-    while(data[i].start_time < now){
-        num_completed += 1
-        i += 1
-    }
-    num_completed = Math.max(0, num_completed - 1);
-    $("#oGames").text(num_completed);
+    // var num_completed = 0,
+    //     i = 0,
+    //     now = new Date();
+    // while(data[i].start_time < now){
+    //     num_completed += 1
+    //     i += 1
+    // }
+    // num_completed = Math.max(0, num_completed - 1);
+    $("#oGames").text(data.length);
 }
 
 DBConnection.scheduleListeners.push(populateGamesOdometer)

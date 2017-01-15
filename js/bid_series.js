@@ -23,7 +23,6 @@ function setupBidSeries(data) {
 
 function graphSeries(element, xSeries, yArrs){
   var cols = [xSeries].concat(yArrs);
-  console.log(cols)
   return c3.generate({
     bindto: element,
     data: {

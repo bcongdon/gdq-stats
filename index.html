@@ -11,7 +11,6 @@
   {% include libraries.html %}
   {% include google_analytics.html %}
   {% include header.html %}
-  {% include c3.html %}
 
 </head>
 <body>
@@ -21,7 +20,7 @@
       <h2>Event Stats</h2>
       <div class="current_stats">
         <div class="stat topline_stat" id="viewers_stat">
-          <span class="current_header">Viewers:</span>
+          <span class="current_header"> Maximum Viewers:</span>
           <div class="odometer-group">
             <div id="oViewers" class="odometer">0</div>
             <div class="emoji">📺</div>
@@ -136,13 +135,6 @@
       </div>
     </div>
 
-    <div class="section" id="killVsSave">
-      <h2>Kill vs Save the Animals</h2> 
-      <div class="content" style="padding-top: 5px;">
-        <div id="metroid_chart" style="height:450px"><img class="loading-image" src="img/loading.gif" alt="loading"></div>
-      </div>
-    </div>
-
     <div class="section">
       <h2>Info for nerds</h2>
       <div class="content">
@@ -169,5 +161,4 @@
   </div>
   <script type="text/javascript" src="js/graph.d3.js"></script>
   <script type="text/javascript" src="js/stats.js"></script>
-  <script type="text/javascript" src="js/bid_series.js"></script>
 </body>
