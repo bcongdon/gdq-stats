@@ -50,31 +50,36 @@ h1 {
 h3 {
   font-size: 18px;
 }
-tr {
-  display: block;
-}
-tbody > tr:hover {
-  background-color: #9ee5ff;
-}
-tr.selected {
-  background-color: #9ee5ff;
+
+
+tbody {
+  tr {
+    display: block;
+
+    &:hover {
+      background-color: #9ee5ff;
+    }
+    .selected {
+      background-color: #9ee5ff;
+    }
+  }
 }
 
 .axis {
   font-size: 13px;
   fill: #999;
   font-weight: 200;
-}
-.axis text {
-  fill: #222;
-  font-weight: 300;
-}
 
-.axis path,
-.axis line {
-  shape-rendering: crispEdges;
-  stroke: #ddd;
-  fill: none;
+  text {
+    fill: #222;
+    font-weight: 300;
+  }
+
+  path, line {
+    shape-rendering: crispEdges;
+    stroke: #ddd;
+    fill: none;
+  }
 }
 
 .line {
@@ -146,14 +151,14 @@ tr.selected {
   margin-bottom: 40px;
   vertical-align: top;
   border-bottom: 2px solid #ddd;
-}
 
-.section h2 {
-  text-align: left;
-  padding: 10px;
-  margin-bottom: 0px;
-  font-size: 18px;
-  background-color: #ddd;
+  h2 {
+    text-align: left;
+    padding: 10px;
+    margin-bottom: 0px;
+    font-size: 18px;
+    background-color: #ddd;
+  }
 }
 
 .content {
@@ -172,17 +177,17 @@ tr.selected {
 .gdq-links {
   background-color: #e6e6e6;
   border-top: 2px #ddd solid;
-}
 
-.gdq-links div {
-  width: 33%;
-  display: inline-block;
-  text-align: center;
-  font-size: 16px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  font-weight: bold;
-  font-family: $stylized-font
+  div {
+    width: 33%;
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    font-family: $stylized-font
+  }
 }
 
 .current_header {
@@ -237,6 +242,7 @@ tr.selected {
   font-size: 14px;
   padding-top: 5px;
 }
+
 .tool-secondary {
   color: $secondary-color;
   font-size: 14px;
@@ -311,10 +317,10 @@ tr.selected {
   display: inline-block;
   vertical-align: top;
   margin: auto;
-}
 
-.column h3 {
-  margin: 0px;
+  h3 {
+    margin: 0px;
+  }
 }
 
 .odometer {
