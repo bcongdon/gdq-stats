@@ -1,6 +1,7 @@
 'use strict'
 const GDQ_API_ENDPOINT = 'https://api.gdqstat.us'
-const GDQ_STORAGE_ENDPOINT = 'http://storage.api.gdqstat.us'
+// const GDQ_STORAGE_ENDPOINT = 'http://storage.api.gdqstat.us'
+const GDQ_STORAGE_ENDPOINT = 'data/2017/agdq_final'
 
 var DBConnection = {
   timeseries: undefined,
@@ -10,7 +11,8 @@ var DBConnection = {
   fetchInitial: function() {
     return new Promise(function(resolve, rej){
       getRetry(GDQ_STORAGE_ENDPOINT + '/latest.json', function(res) {
-        DBConnection.updateWithNewData(JSON.parse(res))
+        res = (typeof res === 'string' || res instanceof String) ? JSON.parse(res) : res;
+        DBConnection.updateWithNewData(res)
         DBConnection.fetchRecent().then(function() {
           resolve()          
         })
@@ -67,7 +69,7 @@ var DBConnection = {
     return new Promise(function(resolve, rej){
       var url = GDQ_STORAGE_ENDPOINT + '/schedule.json'
       getRetry(url, function(res) {
-        DBConnection.schedule = JSON.parse(res)
+        DBConnection.schedule = (typeof res === 'string' || res instanceof String) ? JSON.parse(res) : res;
         for (var i = 0; i < DBConnection.schedule.length; i++) {
           DBConnection.schedule[i].start_time = moment.utc(DBConnection.schedule[i].start_time)
         }
