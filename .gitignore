@@ -1,3 +1,4 @@
 _site
 bower_components
 .jekyll-metadata
+.sass-cache

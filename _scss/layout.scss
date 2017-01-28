@@ -1,60 +1,50 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,200|Open+Sans:700,400,300);
-
-@font-face{ 
-  font-family: 'Cubano';
-  src: url('../font/cubano-regular-webfont.eot');
-  src: url('../font/cubano-regular-webfont.eot?#iefix') format('embedded-opentype'),
-       url('../font/cubano-regular-webfont.woff') format('woff'),
-       url('../font/cubano-regular-webfont.ttf') format('truetype'),
-       url('../font/cubano-regular-webfont.svg#webfont') format('svg');
-}
+@import "config";
 
 body {
   background-color: #FFFFFF;
-  font-family: "Open Sans";
+  font-family: $standard-font;
   font-size: 10px;
   font-weight: 400;
 }
 
 .gdq-link {
-  color: #F21847;
+  color: $secondary-color;
   text-decoration: none;
 }
 
 a {
-  color: #F21847;
+  color: $secondary-color;
   text-decoration: none;
-}
 
-a:hover {
-  color: #A20023;
-  text-decoration: none;
+  &:hover {
+    color: #A20023;
+    text-decoration: none;
+  }
 }
 
 h1, h2, h3 {
   font-size: 30px;
   font-weight: 400;
-  font-family: "Cubano"
+  font-family: $stylized-font
 }
 
 .home-link {
   color: #555;
   text-decoration: none;
-}
 
-.home-link:hover {
-  text-decoration: underline;
-  color: #555;
-}
-
-h1 .gdq-link {
-  font-size: 32px;
-  border-bottom: 2px solid #00AEEF;
-  margin-bottom: 40px;
+  &:hover {
+    text-decoration: underline;
+    color: #555;
+  }
 }
 
 h1 {
   color: #555;
+  .gdq-link {
+    font-size: 32px;
+    border-bottom: 2px solid $primary-color;
+    margin-bottom: 40px;
+  }
 }
 
 h3 {
@@ -99,25 +89,25 @@ tr.selected {
 }
 
 .primaryLine {
-  stroke: #00AEEF;
+  stroke: $primary-color;
 }
 
 .primaryFocus {
-  fill: #00AEEF;
-  stroke: #00AEEF;
+  fill: $primary-color;
+  stroke: $primary-color;
 }
 
 .secondaryLine {
-  stroke: #F21847;
+  stroke: $secondary-color;
 }
 
 .primContextLine {
-  stroke: #00AEEF;
+  stroke: $primary-color;
   stroke-width: 1px;
 }
 
 .secContextLine {
-  stroke: #F21847;
+  stroke: $secondary-color;
   stroke-width: 1px;
 }
 
@@ -133,14 +123,14 @@ tr.selected {
 }
 
 .secondaryFocus {
-  fill: #F21847;
-  stroke: #F21847;
+  fill: $secondary-color;
+  stroke: $secondary-color;
 }
 
 .brush .extent {
   stroke: #fff;
   fill-opacity: .125;
-  fill: #00AEEF;
+  fill: $primary-color;
   shape-rendering: crispEdges;
 }
 
@@ -192,7 +182,7 @@ tr.selected {
   padding-top: 5px;
   padding-bottom: 5px;
   font-weight: bold;
-  font-family: "Cubano"
+  font-family: $stylized-font
 }
 
 .current_header {
@@ -224,13 +214,13 @@ tr.selected {
   margin-right: 10px;
   border: 1px solid #ddd;
   text-align: center;
-  font-family: "Open Sans";
+  font-family: $standard-font;
   width: 225px;
 }
 
 .tool-game {
   background-color: #ddd;
-  font-family: "Cubano";
+  font-family: $stylized-font;
   font-weight: bold;
   font-size: 16px;
   height: 40px;
@@ -243,12 +233,12 @@ tr.selected {
 }
 
 .tool-primary {
-  color: #00AEEF;
+  color: $primary-color;
   font-size: 14px;
   padding-top: 5px;
 }
 .tool-secondary {
-  color: #F21847;
+  color: $secondary-color;
   font-size: 14px;
   padding-bottom: 5px;
 }
@@ -276,29 +266,30 @@ tr.selected {
   height: 500px;
   overflow: hidden;
   border-bottom: 2px solid #ddd;
-}
 
-#game-list thead {
-  background-color: #eee;
-  padding: 0px;
-  display: block;
-}
+  thead {
+    background-color: #eee;
+    padding: 0px;
+    display: block;
+  }
 
-#game-list th {
-  text-align: left;
-}
+  tbody {
+    overflow: auto;
+    display: block;
+    width: 100%;
+    height: 476px;
+    font-weight: 300;
+  }
 
-#game-list table {
-  height: 500px;
-  border-spacing: 0px;
-}
+  th {
+    text-align: left;
+  }
 
-#game-list tbody {
-  overflow: auto;
-  display: block;
-  width: 100%;
-  height: 476px;
-  font-weight: 300;
+  table {
+    height: 500px;
+    border-spacing: 0px;
+  }
+
 }
 
 #gamesTable {
@@ -308,7 +299,7 @@ tr.selected {
 
 .info-label {
   font-size: 18px;
-  font-family: "Cubano";
+  font-family: $stylized-font;
 }
 
 .game-info-box {
@@ -338,10 +329,10 @@ tr.selected {
 .info-section {
   font-size: 16px;
   font-weight: 100;
-}
 
-.info-section p {
-  padding-left: 20px;
+  p {
+    padding-left: 20px;
+  }
 }
 
 .loading-image {
@@ -353,7 +344,7 @@ tr.selected {
 .series-options {
   background-color: #eee;
   padding: 10px;
-  font-family: "Cubano";
+  font-family: $stylized-font;
   font-size: 14px;
 }
 
@@ -361,7 +352,7 @@ tr.selected {
   display: inline-block;
   text-align: center;
   font-size: 12px;
-  font-family: "Open Sans";
+  font-family: $standard-font;
   width: 30%;
   font-weight: bold;
 }
@@ -373,27 +364,27 @@ tr.selected {
 
 .graph-time-select {
   display: inline;
-  font-family: "Open Sans";
+  font-family: $standard-font;
   font-size: 12px;
   text-align: right;
-}
 
-.graph-time-select a {
-  color: #333;
-  font-weight: bold;
-  padding-right: 5px;
-}
+  a {
+    color: #333;
+    font-weight: bold;
+    padding-right: 5px;
 
-.graph-time-select a:hover {
-  color: #666;
+    &:hover {
+      color: #666;
+    }
+  }
 }
 
 .series1 {
-  color: #00AEEF;
+  color: $primary-color;
 }
 
 .series2 {
-  color: #F21847;
+  color: $secondary-color;
 }
 
 footer {
