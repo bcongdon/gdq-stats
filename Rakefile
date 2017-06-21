@@ -29,7 +29,8 @@ desc "HTMLProofer Tests"
 task :test do
   system('bundle exec jekyll build')
   HTMLProofer.check_directory("_site/", {
-    :file_ignore => [/.+\/bower_components.+/]
+    :file_ignore => [/.+\/bower_components.+/],
+    :allow_hash_href => true
   }).run()
 end
 
