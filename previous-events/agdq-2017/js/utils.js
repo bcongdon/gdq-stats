@@ -1,0 +1,1 @@
+function getRetry(b,a){$.ajax({url:b,async:true,retryCount:0,retryLimit:5,retryTimeout:15000,timeout:2000,created:Date.now(),error:function(d,e,c){this.retryCount++;if(this.retryCount<=this.retryLimit&&Date.now()-this.created<this.retryTimeout){console.log("Retrying "+b);$.ajax(this);return}},success:a})};
