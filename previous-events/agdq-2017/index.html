@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+
+  <!-- Favicons -->
+<link rel="apple-touch-icon-precomposed" sizes="57x57" href="img/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon-precomposed" sizes="60x60" href="img/apple-touch-icon-60x60.png" />
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="img/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="img/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="img/apple-touch-icon-152x152.png" />
+<link rel="icon" type="image/png" href="img/favicon-196x196.png" sizes="196x196" />
+<link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="img/favicon-128.png" sizes="128x128" />
+<meta name="application-name" content="&nbsp;"/>
+<meta name="msapplication-TileColor" content="#FFFFFF" />
+<meta name="msapplication-TileImage" content="img/mstile-144x144.png" />
+<meta name="msapplication-square70x70logo" content="img/mstile-70x70.png" />
+<meta name="msapplication-square150x150logo" content="img/mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo" content="img/mstile-310x150.png" />
+<meta name="msapplication-square310x310logo" content="img/mstile-310x310.png" />
+  <!-- jQuery -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- D3.js -->
+<script src="bower_components/d3/d3.js"></script>
+<!-- Github button -->
+<script async defer src="bower_components/github-buttons/dist/github-buttons.js"></script>
+<!-- odometer -->
+<link rel="stylesheet" href="bower_components/odometer/themes/odometer-theme-minimal.css"/>
+<script src="bower_components/odometer/odometer.min.js"></script>
+<!-- Moment -->
+<script src="bower_components/moment/moment.js"></script>
+<!-- Js-Cookie -->
+<script src="bower_components/js-cookie/src/js.cookie.js"></script>
+<!-- CSV-JS -->
+<script src="bower_components/CSV-JS/csv.js"></script>
+<!-- Common Utils -->
+<script src="/js/utils.js" type="text/javascript"></script>
+<!-- Connection to Data Source -->
+<script src="/js/data_connection.js" type="text/javascript"></script>
+
+
+  <!-- Google Analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-72102716-2', 'auto');
+  ga('send', 'pageview');
+</script>
+  <title>AGDQ 2017 Stats</title>
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+</head>
+<body>
+  <div class="container">
+    <h1><a class='gdq-link' href="/">Awesome Games Done Quick</a> &nbsp;&nbsp; 2017 Stats</h1>
+    <div class="section">
+      <h2>Event Stats</h2>
+      <div class="current_stats">
+        <div class="stat topline_stat" id="viewers_stat">
+          <span class="current_header"> Maximum Viewers:</span>
+          <div class="odometer-group">
+            <div id="oViewers" class="odometer">0</div>
+            <div class="emoji">📺</div>
+          </div>
+        </div>
+        <div class="stat topline_stat" id="donations_stat">
+          <span class="current_header">Total Donations:</span>  
+          <div class="odometer-group">
+            $<div id="oDonations" class="odometer">0</div>
+            <div class="emoji">💸</div>
+          </div>
+        </div>
+        <div class="stat topline_stat" id="donators_stat">
+          <span class="current_header">Number of Donations:</span>
+          <div class="odometer-group">
+            <div id="oDonators" class="odometer">0</div>
+            <div class="emoji">🙌</div>
+          </div>
+        </div>
+        <div class="stat">
+          <span class="current_header">Twitch Chats:</span>
+          <div class="odometer-group">
+            <div id="oChats" class="odometer">0</div>
+            <div class="emoji">💬</div>
+          </div>
+        </div>
+        <div class="stat">
+          <span class="current_header">Twitch Emotes:</span>
+          <div class="odometer-group">
+            <div id="oEmotes" class="odometer">0</div>
+            <div class="emoji" style="vertical-align:middle;"><img src="img/kappa.png" width="22" alt="kappa"></div>
+          </div>
+        </div>
+        <div class="stat">
+          <span class="current_header">Tweets Tweeted:</span>
+          <div class="odometer-group">
+            <div id="oTweets" class="odometer">0</div>
+            <div class="emoji">🐦</div>
+          </div>
+        </div>
+      </div>
+      <div class="gdq-links">
+        <div><a href="https://www.twitch.tv/gamesdonequick">Livestream</a></div>
+        <div><a href="https://gamesdonequick.com/tracker/index/agdq2017">Donation Tracker</a></div>
+        <div><a href="https://gamesdonequick.com/schedule">Schedule</a></div>
+      </div>
+    </div>
+
+    <div class="section" id="chart-div">
+      <h2>Live Stats</h2> 
+      <div class="content" style="padding-top: 5px;">
+        <div id="chart"><img class="loading-image" src="img/loading.gif" alt="loading"></div>
+      </div>
+      <div class="series-options">
+        <div class="series-select-title">
+          <span>Options</span>
+        </div>
+        <div class="series-select">
+          <span class="series1">Series 1:</span>
+          <select id="primSelect" onchange="selectChanged()">
+            <option selected value="Viewers">Viewers</option>
+            <option disabled value="Donations">Donations</option>
+            <option value="Donations per Minute">Donations per Minute</option>
+            <option value="Donators">Donators</option>
+            <option value="Tweets">Tweets</option>
+            <option value="Tweets per Minute">Tweets per Minute</option>
+            <option value="Twitch Chats">Twitch Chats</option>
+            <option value="Twitch Chats per Minute">Twitch Chats per Minute</option>
+            <option value="Twitch Emotes">Twitch Emotes</option>
+            <option value="Twitch Emotes per Minute">Twitch Emotes per Minute</option>
+            <option value="Disabled">Disabled</option>
+          </select>
+        </div>
+        <div class="series-select">
+          <span class="series2">Series 2:</span>
+          <select id="secSelect" onchange="selectChanged()">
+            <option disabled value="Viewers">Viewers</option>
+            <option selected value="Donations">Donations</option>
+            <option value="Donations per Minute">Donations per Minute</option>
+            <option value="Donators">Donators</option>
+            <option value="Tweets">Tweets</option>
+            <option value="Tweets per Minute">Tweets per Minute</option>
+            <option value="Twitch Chats">Twitch Chats</option>
+            <option value="Twitch Chats per Minute">Twitch Chats per Minute</option>
+            <option value="Twitch Emotes">Twitch Emotes</option>
+            <option value="Twitch Emotes per Minute">Twitch Emotes per Minute</option>
+            <option value="Disabled">Disabled</option>
+          </select>
+        </div>
+        <div class='graph-time-select'>
+          <a onclick="adjustToLast(60 * 60 * 1000)" href='#'>1hr</a>
+          <a onclick="adjustToLast(6 * 60 * 60 * 1000)" href='#'>6hr</a>
+          <a onclick="adjustToLast(12 * 60 * 60 * 1000)" href='#'>12hr</a>
+          <a onclick="adjustToLast(24 * 60 * 60 * 1000)" href='#'>1d</a>
+          <a onclick="adjustToLast(3 * 24 * 60 * 60 * 1000)" href='#'>3d</a>
+          <a onclick="openBrush({clearAtEnd: true})" href='#'>All</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Games</h2>
+      <div class="content" style="padding:0;">
+        <div id="game-list"></div>
+      </div>
+      <div class="current_stats">
+        <div class="stat">
+          <span class="current_header">Games Completed:</span>
+          <div id="oGames" class="odometer" style="padding-right: 5px">0</div>
+          <div class="emoji">🎮</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Info for nerds</h2>
+      <div class="content">
+        <div class="column info-section">
+          <h3>Back end</h3>
+          <ul>
+            <li>Twitch, Donation, and Twitter data is continuously collected by <a href="https://github.com/bcongdon/gdq-collector">gdq-collector</a> - a package of scripts I wrote using <a href="http://flask.pocoo.org/">Flask</a>, APScheduler, and AWS <a href="https://aws.amazon.com/lambda/">Lambda</a>.</li>
+            <li>The backend database is an AWS RDS hosted PostgreSQL server. The database is updated at 1 minute intervals.</li>
+            <li>An <a href="https://aws.amazon.com/ec2">EC2</a> instance is used to keep everything running throughout the event.</li>
+          </ul>
+        </div>
+        <div class="column info-section">
+          <h3>Front end</h3>
+          <ul>
+            <li><a href="https://d3js.org/">D3.js</a> is used for all the graphs</li>
+            <li><a href="https://github.com/HubSpot/odometer">odometer</a> is used for the realtime number displays</li>
+            <li>Design was heavily inspired by <a href="http://alligatr.co.uk">alligatr</a>'s previous SGDQ stat pages</li>
+          </ul>
+          <p>This site is completely open sourced on <a href="https://github.com/bcongdon/gdq-stats">Github</a>!</p>
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+<footer style="display:inline-block"> Made with <img src="img/base_emoji_colored.png" alt="gdqstatus emoji" width="16px" align="top"> by <a href="http://benjamincongdon.me">Benjamin Congdon</a>, 2016-<script>document.write(new Date().getFullYear())</script></footer>
+<div style="text-align:right; float:right">
+  <!-- <a href="https://twitter.com/gdqstatus" class="twitter-follow-button" data-show-count="false">Follow @gdqstatus</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script> -->
+  <iframe src="https://ghbtns.com/github-btn.html?user=bcongdon&repo=gdq-stats&type=star" frameborder="0" scrolling="0" width="65px" height="20px"></iframe>
+</div>
+</br>
+</br>
+  </div>
+  <script type="text/javascript" src="js/graph.d3.js"></script>
+  <script type="text/javascript" src="js/stats.js"></script>
+</body>

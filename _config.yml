@@ -8,13 +8,13 @@ url: "http://gdqstat.us" # the base hostname & protocol for your site
 sass:
   sass_dir: _scss
 
-current_event: Awesome Games Done Quick
-current_event_short_hand: AGDQ
+current_event: Summer Games Done Quick
+current_event_short_hand: SGDQ
 current_event_year: 2017
 
 # Build settings
 markdown: kramdown
 
 # Exclude
-exclude: [LICENSE, README.md, Rakefile, Gemfile, Gemfile.lock, other_graphs.html, flipclock.html,
+exclude: [LICENSE, README.md, Rakefile, Gemfile, Gemfile.lock, homepage.html, other_graphs.html,
           bower.json, fresh_chrome.sh]
