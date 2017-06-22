@@ -1,3 +1,7 @@
+const $ = require('jquery');
+const moment = require('moment');
+const CSV = require('csv-js');
+
 $.get('/data/2016/games.csv')
   .pipe( CSV.parse )
   .done( function(rows) {

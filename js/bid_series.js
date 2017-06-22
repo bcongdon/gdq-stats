@@ -1,4 +1,5 @@
 'use strict';
+const c3 = require('c3')
 
 getRetry('http://storage.api.gdqstat.us/killVsSave.json', function(res) {
   setupBidSeries(res)

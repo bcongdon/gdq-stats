@@ -1,4 +1,6 @@
 "use strict";
+const $ = require('jquery');
+const DBConnection = require('./data_connection');
 
 function accumulateStats(data) {
     var c_acc = 0,

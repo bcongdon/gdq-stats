@@ -1,0 +1,26 @@
+{
+  "name": "gdq-stats",
+  "version": "1.0.0",
+  "description": "> :space_invader: Stats webpage for [GamesDoneQuick](gamesdonequick.com). Hosted at [gdqstat.us](http://gdqstat.us)",
+  "main": " ",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcongdon/gdq-stats.git"
+  },
+  "author": "Benjamin Congdon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bcongdon/gdq-stats/issues"
+  },
+  "homepage": "https://github.com/bcongdon/gdq-stats#readme",
+  "dependencies": {
+    "c3": "^0.4.13",
+    "csv-js": "^1.0.0",
+    "d3": "^3.5.17",
+    "jquery": "^3.2.1",
+    "moment": "^2.18.1"
+  }
+}

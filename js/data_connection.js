@@ -2,8 +2,10 @@
 const GDQ_API_ENDPOINT = 'https://api.gdqstat.us'
 // const GDQ_STORAGE_ENDPOINT = 'http://storage.api.gdqstat.us'
 const GDQ_STORAGE_ENDPOINT = 'data/2017/agdq_final'
+const getRetry = require('./get_retry');
+const moment = require('moment');
 
-var DBConnection = {
+const DBConnection = {
   timeseries: undefined,
   schedule: undefined,
   timeseriesListeners: [],
@@ -122,3 +124,5 @@ setInterval(function() {
 setInterval(function() {
   DBConnection.refreshSchedule()
 }, 5 * 60 * 1000)
+
+module.exports = DBConnection;

@@ -1,4 +1,8 @@
 'use strict';
+const d3 = require('d3');
+const $ = require('jquery');
+const moment = require('moment');
+const DBConnection = require('./data_connection');
 
 var svg, brush, games, x2, tot_data;
 

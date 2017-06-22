@@ -1,4 +1,6 @@
-function getRetry(url, cb) {
+const $ = require('jquery');
+
+module.exports = function getRetry(url, cb) {
   $.ajax({
     url: url,
     async: true,
