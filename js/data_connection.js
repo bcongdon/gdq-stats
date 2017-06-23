@@ -113,10 +113,6 @@ const DBConnection = {
   }
 }
 
-DBConnection.fetchInitial()
-
-DBConnection.refreshSchedule()
-
 setInterval(function() {
   DBConnection.refreshTimeseries()
 }, 60 * 1000)

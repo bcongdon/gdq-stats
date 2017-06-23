@@ -2,7 +2,6 @@
 const d3 = require('d3');
 const $ = require('jquery');
 const moment = require('moment');
-const DBConnection = require('./data_connection');
 
 var svg, brush, games, x2, tot_data;
 
@@ -612,23 +611,6 @@ function handleTimeseries(ts) {
   shouldRerender = true
 }
 
-function handleSchedule(sched) {
-  conditionGames(sched);
-}
-
-DBConnection.getTimeseries().then(function(ts){
-  handleTimeseries(ts)
-  // console.log('got ts')
-  DBConnection.getSchedule().then(function(sched){
-    // console.log('got sched')
-    handleSchedule(sched)
-    initialSetup()
-    DBConnection.timeseriesListeners.push(handleTimeseries)
-    DBConnection.scheduleListeners.push(handleSchedule)
-  })
-})
-
-
 setInterval(function() {
   // Rerender
   if(shouldRerender) {
@@ -637,3 +619,9 @@ setInterval(function() {
     shouldRerender = false;
   }
 }, 10 * 1000)
+
+module.exports = {
+  initialSetup: initialSetup,
+  handleTimeseries: handleTimeseries,
+  handleGames: conditionGames
+}

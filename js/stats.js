@@ -1,6 +1,5 @@
 "use strict";
 const $ = require('jquery');
-const DBConnection = require('./data_connection');
 
 function accumulateStats(data) {
     var c_acc = 0,
@@ -32,11 +31,6 @@ function populateStatsOdometers(data) {
     $("#oTweets").text(acc_stats.t);
 }
 
-DBConnection.timeseriesListeners.push(populateStatsOdometers)
-DBConnection.getTimeseries().then(function(data){
-    populateStatsOdometers(data)
-})
-
 function populateGamesOdometer(data) {
     // var num_completed = 0,
     //     i = 0,
@@ -49,8 +43,8 @@ function populateGamesOdometer(data) {
     $("#oGames").text(data.length);
 }
 
-DBConnection.scheduleListeners.push(populateGamesOdometer)
-DBConnection.getSchedule().then(function(data){
-    populateGamesOdometer(data)
-})
+module.exports = {
+    handleGames: populateGamesOdometer,
+    handleTimeseries: populateStatsOdometers
+}
 
