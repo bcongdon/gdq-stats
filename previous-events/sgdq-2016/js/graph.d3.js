@@ -599,7 +599,7 @@ function setupAll(res) {
 var shouldRerender = false;
 
 // Listen for new data in 'data' and 'extras'
-var data_ref = firebase.database().ref("data");
+// var data_ref = firebase.database().ref("data");
 data_ref.on('child_changed', function(child, key) {
   var ckey = child.getKey();
   var val = child.val();
@@ -609,7 +609,7 @@ data_ref.on('child_changed', function(child, key) {
   raw_data[ckey].v = raw_data[ckey].v || val.v;
   shouldRerender = true;
 });
-var extras_ref = firebase.database().ref("extras");
+// var extras_ref = firebase.database().ref("extras");
 extras_ref.on('child_changed', function(child, key) {
   var ckey = child.getKey();
   var val = child.val();

@@ -47,4 +47,3 @@ module.exports = {
     handleGames: populateGamesOdometer,
     handleTimeseries: populateStatsOdometers
 }
-

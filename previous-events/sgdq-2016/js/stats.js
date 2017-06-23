@@ -1,6 +1,6 @@
 "use strict";
 var client = irc.client();
-var stats_ref = firebase.database().ref("stats");
+// var stats_ref = firebase.database().ref("stats");
 
 function queryTwitch(){
     client.api({
@@ -19,32 +19,32 @@ function queryTwitch(){
 
 var initial_vals = false;
 function setupFirebaseData(){
-    stats_ref.on("value", function(data){
-        if(!data.val() && !initial_vals) {
-            // Hide if we get a NULL object and have no other data
-            $("#donations_stat").hide();
-            $("#donators_stat").hide();
-        }
-        data = data.val();
-        initial_vals = true;
-        $("#oDonations").text(data.total_donations);
-        $("#oDonators").text(data.num_donators);
-        $("#oGames").text(data.games_played);
-        $("#oChats").text(data.total_chats);
-        $("#oEmotes").text(data.total_emotes);
-        $("#oTweets").text(data.total_tweets);
-        // Show stats elements when query successful
-        $("#donations_stat").show();
-        $("#donators_stat").show();
-    }, function(error) {
-        // Hides stats elements when query unsuccessful
-        if(initial_vals) {
-            return;
-        }
-        $("#donations_stat").hide();
-        // $("#donators_stat").hide();
-        console.debug(error);
-    });
+    // stats_ref.on("value", function(data){
+    //     if(!data.val() && !initial_vals) {
+    //         // Hide if we get a NULL object and have no other data
+    //         $("#donations_stat").hide();
+    //         $("#donators_stat").hide();
+    //     }
+    //     data = data.val();
+    //     initial_vals = true;
+    //     $("#oDonations").text(data.total_donations);
+    //     $("#oDonators").text(data.num_donators);
+    //     $("#oGames").text(data.games_played);
+    //     $("#oChats").text(data.total_chats);
+    //     $("#oEmotes").text(data.total_emotes);
+    //     $("#oTweets").text(data.total_tweets);
+    //     // Show stats elements when query successful
+    //     $("#donations_stat").show();
+    //     $("#donators_stat").show();
+    // }, function(error) {
+    //     // Hides stats elements when query unsuccessful
+    //     if(initial_vals) {
+    //         return;
+    //     }
+    //     $("#donations_stat").hide();
+    //     // $("#donators_stat").hide();
+    //     console.debug(error);
+    // });
 }
 
 // Initial calls
