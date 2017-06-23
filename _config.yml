@@ -16,5 +16,12 @@ current_event_year: 2017
 markdown: kramdown
 
 # Exclude
-exclude: [LICENSE, README.md, Rakefile, Gemfile, Gemfile.lock, homepage.html, other_graphs.html,
-          bower.json, fresh_chrome.sh]
+exclude: [LICENSE, README.md, Rakefile, Gemfile, Gemfile.lock, other_graphs.html,
+          bower.json, node_modules]
+
+previous_events:
+  - name: AGDQ
+    year: 2017
+
+  - name: SGDQ
+    year: 2016
