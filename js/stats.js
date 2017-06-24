@@ -31,6 +31,15 @@ function populateStatsOdometers(data) {
     $("#oTweets").text(acc_stats.t);
 }
 
+function initOdometers() {
+    $(".odometer-pre").each(function() {
+        new Odometer({
+            el: $(this).get(0),
+            value: $(this).text()
+        })
+    })
+}
+
 function populateGamesOdometer(data) {
     // var num_completed = 0,
     //     i = 0,
@@ -45,5 +54,6 @@ function populateGamesOdometer(data) {
 
 module.exports = {
     handleGames: populateGamesOdometer,
-    handleTimeseries: populateStatsOdometers
+    handleTimeseries: populateStatsOdometers,
+    initOdometers: initOdometers
 }

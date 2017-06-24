@@ -6,6 +6,8 @@ DBConnection.getTimeseries().then(function(ts){
   graph.handleTimeseries(ts)
   stats.handleTimeseries(ts)
 
+  stats.initOdometers()
+
   DBConnection.getSchedule().then(function(sched){
     graph.handleGames(sched)
     stats.handleGames(sched)

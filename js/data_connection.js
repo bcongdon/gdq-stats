@@ -14,7 +14,7 @@ const DBConnection = {
     return new Promise(function(resolve, rej){
       getRetry(GDQ_STORAGE_ENDPOINT + '/latest.json', function(res) {
         res = (typeof res === 'string' || res instanceof String) ? JSON.parse(res) : res;
-        DBConnection.updateWithNewData(res)
+        DBConnection.updateWithNewData(res, false)
         DBConnection.fetchRecent().then(function() {
           resolve()          
         })
@@ -35,7 +35,9 @@ const DBConnection = {
       // })
     })
   },
-  updateWithNewData: function(data) {
+  updateWithNewData: function(data, shouldSort) {
+    shouldSort = shouldSort === undefined ? true : shouldSort;
+
     // Do some minor manipulations of data to keep assumptions about data correct
     for (var i = 0; i < data.length; i++) {
       data[i].time = new Date(data[i].time)
@@ -45,7 +47,9 @@ const DBConnection = {
         }
       }
     }
-    data.sort(function(a, b) { return a.time - b.time})
+    if(shouldSort) {
+      data.sort(function(a, b) { return a.time - b.time})
+    }
     if(!DBConnection.timeseries || DBConnection.timeseries.length == 0){
       DBConnection.timeseries = data
     }

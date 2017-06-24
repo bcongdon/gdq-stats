@@ -9,6 +9,13 @@ require 'tmpdir'
 require 'jekyll'
 require 'html-proofer'
 
+desc "Builds javascript bundles"
+task :webpack do
+  puts "##Building..."
+  system('webpack --optimize-minify --optimize-dedupe --progress')
+  puts "##Webpack build complete"
+end
+
 desc "Build _site"
 task :build do
   puts "\n## Generating site files"
@@ -60,7 +67,7 @@ end
 
 desc "Build and then minify"
 task :generate do 
-  [ "install", "build", "minify" ].each do |t|
+  [ "install", "webpack", "build", "minify" ].each do |t|
     Rake::Task[t].execute
   end
 end
