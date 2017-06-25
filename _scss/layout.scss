@@ -314,11 +314,13 @@ tbody {
 
 .odometer {
   display: inline-block;
+  padding-right: 5px;
 }
 
 .emoji {
   display: inline-block;
   font-size: 20px;
+  vertical-align: middle;
 }
 
 .info-section {

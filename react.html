@@ -1,0 +1,47 @@
+---
+
+---
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+
+  {% include favicon.html %}
+  {% include libraries.html %}
+  {% include google_analytics.html %}
+  {% include header.html %}
+
+</head>
+<body>
+  <div class="container">
+    <h1><a class='gdq-link' href="/">{{ site.current_event }}</a> &nbsp;&nbsp; {{ site.current_event_year }} Stats</h1>
+    
+    <div id="react-root"></div>
+
+    <div class="section">
+      <h2>Info for nerds</h2>
+      <div class="content">
+        <div class="column info-section">
+          <h3>Back end</h3>
+          <ul>
+            <li>Twitch, Donation, and Twitter data is continuously collected by <a href="https://github.com/bcongdon/gdq-collector">gdq-collector</a> - a package of scripts I wrote using <a href="http://flask.pocoo.org/">Flask</a>, APScheduler, and AWS <a href="https://aws.amazon.com/lambda/">Lambda</a>.</li>
+            <li>The backend database is an AWS RDS hosted PostgreSQL server. The database is updated at 1 minute intervals.</li>
+            <li>An <a href="https://aws.amazon.com/ec2">EC2</a> instance is used to keep everything running throughout the event.</li>
+          </ul>
+        </div>
+        <div class="column info-section">
+          <h3>Front end</h3>
+          <ul>
+            <li><a href="https://d3js.org/">D3.js</a> is used for all the graphs</li>
+            <li><a href="https://github.com/HubSpot/odometer">odometer</a> is used for the realtime number displays</li>
+            <li>Design was heavily inspired by <a href="http://alligatr.co.uk">alligatr</a>'s previous SGDQ stat pages</li>
+          </ul>
+          <p>This site is completely open sourced on <a href="https://github.com/bcongdon/gdq-stats">Github</a>!</p>
+        </div>
+      </div>
+    </div>
+    {% include footer.html %}
+  </div>
+  <script type="text/javascript" src="dist/index_react.bundle.js"></script>
+</body>
