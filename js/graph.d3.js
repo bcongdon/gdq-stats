@@ -623,5 +623,6 @@ setInterval(function() {
 module.exports = {
   initialSetup: initialSetup,
   handleTimeseries: handleTimeseries,
-  handleGames: conditionGames
+  handleGames: conditionGames,
+  selectChanged: selectChanged
 }

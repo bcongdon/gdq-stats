@@ -1,6 +1,10 @@
 const graph = require('./graph.d3.js');
 const stats = require('./stats.js');
 const DBConnection = require('./data_connection.js');
+const $ = require('jquery')
+
+$("#primSelect").change(graph.selectChanged)
+$("#secSelect").change(graph.selectChanged)
 
 DBConnection.getTimeseries().then(function(ts){
   graph.handleTimeseries(ts)
