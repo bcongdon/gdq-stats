@@ -53,8 +53,14 @@ h1, h2, h3 {
 
 .graph-series-chooser {
   padding-left: 0px;
+  padding-right: 0px;
   font-size: 14px;
   font-family: $standard-font;
+}
+
+.graph-container {
+  padding-left: 0px;
+  border-left: 1px solid $panel-header-color;
 }
 
 h3 {
