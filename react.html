@@ -7,22 +7,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
   {% include favicon.html %}
   {% include libraries.html %}
   {% include google_analytics.html %}
   {% include header.html %}
 
+
 </head>
 <body>
   <div class="container">
-    <h1><a class='gdq-link' href="/">{{ site.current_event }}</a> &nbsp;&nbsp; {{ site.current_event_year }} Stats</h1>
+    <a class='gdq-event-header' href="/">{{ site.current_event }}</a><span class='gdq-year-header'>{{ site.current_event_year }} Stats</span>
     
     <div id="react-root"></div>
 
     <div class="section">
       <h2>Info for nerds</h2>
-      <div class="content">
-        <div class="column info-section">
+      <div class="content container">
+        <div class="col-sm-6 col-xs-12 column info-section">
           <h3>Back end</h3>
           <ul>
             <li>Twitch, Donation, and Twitter data is continuously collected by <a href="https://github.com/bcongdon/gdq-collector">gdq-collector</a> - a package of scripts I wrote using <a href="http://flask.pocoo.org/">Flask</a>, APScheduler, and AWS <a href="https://aws.amazon.com/lambda/">Lambda</a>.</li>
@@ -30,7 +32,7 @@
             <li>An <a href="https://aws.amazon.com/ec2">EC2</a> instance is used to keep everything running throughout the event.</li>
           </ul>
         </div>
-        <div class="column info-section">
+        <div class="col-sm-6 col-xs-12 column info-section">
           <h3>Front end</h3>
           <ul>
             <li><a href="https://d3js.org/">D3.js</a> is used for all the graphs</li>

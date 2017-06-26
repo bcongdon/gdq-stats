@@ -2,6 +2,7 @@ import React from 'react'
 import Stat from './Stat'
 import { PropTypes } from 'prop-types'
 import { connect } from 'react-redux'
+import { Grid, Col } from 'react-bootstrap'
 
 const STATS = [
   {
@@ -42,19 +43,13 @@ class StatsContainer extends React.Component {
   }
 
   accumulateStats () {
-    var c_acc = 0,
-        e_acc = 0,
-        t_acc = 0;
-    for (var i = 0; i < this.props.timeseries.length; i++) {
-        c_acc += this.props.timeseries[i].c;
-        e_acc += this.props.timeseries[i].e;
-        t_acc += this.props.timeseries[i].t;
-    }
-    return {
-        c: c_acc,
-        e: e_acc,
-        t: t_acc
-    }
+    return this.props.timeseries.reduce((prev, curr) => {
+      return {
+        c: prev.c + curr.c,
+        e: prev.e + curr.e,
+        t: prev.t + curr.t
+      }
+    }, { c: 0, e: 0, t: 0 })
   }
 
   render () {
@@ -75,12 +70,12 @@ class StatsContainer extends React.Component {
     return (
       <div className='section'>
         <h2>Event Stats</h2>
-        <div className='current_stats'>{stats}</div>
-        <div className='gdq-links'>
-          <div><a href='https://www.twitch.tv/gamesdonequick'>Livestream</a></div>
-          <div><a href='https://gamesdonequick.com/tracker/index/agdq2017'>Donation Tracker</a></div>
-          <div><a href='https://gamesdonequick.com/schedule'>Schedule</a></div>
-        </div>
+        <Grid className='current_stats content'>{stats}</Grid>
+        <Grid className='gdq-links'>
+          <Col xs={12} sm={4}><a href='https://www.twitch.tv/gamesdonequick'>Livestream</a></Col>
+          <Col xs={12} sm={4}><a href='https://gamesdonequick.com/tracker/index/agdq2017'>Donation Tracker</a></Col>
+          <Col xs={12} sm={4}><a href='https://gamesdonequick.com/schedule'>Schedule</a></Col>
+        </Grid>
       </div>
     )
   }

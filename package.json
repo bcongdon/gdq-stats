@@ -31,6 +31,7 @@
     "odometer": "^0.4.8",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.31.0",
     "react-dom": "^15.6.1",
     "react-odometerjs": "^1.0.1",
     "react-redux": "^5.0.5",

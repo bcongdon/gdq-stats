@@ -1,9 +1,10 @@
 import { INITIAL_TIMESERIES,
   UPDATE_TIMESERIES,
-  UPDATE_SCHEDULE } from '../actions/types'
+  UPDATE_SCHEDULE,
+  SET_CURRENT_SERIES } from '../actions/types'
 import moment from 'moment'
 
-const INITIAL_STATE = { schedule: [], timeseries: [], timeseriesLoaded: false, scheduleLoaded: false }
+const INITIAL_STATE = { schedule: [], timeseries: [], timeseriesLoaded: false, scheduleLoaded: false, series: 0 }
 
 const mostRecentTime = (data) => {
   return !data ? 0 : data[data.length - 1].time
@@ -41,6 +42,8 @@ export default function (state = INITIAL_STATE, action) {
       return { ...state, timeseries: updateTimeseries(action.payload, state.timeseries), timeseriesLoaded: true }
     case UPDATE_SCHEDULE:
       return { ...state, schedule: normalizeSchedule(action.payload), scheduleLoaded: true }
+    case SET_CURRENT_SERIES:
+      return { ...state, series: action.payload }
   }
   return state
 }

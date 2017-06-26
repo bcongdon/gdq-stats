@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { INITIAL_TIMESERIES,
          UPDATE_TIMESERIES,
-         UPDATE_SCHEDULE } from '../actions/types'
+         UPDATE_SCHEDULE,
+         SET_CURRENT_SERIES } from '../actions/types'
 
 const GDQ_API_ENDPOINT = 'https://api.gdqstat.us'
 // const GDQ_STORAGE_ENDPOINT = 'http://storage.api.gdqstat.us'
@@ -25,3 +26,5 @@ export const fetchSchedule = () => (dispatch) =>
   .then(response => {
     dispatch({ type: UPDATE_SCHEDULE, payload: response.data })
   })
+
+export const setCurrentSeries = (series) => (dispatch) => dispatch({ type: SET_CURRENT_SERIES, payload: series })
