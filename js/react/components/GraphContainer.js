@@ -4,19 +4,19 @@ import { setCurrentSeries } from '../actions'
 import { PropTypes } from 'prop-types'
 import { Nav, NavItem, Grid, Col } from 'react-bootstrap'
 import moment from 'moment'
-import { LineChart, Line, Tooltip, ResponsiveContainer, XAxis, YAxis } from 'recharts'
+import { LineChart, Line, Tooltip, ResponsiveContainer, XAxis, YAxis, Brush } from 'recharts'
 
 const GRAPHS = [
-  'Viewers',
-  'Donations',
-  'Donations per minute',
-  'Donors',
-  'Tweets',
-  'Tweets per minute',
-  'Twitch Chats',
-  'Twitch Chats per minute',
-  'Twitch Emotes',
-  'Twitch Emotes per minute'
+  { name: 'Viewers', key: 'v' },
+  { name: 'Donations', key: 'm' },
+  { name: 'Donations per minute', key: 'm_drv' },
+  { name: 'Donors', key: 'd' },
+  { name: 'Tweets', key: 't_acc' },
+  { name: 'Tweets per minute', key: 't' },
+  { name: 'Twitch Chats', key: 'c_acc' },
+  { name: 'Twitch Chats per minute', key: 'c' },
+  { name: 'Twitch Emotes', key: 'e_acc' },
+  { name: 'Twitch Emotes per minute', key: 'e' }
 ]
 
 const AxisLabel = ({ axisType, viewBox, fill, fontWeight, fontSize, children }) => {
@@ -54,16 +54,48 @@ class GraphContainer extends React.Component {
     this.props.setCurrentSeries(idx)
   }
 
+  createSyntheticSeries (key, series) {
+    const baseKey = key.slice(0, key.indexOf('_'))
+    const accumulate = (acc, val) => {
+      const newVal = val[baseKey] + (acc.length ? acc[acc.length - 1][key] : 0)
+      let newObj = {time: val.time}
+      newObj[key] = newVal
+      acc.push(newObj)
+      return acc
+    }
+    const derive = (acc, val) => {
+      const newVal = acc.length ? (val[baseKey] - acc[acc.length - 1][baseKey]) : 0
+      let newObj = {time: val.time}
+      newObj[key] = newVal
+      newObj[baseKey] = val[baseKey]
+      acc.push(newObj)
+      return acc
+    }
+    const reduceFunc = key.slice(baseKey.length + 1) === 'acc' ? accumulate : derive
+    return series.reduce(reduceFunc, [])
+  }
+
   render () {
     const rate = Number.parseInt(this.props.timeseries.length / 500)
-    const resampleSeries = this.props.timeseries.filter((d, idx) => idx % rate == 0 && d.v >= 0)
+    const dataKey = GRAPHS[this.props.activeSeries].key
+    const dataName = GRAPHS[this.props.activeSeries].name
+    
+    let series = []
+    if(dataKey.indexOf('_') !== -1) {
+      series = this.createSyntheticSeries(dataKey, this.props.timeseries)
+    } else {
+      series = this.props.timeseries
+    }
+
+    let resampleSeries = series.filter((d, idx) => idx % rate == 0 && d[dataKey] >= 0)
+
     return (
       <div className='section'>
         <h2>Live Stats</h2>
         <Grid>
           <Col sm={4} md={2} className='graph-series-chooser'>
             <Nav bsStyle='pills' stacked activeKey={this.props.activeSeries} onSelect={this.onSelect}>
-              {GRAPHS.map((name, idx) => <NavItem eventKey={idx} key={idx}>{name}</NavItem>)}
+              {GRAPHS.map((obj, idx) => <NavItem eventKey={idx} key={idx}>{obj.name}</NavItem>)}
             </Nav>
           </Col>
           <Col sm={8} md={10} className='graph-container'>
@@ -71,7 +103,7 @@ class GraphContainer extends React.Component {
               <LineChart data={resampleSeries} margin={{top: 20}}>
                 <Line
                   type='basis'
-                  dataKey='v'
+                  dataKey={dataKey}
                   stroke='#00AEEF'
                   strokeWidth={1.5}
                   dot={false}
@@ -86,12 +118,13 @@ class GraphContainer extends React.Component {
                   interval='preserveStart'
                   minTickGap={50} />
                 <YAxis
-                  dataKey='v'
+                  dataKey={dataKey}
                   axisLine={{stroke: '#ddd'}}
                   tickLine={{stroke: '#ddd'}}
                   tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
+                  domain={[0, 'dataMax']}
                   interval='preserveStartEnd'
-                  label={<AxisLabel axisType='yAxis' fill='#333' fontWeight={300} fontSize={13}>Viewers</AxisLabel>}
+                  label={<AxisLabel axisType='yAxis' fill='#333' fontWeight={300} fontSize={13}>{dataName}</AxisLabel>}
                   orientation='left' />
               </LineChart>
             </ResponsiveContainer>
