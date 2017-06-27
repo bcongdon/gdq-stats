@@ -4,7 +4,8 @@ import { setCurrentSeries } from '../actions'
 import { PropTypes } from 'prop-types'
 import { Nav, NavItem, Grid, Col } from 'react-bootstrap'
 import moment from 'moment'
-import { LineChart, Line, Tooltip, ResponsiveContainer, XAxis, YAxis, Brush } from 'recharts'
+import { LineChart, Line, Tooltip, ResponsiveContainer, XAxis, YAxis } from 'recharts'
+import VerticalLabel from './VerticalLabel'
 
 const GRAPHS = [
   { name: 'Viewers', key: 'v' },
@@ -19,30 +20,11 @@ const GRAPHS = [
   { name: 'Twitch Emotes per minute', key: 'e' }
 ]
 
-const AxisLabel = ({ axisType, viewBox, fill, fontWeight, fontSize, children }) => {
-  const { x, y, width, height } = viewBox
-  const isVert = axisType === 'yAxis'
-  const cx = isVert ? x + 75 : x + (width / 2)
-  const cy = isVert ? 20 : y + height + 10
-  const rot = isVert ? `270 ${cx} ${cy}` : 0
-  return (
-    <text
-      x={cx}
-      y={cy}
-      transform={`rotate(${rot})`}
-      textAnchor='end'
-      fill={fill}
-      fontWeight={fontWeight}
-      fontSize={fontSize}>
-      {children}
-    </text>
-  )
-}
-
 class GraphContainer extends React.Component {
   static propTypes = {
     setCurrentSeries: PropTypes.func.isRequired,
-    activeSeries: PropTypes.number.isRequired
+    activeSeries: PropTypes.number.isRequired,
+    timeseries: PropTypes.array.isRequired
   }
 
   constructor (props) {
@@ -79,15 +61,25 @@ class GraphContainer extends React.Component {
     const rate = Number.parseInt(this.props.timeseries.length / 500)
     const dataKey = GRAPHS[this.props.activeSeries].key
     const dataName = GRAPHS[this.props.activeSeries].name
-    
+
     let series = []
-    if(dataKey.indexOf('_') !== -1) {
+    if (dataKey.indexOf('_') !== -1) {
       series = this.createSyntheticSeries(dataKey, this.props.timeseries)
     } else {
       series = this.props.timeseries
     }
 
-    let resampleSeries = series.filter((d, idx) => idx % rate == 0 && d[dataKey] >= 0)
+    let resampleSeries = series.filter((d, idx) => idx % rate === 0 && d[dataKey] >= 0)
+
+    const yAxisLabel = (
+      <VerticalLabel
+        axisType='yAxis'
+        fill='#333'
+        fontWeight={300}
+        fontSize={13}>
+        {dataName}
+      </VerticalLabel>
+    )
 
     return (
       <div className='section'>
@@ -124,7 +116,7 @@ class GraphContainer extends React.Component {
                   tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
                   domain={[0, 'dataMax']}
                   interval='preserveStartEnd'
-                  label={<AxisLabel axisType='yAxis' fill='#333' fontWeight={300} fontSize={13}>{dataName}</AxisLabel>}
+                  label={yAxisLabel}
                   orientation='left' />
               </LineChart>
             </ResponsiveContainer>
