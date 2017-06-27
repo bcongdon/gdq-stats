@@ -6,6 +6,7 @@ import { Nav, NavItem, Grid, Col } from 'react-bootstrap'
 import moment from 'moment'
 import { LineChart, Line, Tooltip, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import VerticalLabel from './VerticalLabel'
+import { gameFromTime } from '../utils'
 
 const GRAPHS = [
   { name: 'Viewers', key: 'v' },
@@ -19,6 +20,29 @@ const GRAPHS = [
   { name: 'Twitch Emotes', key: 'e_acc' },
   { name: 'Twitch Emotes per minute', key: 'e' }
 ]
+
+const CustomToolTip = (props) => {
+  const { payload, label, active, schedule } = props
+  
+  if (!active || !payload){
+    return null
+  }
+
+  const payloadObj = payload[0].payload
+  const payloadProps = payload[0]
+  const dataKey = payloadProps.dataKey
+
+  const game = gameFromTime(schedule, label)
+
+  return (
+    <div className='gdq-tooltip'>
+      <div className='tool-game'>{game.name}</div>
+      <div className='tool-date'>{moment(label).format("ddd, MMM Do YYYY, h:mm a")}</div>
+      <div className='tool-primary'>{payloadProps.name}: {payloadObj[dataKey]}</div>
+      <div className='tool-footer'>Baz</div>
+    </div>
+  )
+}
 
 class GraphContainer extends React.Component {
   static propTypes = {
@@ -96,11 +120,14 @@ class GraphContainer extends React.Component {
                 <Line
                   type='basis'
                   dataKey={dataKey}
+                  name={dataName}
                   stroke='#00AEEF'
                   strokeWidth={1.5}
                   dot={false}
                   activeDot />
-                <Tooltip />
+                <Tooltip
+                  content={<CustomToolTip schedule={this.props.schedule} />}
+                  animationDuration={0}/>
                 <XAxis
                   dataKey='time'
                   axisLine={{stroke: '#ddd'}}
@@ -130,7 +157,8 @@ class GraphContainer extends React.Component {
 function mapStateToProps (state) {
   return {
     activeSeries: state.gdq.series,
-    timeseries: state.gdq.timeseries
+    timeseries: state.gdq.timeseries,
+    schedule: state.gdq.schedule
   }
 }
 
