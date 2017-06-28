@@ -6,7 +6,7 @@ import moment from 'moment'
 export default class GamesTooltip extends React.Component {
   static propTypes = {
     payload: PropTypes.array,
-    label: PropTypes.string,
+    label: PropTypes.number,
     active: PropTypes.bool,
     schedule: PropTypes.array,
     format: PropTypes.func
@@ -28,13 +28,13 @@ export default class GamesTooltip extends React.Component {
     const dataKey = payloadProps.dataKey
     const value = this.props.format(payloadObj[dataKey])
 
-    const game = gameFromTime(schedule, label)
+    const game = gameFromTime(schedule, moment.unix(label))
 
     return (
       <div className='gdq-tooltip'>
         <div className='tool-game'>{game.name}</div>
         <div className='tool-primary'>{payloadProps.name}: {value}</div>
-        <div className='tool-date'>{moment(label).format('ddd, MMM Do YYYY, h:mm a')}</div>
+        <div className='tool-date'>{moment.unix(label).format('ddd, MMM Do YYYY, h:mm a')}</div>
       </div>
     )
   }

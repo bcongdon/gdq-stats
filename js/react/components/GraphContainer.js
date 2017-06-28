@@ -11,6 +11,16 @@ import { format } from 'd3'
 import GRAPHS from '../graph-definitions'
 import Select from 'react-select'
 
+const zoomButtons = [
+  { label: '1h', hours: 1 },
+  { label: '3h', hours: 3 },
+  { label: '6h', hours: 6 },
+  { label: '12h', hours: 12 },
+  { label: '1d', hours: 24 },
+  { label: '3d', hours: 72 },
+]
+
+
 class GraphContainer extends React.Component {
   static propTypes = {
     setCurrentSeries: PropTypes.func.isRequired,
@@ -54,8 +64,28 @@ class GraphContainer extends React.Component {
     this.props.setButtonZoom(idx)
   }
 
+  getMinTime () {
+    const zoomIndex = this.props.activeButtonZoomIndex
+    const maxTime = this.props.timeseries[this.props.timeseries.length - 1].time
+    let min = moment.unix(0)
+    if (zoomIndex >= 0) {
+      const zoomHours = zoomButtons[zoomIndex].hours
+      min = moment(maxTime).subtract(zoomHours, 'hours')
+    }
+    return min
+  }
+
   render () {
-    const rate = Number.parseInt(this.props.timeseries.length / 500)
+    if (!this.props.timeseries || !this.props.timeseries.length) {
+      return null
+    }
+
+    const domainMin = this.getMinTime()
+    const trimmedTimeseries = this.props.timeseries.filter((obj) => {
+      return moment(obj.time).isAfter(domainMin)
+    })
+
+    const rate = Math.ceil(trimmedTimeseries.length / 500)
     const dataKey = GRAPHS[this.props.activeSeries].key
     const dataName = GRAPHS[this.props.activeSeries].name
     const dataFormat = GRAPHS[this.props.activeSeries].format
@@ -63,12 +93,15 @@ class GraphContainer extends React.Component {
 
     let series = []
     if (dataKey.indexOf('_') !== -1) {
-      series = this.createSyntheticSeries(dataKey, this.props.timeseries)
+      series = this.createSyntheticSeries(dataKey, trimmedTimeseries)
     } else {
-      series = this.props.timeseries
+      series = trimmedTimeseries
     }
 
-    let resampleSeries = series.filter((d, idx) => idx % rate === 0 && d[dataKey] >= 0)
+    let resampleSeries = series.filter((d, idx) => idx % rate === 0 && d[dataKey] >= 0).map((o) => {
+      return {...o, time: moment(o.time).unix() }
+    }).sort((a, b) => a.time - b.time)
+
 
     const yAxisLabel = (
       <VerticalLabel
@@ -113,19 +146,21 @@ class GraphContainer extends React.Component {
                     animationDuration={250} />
                   <XAxis
                     dataKey='time'
+                    type='number'
                     axisLine={{stroke: '#ddd'}}
                     tickLine={{stroke: '#ddd'}}
                     tickFormatter={(d) => moment(d).format('ddd, hA')}
                     tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
                     interval='preserveStart'
-                    minTickGap={50} />
+                    domain={['dataMin', 'dataMax']}
+                    minTickGap={50}/>
                   <YAxis
                     dataKey={dataKey}
                     tickFormatter={dataFormat}
                     axisLine={{stroke: '#ddd'}}
                     tickLine={{stroke: '#ddd'}}
                     tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
-                    domain={[0, 'dataMax']}
+                    domain={['dataMin', 'dataMax']}
                     interval='preserveStartEnd'
                     minTickGap={0}
                     label={yAxisLabel}
@@ -148,31 +183,14 @@ class GraphContainer extends React.Component {
             </Col>
             <Col sm={5} style={{fontFamily: 'Open Sans'}}>
               <ButtonGroup>
-                <Button
-                  active={this.props.activeButtonZoomIndex == 0}
-                  onClick={() => this.onZoomButtonClick(0)}>
-                  1h
-                </Button>
-                <Button
-                  active={this.props.activeButtonZoomIndex == 1}
-                  onClick={() => this.onZoomButtonClick(1)}>
-                  6h
-                </Button>
-                <Button
-                  active={this.props.activeButtonZoomIndex == 2}
-                  onClick={() => this.onZoomButtonClick(2)}>
-                  12h
-                </Button>
-                <Button
-                  active={this.props.activeButtonZoomIndex == 3}
-                  onClick={() => this.onZoomButtonClick(3)}>
-                  1d
-                </Button>
-                <Button
-                  active={this.props.activeButtonZoomIndex == 4}
-                  onClick={() => this.onZoomButtonClick(4)}>
-                  3d
-                </Button>
+                {zoomButtons.map((obj, idx) => 
+                  <Button
+                    key={idx}
+                    active={this.props.activeButtonZoomIndex == idx}
+                    onClick={() => this.onZoomButtonClick(idx)}>
+                    {obj.label}
+                  </Button>
+                )}
               </ButtonGroup>
             </Col>
           </Row>
