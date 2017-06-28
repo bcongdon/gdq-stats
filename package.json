@@ -24,6 +24,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "c3": "^0.4.13",
+    "css-loader": "^0.28.4",
     "csv-js": "^1.0.0",
     "d3": "^3.5.17",
     "jquery": "^3.2.1",
@@ -35,9 +36,11 @@
     "react-dom": "^15.6.1",
     "react-odometerjs": "^1.0.1",
     "react-redux": "^5.0.5",
+    "react-select": "^1.0.0-rc.5",
     "recharts": "^1.0.0-alpha.1",
     "redux": "^3.7.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "style-loader": "^0.18.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
