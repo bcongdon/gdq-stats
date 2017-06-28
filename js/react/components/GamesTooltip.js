@@ -33,9 +33,8 @@ export default class GamesTooltip extends React.Component {
     return (
       <div className='gdq-tooltip'>
         <div className='tool-game'>{game.name}</div>
-        <div className='tool-date'>{moment(label).format('ddd, MMM Do YYYY, h:mm a')}</div>
         <div className='tool-primary'>{payloadProps.name}: {value}</div>
-        <div className='tool-footer'>Baz</div>
+        <div className='tool-date'>{moment(label).format('ddd, MMM Do YYYY, h:mm a')}</div>
       </div>
     )
   }

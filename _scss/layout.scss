@@ -238,7 +238,7 @@ tbody {
   margin: 3px solid #fdfdfd;
   margin-right: 10px;
   margin-right: 10px;
-  border: 1px solid $panel-border-color;
+  border: 1.5px solid $panel-border-color;
   text-align: center;
   font-family: $standard-font;
   width: 225px;
@@ -249,7 +249,7 @@ tbody {
   font-family: $stylized-font;
   font-weight: bold;
   font-size: 16px;
-  height: 40px;
+  height: 45px;
 }
 
 .tool-date {
@@ -262,6 +262,7 @@ tbody {
   color: $primary-color;
   font-size: 14px;
   padding-top: 5px;
+  padding-bottom: 10px;
 }
 
 .tool-secondary {
