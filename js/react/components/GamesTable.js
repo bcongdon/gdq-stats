@@ -64,7 +64,7 @@ class GamesTable extends React.Component {
             </Grid>
           </div>
         </div>
-        <div className='current_stats container'>
+        <div className='current_stats container' style={{padding: 5}}>
           <Stat title='Games Completed' emoji='🎮' value={this.getGamesCompleted()} />
         </div>
       </div>
