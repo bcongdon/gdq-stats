@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setCurrentSeries } from '../actions'
+import { setCurrentSeries, setButtonZoom } from '../actions'
 import { PropTypes } from 'prop-types'
 import { Nav, NavItem, Grid, Col, Row, ButtonGroup, Button } from 'react-bootstrap'
 import moment from 'moment'
@@ -22,6 +22,7 @@ class GraphContainer extends React.Component {
   constructor (props) {
     super(props)
     this.onSelect = this.onSelect.bind(this)
+    this.onZoomButtonClick = this.onZoomButtonClick.bind(this)
   }
 
   onSelect (idx) {
@@ -47,6 +48,10 @@ class GraphContainer extends React.Component {
     }
     const reduceFunc = key.slice(baseKey.length + 1) === 'acc' ? accumulate : derive
     return series.reduce(reduceFunc, [])
+  }
+
+  onZoomButtonClick (idx) {
+    this.props.setButtonZoom(idx)
   }
 
   render () {
@@ -133,7 +138,7 @@ class GraphContainer extends React.Component {
             <Col sm={4}>
               Options
             </Col>
-            <Col sm={4} style={{fontFamily: 'Open Sans'}}>
+            <Col sm={3} style={{fontFamily: 'Open Sans'}}>
               <Select
                 className='Select Select--sm'
                 name="form-field-name"
@@ -141,14 +146,33 @@ class GraphContainer extends React.Component {
                 placeholder='Zoom to Game...'
               />
             </Col>
-            <Col sm={4} style={{fontFamily: 'Open Sans'}}>
+            <Col sm={5} style={{fontFamily: 'Open Sans'}}>
               <ButtonGroup>
-                <Button>1hr</Button>
-                <Button>6hr</Button>
-                <Button>12hr</Button>
-                <Button>1d</Button>
-                <Button>3d</Button>
-                <Button>All</Button>
+                <Button
+                  active={this.props.activeButtonZoomIndex == 0}
+                  onClick={() => this.onZoomButtonClick(0)}>
+                  1h
+                </Button>
+                <Button
+                  active={this.props.activeButtonZoomIndex == 1}
+                  onClick={() => this.onZoomButtonClick(1)}>
+                  6h
+                </Button>
+                <Button
+                  active={this.props.activeButtonZoomIndex == 2}
+                  onClick={() => this.onZoomButtonClick(2)}>
+                  12h
+                </Button>
+                <Button
+                  active={this.props.activeButtonZoomIndex == 3}
+                  onClick={() => this.onZoomButtonClick(3)}>
+                  1d
+                </Button>
+                <Button
+                  active={this.props.activeButtonZoomIndex == 4}
+                  onClick={() => this.onZoomButtonClick(4)}>
+                  3d
+                </Button>
               </ButtonGroup>
             </Col>
           </Row>
@@ -162,8 +186,9 @@ function mapStateToProps (state) {
   return {
     activeSeries: state.gdq.series,
     timeseries: state.gdq.timeseries,
-    schedule: state.gdq.schedule
+    schedule: state.gdq.schedule,
+    activeButtonZoomIndex: state.gdq.activeButtonZoomIndex
   }
 }
 
-export default connect(mapStateToProps, { setCurrentSeries })(GraphContainer)
+export default connect(mapStateToProps, { setCurrentSeries, setButtonZoom })(GraphContainer)

@@ -2,7 +2,9 @@ import axios from 'axios'
 import { INITIAL_TIMESERIES,
   UPDATE_TIMESERIES,
   UPDATE_SCHEDULE,
-  SET_CURRENT_SERIES } from '../actions/types'
+  SET_CURRENT_SERIES,
+  SET_BUTTON_ZOOM,
+  SET_GAME_ZOOM } from '../actions/types'
 
 const GDQ_API_ENDPOINT = 'https://api.gdqstat.us'
 // const GDQ_STORAGE_ENDPOINT = 'http://storage.api.gdqstat.us'
@@ -28,3 +30,6 @@ export const fetchSchedule = () => (dispatch) =>
     })
 
 export const setCurrentSeries = (series) => (dispatch) => dispatch({ type: SET_CURRENT_SERIES, payload: series })
+
+export const setButtonZoom = (idx) => (dispatch) => dispatch({ type: SET_BUTTON_ZOOM, payload: idx })
+export const setGameZoom = (idx) => (dispatch) => dispatch({ type: SET_GAME_ZOOM, payload: idx })

@@ -1,10 +1,20 @@
 import { INITIAL_TIMESERIES,
   UPDATE_TIMESERIES,
   UPDATE_SCHEDULE,
-  SET_CURRENT_SERIES } from '../actions/types'
+  SET_CURRENT_SERIES,
+  SET_BUTTON_ZOOM,
+  SET_GAME_ZOOM } from '../actions/types'
 import moment from 'moment'
 
-const INITIAL_STATE = { schedule: [], timeseries: [], timeseriesLoaded: false, scheduleLoaded: false, series: 0 }
+const INITIAL_STATE = {
+  schedule: [],
+  timeseries: [],
+  timeseriesLoaded: false,
+  scheduleLoaded: false,
+  series: 0,
+  activeButtonZoomIndex: -1,
+  activeGameZoomIndex: -1
+}
 
 const mostRecentTime = (data) => {
   return !data ? 0 : data[data.length - 1].time
@@ -44,6 +54,10 @@ export default function (state = INITIAL_STATE, action) {
       return { ...state, schedule: normalizeSchedule(action.payload), scheduleLoaded: true }
     case SET_CURRENT_SERIES:
       return { ...state, series: action.payload }
+    case SET_BUTTON_ZOOM:
+      return { ...state, activeButtonZoomIndex: action.payload, activeGameZoomIndex: -1 }
+    case SET_GAME_ZOOM:
+      return { ...state, activeButtonZoomIndex: -1, activeGameZoomIndex: action.payload }
   }
   return state
 }
