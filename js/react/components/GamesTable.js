@@ -25,7 +25,7 @@ class GamesTable extends React.Component {
     const hours = split[0]
     const minutes = split[1]
     const seconds = split[2]
-    return startTime.add({hours, minutes, seconds})
+    return startTime.clone().add({hours, minutes, seconds})
   }
 
   toRow (title, runner, startTime, duration, key) {
@@ -42,12 +42,12 @@ class GamesTable extends React.Component {
 
   getRows () {
     return this.props.schedule.map((game, idx) => {
-      return this.toRow(game.name, game.runners, game.start_time, game.duration, idx)
+      return this.toRow(game.name, game.runners, game.moment, game.duration, idx)
     })
   }
 
   getGamesCompleted () {
-    return this.props.schedule.filter((g) => this.endTime(g.start_time, g.duration).isBefore()).length
+    return this.props.schedule.filter((g) => this.endTime(g.moment, g.duration).isBefore()).length
   }
 
   render () {

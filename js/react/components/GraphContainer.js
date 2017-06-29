@@ -66,12 +66,11 @@ class GraphContainer extends React.Component {
     let max = moment().add(100, 'years')
     if (activeButtonZoomIndex >= 0) {
       const zoomHours = zoomButtons[activeButtonZoomIndex].hours
-      min = moment(maxTime).subtract(zoomHours, 'hours')
+      min = moment(maxTime).clone().subtract(zoomHours, 'hours')
     } else if (activeGameZoom) {
       const [hours, minutes, seconds] = activeGameZoom.duration.split(':')
-      min = moment(activeGameZoom.start_time)
-      console.log(activeGameZoom.start_time)
-      max = moment(activeGameZoom.start_time)
+      min = activeGameZoom.moment
+      max = activeGameZoom.moment.clone()
         .add(hours, 'hours')
         .add(minutes, 'minutes')
         .add(seconds, 'seconds')
@@ -150,9 +149,10 @@ class GraphContainer extends React.Component {
                   <XAxis
                     dataKey='time'
                     type='number'
+                    scale='time'
                     axisLine={{stroke: '#ddd'}}
                     tickLine={{stroke: '#ddd'}}
-                    tickFormatter={(d) => moment(d).format('ddd, hA')}
+                    tickFormatter={(d) => moment.unix(d).format('ddd, hA')}
                     tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
                     interval='preserveStart'
                     domain={['dataMin', 'dataMax']}

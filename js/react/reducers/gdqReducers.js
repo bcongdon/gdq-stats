@@ -38,9 +38,9 @@ const updateTimeseries = (newData, current) => {
 
 const normalizeSchedule = (schedule) => {
   for (var i = 0; i < schedule.length; i++) {
-    schedule[i].start_time = moment.utc(schedule[i].start_time)
+    schedule[i].moment = moment.utc(schedule[i].start_time).local()
   }
-  schedule.sort((a, b) => a.start_time - b.start_time)
+  schedule.sort((a, b) => a.moment.diff(b.moment))
   return schedule
 }
 
@@ -55,7 +55,8 @@ export default function (state = INITIAL_STATE, action) {
     case SET_CURRENT_SERIES:
       return { ...state, series: action.payload }
     case SET_BUTTON_ZOOM:
-      return { ...state, activeButtonZoomIndex: action.payload, activeGameZoom: null }
+      const activeIndex = action.payload === state.activeButtonZoomIndex ? -1 : action.payload
+      return { ...state, activeButtonZoomIndex: activeIndex, activeGameZoom: null }
     case SET_GAME_ZOOM:
       return { ...state, activeButtonZoomIndex: -1, activeGameZoom: action.payload }
   }
