@@ -17,7 +17,7 @@ markdown: kramdown
 
 # Exclude
 exclude: [LICENSE, README.md, Rakefile, Gemfile, Gemfile.lock, other_graphs.html,
-          bower.json, node_modules, js, gdq-stats.sublime-project, webpack.config.js,
+          bower.json, node_modules, gdq-stats.sublime-project, webpack.config.js,
           package.json, package-lock.js]
 
 previous_events:

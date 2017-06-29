@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'jekyll', '~> 3.1', '>= 3.1.6'
+gem 'jekyll'
+gem "rb-fsevent", "0.9.8"
 gem 'reduce', '~> 0.3'
 gem 'html-proofer'

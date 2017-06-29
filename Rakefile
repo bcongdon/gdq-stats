@@ -24,6 +24,8 @@ task :build do
     "source"      => ".",
     "destination" => "_site"
   })).process
+  # js/ isn't ignored in development because it messes with jekyll watch
+  system('rm -r _site/js/')
 end
 
 desc "Bower install"
