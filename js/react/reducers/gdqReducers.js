@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   scheduleLoaded: false,
   series: 0,
   activeButtonZoomIndex: -1,
-  activeGameZoomIndex: -1
+  activeGameZoom: null
 }
 
 const mostRecentTime = (data) => {
@@ -55,9 +55,9 @@ export default function (state = INITIAL_STATE, action) {
     case SET_CURRENT_SERIES:
       return { ...state, series: action.payload }
     case SET_BUTTON_ZOOM:
-      return { ...state, activeButtonZoomIndex: action.payload, activeGameZoomIndex: -1 }
+      return { ...state, activeButtonZoomIndex: action.payload, activeGameZoom: null }
     case SET_GAME_ZOOM:
-      return { ...state, activeButtonZoomIndex: -1, activeGameZoomIndex: action.payload }
+      return { ...state, activeButtonZoomIndex: -1, activeGameZoom: action.payload }
   }
   return state
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setCurrentSeries, setButtonZoom } from '../actions'
+import { setCurrentSeries, setButtonZoom, setGameZoom } from '../actions'
 import { PropTypes } from 'prop-types'
 import { Nav, NavItem, Grid, Col, Row, ButtonGroup, Button } from 'react-bootstrap'
 import moment from 'moment'
@@ -32,7 +32,6 @@ class GraphContainer extends React.Component {
   constructor (props) {
     super(props)
     this.onSelect = this.onSelect.bind(this)
-    this.onZoomButtonClick = this.onZoomButtonClick.bind(this)
   }
 
   onSelect (idx) {
@@ -60,19 +59,25 @@ class GraphContainer extends React.Component {
     return series.reduce(reduceFunc, [])
   }
 
-  onZoomButtonClick (idx) {
-    this.props.setButtonZoom(idx)
-  }
-
-  getMinTime () {
-    const zoomIndex = this.props.activeButtonZoomIndex
+  getDomain () {
+    const { activeButtonZoomIndex, activeGameZoom } = this.props
     const maxTime = this.props.timeseries[this.props.timeseries.length - 1].time
     let min = moment.unix(0)
-    if (zoomIndex >= 0) {
-      const zoomHours = zoomButtons[zoomIndex].hours
+    let max = moment().add(100, 'years')
+    if (activeButtonZoomIndex >= 0) {
+      const zoomHours = zoomButtons[activeButtonZoomIndex].hours
       min = moment(maxTime).subtract(zoomHours, 'hours')
+    } else if (activeGameZoom) {
+      const [hours, minutes, seconds] = activeGameZoom.duration.split(':')
+      min = moment(activeGameZoom.start_time)
+      console.log(activeGameZoom.start_time)
+      max = moment(activeGameZoom.start_time)
+        .add(hours, 'hours')
+        .add(minutes, 'minutes')
+        .add(seconds, 'seconds')
     }
-    return min
+    console.log(min, max)
+    return [min, max]
   }
 
   render () {
@@ -80,25 +85,23 @@ class GraphContainer extends React.Component {
       return null
     }
 
-    const domainMin = this.getMinTime()
+    const domain = this.getDomain()
     const trimmedTimeseries = this.props.timeseries.filter((obj) => {
-      return moment(obj.time).isAfter(domainMin)
+      return moment(obj.time).isAfter(domain[0]) && moment(obj.time).isBefore(domain[1])
     })
 
     const rate = Math.ceil(trimmedTimeseries.length / 500)
-    const dataKey = GRAPHS[this.props.activeSeries].key
-    const dataName = GRAPHS[this.props.activeSeries].name
-    const dataFormat = GRAPHS[this.props.activeSeries].format
-    const tooltipFormat = GRAPHS[this.props.activeSeries].tooltipFormat || dataFormat
+    const activeGraph = GRAPHS[this.props.activeSeries]
+    const tooltipFormat = GRAPHS[this.props.activeSeries].tooltipFormat || activeGraph.format
 
     let series = []
-    if (dataKey.indexOf('_') !== -1) {
-      series = this.createSyntheticSeries(dataKey, trimmedTimeseries)
+    if (activeGraph.key.indexOf('_') !== -1) {
+      series = this.createSyntheticSeries(activeGraph.key, trimmedTimeseries)
     } else {
       series = trimmedTimeseries
     }
 
-    let resampleSeries = series.filter((d, idx) => idx % rate === 0 && d[dataKey] >= 0).map((o) => {
+    let resampleSeries = series.filter((d, idx) => idx % rate === 0 && d[activeGraph.key] >= 0).map((o) => {
       return {...o, time: moment(o.time).unix() }
     }).sort((a, b) => a.time - b.time)
 
@@ -109,16 +112,16 @@ class GraphContainer extends React.Component {
         fill='#333'
         fontWeight={300}
         fontSize={13}>
-        {dataName}
+        {activeGraph.name}
       </VerticalLabel>
     )
 
-    const selectOptions = this.props.schedule.map((g, idx) => { 
-      return {
-        value: idx,
-        label: g.name
-      }
-    })
+    //TODO: Filter to only 'started' games
+    const selectOptions = this.props.schedule
+
+    function logChange(val) {
+      console.log("Selected: " + JSON.stringify(val));
+    }
 
     return (
       <div className='section'>
@@ -135,8 +138,8 @@ class GraphContainer extends React.Component {
                 <LineChart data={resampleSeries} margin={{top: 20}}>
                   <Line
                     type='basis'
-                    dataKey={dataKey}
-                    name={dataName}
+                    dataKey={activeGraph.key}
+                    name={activeGraph.name}
                     stroke='#00AEEF'
                     strokeWidth={1.5}
                     dot={false}
@@ -155,8 +158,8 @@ class GraphContainer extends React.Component {
                     domain={['dataMin', 'dataMax']}
                     minTickGap={50}/>
                   <YAxis
-                    dataKey={dataKey}
-                    tickFormatter={dataFormat}
+                    dataKey={activeGraph.key}
+                    tickFormatter={activeGraph.format}
                     axisLine={{stroke: '#ddd'}}
                     tickLine={{stroke: '#ddd'}}
                     tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
@@ -175,10 +178,12 @@ class GraphContainer extends React.Component {
             </Col>
             <Col sm={3} style={{fontFamily: 'Open Sans'}}>
               <Select
-                className='Select Select--sm'
-                name="form-field-name"
                 options={selectOptions}
+                labelKey='name'
+                valueKey='name'
                 placeholder='Zoom to Game...'
+                value={this.props.activeGameZoom ? this.props.activeGameZoom.name : null}
+                onChange={this.props.setGameZoom}
               />
             </Col>
             <Col sm={5} style={{fontFamily: 'Open Sans'}}>
@@ -187,7 +192,7 @@ class GraphContainer extends React.Component {
                   <Button
                     key={idx}
                     active={this.props.activeButtonZoomIndex == idx}
-                    onClick={() => this.onZoomButtonClick(idx)}>
+                    onClick={() => this.props.setButtonZoom(idx)}>
                     {obj.label}
                   </Button>
                 )}
@@ -205,8 +210,9 @@ function mapStateToProps (state) {
     activeSeries: state.gdq.series,
     timeseries: state.gdq.timeseries,
     schedule: state.gdq.schedule,
-    activeButtonZoomIndex: state.gdq.activeButtonZoomIndex
+    activeButtonZoomIndex: state.gdq.activeButtonZoomIndex,
+    activeGameZoom: state.gdq.activeGameZoom
   }
 }
 
-export default connect(mapStateToProps, { setCurrentSeries, setButtonZoom })(GraphContainer)
+export default connect(mapStateToProps, { setCurrentSeries, setButtonZoom, setGameZoom })(GraphContainer)
