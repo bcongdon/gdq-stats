@@ -7,137 +7,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
   {% include favicon.html %}
   {% include google_analytics.html %}
   {% include header.html %}
 
+
 </head>
 <body>
   <div class="container">
-    <h1><a class='gdq-link' href="/">{{ site.current_event }}</a> &nbsp;&nbsp; {{ site.current_event_year }} Stats</h1>
-    <div class="section">
-      <h2>Event Stats</h2>
-      <div class="current_stats">
-        <div class="stat topline_stat" id="viewers_stat">
-          <span class="current_header"> Maximum Viewers:</span>
-          <div class="odometer-group">
-            <div id="oViewers" class="odometer-pre"></div>
-            <div class="emoji">📺</div>
-          </div>
-        </div>
-        <div class="stat topline_stat" id="donations_stat">
-          <span class="current_header">Total Donations:</span>  
-          <div class="odometer-group">
-            $<div id="oDonations" class="odometer-pre"></div>
-            <div class="emoji">💸</div>
-          </div>
-        </div>
-        <div class="stat topline_stat" id="donators_stat">
-          <span class="current_header">Number of Donations:</span>
-          <div class="odometer-group">
-            <div id="oDonators" class="odometer-pre"></div>
-            <div class="emoji">🙌</div>
-          </div>
-        </div>
-        <div class="stat">
-          <span class="current_header">Twitch Chats:</span>
-          <div class="odometer-group">
-            <div id="oChats" class="odometer-pre"></div>
-            <div class="emoji">💬</div>
-          </div>
-        </div>
-        <div class="stat">
-          <span class="current_header">Twitch Emotes:</span>
-          <div class="odometer-group">
-            <div id="oEmotes" class="odometer-pre"></div>
-            <div class="emoji" style="vertical-align:middle;"><img src="img/kappa.png" width="22" alt="kappa"></div>
-          </div>
-        </div>
-        <div class="stat">
-          <span class="current_header">Tweets Tweeted:</span>
-          <div class="odometer-group">
-            <div id="oTweets" class="odometer-pre"></div>
-            <div class="emoji">🐦</div>
-          </div>
-        </div>
-      </div>
-      <div class="gdq-links">
-        <div><a href="https://www.twitch.tv/gamesdonequick">Livestream</a></div>
-        <div><a href="https://gamesdonequick.com/tracker/index/agdq2017">Donation Tracker</a></div>
-        <div><a href="https://gamesdonequick.com/schedule">Schedule</a></div>
-      </div>
-    </div>
-
-    <div class="section" id="chart-div">
-      <h2>Live Stats</h2> 
-      <div class="content" style="padding-top: 5px;">
-        <div id="chart"><img class="loading-image" src="img/loading.gif" alt="loading"></div>
-      </div>
-      <div class="series-options">
-        <div class="series-select-title">
-          <span>Options</span>
-        </div>
-        <div class="series-select">
-          <span class="series1">Series 1:</span>
-          <select id="primSelect">
-            <option selected value="Viewers">Viewers</option>
-            <option disabled value="Donations">Donations</option>
-            <option value="Donations per Minute">Donations per Minute</option>
-            <option value="Donators">Donators</option>
-            <option value="Tweets">Tweets</option>
-            <option value="Tweets per Minute">Tweets per Minute</option>
-            <option value="Twitch Chats">Twitch Chats</option>
-            <option value="Twitch Chats per Minute">Twitch Chats per Minute</option>
-            <option value="Twitch Emotes">Twitch Emotes</option>
-            <option value="Twitch Emotes per Minute">Twitch Emotes per Minute</option>
-            <option value="Disabled">Disabled</option>
-          </select>
-        </div>
-        <div class="series-select">
-          <span class="series2">Series 2:</span>
-          <select id="secSelect">
-            <option disabled value="Viewers">Viewers</option>
-            <option selected value="Donations">Donations</option>
-            <option value="Donations per Minute">Donations per Minute</option>
-            <option value="Donators">Donators</option>
-            <option value="Tweets">Tweets</option>
-            <option value="Tweets per Minute">Tweets per Minute</option>
-            <option value="Twitch Chats">Twitch Chats</option>
-            <option value="Twitch Chats per Minute">Twitch Chats per Minute</option>
-            <option value="Twitch Emotes">Twitch Emotes</option>
-            <option value="Twitch Emotes per Minute">Twitch Emotes per Minute</option>
-            <option value="Disabled">Disabled</option>
-          </select>
-        </div>
-        <div class='graph-time-select'>
-          <a onclick="adjustToLast(60 * 60 * 1000)" href='#'>1hr</a>
-          <a onclick="adjustToLast(6 * 60 * 60 * 1000)" href='#'>6hr</a>
-          <a onclick="adjustToLast(12 * 60 * 60 * 1000)" href='#'>12hr</a>
-          <a onclick="adjustToLast(24 * 60 * 60 * 1000)" href='#'>1d</a>
-          <a onclick="adjustToLast(3 * 24 * 60 * 60 * 1000)" href='#'>3d</a>
-          <a onclick="openBrush({clearAtEnd: true})" href='#'>All</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>Games</h2>
-      <div class="content" style="padding:0;">
-        <div id="game-list"></div>
-      </div>
-      <div class="current_stats">
-        <div class="stat">
-          <span class="current_header">Games Completed:</span>
-          <div id="oGames" class="odometer" style="padding-right: 5px">0</div>
-          <div class="emoji">🎮</div>
-        </div>
-      </div>
-    </div>
+    <a class='gdq-event-header' href="/">{{ site.current_event }}</a><span class='gdq-year-header'>{{ site.current_event_year }} Stats</span>
+    
+    <div id="react-root"></div>
 
     <div class="section">
       <h2>Info for nerds</h2>
-      <div class="content">
-        <div class="column info-section">
+      <div class="content container">
+        <div class="col-sm-6 col-xs-12 column info-section">
           <h3>Back end</h3>
           <ul>
             <li>Twitch, Donation, and Twitter data is continuously collected by <a href="https://github.com/bcongdon/gdq-collector">gdq-collector</a> - a package of scripts I wrote using <a href="http://flask.pocoo.org/">Flask</a>, APScheduler, and AWS <a href="https://aws.amazon.com/lambda/">Lambda</a>.</li>
@@ -145,7 +31,7 @@
             <li>An <a href="https://aws.amazon.com/ec2">EC2</a> instance is used to keep everything running throughout the event.</li>
           </ul>
         </div>
-        <div class="column info-section">
+        <div class="col-sm-6 col-xs-12 column info-section">
           <h3>Front end</h3>
           <ul>
             <li><a href="https://d3js.org/">D3.js</a> is used for all the graphs</li>
@@ -158,5 +44,5 @@
     </div>
     {% include footer.html %}
   </div>
-  <script type="text/javascript" src="dist/index.bundle.js"></script>
+  <script type="text/javascript" src="dist/index_react.bundle.js"></script>
 </body>
