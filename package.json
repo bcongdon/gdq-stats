@@ -29,7 +29,6 @@
     "d3": "^3.5.17",
     "jquery": "^3.2.1",
     "moment": "^2.18.1",
-    "odometer": "^0.4.8",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.0",
