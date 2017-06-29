@@ -12,7 +12,8 @@ require 'html-proofer'
 desc "Builds javascript bundles"
 task :webpack do
   puts "##Building..."
-  system('webpack --optimize-minify --optimize-dedupe --progress')
+  system('rm -r dist/')
+  system('webpack --optimize-minimize --devtool none --progress --define process.env.NODE_ENV="\'production\'"')
   puts "##Webpack build complete"
 end
 
@@ -28,8 +29,8 @@ end
 desc "Bower install"
 task :install do
   puts "##Installing..."
-  system('bower install --force')
-  puts "##Bower install complete"
+  system('npm i')
+  puts "##npm install complete"
 end
 
 desc "HTMLProofer Tests"
@@ -48,7 +49,7 @@ task :minify do
   compressed = 0
   Dir.glob("_site/**/*.*") do |file|
     case File.extname(file)
-      when ".css", ".gif", ".html", ".jpg", ".jpeg", ".js", ".png", ".xml"
+      when ".css", ".gif", ".html", ".jpg", ".jpeg", ".png", ".xml"
         next if file.split("/").include? "lib" # Don't minify libraries that have copyright notices
         next if file.split("/").include? 'bower_components'
         puts "Processing: #{file}"

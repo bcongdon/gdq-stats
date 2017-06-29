@@ -1,27 +1,18 @@
-const graph = require('./graph.d3.js');
-const stats = require('./stats.js');
-const DBConnection = require('./data_connection.js');
-const $ = require('jquery')
+import ReactDOM from 'react-dom'
+import React from 'react'
+import App from './App.js'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import reducers from './reducers'
+import reduxThunk from 'redux-thunk'
+import 'react-select/dist/react-select.css'
 
-$("#primSelect").change(graph.selectChanged)
-$("#secSelect").change(graph.selectChanged)
+const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore)
+const store = createStoreWithMiddleware(reducers)
 
-DBConnection.getTimeseries().then(function(ts){
-  graph.handleTimeseries(ts)
-  stats.handleTimeseries(ts)
-
-  stats.initOdometers()
-
-  DBConnection.getSchedule().then(function(sched){
-    graph.handleGames(sched)
-    stats.handleGames(sched)
-
-    graph.initialSetup()
-
-    DBConnection.timeseriesListeners.push(graph.handleGames)
-    DBConnection.timeseriesListeners.push(stats.handleGames)
-
-    DBConnection.scheduleListeners.push(graph.handleGames)
-    DBConnection.timeseriesListeners.push(stats.handleGames)
-  })
-})
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('react-root')
+)
