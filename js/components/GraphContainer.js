@@ -25,8 +25,8 @@ class GraphContainer extends React.Component {
     activeSeries: PropTypes.number.isRequired,
     timeseries: PropTypes.array.isRequired,
     schedule: PropTypes.array.isRequired,
-    activeButtonZoomIndex: PropTypes.number.isRequired,
-    activeGameZoom: PropTypes.object.isRequired,
+    activeButtonZoomIndex: PropTypes.number,
+    activeGameZoom: PropTypes.object,
     setGameZoom: PropTypes.func.isRequired,
     setButtonZoom: PropTypes.func.isRequired
   }
