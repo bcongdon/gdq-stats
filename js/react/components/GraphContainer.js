@@ -7,7 +7,6 @@ import moment from 'moment'
 import { LineChart, Line, Tooltip, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import VerticalLabel from './VerticalLabel'
 import GamesTooltip from './GamesTooltip'
-import { format } from 'd3'
 import GRAPHS from '../graph-definitions'
 import Select from 'react-select'
 
@@ -17,16 +16,19 @@ const zoomButtons = [
   { label: '6h', hours: 6 },
   { label: '12h', hours: 12 },
   { label: '1d', hours: 24 },
-  { label: '3d', hours: 72 },
+  { label: '3d', hours: 72 }
 ]
-
 
 class GraphContainer extends React.Component {
   static propTypes = {
     setCurrentSeries: PropTypes.func.isRequired,
     activeSeries: PropTypes.number.isRequired,
     timeseries: PropTypes.array.isRequired,
-    schedule: PropTypes.array.isRequired
+    schedule: PropTypes.array.isRequired,
+    activeButtonZoomIndex: PropTypes.number.isRequired,
+    activeGameZoom: PropTypes.object.isRequired,
+    setGameZoom: PropTypes.func.isRequired,
+    setButtonZoom: PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -38,6 +40,10 @@ class GraphContainer extends React.Component {
     this.props.setCurrentSeries(idx)
   }
 
+  // Creates "synthetic" series by aggregating a base series
+  //  Aggregations are either accumulations or 'derivations'
+  //  Accumulate transforms "per minute" series to cumulative
+  //  Derive transforms cumulative series to "per minute"
   createSyntheticSeries (key, series) {
     const baseKey = key.slice(0, key.indexOf('_'))
     const accumulate = (acc, val) => {
@@ -59,6 +65,7 @@ class GraphContainer extends React.Component {
     return series.reduce(reduceFunc, [])
   }
 
+  // Returns [min, max] moment times of domain based on current state of graph options
   getDomain () {
     const { activeButtonZoomIndex, activeGameZoom } = this.props
     const maxTime = this.props.timeseries[this.props.timeseries.length - 1].time
@@ -75,7 +82,6 @@ class GraphContainer extends React.Component {
         .add(minutes, 'minutes')
         .add(seconds, 'seconds')
     }
-    console.log(min, max)
     return [min, max]
   }
 
@@ -101,9 +107,8 @@ class GraphContainer extends React.Component {
     }
 
     let resampleSeries = series.filter((d, idx) => idx % rate === 0 && d[activeGraph.key] >= 0).map((o) => {
-      return {...o, time: moment(o.time).unix() }
+      return { ...o, time: moment(o.time).unix() }
     }).sort((a, b) => a.time - b.time)
-
 
     const yAxisLabel = (
       <VerticalLabel
@@ -115,12 +120,7 @@ class GraphContainer extends React.Component {
       </VerticalLabel>
     )
 
-    //TODO: Filter to only 'started' games
-    const selectOptions = this.props.schedule
-
-    function logChange(val) {
-      console.log("Selected: " + JSON.stringify(val));
-    }
+    const selectOptions = this.props.schedule.filter((obj) => obj.moment.isBefore())
 
     return (
       <div className='section'>
@@ -144,7 +144,7 @@ class GraphContainer extends React.Component {
                     dot={false}
                     activeDot />
                   <Tooltip
-                    content={<GamesTooltip schedule={this.props.schedule} format={tooltipFormat}/>}
+                    content={<GamesTooltip schedule={this.props.schedule} format={tooltipFormat} />}
                     animationDuration={250} />
                   <XAxis
                     dataKey='time'
@@ -156,7 +156,7 @@ class GraphContainer extends React.Component {
                     tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
                     interval='preserveStart'
                     domain={['dataMin', 'dataMax']}
-                    minTickGap={50}/>
+                    minTickGap={50} />
                   <YAxis
                     dataKey={activeGraph.key}
                     tickFormatter={activeGraph.format}
@@ -188,10 +188,10 @@ class GraphContainer extends React.Component {
             </Col>
             <Col sm={5} style={{fontFamily: 'Open Sans'}}>
               <ButtonGroup>
-                {zoomButtons.map((obj, idx) => 
+                {zoomButtons.map((obj, idx) =>
                   <Button
                     key={idx}
-                    active={this.props.activeButtonZoomIndex == idx}
+                    active={this.props.activeButtonZoomIndex === idx}
                     onClick={() => this.props.setButtonZoom(idx)}>
                     {obj.label}
                   </Button>
