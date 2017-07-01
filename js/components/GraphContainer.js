@@ -9,7 +9,7 @@ import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import Button from 'react-bootstrap/lib/Button'
-
+import PacmanLoader from 'halogen/PacmanLoader'
 import moment from 'moment'
 import { LineChart, Line, Tooltip, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import VerticalLabel from './VerticalLabel'
@@ -92,7 +92,7 @@ class GraphContainer extends React.Component {
     return [min, max]
   }
 
-  render () {
+  getGraph () {
     if (!this.props.timeseries || !this.props.timeseries.length) {
       return null
     }
@@ -130,83 +130,90 @@ class GraphContainer extends React.Component {
     const selectOptions = this.props.schedule.filter((obj) => obj.moment.isBefore())
 
     return (
+      <Grid>
+        <Row>
+          <Col sm={4} md={2} className='graph-series-chooser'>
+            <Nav bsStyle='pills' stacked activeKey={this.props.activeSeries} onSelect={this.onSelect}>
+              {GRAPHS.map((obj, idx) => <NavItem eventKey={idx} key={idx}>{obj.name}</NavItem>)}
+            </Nav>
+          </Col>
+          <Col sm={8} md={10} className='graph-container'>
+            <ResponsiveContainer width='100%' height={500}>
+              <LineChart data={resampleSeries} margin={{top: 20}}>
+                <Line
+                  type='basis'
+                  dataKey={activeGraph.key}
+                  name={activeGraph.name}
+                  stroke='#00AEEF'
+                  strokeWidth={1.5}
+                  dot={false}
+                  activeDot />
+                <Tooltip
+                  content={<GamesTooltip schedule={this.props.schedule} format={tooltipFormat} />}
+                  animationDuration={250} />
+                <XAxis
+                  dataKey='time'
+                  type='number'
+                  scale='time'
+                  axisLine={{stroke: '#ddd'}}
+                  tickLine={{stroke: '#ddd'}}
+                  tickFormatter={(d) => moment.unix(d).format('ddd, hA')}
+                  tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
+                  interval='preserveStart'
+                  domain={['dataMin', 'dataMax']}
+                  minTickGap={50} />
+                <YAxis
+                  dataKey={activeGraph.key}
+                  tickFormatter={activeGraph.format}
+                  axisLine={{stroke: '#ddd'}}
+                  tickLine={{stroke: '#ddd'}}
+                  tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
+                  domain={['dataMin', 'dataMax']}
+                  interval='preserveStartEnd'
+                  minTickGap={0}
+                  label={yAxisLabel}
+                  orientation='left' />
+              </LineChart>
+            </ResponsiveContainer>
+          </Col>
+        </Row>
+        <Row className='series-options'>
+          <Col sm={4}>
+            <span style={{position: 'relative', height: 32, top: 8}}>Options</span>
+          </Col>
+          <Col sm={3} style={{fontFamily: 'Open Sans'}}>
+            <Select
+              options={selectOptions}
+              labelKey='name'
+              valueKey='name'
+              placeholder='Zoom to Game...'
+              value={this.props.activeGameZoom ? this.props.activeGameZoom.name : null}
+              onChange={this.props.setGameZoom}
+            />
+          </Col>
+          <Col sm={5} style={{fontFamily: 'Open Sans'}}>
+            <ButtonGroup>
+              {zoomButtons.map((obj, idx) =>
+                <Button
+                  key={idx}
+                  active={this.props.activeButtonZoomIndex === idx}
+                  onClick={() => this.props.setButtonZoom(idx)}>
+                  {obj.label}
+                </Button>
+              )}
+            </ButtonGroup>
+          </Col>
+        </Row>
+      </Grid>
+    )
+  }
+
+  render () {
+    const graph = this.getGraph()
+    return (
       <div className='section'>
         <h2>Live Stats</h2>
-        <Grid>
-          <Row>
-            <Col sm={4} md={2} className='graph-series-chooser'>
-              <Nav bsStyle='pills' stacked activeKey={this.props.activeSeries} onSelect={this.onSelect}>
-                {GRAPHS.map((obj, idx) => <NavItem eventKey={idx} key={idx}>{obj.name}</NavItem>)}
-              </Nav>
-            </Col>
-            <Col sm={8} md={10} className='graph-container'>
-              <ResponsiveContainer width='100%' height={500}>
-                <LineChart data={resampleSeries} margin={{top: 20}}>
-                  <Line
-                    type='basis'
-                    dataKey={activeGraph.key}
-                    name={activeGraph.name}
-                    stroke='#00AEEF'
-                    strokeWidth={1.5}
-                    dot={false}
-                    activeDot />
-                  <Tooltip
-                    content={<GamesTooltip schedule={this.props.schedule} format={tooltipFormat} />}
-                    animationDuration={250} />
-                  <XAxis
-                    dataKey='time'
-                    type='number'
-                    scale='time'
-                    axisLine={{stroke: '#ddd'}}
-                    tickLine={{stroke: '#ddd'}}
-                    tickFormatter={(d) => moment.unix(d).format('ddd, hA')}
-                    tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
-                    interval='preserveStart'
-                    domain={['dataMin', 'dataMax']}
-                    minTickGap={50} />
-                  <YAxis
-                    dataKey={activeGraph.key}
-                    tickFormatter={activeGraph.format}
-                    axisLine={{stroke: '#ddd'}}
-                    tickLine={{stroke: '#ddd'}}
-                    tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
-                    domain={['dataMin', 'dataMax']}
-                    interval='preserveStartEnd'
-                    minTickGap={0}
-                    label={yAxisLabel}
-                    orientation='left' />
-                </LineChart>
-              </ResponsiveContainer>
-            </Col>
-          </Row>
-          <Row className='series-options'>
-            <Col sm={4}>
-              Options
-            </Col>
-            <Col sm={3} style={{fontFamily: 'Open Sans'}}>
-              <Select
-                options={selectOptions}
-                labelKey='name'
-                valueKey='name'
-                placeholder='Zoom to Game...'
-                value={this.props.activeGameZoom ? this.props.activeGameZoom.name : null}
-                onChange={this.props.setGameZoom}
-              />
-            </Col>
-            <Col sm={5} style={{fontFamily: 'Open Sans'}}>
-              <ButtonGroup>
-                {zoomButtons.map((obj, idx) =>
-                  <Button
-                    key={idx}
-                    active={this.props.activeButtonZoomIndex === idx}
-                    onClick={() => this.props.setButtonZoom(idx)}>
-                    {obj.label}
-                  </Button>
-                )}
-              </ButtonGroup>
-            </Col>
-          </Row>
-        </Grid>
+        {graph ? graph : <PacmanLoader color='#00AEEF' className='graph-loader'/>}
       </div>
     )
   }

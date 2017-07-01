@@ -190,6 +190,13 @@ tbody {
   overflow: hidden;
 }
 
+.graph-loader {
+  height: 500px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
 .current_stats {
   text-align: left;
   font-size: 16px;
