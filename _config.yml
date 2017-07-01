@@ -1,7 +1,8 @@
 # Site settings
 title: GDQ Stats
-description: > # this means to ignore newlines until "baseurl:"
-  Stats page for GDQ
+description: >
+  Live Data Visualizations for GamesDoneQuick Livestreams
+author: Benjamin Congdon
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://gdqstat.us" # the base hostname & protocol for your site
 
