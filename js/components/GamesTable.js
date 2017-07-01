@@ -2,7 +2,9 @@ import React from 'react'
 import Stat from './Stat'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
-import { Row, Col, Grid } from 'react-bootstrap'
+import Col from 'react-bootstrap/lib/Col'
+import Row from 'react-bootstrap/lib/Row'
+import Grid from 'react-bootstrap/lib/Grid'
 
 class GamesTable extends React.Component {
   static propTypes = {

@@ -1,6 +1,9 @@
 {
   "parser": "babel-eslint",
   "extends": ["standard", "standard-react"],
+  "settings": {
+    "import/resolver": "webpack"
+  },
   "env": {
       "browser": true,
       "jest": true

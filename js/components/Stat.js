@@ -1,7 +1,7 @@
 import React from 'react'
 import { PropTypes } from 'prop-types'
 import Odometer from 'react-odometerjs'
-import { Col } from 'react-bootstrap'
+import Col from 'react-bootstrap/lib/Col'
 
 export default class Stat extends React.Component {
   static propTypes = {

@@ -1,4 +1,4 @@
-import { format } from 'd3'
+import { format } from 'd3-format'
 
 const fullNumber = format(',.0f')
 const fullNumberCurrency = format('$,.0f')

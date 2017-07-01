@@ -15,7 +15,7 @@ store.subscribe(() => {
   const state = store.getState()
   const urlParams = new URLSearchParams(window.location.search)
   urlParams.set('series', state.gdq.series)
-  if(state.gdq.activeButtonZoomIndex >= 0){
+  if (state.gdq.activeButtonZoomIndex >= 0) {
     urlParams.set('zoom', state.gdq.activeButtonZoomIndex)
   } else {
     urlParams.delete('zoom')
@@ -23,18 +23,17 @@ store.subscribe(() => {
   // if(state.gdq.activeGameZoom) {
   //   urlParams.set('game', state.gdq.activeGameZoom.name)
   // }
-  const baseUrl = [location.protocol, '//', location.host, location.pathname].join('')
   history.replaceState('', '', '?' + urlParams.toString())
 })
 
 const urlParams = new URLSearchParams(window.location.search)
-if(urlParams.has('series')) {
+if (urlParams.has('series')) {
   setCurrentSeries(parseInt(urlParams.get('series')))(store.dispatch)
 }
-if(urlParams.has('zoom')) {
+if (urlParams.has('zoom')) {
   setButtonZoom(parseInt(urlParams.get('zoom')))(store.dispatch)
 }
-if(urlParams.has('game')) {
+if (urlParams.has('game')) {
 
 }
 

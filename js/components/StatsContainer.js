@@ -2,7 +2,8 @@ import React from 'react'
 import Stat from './Stat'
 import { PropTypes } from 'prop-types'
 import { connect } from 'react-redux'
-import { Grid, Col } from 'react-bootstrap'
+import Grid from 'react-bootstrap/lib/Grid'
+import Col from 'react-bootstrap/lib/Col'
 
 const STATS = [
   {

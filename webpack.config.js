@@ -1,4 +1,5 @@
 var path = require('path');
+const webpack = require('webpack');
 var APP_DIR = path.resolve(__dirname, 'js');
 
 module.exports = {
@@ -16,6 +17,7 @@ module.exports = {
         include : APP_DIR,
         loader : 'babel-loader',
         query: {
+          plugins: ['recharts'],
           presets: ['es2015', 'react', 'stage-2']
         }
       },
@@ -25,5 +27,8 @@ module.exports = {
       }
     ]
   },
+  'plugins': [
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+  ],
   devtool: '#cheap-source-map'
 }
