@@ -82,7 +82,7 @@ class GraphContainer extends React.PureComponent {
     let max = moment(maxTime).clone()
     if (activeButtonZoomIndex >= 0) {
       const zoomHours = zoomButtons[activeButtonZoomIndex].hours
-      min = moment(maxTime).clone().subtract(zoomHours, 'hours')
+      min = moment(maxTime).subtract(zoomHours, 'hours')
     } else if (activeGameZoom) {
       const [hours, minutes, seconds] = activeGameZoom.duration.split(':')
       min = activeGameZoom.moment
