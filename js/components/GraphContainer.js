@@ -126,11 +126,10 @@ class GraphContainer extends React.PureComponent {
     const rate = Math.ceil(trimmedTimeseries.length / 500)
     let resampleSeries = trimmedTimeseries
       // Resample
-      .filter((d, idx) => idx % rate === 0 && d[activeGraph.key] >= 0)
+      .filter((d, idx) => idx % rate === 0 && Number.isFinite(d[activeGraph.key]) && d[activeGraph.key] >= 0)
       .map((o) => {
         return { ...o, time: moment(o.time).unix() }
       })
-      .sort((a, b) => a.time - b.time)
 
     if (activeGraph.movingAverage) {
       resampleSeries = movingAverage(resampleSeries, activeGraph.key, Math.ceil(trimmedTimeseries.length / 100))
