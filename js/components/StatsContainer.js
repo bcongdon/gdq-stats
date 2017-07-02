@@ -14,7 +14,8 @@ const STATS = [
   {
     title: 'Donations',
     emoji: '💸',
-    key: 'donations'
+    key: 'donations',
+    prefix: '$'
   },
   {
     title: 'Number of Donations',
@@ -40,7 +41,8 @@ const STATS = [
 
 class StatsContainer extends React.PureComponent {
   static propTypes = {
-    timeseries: PropTypes.array.isRequired
+    timeseries: PropTypes.array.isRequired,
+    timeseriesLoaded: PropTypes.bool.isRequired
   }
 
   accumulateStats () {
@@ -62,7 +64,7 @@ class StatsContainer extends React.PureComponent {
     return 0
   }
 
-  render () {
+  getValues () {
     const accumulated = this.accumulateStats()
     const values = {
       viewers: this.getLatestData(this.props.timeseries, 'v'),
@@ -73,8 +75,19 @@ class StatsContainer extends React.PureComponent {
       tweets: accumulated.t
     }
 
+    // Force waiting until all data has arrived before rendering stats
+    if (!this.props.timeseriesLoaded) {
+      Object.keys(values).forEach(k => { values[k] = 0 })
+    }
+
+    return values
+  }
+
+  render () {
+    const values = this.getValues()
+
     const stats = STATS.map((s, idx) =>
-      <Stat title={s.title} emoji={s.emoji} value={values[s.key] || 0} key={idx} />
+      <Stat title={s.title} emoji={s.emoji} prefix={s.prefix} value={values[s.key] || 0} key={idx} />
     )
     return (
       <div className='section'>
@@ -92,7 +105,8 @@ class StatsContainer extends React.PureComponent {
 
 function mapStateToProps (state) {
   return {
-    timeseries: state.gdq.timeseries
+    timeseries: state.gdq.timeseries,
+    timeseriesLoaded: state.gdq.timeseriesLoaded
   }
 }
 

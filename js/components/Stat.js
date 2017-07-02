@@ -7,7 +7,12 @@ export default class Stat extends React.PureComponent {
   static propTypes = {
     title: PropTypes.string.isRequired,
     value: PropTypes.number.isRequired,
-    emoji: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+    emoji: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    prefix: PropTypes.string
+  }
+
+  static defaultProps = {
+    prefix: ''
   }
 
   render () {
@@ -15,6 +20,7 @@ export default class Stat extends React.PureComponent {
       <Col md={4} sm={6} xs={12} className='stat'>
         <span className='current_header'>{this.props.title}:</span>
         <div className='odometer-group'>
+          {this.props.prefix}
           {this.props.value === 0
             ? <span style={{paddingRight: 5}}>0</span>
             : <Odometer value={this.props.value} />}
