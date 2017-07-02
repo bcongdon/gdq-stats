@@ -19,7 +19,7 @@ export const fetchInitialTimeseries = () => (dispatch) =>
     })
 
 export const fetchRecentTimeseries = (since) => (dispatch) =>
-  axios.get(`${GDQ_API_ENDPOINT}/recentEvents?since=${since.toISOString()}`)
+  axios.get(`${GDQ_API_ENDPOINT}/recentEvents?since=${moment.utc(since).format("YYYY-MM-DDTHH:mm[Z]")}`)
     .then(response => {
       dispatch({ type: UPDATE_TIMESERIES, payload: response.data })
     })
