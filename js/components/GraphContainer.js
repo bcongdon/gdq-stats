@@ -190,7 +190,7 @@ class GraphContainer extends React.PureComponent {
                   axisLine={{stroke: '#ddd'}}
                   tickLine={{stroke: '#ddd'}}
                   tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
-                  domain={['dataMin', 'dataMax']}
+                  domain={[0, 'dataMax']}
                   interval='preserveStartEnd'
                   minTickGap={0}
                   label={yAxisLabel}

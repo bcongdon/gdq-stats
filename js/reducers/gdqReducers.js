@@ -20,7 +20,7 @@ const INITIAL_STATE = {
 }
 
 const mostRecentTime = (data) => {
-  return !data ? 0 : data[data.length - 1].time
+  return !data.length ? 0 : data[data.length - 1].time
 }
 
 const updateTimeseries = (newData, current) => {
