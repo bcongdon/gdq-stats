@@ -7,7 +7,7 @@ import { PropTypes } from 'prop-types'
 import { fetchInitialTimeseries, fetchSchedule, fetchRecentTimeseries } from './actions'
 import moment from 'moment'
 
-class App extends React.Component {
+class App extends React.PureComponent {
   static propTypes = {
     fetchInitialTimeseries: PropTypes.func.isRequired,
     fetchSchedule: PropTypes.func.isRequired
@@ -16,7 +16,6 @@ class App extends React.Component {
   componentWillMount () {
     this.props.fetchInitialTimeseries()
     this.props.fetchSchedule()
-    this.props.fetchRecentTimeseries(moment().subtract(1, 'hours').toDate())
 
     setInterval(() => this.props.fetchRecentTimeseries(moment().subtract(1, 'hours').toDate()), 60 * 1000)
   }

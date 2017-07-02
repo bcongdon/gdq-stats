@@ -1,7 +1,22 @@
 import moment from 'moment'
 import { bisector } from 'd3-array'
 
+export const gameEndTime = (game) => {
+  const { moment, duration } = game
+  const split = duration.split(':')
+  const hours = split[0]
+  const minutes = split[1]
+  const seconds = split[2]
+  return moment.clone().add({hours, minutes, seconds})
+}
+
 export const gameFromTime = (schedule, time) => {
+  if (schedule[0].moment.isAfter(time)) {
+    return { name: 'Pre-show', moment: moment.unix(0) }
+  } else if (gameEndTime(schedule[schedule.length - 1]).isBefore(time)) {
+    return { name: 'Post-show', moment: gameEndTime(schedule[schedule.length - 1]) }
+  }
+
   const result = bisector((a, b) => a.moment.diff(b)).left(schedule, moment(time), 1)
   return schedule[result - 1]
 }

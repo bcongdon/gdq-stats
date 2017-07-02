@@ -53,13 +53,22 @@ class StatsContainer extends React.PureComponent {
     }, { c: 0, e: 0, t: 0 })
   }
 
+  getLatestData (timeseries, dataKey) {
+    for (let i = timeseries.length - 1; i > 0; i --) {
+      if(timeseries[i][dataKey] >= 0){
+        return timeseries[i][dataKey]
+      }
+    }
+    return 0
+  }
+
   render () {
     const accumulated = this.accumulateStats()
     const latest = this.props.timeseries[this.props.timeseries.length - 1] || {v: 0, m: 0, d: 0}
     const values = {
-      viewers: latest.v,
-      donations: latest.m,
-      donors: latest.d,
+      viewers: this.getLatestData(this.props.timeseries, 'v'),
+      donations: this.getLatestData(this.props.timeseries, 'm'),
+      donors: this.getLatestData(this.props.timeseries, 'd'),
       chats: accumulated.c,
       emotes: accumulated.e,
       tweets: accumulated.t

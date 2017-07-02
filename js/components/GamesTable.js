@@ -5,6 +5,7 @@ import { PropTypes } from 'prop-types'
 import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Grid from 'react-bootstrap/lib/Grid'
+import { gameEndTime } from '../utils'
 
 class GamesTable extends React.PureComponent {
   static propTypes = {
@@ -22,21 +23,14 @@ class GamesTable extends React.PureComponent {
     )
   }
 
-  endTime (startTime, duration) {
-    const split = duration.split(':')
-    const hours = split[0]
-    const minutes = split[1]
-    const seconds = split[2]
-    return startTime.clone().add({hours, minutes, seconds})
-  }
-
-  toRow (title, runner, startTime, duration, key) {
-    const status = this.endTime(startTime, duration).isBefore() ? '✓' : ''
+  toRow (game, key) {
+    const { name, runners, moment, duration } = game
+    const status = gameEndTime(game).isBefore() ? '✓' : ''
     return (
       <Row className='game-list-row' key={key}>
-        <Col sm={4} xs={5}>{title}</Col>
-        <Col sm={3} xsHidden>{runner}</Col>
-        <Col sm={3} xs={4}>{startTime.format('MMM D, h:mm a')} {status}</Col>
+        <Col sm={4} xs={5}>{name}</Col>
+        <Col sm={3} xsHidden>{runners}</Col>
+        <Col sm={3} xs={4}>{moment.format('MMM D, h:mm a')} {status}</Col>
         <Col sm={2} xs={3}>{duration}</Col>
       </Row>
     )
@@ -44,12 +38,12 @@ class GamesTable extends React.PureComponent {
 
   getRows () {
     return this.props.schedule.map((game, idx) => {
-      return this.toRow(game.name, game.runners, game.moment, game.duration, idx)
+      return this.toRow(game, idx)
     })
   }
 
   getGamesCompleted () {
-    return this.props.schedule.filter((g) => this.endTime(g.moment, g.duration).isBefore()).length
+    return this.props.schedule.filter((g) => gameEndTime(g).isBefore()).length
   }
 
   render () {

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import moment from 'moment'
 import { INITIAL_TIMESERIES,
   UPDATE_TIMESERIES,
   UPDATE_SCHEDULE,
@@ -13,7 +14,8 @@ export const fetchInitialTimeseries = () => (dispatch) =>
   axios.get(GDQ_STORAGE_ENDPOINT + '/latest.json')
     .then(response => {
       dispatch({ type: INITIAL_TIMESERIES, payload: response.data })
-      fetchRecentTimeseries()
+      const maxTime = moment(response.data[response.data.length - 1].time).toDate()
+      fetchRecentTimeseries(maxTime)(dispatch)
     })
 
 export const fetchRecentTimeseries = (since) => (dispatch) =>
