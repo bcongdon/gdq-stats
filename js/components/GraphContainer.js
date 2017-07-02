@@ -94,8 +94,7 @@ class GraphContainer extends React.PureComponent {
     return [min, max]
   }
 
-  getDateFormatter (domain)
-  {
+  getDateFormatter (domain) {
     const [min, max] = domain
     const format = min.clone().add(1, 'days').isBefore(max) ? 'ddd, hA' : 'h:mm A'
     return (d) => moment.unix(d).format(format)
@@ -133,10 +132,9 @@ class GraphContainer extends React.PureComponent {
       })
       .sort((a, b) => a.time - b.time)
 
-    if(activeGraph.movingAverage) {
-      resampleSeries = movingAverage(resampleSeries, activeGraph.key, Math.ceil(trimmedTimeseries.length / 100))      
+    if (activeGraph.movingAverage) {
+      resampleSeries = movingAverage(resampleSeries, activeGraph.key, Math.ceil(trimmedTimeseries.length / 100))
     }
-      
 
     const yAxisLabel = (
       <VerticalLabel
@@ -158,7 +156,7 @@ class GraphContainer extends React.PureComponent {
               {GRAPHS.map((obj, idx) => <NavItem eventKey={idx} key={idx}>{obj.name}</NavItem>)}
             </Nav>
           </Col>
-          <hr className='hidden-sm hidden-md hidden-lg' style={{borderTopWidth: 1.5, borderColor: '#ddd'}}/>
+          <hr className='hidden-sm hidden-md hidden-lg' style={{borderTopWidth: 1.5, borderColor: '#ddd'}} />
           <Col sm={8} md={10} className='graph-container'>
             <ResponsiveContainer width='100%' height={500}>
               <LineChart data={resampleSeries} margin={{top: 20}}>
@@ -235,7 +233,7 @@ class GraphContainer extends React.PureComponent {
     return (
       <div className='section'>
         <h2>Live Stats</h2>
-        {graph ? graph : <PacmanLoader color='#00AEEF' className='graph-loader'/>}
+        {graph || <PacmanLoader color='#00AEEF' className='graph-loader' />}
       </div>
     )
   }

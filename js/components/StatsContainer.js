@@ -54,8 +54,8 @@ class StatsContainer extends React.PureComponent {
   }
 
   getLatestData (timeseries, dataKey) {
-    for (let i = timeseries.length - 1; i > 0; i --) {
-      if(timeseries[i][dataKey] >= 0){
+    for (let i = timeseries.length - 1; i > 0; i--) {
+      if (timeseries[i][dataKey] >= 0) {
         return timeseries[i][dataKey]
       }
     }
@@ -64,7 +64,6 @@ class StatsContainer extends React.PureComponent {
 
   render () {
     const accumulated = this.accumulateStats()
-    const latest = this.props.timeseries[this.props.timeseries.length - 1] || {v: 0, m: 0, d: 0}
     const values = {
       viewers: this.getLatestData(this.props.timeseries, 'v'),
       donations: this.getLatestData(this.props.timeseries, 'm'),

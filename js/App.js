@@ -10,7 +10,8 @@ import moment from 'moment'
 class App extends React.PureComponent {
   static propTypes = {
     fetchInitialTimeseries: PropTypes.func.isRequired,
-    fetchSchedule: PropTypes.func.isRequired
+    fetchSchedule: PropTypes.func.isRequired,
+    fetchRecentTimeseries: PropTypes.func.isRequired
   }
 
   componentWillMount () {
