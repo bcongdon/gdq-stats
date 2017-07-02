@@ -16,6 +16,7 @@ import VerticalLabel from './VerticalLabel'
 import GamesTooltip from './GamesTooltip'
 import GRAPHS from '../graph-definitions'
 import Select from 'react-select'
+import { movingAverage } from '../utils'
 
 const zoomButtons = [
   { label: '1h', hours: 1 },
@@ -26,7 +27,7 @@ const zoomButtons = [
   { label: '3d', hours: 72 }
 ]
 
-class GraphContainer extends React.Component {
+class GraphContainer extends React.PureComponent {
   static propTypes = {
     setCurrentSeries: PropTypes.func.isRequired,
     activeSeries: PropTypes.number.isRequired,
@@ -77,7 +78,7 @@ class GraphContainer extends React.Component {
     const { activeButtonZoomIndex, activeGameZoom } = this.props
     const maxTime = this.props.timeseries[this.props.timeseries.length - 1].time
     let min = moment.unix(0)
-    let max = moment().add(100, 'years')
+    let max = moment(maxTime).clone()
     if (activeButtonZoomIndex >= 0) {
       const zoomHours = zoomButtons[activeButtonZoomIndex].hours
       min = moment(maxTime).clone().subtract(zoomHours, 'hours')
@@ -95,7 +96,7 @@ class GraphContainer extends React.Component {
   getDateFormatter (domain)
   {
     const [min, max] = domain
-    const format = min.clone().add(1, 'days').isBefore(max) ? 'h:mm A' : 'ddd, hA'
+    const format = min.clone().add(1, 'days').isBefore(max) ? 'ddd, hA' : 'h:mm A'
     return (d) => moment.unix(d).format(format)
   }
 
@@ -118,17 +119,22 @@ class GraphContainer extends React.Component {
     const trimmedTimeseries = series
       // Filter to correct domain
       .filter((obj) => {
-        return moment(obj.time).isAfter(domain[0]) && moment(obj.time).isBefore(domain[1])
+        const objMoment = moment(obj.time)
+        return objMoment.isAfter(domain[0]) && objMoment.isBefore(domain[1])
       })
 
     const rate = Math.ceil(trimmedTimeseries.length / 500)
-    const resampleSeries = trimmedTimeseries
+    let resampleSeries = trimmedTimeseries
       // Resample
       .filter((d, idx) => idx % rate === 0 && d[activeGraph.key] >= 0)
       .map((o) => {
         return { ...o, time: moment(o.time).unix() }
       })
       .sort((a, b) => a.time - b.time)
+
+    if(activeGraph.movingAverage) {
+      resampleSeries = movingAverage(resampleSeries, activeGraph.key, Math.ceil(trimmedTimeseries.length / 100))      
+    }
       
 
     const yAxisLabel = (

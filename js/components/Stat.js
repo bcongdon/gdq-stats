@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types'
 import Odometer from 'react-odometerjs'
 import Col from 'react-bootstrap/lib/Col'
 
-export default class Stat extends React.Component {
+export default class Stat extends React.PureComponent {
   static propTypes = {
     title: PropTypes.string.isRequired,
     value: PropTypes.number.isRequired,

@@ -3,7 +3,7 @@ import { gameFromTime } from '../utils'
 import { PropTypes } from 'prop-types'
 import moment from 'moment'
 
-export default class GamesTooltip extends React.Component {
+export default class GamesTooltip extends React.PureComponent {
   static propTypes = {
     payload: PropTypes.array,
     label: PropTypes.number,

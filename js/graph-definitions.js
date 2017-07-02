@@ -18,7 +18,8 @@ const GRAPHS = [
   {
     name: 'Donations per minute',
     key: 'm_drv',
-    format: fullNumberCurrency
+    format: fullNumberCurrency,
+    movingAverage: true
   },
   {
     name: 'Donors',
@@ -34,7 +35,8 @@ const GRAPHS = [
   {
     name: 'Tweets per minute',
     key: 't',
-    format: fullNumber
+    format: fullNumber,
+    movingAverage: true
   },
   {
     name: 'Twitch Chats',
@@ -45,7 +47,8 @@ const GRAPHS = [
   {
     name: 'Twitch Chats per minute',
     key: 'c',
-    format: fullNumber
+    format: fullNumber,
+    movingAverage: true
   },
   {
     name: 'Twitch Emotes',
@@ -56,7 +59,8 @@ const GRAPHS = [
   {
     name: 'Twitch Emotes per minute',
     key: 'e',
-    format: fullNumber
+    format: fullNumber,
+    movingAverage: true
   }
 ]
 

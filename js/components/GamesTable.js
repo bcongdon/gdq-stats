@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Grid from 'react-bootstrap/lib/Grid'
 
-class GamesTable extends React.Component {
+class GamesTable extends React.PureComponent {
   static propTypes = {
     schedule: PropTypes.array.isRequired
   }

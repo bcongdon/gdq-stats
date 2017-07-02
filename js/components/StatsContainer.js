@@ -38,7 +38,7 @@ const STATS = [
   }
 ]
 
-class StatsContainer extends React.Component {
+class StatsContainer extends React.PureComponent {
   static propTypes = {
     timeseries: PropTypes.array.isRequired
   }
