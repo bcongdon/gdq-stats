@@ -33,7 +33,6 @@ const updateTimeseries = (newData, current) => {
       }
     }
   }
-  newData.sort(function (a, b) { return a.time - b.time })
   var mostRecent = mostRecentTime(current)
   newData = newData.filter((d) => d.time > mostRecent)
   return current.concat(newData)
@@ -43,7 +42,6 @@ const normalizeSchedule = (schedule) => {
   for (var i = 0; i < schedule.length; i++) {
     schedule[i].moment = moment.utc(schedule[i].start_time).local()
   }
-  schedule.sort((a, b) => a.moment.diff(b.moment))
   return schedule
 }
 

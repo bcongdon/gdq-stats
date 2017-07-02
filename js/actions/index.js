@@ -7,8 +7,7 @@ import { INITIAL_TIMESERIES,
   SET_GAME_ZOOM } from '../actions/types'
 
 const GDQ_API_ENDPOINT = 'https://api.gdqstat.us'
-// const GDQ_STORAGE_ENDPOINT = 'http://storage.api.gdqstat.us'
-const GDQ_STORAGE_ENDPOINT = 'data/2017/agdq_final'
+const GDQ_STORAGE_ENDPOINT = 'http://storage.api.gdqstat.us'
 
 export const fetchInitialTimeseries = () => (dispatch) =>
   axios.get(GDQ_STORAGE_ENDPOINT + '/latest.json')

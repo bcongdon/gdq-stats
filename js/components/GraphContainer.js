@@ -98,24 +98,30 @@ class GraphContainer extends React.Component {
     }
 
     const domain = this.getDomain()
-    const trimmedTimeseries = this.props.timeseries.filter((obj) => {
-      return moment(obj.time).isAfter(domain[0]) && moment(obj.time).isBefore(domain[1])
-    })
 
-    const rate = Math.ceil(trimmedTimeseries.length / 500)
     const activeGraph = GRAPHS[this.props.activeSeries]
     const tooltipFormat = GRAPHS[this.props.activeSeries].tooltipFormat || activeGraph.format
 
-    let series = []
+    let series = this.props.timeseries
     if (activeGraph.key.indexOf('_') !== -1) {
-      series = this.createSyntheticSeries(activeGraph.key, trimmedTimeseries)
-    } else {
-      series = trimmedTimeseries
+      series = this.createSyntheticSeries(activeGraph.key, this.props.timeseries)
     }
+    
+    const trimmedTimeseries = series
+      // Filter to correct domain
+      .filter((obj) => {
+        return moment(obj.time).isAfter(domain[0]) && moment(obj.time).isBefore(domain[1])
+      })
 
-    let resampleSeries = series.filter((d, idx) => idx % rate === 0 && d[activeGraph.key] >= 0).map((o) => {
-      return { ...o, time: moment(o.time).unix() }
-    }).sort((a, b) => a.time - b.time)
+    const rate = Math.ceil(trimmedTimeseries.length / 500)
+    const resampleSeries = trimmedTimeseries
+      // Resample
+      .filter((d, idx) => idx % rate === 0 && d[activeGraph.key] >= 0)
+      .map((o) => {
+        return { ...o, time: moment(o.time).unix() }
+      })
+      .sort((a, b) => a.time - b.time)
+      
 
     const yAxisLabel = (
       <VerticalLabel
@@ -178,8 +184,8 @@ class GraphContainer extends React.Component {
           </Col>
         </Row>
         <Row className='series-options'>
-          <Col sm={4}>
-            <span style={{position: 'relative', height: 32, top: 8}}>Options</span>
+          <Col sm={4} style={{height: 32}}>
+            <span style={{position: 'relative', top: 8}}>Options</span>
           </Col>
           <Col sm={3} style={{fontFamily: 'Open Sans'}}>
             <Select
