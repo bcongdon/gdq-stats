@@ -1,1 +1,71 @@
-"use strict";getRetry("http://storage.api.gdqstat.us/killVsSave.json",function(a){setupBidSeries(a)});function setupBidSeries(c){c=JSON.parse(c);var d=c.map(function(f){return new Date(f.time)});d.unshift("x");var e=["Kill"],a=["Save"];for(var b=0;b<c.length;b++){if(b>0){c[b].save+=c[b-1].save;c[b].kill+=c[b-1].kill}e.push(c[b].kill);a.push(c[b].save)}graphSeries("#metroid_chart",d,[e,a])}function graphSeries(c,b,a){var d=[b].concat(a);return c3.generate({bindto:c,data:{x:"x",columns:d,colors:{Save:d3.rgb("#00AEEF"),Kill:d3.rgb("#F21847")}},axis:{x:{type:"timeseries",tick:{format:"%Y-%m-%d %I:%M%p",fit:false,count:9}},y:{tick:{format:d3.format("$,")}}},point:{r:1},tooltip:{format:{value:function(f,e,h){var g=d3.format("$,.2f");return g(f)}}},zoom:{enabled:true,rescale:true}})};
+'use strict';
+
+getRetry('http://storage.api.gdqstat.us/killVsSave.json', function(res) {
+  setupBidSeries(res)
+});
+
+function setupBidSeries(data) {
+  data = JSON.parse(data)
+  var xVals = data.map(function(d) { return new Date(d.time) });
+  xVals.unshift('x')
+  var killVals = ['Kill'],
+      saveVals = ['Save'];
+  for (var i = 0; i < data.length; i++) {
+    if(i > 0) {
+      data[i].save += data[i - 1].save;
+      data[i].kill += data[i - 1].kill;
+    }
+    killVals.push(data[i].kill);
+    saveVals.push(data[i].save);
+  }
+  graphSeries('#metroid_chart', xVals, [killVals, saveVals]);
+}
+
+function graphSeries(element, xSeries, yArrs){
+  var cols = [xSeries].concat(yArrs);
+  return c3.generate({
+    bindto: element,
+    data: {
+      x: 'x',
+      columns: cols,
+      colors: {
+        'Save': d3.rgb('#00AEEF'),
+        'Kill': d3.rgb('#F21847')
+      }
+    },
+    axis: {
+      x: {
+        type: 'timeseries',
+        tick: {
+          format: '%Y-%m-%d %I:%M%p',
+          fit: false,
+          count: 9
+        }
+      },
+      y: {
+        // min: 0,
+        // padding: {
+        //   bottom: 0
+        // },
+        tick: {
+          format: d3.format("$,")
+        }
+      }
+    },
+    point: {
+      r: 1
+    },
+    tooltip: {
+      format: {
+        value: function (value, ratio, id) {
+          var format = d3.format('$,.2f');
+          return format(value);
+        }
+      }
+    },
+    zoom: {
+      enabled: true,
+      rescale: true
+    }
+  });
+}

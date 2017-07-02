@@ -1,1 +1,169 @@
-getRetry("/data/2016/sgdq2016final.json",drawGamesGraphs);function getRetry(b,a){$.ajax({url:b,async:true,retryCount:0,retryLimit:5,retryTimeout:15000,timeout:2000,created:Date.now(),error:function(d,e,c){this.retryCount++;if(this.retryCount<=this.retryLimit&&Date.now()-this.created<this.retryTimeout){console.log("Retrying");$.ajax(this);return}},success:a})}function drawGamesGraphs(a){totalDonationsGraph(a);donationsPerMinuteGraph(a)}function donationsPerMinuteGraph(f){var a=[];var e=[];for(var c in f.games){a.push(f.games[c].title);e.push(parseInt(c))}var g=e.map(function(n,h){var m=e[h+1]?e[h+1]:1468137180000;var o=0;var j=Infinity;for(var l in f.data){if(l>=n&&l<m){if(f.data[l].m>o){o=f.data[l].m}if(f.data[l].m<j){j=f.data[l].m}}}var k=(m-n)/(1000*60);return Math.max(0,(o-j)/k)});var b=e.map(function(i,h){return[i,g[h],a[h]]});b=b.sort(function(i,h){return h[1]-i[1]});g=b.map(function(h){return h[1]});e=b.map(function(h){return h[0]});a=b.map(function(h){return h[2]});g.unshift("Average Donations Per Minute During Game");var d=c3.generate({bindto:"#donationsPerMinuteGraph",data:{columns:[g],type:"bar",},axis:{x:{type:"category",categories:a,show:false},y:{tick:{format:d3.format("$,")}}},bar:{width:{ratio:1}},tooltip:{format:{value:function(i,h,k){var j=d3.format("$,.2f");return j(i)+" per minute"}}},})}function totalDonationsGraph(f){var a=[];var e=[];for(var c in f.games){a.push(f.games[c].title);e.push(parseInt(c))}var g=e.map(function(m,h){var l=e[h+1]?e[h+1]:1468137180000;var n=0;var j=Infinity;for(var k in f.data){if(k>=m&&k<l){if(f.data[k].m>n){n=f.data[k].m}if(f.data[k].m<j){j=f.data[k].m}}}return Math.max(0,n-j)});var b=e.map(function(i,h){return[i,g[h],a[h]]});b=b.sort(function(i,h){return h[1]-i[1]});g=b.map(function(h){return h[1]});e=b.map(function(h){return h[0]});a=b.map(function(h){return h[2]});g.unshift("Donation Total During Game");var d=c3.generate({bindto:"#totalDonationsGraph",data:{columns:[g],type:"bar",},axis:{x:{type:"category",categories:a,show:false},y:{tick:{format:d3.format("$,")}}},bar:{width:{ratio:1}},tooltip:{format:{value:function(i,h,k){var j=d3.format("$,.2f");return j(i)}}},})};
+// // Grab metadata on the latest json
+// getRetry('https://www.googleapis.com/storage/v1/b/sgdq-backend.appspot.com/o/latest.json', function(res) {
+//   // Get media link and pipe data to setupAll
+//   getRetry(res.mediaLink, drawGamesGraphs)
+// });
+
+getRetry('/data/2016/sgdq2016final.json', drawGamesGraphs);
+
+
+function getRetry(url, cb) {
+  $.ajax({
+    url: url,
+    async: true,
+    // retryCount and retryLimit will let you retry a determined number of times
+    retryCount: 0,
+    retryLimit: 5,
+    // retryTimeout limits the total time retrying (in milliseconds)
+    retryTimeout: 15000,
+    // timeout for each request
+    timeout: 2000,
+    // created tells when this request was created
+    created : Date.now(),
+    error : function(xhr, textStatus, errorThrown ) {
+      this.retryCount++;
+      if (this.retryCount <= this.retryLimit && Date.now() - this.created < this.retryTimeout) {
+        console.log("Retrying");
+        $.ajax(this);
+        return;
+      }
+    },
+    success: cb
+  });
+}
+
+function drawGamesGraphs(data){
+  totalDonationsGraph(data);
+  donationsPerMinuteGraph(data);
+}
+
+function donationsPerMinuteGraph(data) {
+  var categories = [];
+  var windows = [];
+  for(var i in data.games) {
+    categories.push(data.games[i].title)
+    windows.push(parseInt(i));
+  }
+  var donationsPerMinute = windows.map(function(start_time, idx){
+    var end_time = windows[idx + 1] ? windows[idx + 1] : 1468137180000;
+    var max_m = 0;
+    var min_m = Infinity;
+    for(var i in data.data){
+      if(i >= start_time && i < end_time){
+        if(data.data[i].m > max_m) max_m = data.data[i].m;
+        if(data.data[i].m < min_m) min_m = data.data[i].m;
+      }
+    }
+    var minutes = (end_time - start_time) / (1000 * 60);
+    return Math.max(0, (max_m - min_m) / minutes);
+  });
+  // Zip -> Sort
+  var zipped = windows.map(function(d, idx) {return [d, donationsPerMinute[idx], categories[idx]]})
+  zipped = zipped.sort(function(a,b){ return b[1] - a[1] });
+
+  // Unzip
+  donationsPerMinute = zipped.map(function(d) {return d[1]})
+  windows = zipped.map(function(d) { return d[0]})
+  categories = zipped.map(function(d) { return d[2]})
+
+  donationsPerMinute.unshift('Average Donations Per Minute During Game')
+  var chart = c3.generate({
+      bindto: "#donationsPerMinuteGraph",
+      data: {
+          columns: [
+              donationsPerMinute
+          ],
+          type: 'bar',
+      },
+      axis: {
+          x: {
+              type: 'category',
+              categories: categories,
+              show: false
+          },
+          y: {
+            tick: {
+              format: d3.format("$,")
+            }
+          }
+      },
+      bar: {
+        width: {
+          ratio: 1
+        }
+      },
+      tooltip: {
+        format: {
+          value: function (value, ratio, id) {
+            var format = d3.format('$,.2f');
+            return format(value) + " per minute";
+          }
+        }
+      },
+  });
+}
+
+function totalDonationsGraph(data) {
+  var categories = [];
+  var windows = [];
+  for(var i in data.games) {
+    categories.push(data.games[i].title)
+    windows.push(parseInt(i));
+  }
+  var donationTotals = windows.map(function(start_time, idx){
+    var end_time = windows[idx + 1] ? windows[idx + 1] : 1468137180000; // Hardcoded marathon end time
+    var max_m = 0;
+    var min_m = Infinity;
+    for(var i in data.data){
+      if(i >= start_time && i < end_time){
+        if(data.data[i].m > max_m) max_m = data.data[i].m;
+        if(data.data[i].m < min_m) min_m = data.data[i].m;
+      }
+    }
+    return Math.max(0, max_m - min_m);
+  });
+  // Zip -> Sort
+  var zipped = windows.map(function(d, idx) {return [d, donationTotals[idx], categories[idx]]})
+  zipped = zipped.sort(function(a,b){ return b[1] - a[1] });
+
+  // Unzip
+  donationTotals = zipped.map(function(d) {return d[1]})
+  windows = zipped.map(function(d) { return d[0]})
+  categories = zipped.map(function(d) { return d[2]})
+
+  donationTotals.unshift('Donation Total During Game')
+  var chart = c3.generate({
+      bindto: "#totalDonationsGraph",
+      data: {
+          columns: [
+              donationTotals
+          ],
+          type: 'bar',
+      },
+      axis: {
+          x: {
+              type: 'category',
+              categories: categories,
+              show: false
+          },
+          y: {
+            tick: {
+              format: d3.format("$,")
+            }
+          }
+      },
+      bar: {
+        width: {
+          ratio: 1
+        }
+      },
+      tooltip: {
+        format: {
+          value: function (value, ratio, id) {
+            var format = d3.format('$,.2f');
+            return format(value);
+          }
+        }
+      },
+  });
+}
