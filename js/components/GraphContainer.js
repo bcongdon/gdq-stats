@@ -157,7 +157,7 @@ class GraphContainer extends React.PureComponent {
               {GRAPHS.map((obj, idx) => <NavItem eventKey={idx} key={idx}>{obj.name}</NavItem>)}
             </Nav>
           </Col>
-          <hr className='sm-hidden' style={{borderTopWidth: 1.5, borderColor: '#ddd'}}/>
+          <hr className='hidden-sm hidden-md hidden-lg' style={{borderTopWidth: 1.5, borderColor: '#ddd'}}/>
           <Col sm={8} md={10} className='graph-container'>
             <ResponsiveContainer width='100%' height={500}>
               <LineChart data={resampleSeries} margin={{top: 20}}>
