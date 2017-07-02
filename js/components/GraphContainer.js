@@ -92,6 +92,13 @@ class GraphContainer extends React.Component {
     return [min, max]
   }
 
+  getDateFormatter (domain)
+  {
+    const [min, max] = domain
+    const format = min.clone().add(1, 'days').isBefore(max) ? 'h:mm A' : 'ddd, hA'
+    return (d) => moment.unix(d).format(format)
+  }
+
   getGraph () {
     if (!this.props.timeseries || !this.props.timeseries.length) {
       return null
@@ -101,12 +108,13 @@ class GraphContainer extends React.Component {
 
     const activeGraph = GRAPHS[this.props.activeSeries]
     const tooltipFormat = GRAPHS[this.props.activeSeries].tooltipFormat || activeGraph.format
+    const dateFormat = this.getDateFormatter(domain)
 
     let series = this.props.timeseries
     if (activeGraph.key.indexOf('_') !== -1) {
       series = this.createSyntheticSeries(activeGraph.key, this.props.timeseries)
     }
-    
+
     const trimmedTimeseries = series
       // Filter to correct domain
       .filter((obj) => {
@@ -163,7 +171,7 @@ class GraphContainer extends React.Component {
                   scale='time'
                   axisLine={{stroke: '#ddd'}}
                   tickLine={{stroke: '#ddd'}}
-                  tickFormatter={(d) => moment.unix(d).format('ddd, hA')}
+                  tickFormatter={dateFormat}
                   tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
                   interval='preserveStart'
                   domain={['dataMin', 'dataMax']}
