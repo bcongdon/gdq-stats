@@ -14,10 +14,10 @@ class GamesTable extends React.Component {
   getHeader () {
     return (
       <Row className='games-list-head'>
-        <Col sm={4} xs={6}>Title</Col>
-        <Col sm={3} xs={6}>Runner</Col>
-        <Col sm={3} xs={6}>Starting Time</Col>
-        <Col sm={2} xs={6}>Duration</Col>
+        <Col sm={4} xs={5}>Title</Col>
+        <Col sm={3} xsHidden>Runner</Col>
+        <Col sm={3} xs={4}>Starting Time</Col>
+        <Col sm={2} xs={3}>Duration</Col>
       </Row>
     )
   }
@@ -34,10 +34,10 @@ class GamesTable extends React.Component {
     const status = this.endTime(startTime, duration).isBefore() ? '✓' : ''
     return (
       <Row className='game-list-row' key={key}>
-        <Col sm={4} xs={6}>{title}</Col>
-        <Col sm={3} xs={6}>{runner}</Col>
-        <Col sm={3} xs={6}>{startTime.format('MMM D, h:mm a')} {status}</Col>
-        <Col sm={2} xs={6}>{duration}</Col>
+        <Col sm={4} xs={5}>{title}</Col>
+        <Col sm={3} xsHidden>{runner}</Col>
+        <Col sm={3} xs={4}>{startTime.format('MMM D, h:mm a')} {status}</Col>
+        <Col sm={2} xs={3}>{duration}</Col>
       </Row>
     )
   }
