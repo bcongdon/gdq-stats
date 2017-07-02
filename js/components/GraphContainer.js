@@ -77,7 +77,8 @@ class GraphContainer extends React.PureComponent {
   getDomain () {
     const { activeButtonZoomIndex, activeGameZoom } = this.props
     const maxTime = this.props.timeseries[this.props.timeseries.length - 1].time
-    let min = moment.unix(0)
+    const minTime = this.props.timeseries[0].time
+    let min = moment(minTime).clone()
     let max = moment(maxTime).clone()
     if (activeButtonZoomIndex >= 0) {
       const zoomHours = zoomButtons[activeButtonZoomIndex].hours
