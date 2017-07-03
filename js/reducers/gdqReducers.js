@@ -3,7 +3,8 @@ import { INITIAL_TIMESERIES,
   UPDATE_SCHEDULE,
   SET_CURRENT_SERIES,
   SET_BUTTON_ZOOM,
-  SET_GAME_ZOOM } from '../actions/types'
+  SET_GAME_ZOOM,
+  SET_CURRENT_SECONDARY_SERIES } from '../actions/types'
 import moment from 'moment'
 
 import Cookies from 'universal-cookie'
@@ -15,6 +16,7 @@ const INITIAL_STATE = {
   timeseriesLoaded: false,
   scheduleLoaded: false,
   series: Number.parseInt(cookies.get(SET_CURRENT_SERIES)) || 0,
+  seriesSecondary: 7,
   activeButtonZoomIndex: Number.parseInt(cookies.get(SET_BUTTON_ZOOM)) || -1,
   activeGameZoom: null
 }
@@ -56,6 +58,8 @@ export default function (state = INITIAL_STATE, action) {
     case SET_CURRENT_SERIES:
       cookies.set(SET_CURRENT_SERIES, action.payload, { path: '/' })
       return { ...state, series: action.payload }
+    case SET_CURRENT_SECONDARY_SERIES:
+      return { ...state, seriesSecondary: action.payload }
     case SET_BUTTON_ZOOM:
       const activeIndex = action.payload === state.activeButtonZoomIndex ? -1 : action.payload
       cookies.set(SET_BUTTON_ZOOM, activeIndex, { path: '/' })

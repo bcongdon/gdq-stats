@@ -1,9 +1,9 @@
 import React from 'react'
 import { PropTypes } from 'prop-types'
 
-const VerticalLabel = ({ viewBox, fill, fontWeight, fontSize, children }) => {
+const VerticalLabel = ({ viewBox, fill, fontWeight, xOffset, fontSize, children }) => {
   const { x } = viewBox
-  const cx = x + 75
+  const cx = x + xOffset
   const cy = 20
   const rot = `270 ${cx} ${cy}`
   return (
@@ -25,7 +25,8 @@ VerticalLabel.propTypes = {
   fill: PropTypes.string,
   fontWeight: PropTypes.number,
   fontSize: PropTypes.number,
-  children: PropTypes.any
+  children: PropTypes.any,
+  xOffset: PropTypes.number
 }
 
 export default VerticalLabel

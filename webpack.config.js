@@ -5,6 +5,7 @@ var APP_DIR = path.resolve(__dirname, 'js');
 module.exports = {
   entry: {
     index: APP_DIR + "/index.js",
+    graph: APP_DIR + "/graph.js"
   },
   output: {
     filename: "./dist/[name].bundle.js",

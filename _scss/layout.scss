@@ -58,9 +58,24 @@ h1, h2, h3 {
   font-family: $standard-font;
 }
 
+.graph-series-secondary-chooser {
+  padding-left: 0px;
+  padding-right: 0px;
+  font-size: 14px;
+  font-family: $standard-font;
+
+  .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+      background-color: $secondary-color;
+  }
+}
+
 .graph-container {
   padding-left: 0px;
   border-left: 1px solid $panel-header-color;
+}
+
+.graph-container-fullscreen {
+  width: 100%;
 }
 
 h3 {
