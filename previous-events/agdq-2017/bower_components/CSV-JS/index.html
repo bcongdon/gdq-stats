@@ -1,0 +1,164 @@
+<p>#CSV-JS 
+A Comma-Separated Values parser for JavaScript</p>
+
+<hr />
+
+<p>Built to the <a href="http://www.ietf.org/rfc/rfc4180.txt">rfc4180</a> standard, with adjustable strictness:</p>
+
+<ul>
+  <li>optional carriage returns for non-microsoft sources</li>
+  <li>automatically type-cast numeric an boolean values</li>
+  <li>An optional “relaxed” mode which:</li>
+  <li>ignores blank lines</li>
+  <li>ignores garbage following quoted tokens</li>
+  <li>does not enforce a consistent record length</li>
+</ul>
+
+<h2 id="example">Example:</h2>
+<p><a href="http://gkindel.github.io/CSV-JS/csv.html">Live Example</a></p>
+
+<h2 id="use">Use:</h2>
+<p>Simple:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    var rows = CSV.parse("one,two,three\n4,5,6")
+    // rows equals [["one","two","three"],[4,5,6]]
+</code></pre>
+</div>
+
+<p>jQuery AJAX suggestion:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$.get("csv.txt")
+    .pipe( CSV.parse )
+    .done( function(rows) {
+       for( var i =0; i &lt; rows.length; i++){
+           console.log(rows[i])
+       }
+ });
+</code></pre>
+</div>
+
+<h2 id="options">Options:</h2>
+
+<p>CSV.RELAXED</p>
+
+<blockquote>
+  <p>Try this first if you’re having problems with data parsing. Enables a “relaxed” strictness mode. Default: <code class="highlighter-rouge">false</code></p>
+</blockquote>
+
+<ul>
+  <li>Ignores blank lines;</li>
+  <li>Ignores garbage characters following a close quote</li>
+  <li>Ignores inconsistent records lengths</li>
+  <li>Ignore whitespace around quoted strings.</li>
+</ul>
+
+<p>CSV.IGNORE_RECORD_LENGTH</p>
+
+<blockquote>
+  <p>If relaxed mode is not already enabled, ignores inconsistent records lengths Default: <code class="highlighter-rouge">false</code></p>
+</blockquote>
+
+<p>CSV.IGNORE_QUOTES</p>
+
+<blockquote>
+  <p>Treats all values as literal, including surrounding quotes. For use if CSV isn’t well formatted. This will disable escape sequences. Default: <code class="highlighter-rouge">false</code></p>
+</blockquote>
+
+<p>CSV.LINE_FEED_OK</p>
+
+<blockquote>
+  <p>Suppress exception for missing carriage returns (specification requires CRLF line endings). Default: <code class="highlighter-rouge">true</code></p>
+</blockquote>
+
+<p>CSV.CARRIAGE_RETURN_OK</p>
+
+<blockquote>
+  <p>Suppress exception for missing line feeds (specification requires CRLF line endings). Default: <code class="highlighter-rouge">true</code></p>
+</blockquote>
+
+<p>CSV.DETECT_TYPES</p>
+
+<blockquote>
+  <p>Automatically type-cast numeric an boolean values such as “false”, “null”, and “0.1”, but not “abcd”, “Null”, or “.1”.  Customizable by overriding CSV.resolve_type(str) which returns value.  Default: <code class="highlighter-rouge">true</code></p>
+</blockquote>
+
+<p>CSV.IGNORE_QUOTE_WHITESPACE</p>
+
+<blockquote>
+  <p>Detects and ignores whitespace before a quoted string which, per spec, should be treated as the start of an unescaped value.  Default: <code class="highlighter-rouge">true</code></p>
+</blockquote>
+
+<p>CSV.DEBUG</p>
+
+<blockquote>
+  <p>Enables debug logging to console.  Default: <code class="highlighter-rouge">false</code></p>
+</blockquote>
+
+<p>CSV.COLUMN_SEPARATOR</p>
+
+<blockquote>
+  <p>Split columns by this character. Default “,” (comma).</p>
+</blockquote>
+
+<h2 id="exceptions-thrown">Exceptions Thrown:</h2>
+
+<p><em>“UNEXPECTED_END_OF_FILE”</em> or <code class="highlighter-rouge">CSV.ERROR_EOF</code></p>
+
+<blockquote>
+  <p>Fired when file ends unexpectedly. Eg. File ends during an open escape sequence. Example:</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="highlighter-rouge">Uncaught UNEXPECTED_END_OF_FILE at char 72 : ption,Price\n1997,Ford,E350,"ac, abs, moon,3000.00</code></p>
+</blockquote>
+
+<p><em>“UNEXPECTED_CHARACTER”</em>  or <code class="highlighter-rouge">CSV.ERROR_CHAR</code></p>
+
+<blockquote>
+  <p>Fired when an invalid character is detected. Eg. A non-comma after the close of an quoted value. Example:</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="highlighter-rouge">Uncaught UNEXPECTED_CHARACTER at char 250 : rand Cherokee,"MUST SELL!\nair, moon roof, loaded"z</code></p>
+</blockquote>
+
+<p><em>“UNEXPECTED_END_OF_RECORD”</em> or <code class="highlighter-rouge">CSV.ERROR_EOL</code></p>
+
+<blockquote>
+  <p>Fired when a record ends before the expected number of fields is read (as determined by first row). Example:</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="highlighter-rouge">Uncaught UNEXPECTED_END_OF_RECORD at char 65 : ,Description,Price\n1997,Ford,E350,"ac, abs, moon"\n </code></p>
+</blockquote>
+
+<h2 id="warnings">Warnings:</h2>
+
+<p><em>“UNEXPECTED_WHITESPACE”</em> or <code class="highlighter-rouge">CSV.WARN_WHITESPACE</code></p>
+
+<blockquote>
+  <p>Appears when whitespace is encountered outside of a quoted value, only if CSV.IGNORE_QUOTE_WHITESPACE is disabled. Example:</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="highlighter-rouge">UNEXPECTED_WHITESPACE at char 330 : e,false,123,45.6\n.7,8.,9.1.2,null,undefined\nNull,  "</code></p>
+</blockquote>
+
+<h2 id="unit-test">Unit Test:</h2>
+<p><a href="http://gkindel.github.io/CSV-JS/unit/">Unit Test</a></p>
+
+<h2 id="license">License:</h2>
+<p>Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the “Software”), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+
+<h2 id="author">Author:</h2>
+<p>Greg Kindel (twitter <a href="http://twitter.com/gkindel">@gkindel</a>), 2013</p>

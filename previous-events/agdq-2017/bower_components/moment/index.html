@@ -1,0 +1,58 @@
+<p><a href="https://gitter.im/moment/moment?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/moment/moment" /></a></p>
+
+<p><a href="https://npmjs.org/package/moment"><img src="http://img.shields.io/npm/v/moment.svg?style=flat" alt="NPM version" /></a> <a href="https://npmjs.org/package/moment"><img src="http://img.shields.io/npm/dm/moment.svg?style=flat" alt="NPM downloads" /></a> <a href="/previous-events/agdq-2017/bower_components/moment/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="MIT License" /></a> <a href="http://travis-ci.org/moment/moment"><img src="http://img.shields.io/travis/moment/moment/develop.svg?style=flat" alt="Build Status" /></a>
+<a href="https://coveralls.io/r/moment/moment?branch=develop"><img src="https://coveralls.io/repos/moment/moment/badge.svg?branch=develop" alt="Coverage Status" /></a></p>
+
+<p>A lightweight JavaScript date library for parsing, validating, manipulating, and formatting dates.</p>
+
+<p><strong><a href="http://momentjs.com/docs/">Documentation</a></strong></p>
+
+<h2 id="port-to-ecmascript-6-version-2100">Port to ECMAScript 6 (version 2.10.0)</h2>
+
+<p>Moment 2.10.0 does not bring any new features, but the code is now written in
+ECMAScript 6 modules and placed inside <code class="highlighter-rouge">src/</code>. Previously <code class="highlighter-rouge">moment.js</code>, <code class="highlighter-rouge">locale/*.js</code> and
+<code class="highlighter-rouge">test/moment/*.js</code>, <code class="highlighter-rouge">test/locale/*.js</code> contained the source of the project. Now
+the source is in <code class="highlighter-rouge">src/</code>, temporary build (ECMAScript 5) files are placed under
+<code class="highlighter-rouge">build/umd/</code> (for running tests during development), and the <code class="highlighter-rouge">moment.js</code> and
+<code class="highlighter-rouge">locale/*.js</code> files are updated only on release.</p>
+
+<p>If you want to use a particular revision of the code, make sure to run
+<code class="highlighter-rouge">grunt transpile update-index</code>, so <code class="highlighter-rouge">moment.js</code> and <code class="highlighter-rouge">locales/*.js</code> are synced
+with <code class="highlighter-rouge">src/*</code>. We might place that in a commit hook in the future.</p>
+
+<h2 id="upgrading-to-200">Upgrading to 2.0.0</h2>
+
+<p>There are a number of small backwards incompatible changes with version 2.0.0. <a href="https://gist.github.com/timrwood/e72f2eef320ed9e37c51#backwards-incompatible-changes">See the full descriptions here</a></p>
+
+<ul>
+  <li>
+    <p>Changed language ordinal method to return the number + ordinal instead of just the ordinal.</p>
+  </li>
+  <li>
+    <p>Changed two digit year parsing cutoff to match strptime.</p>
+  </li>
+  <li>
+    <p>Removed <code class="highlighter-rouge">moment#sod</code> and <code class="highlighter-rouge">moment#eod</code> in favor of <code class="highlighter-rouge">moment#startOf</code> and <code class="highlighter-rouge">moment#endOf</code>.</p>
+  </li>
+  <li>
+    <p>Removed <code class="highlighter-rouge">moment.humanizeDuration()</code> in favor of <code class="highlighter-rouge">moment.duration().humanize()</code>.</p>
+  </li>
+  <li>
+    <p>Removed the lang data objects from the top level namespace.</p>
+  </li>
+  <li>
+    <p>Duplicate <code class="highlighter-rouge">Date</code> passed to <code class="highlighter-rouge">moment()</code> instead of referencing it.</p>
+  </li>
+</ul>
+
+<h2 id="changelog"><a href="https://github.com/moment/moment/blob/develop/CHANGELOG.md">Changelog</a></h2>
+
+<h2 id="contributing"><a href="https://github.com/moment/moment/blob/develop/CONTRIBUTING.md">Contributing</a></h2>
+
+<p>We’re looking for co-maintainers! If you want to become a master of time please
+write to <a href="https://github.com/ichernev">ichernev</a>.</p>
+
+<h2 id="license">License</h2>
+
+<p>Moment.js is freely distributable under the terms of the <a href="https://github.com/moment/moment/blob/develop/LICENSE">MIT license</a>.</p>
+

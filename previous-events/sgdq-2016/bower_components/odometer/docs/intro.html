@@ -1,0 +1,191 @@
+<h1 id="odometer">Odometer</h1>
+
+<style>
+.odometer-github-stars {
+  margin-bottom: 6px;
+}
+.odometer-github-stars .odometer-label {
+  background: #eee;
+  display: inline-block;
+  padding: 15px 13px 13px;
+  line-height: 1;
+  vertical-align: middle;
+  border-radius: 4px 0 0 4px;
+}
+.odometer-github-stars .odometer {
+  background: #444;
+  color: #fff;
+  padding: 13px 21px 11px;
+  margin: auto;
+  line-height: 1 !important;
+  border-radius: 0 4px 4px 0;
+}
+.odometer-github-stars + p {
+  display: none;
+}
+.odometer-subtitle {
+  padding-left: 13px;
+  opacity: 0.7;
+}
+.odometer.odometer-theme-car {
+  font-size: 80px;
+  line-height: 100px;
+}
+</style>
+
+<link rel="stylesheet" href="/odometer/themes/odometer-theme-minimal.css" />
+
+<script>
+  odometerOptions = { auto: false };
+</script>
+
+<link rel="stylesheet" href="/odometer/themes/odometer-theme-car.css" />
+
+<script src="odometer.js"></script>
+
+<script>
+  $(function(){
+    var starsOdometer = new Odometer({ el: $('.odometer-github-stars .odometer')[0], theme: 'minimal', value: '0' });
+    starsOdometer.render()
+
+    var exampleOdometerValue = 123456;
+    var exampleOdometer = new Odometer({ el: $('.odometer-example')[0], theme: 'car', value: exampleOdometerValue });
+    exampleOdometer.render()
+
+    setInterval(function(){
+      exampleOdometer.update(exampleOdometerValue++);
+    }, 3000);
+
+    var i = 0;
+    var update = function() {
+      $.ajax("https://api.github.com/repos/HubSpot/odometer", {
+        cache: false,
+        success: function(data){
+          if (data.watchers_count)
+            starsOdometer.update(data.watchers_count);
+        },
+        complete: function(xhr){
+          remaining = xhr.getResponseHeader('X-RateLimit-Remaining');
+
+          setTimeout(update, 1000 * (4 + Math.pow(1.1, (60 - remaining))));
+        }
+      });
+    };
+
+    setInterval(function(){
+      // Github's limits reset every hour
+      i = 0;
+    }, 3600*1000);
+
+    setTimeout(update, 1000);
+  });
+</script>
+
+<h3 class="odometer-github-stars"><span class="odometer-label">GitHub ★ s so far:</span><div class="odometer">0</div></h3>
+<div class="odometer-subtitle"><a href="http://github.com/HubSpot/odometer" target="_blank">Star odometer</a> on GitHub to to see it update.</div>
+
+<p>Odometer is a Javascript and CSS library for smoothly transitioning numbers.
+See the <a href="http://github.hubspot.com/odometer/docs/welcome">demo page</a> for some examples.</p>
+
+<p>Odometer’s animations are handled entirely in CSS using transforms making
+them extremely performant, with automatic fallback on older browsers.</p>
+
+<p>The library and largest theme is less than 3kb when minified and compressed.</p>
+
+<p>All of <a href="http://github.hubspot.com/odometer/api/themes/">the themes</a> can be resized by setting the <code class="highlighter-rouge">font-size</code> of the <code class="highlighter-rouge">.odometer</code> element.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p><strong>The simplest possible usage is just including <a href="https://raw.github.com/HubSpot/odometer/v0.4.7/odometer.min.js">the javascript</a> and a <a href="http://github.hubspot.com/odometer/api/themes/">theme css</a>
+file on your page.  Add the <code class="highlighter-rouge">odometer</code> class to any numbers you’d like to animate on change.  You’re done.</strong></p>
+
+<p>Just set the <code class="highlighter-rouge">innerHTML</code>, <code class="highlighter-rouge">innerText</code>, or use jQuery’s <code class="highlighter-rouge">.text()</code> or <code class="highlighter-rouge">.html()</code> methods to change their contents, and the animation
+will happen automatically.  Any libraries you’re using to update their value, provided they don’t update by erasing and rerendering
+the <code class="highlighter-rouge">odometer</code> element, will work just fine.</p>
+
+<p>On older browsers, it will automatically fallback to a simpler animation which won’t tax their fragile javascript runtime.</p>
+
+<h2 id="example">Example</h2>
+
+<div class="odometer odometer-theme-car odometer-example">123</div>
+
+<p>Play with this simple example on <a href="http://jsfiddle.net/adamschwartz/rx6BQ/">jsFiddle</a>.</p>
+
+<h2 id="advanced">Advanced</h2>
+
+<p>You can set options by creating a <code class="highlighter-rouge">odometerOptions</code> object:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nb">window</span><span class="p">.</span><span class="nx">odometerOptions</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">auto</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="c1">// Don't automatically initialize everything with class 'odometer'</span>
+  <span class="na">selector</span><span class="p">:</span> <span class="s1">'.my-numbers'</span><span class="p">,</span> <span class="c1">// Change the selector used to automatically find things to be animated</span>
+  <span class="na">format</span><span class="p">:</span> <span class="s1">'(,ddd).dd'</span><span class="p">,</span> <span class="c1">// Change how digit groups are formatted, and how many digits are shown after the decimal point</span>
+  <span class="na">duration</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span> <span class="c1">// Change how long the javascript expects the CSS animation to take</span>
+  <span class="na">theme</span><span class="p">:</span> <span class="s1">'car'</span><span class="p">,</span> <span class="c1">// Specify the theme (if you have more than one theme css file on the page)</span>
+  <span class="na">animation</span><span class="p">:</span> <span class="s1">'count'</span> <span class="c1">// Count is a simpler animation method which just increments the value,</span>
+                     <span class="c1">// use it when you're looking for something more subtle.</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>You can manually initialize an odometer with the global <code class="highlighter-rouge">Odometer</code>:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'.some-element'</span><span class="p">);</span>
+
+<span class="nx">od</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Odometer</span><span class="p">({</span>
+  <span class="na">el</span><span class="p">:</span> <span class="nx">el</span><span class="p">,</span>
+  <span class="na">value</span><span class="p">:</span> <span class="mi">333555</span><span class="p">,</span>
+
+  <span class="c1">// Any option (other than auto and selector) can be passed in here</span>
+  <span class="na">format</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="na">theme</span><span class="p">:</span> <span class="s1">'digital'</span>
+<span class="p">});</span>
+
+<span class="nx">od</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="mi">555</span><span class="p">)</span>
+<span class="c1">// or</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="mi">555</span>
+</code></pre>
+</div>
+
+<h2 id="format">Format</h2>
+
+<p>The format option allows you to configure how the digit groups are formatted,
+and how many digits are shown after the decimal point.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Format    -  Example
+(,ddd)    -  12,345,678
+(,ddd).dd -  12,345,678.09
+(.ddd),dd -  12.345.678,09
+( ddd),dd -  12 345 678,09
+d         -  12345678
+</code></pre>
+</div>
+
+<h2 id="browser-support">Browser Support</h2>
+
+<p>Odometer is intended to support IE8+, FF4+, Safari 6+, and Chrome.</p>
+
+<h2 id="dependencies">Dependencies</h2>
+
+<p>None!</p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Odometer is built using Grunt.  To setup the build environment you first
+must have Node.js installed.  Then:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># In the project directory</span>
+npm install
+</code></pre>
+</div>
+
+<p>To build the project:</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>grunt
+</code></pre>
+</div>
+
+<p>To have it watch for changes and build automatically:</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>grunt watch
+</code></pre>
+</div>
+
+<p>We welcome pull requests!</p>

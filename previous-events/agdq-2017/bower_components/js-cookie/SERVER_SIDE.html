@@ -1,0 +1,109 @@
+<h1 id="server-side-integration">Server-side integration</h1>
+
+<p>There are some servers that are not compliant with the <a href="http://tools.ietf.org/html/rfc6265">RFC 6265</a>. For those, some characters that are not encoded by JavaScript Cookie might be treated differently.</p>
+
+<p>Here we document the most important server-side peculiarities and their workarounds. Feel free to send a <a href="https://github.com/js-cookie/js-cookie/blob/master/CONTRIBUTING.md#pull-requests">Pull Request</a> if you see something that can be improved.</p>
+
+<p><em>Disclaimer: This documentation is entirely based on community provided information. The examples below should be used only as a reference.</em></p>
+
+<h2 id="php">PHP</h2>
+
+<p>In PHP, <code class="highlighter-rouge">setcookie()</code> function encodes cookie values using <code class="highlighter-rouge">urlencode()</code> function, which applies <code class="highlighter-rouge">%</code>-encoding but also encodes spaces as <code class="highlighter-rouge">+</code> signs, <a href="http://php.net/manual/en/function.urlencode.php#function.urlencode">for historical reasons</a>. When cookies are read back via <code class="highlighter-rouge">$_COOKIE</code> or <code class="highlighter-rouge">filter_input(INPUT_COOKIE)</code>, they would go trough a decoding process which decodes <code class="highlighter-rouge">%</code>-encoded sequences and also converts <code class="highlighter-rouge">+</code> signs back to spaces. However, the plus (<code class="highlighter-rouge">+</code>) sign is valid cookie character by itself, which means that libraries that adhere to standards will interpret <code class="highlighter-rouge">+</code> signs differently to PHP.</p>
+
+<p>This presents two types of problems:</p>
+
+<ol>
+  <li>PHP writes a cookie via <code class="highlighter-rouge">setcookie()</code> and all spaces get converted to <code class="highlighter-rouge">+</code> signs. JavaScript Cookie read <code class="highlighter-rouge">+</code> signs and uses them literally, since it is a valid cookie character.</li>
+  <li>JavaScript Cookie writes a cookie with a value that contains <code class="highlighter-rouge">+</code> signs and stores it as is, since it is a valid cookie character. PHP read a cookie and converts <code class="highlighter-rouge">+</code> signs to spaces.</li>
+</ol>
+
+<p>To make both PHP and JavaScript Cookie play nicely together?</p>
+
+<p><strong>In PHP</strong>, use <code class="highlighter-rouge">setrawcookie()</code> instead of <code class="highlighter-rouge">setcookie()</code>:</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>setrawcookie($name, rawurlencode($value));
+</code></pre>
+</div>
+
+<p><strong>In JavaScript</strong>, use a custom converter.</p>
+
+<p><strong>Example</strong>:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">PHPCookies</span> <span class="o">=</span> <span class="nx">Cookies</span><span class="p">.</span><span class="nx">withConverter</span><span class="p">({</span>
+    <span class="na">write</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Encode all characters according to the "encodeURIComponent" spec</span>
+        <span class="k">return</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
+            <span class="c1">// Revert the characters that are unnecessarly encoded but are</span>
+            <span class="c1">// allowed in a cookie value, except for the plus sign (%2B)</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/%</span><span class="se">(</span><span class="sr">23|24|26|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C</span><span class="se">)</span><span class="sr">/g</span><span class="p">,</span> <span class="nb">decodeURIComponent</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="na">read</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">value</span>
+            <span class="c1">// Decode the plus sign to spaces first, otherwise "legit" encoded pluses</span>
+            <span class="c1">// will be replaced incorrectly</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">\+</span><span class="sr">/g</span><span class="p">,</span> <span class="s1">' '</span><span class="p">)</span>
+            <span class="c1">// Decode all characters according to the "encodeURIComponent" spec</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">(</span><span class="sr">%</span><span class="se">[</span><span class="sr">0-9A-Z</span><span class="se">]{2})</span><span class="sr">+/g</span><span class="p">,</span> <span class="nb">decodeURIComponent</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Rack seems to have <a href="https://github.com/js-cookie/js-cookie/issues/70#issuecomment-132503017">a similar problem</a>.</p>
+
+<h2 id="tomcat">Tomcat</h2>
+
+<h3 id="version--7x">Version &gt;= 7.x</h3>
+
+<p>It seems that there is a situation where Tomcat does not <a href="https://github.com/js-cookie/js-cookie/issues/92#issue-107743407">read the parens correctly</a>. To fix this you need to write a custom write converter.</p>
+
+<p><strong>Example</strong>:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">TomcatCookies</span> <span class="o">=</span> <span class="nx">Cookies</span><span class="p">.</span><span class="nx">withConverter</span><span class="p">({</span>
+  <span class="na">write</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Encode all characters according to the "encodeURIComponent" spec</span>
+      <span class="k">return</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
+          <span class="c1">// Revert the characters that are unnecessarly encoded but are</span>
+          <span class="c1">// allowed in a cookie value</span>
+          <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/%</span><span class="se">(</span><span class="sr">23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C</span><span class="se">)</span><span class="sr">/g</span><span class="p">,</span> <span class="nb">decodeURIComponent</span><span class="p">)</span>
+          <span class="c1">// Encode the parens that are interpreted incorrectly by Tomcat</span>
+          <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">[\(\)]</span><span class="sr">/g</span><span class="p">,</span> <span class="nx">escape</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<h3 id="version--8015">Version &gt;= 8.0.15</h3>
+
+<p>Since Tomcat 8.0.15, it is possible to configure RFC 6265 compliance by changing your <code class="highlighter-rouge">conf/context.xml</code> file and adding the new <a href="https://tomcat.apache.org/tomcat-8.0-doc/config/cookie-processor.html">CookieProcessor</a> nested inside the Context element. It would be like this:</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;Context&gt;</span>
+  <span class="nt">&lt;CookieProcessor</span> <span class="na">className=</span><span class="s">"org.apache.tomcat.util.http.Rfc6265CookieProcessor"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/context&gt;</span>
+</code></pre>
+</div>
+<p>And you’re all done.</p>
+
+<p>Alternatively, you can check the <a href="https://github.com/js-cookie/java-cookie">Java Cookie</a> project, which integrates nicely with JavaScript Cookie.</p>
+
+<h2 id="jboss-711">JBoss 7.1.1</h2>
+
+<p>It seems that the servlet implementation of JBoss 7.1.1 <a href="https://github.com/js-cookie/js-cookie/issues/70#issuecomment-148944674">does not read some characters correctly</a>, even though they are allowed as per <a href="https://tools.ietf.org/html/rfc6265#section-4.1.1">RFC 6265</a>. To fix this you need to write a custom converter to send those characters correctly.</p>
+
+<p><strong>Example</strong>:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">JBossCookies</span> <span class="o">=</span> <span class="nx">Cookies</span><span class="p">.</span><span class="nx">withConverter</span><span class="p">({</span>
+    <span class="na">write</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Encode all characters according to the "encodeURIComponent" spec</span>
+        <span class="k">return</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
+            <span class="c1">// Revert the characters that are unnecessarly encoded but are</span>
+            <span class="c1">// allowed in a cookie value</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/%</span><span class="se">(</span><span class="sr">23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C</span><span class="se">)</span><span class="sr">/g</span><span class="p">,</span> <span class="nb">decodeURIComponent</span><span class="p">)</span>
+            <span class="c1">// Encode again the characters that are not allowed in JBoss 7.1.1, like "[" and "]":</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">[\[\]]</span><span class="sr">/g</span><span class="p">,</span> <span class="nb">encodeURIComponent</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Alternatively, you can check the <a href="https://github.com/js-cookie/java-cookie">Java Cookie</a> project, which integrates nicely with JavaScript Cookie.</p>

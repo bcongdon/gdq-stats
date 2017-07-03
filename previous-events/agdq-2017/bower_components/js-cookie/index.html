@@ -1,0 +1,304 @@
+<p align="center">
+  <img src="https://cloud.githubusercontent.com/assets/835857/14581711/ba623018-0436-11e6-8fce-d2ccd4d379c9.gif" />
+</p>
+
+<h1 id="javascript-cookie--">JavaScript Cookie <a href="https://travis-ci.org/js-cookie/js-cookie"><img src="https://travis-ci.org/js-cookie/js-cookie.svg?branch=master" alt="Build Status" /></a> <a href="https://codeclimate.com/github/js-cookie/js-cookie"><img src="https://codeclimate.com/github/js-cookie/js-cookie.svg" alt="Code Climate" /></a></h1>
+
+<p>A simple, lightweight JavaScript API for handling cookies</p>
+
+<ul>
+  <li>Works in <a href="https://saucelabs.com/u/js-cookie">all</a> browsers</li>
+  <li>Accepts <a href="#encoding">any</a> character</li>
+  <li><a href="test">Heavily</a> tested</li>
+  <li>No dependency</li>
+  <li><a href="#json">Unobtrusive</a> JSON support</li>
+  <li>Supports AMD/CommonJS</li>
+  <li><a href="https://tools.ietf.org/html/rfc6265">RFC 6265</a> compliant</li>
+  <li>Useful <a href="https://github.com/js-cookie/js-cookie/wiki">Wiki</a></li>
+  <li>Enable <a href="#converters">custom encoding/decoding</a></li>
+  <li><strong>~900 bytes</strong> gzipped!</li>
+</ul>
+
+<p><strong>If you’re viewing this at https://github.com/js-cookie/js-cookie, you’re reading the documentation for the master branch.
+<a href="https://github.com/js-cookie/js-cookie/tree/latest#readme">View documentation for the latest release.</a></strong></p>
+
+<h2 id="build-status-matrix">Build Status Matrix</h2>
+
+<p><a href="https://saucelabs.com/u/js-cookie"><img src="https://saucelabs.com/browser-matrix/js-cookie.svg" alt="Selenium Test Status" /></a></p>
+
+<h2 id="installation">Installation</h2>
+
+<h3 id="direct-download">Direct download</h3>
+
+<p>Download the script <a href="https://github.com/js-cookie/js-cookie/blob/latest/src/js.cookie.js">here</a> and include it (unless you are packaging scripts somehow else):</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/path/to/js.cookie.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+<p><strong>Do not include the script directly from GitHub (http://raw.github.com/…).</strong> The file is being served as text/plain and as such being blocked
+in Internet Explorer on Windows 7 for instance (because of the wrong MIME type). Bottom line: GitHub is not a CDN.</p>
+
+<h3 id="package-managers">Package Managers</h3>
+
+<p>JavaScript Cookie supports <a href="https://www.npmjs.com/package/js-cookie">npm</a> and <a href="http://bower.io/search/?q=js-cookie">Bower</a> under the name <code class="highlighter-rouge">js-cookie</code>.</p>
+
+<h3 id="module-loaders">Module Loaders</h3>
+
+<p>JavaScript Cookie can also be loaded as an AMD, CommonJS or <a href="https://github.com/js-cookie/js-cookie/issues/233#issuecomment-233187386">ES6</a> module.</p>
+
+<h2 id="basic-usage">Basic Usage</h2>
+
+<p>Create a cookie, valid across the entire site:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>Create a cookie that expires 7 days from now, valid across the entire site:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span> <span class="na">expires</span><span class="p">:</span> <span class="mi">7</span> <span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Create an expiring cookie, valid to the path of the current page:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span> <span class="na">expires</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="na">path</span><span class="p">:</span> <span class="s1">''</span> <span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Read cookie:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span> <span class="c1">// =&gt; 'value'</span>
+<span class="nx">Cookies</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'nothing'</span><span class="p">);</span> <span class="c1">// =&gt; undefined</span>
+</code></pre>
+</div>
+
+<p>Read all visible cookies:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span> <span class="c1">// =&gt; { name: 'value' }</span>
+</code></pre>
+</div>
+
+<p>Delete cookie:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>Delete a cookie valid to the path of the current page:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span> <span class="na">path</span><span class="p">:</span> <span class="s1">''</span> <span class="p">});</span>
+<span class="nx">Cookies</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span> <span class="c1">// fail!</span>
+<span class="nx">Cookies</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="p">{</span> <span class="na">path</span><span class="p">:</span> <span class="s1">''</span> <span class="p">});</span> <span class="c1">// removed!</span>
+</code></pre>
+</div>
+
+<p><em>IMPORTANT! when deleting a cookie, you must pass the exact same path and domain attributes that was used to set the cookie, unless you’re relying on the <a href="#cookie-attributes">default attributes</a>.</em></p>
+
+<h2 id="namespace-conflicts">Namespace conflicts</h2>
+
+<p>If there is any danger of a conflict with the namespace <code class="highlighter-rouge">Cookies</code>, the <code class="highlighter-rouge">noConflict</code> method will allow you to define a new namespace and preserve the original one. This is especially useful when running the script on third party sites e.g. as part of a widget or SDK.</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// Assign the js-cookie api to a different variable and restore the original "window.Cookies"</span>
+<span class="kd">var</span> <span class="nx">Cookies2</span> <span class="o">=</span> <span class="nx">Cookies</span><span class="p">.</span><span class="nx">noConflict</span><span class="p">();</span>
+<span class="nx">Cookies2</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p><em>Note: The <code class="highlighter-rouge">.noConflict</code> method is not necessary when using AMD or CommonJS, thus it is not exposed in those environments.</em></p>
+
+<h2 id="json">JSON</h2>
+
+<p>js-cookie provides unobtrusive JSON storage for cookies.</p>
+
+<p>When creating a cookie you can pass an Array or Object Literal instead of a string in the value. If you do so, js-cookie will store the string representation of the object according to <code class="highlighter-rouge">JSON.stringify</code>:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="p">{</span> <span class="na">foo</span><span class="p">:</span> <span class="s1">'bar'</span> <span class="p">});</span>
+</code></pre>
+</div>
+
+<p>When reading a cookie with the default <code class="highlighter-rouge">Cookies.get</code> api, you receive the string representation stored in the cookie:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span> <span class="c1">// =&gt; '{"foo":"bar"}'</span>
+</code></pre>
+</div>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span> <span class="c1">// =&gt; { name: '{"foo":"bar"}' }</span>
+</code></pre>
+</div>
+
+<p>When reading a cookie with the <code class="highlighter-rouge">Cookies.getJSON</code> api, you receive the parsed representation of the string stored in the cookie according to <code class="highlighter-rouge">JSON.parse</code>:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span> <span class="c1">// =&gt; { foo: 'bar' }</span>
+</code></pre>
+</div>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">();</span> <span class="c1">// =&gt; { name: { foo: 'bar' } }</span>
+</code></pre>
+</div>
+
+<p><em>Note: To support IE6-7 (<a href="http://stackoverflow.com/questions/4715373/json-object-undefined-in-internet-explorer-8">and IE 8 compatibility mode</a>) you need to include the JSON-js polyfill: https://github.com/douglascrockford/JSON-js</em></p>
+
+<h2 id="encoding">Encoding</h2>
+
+<p>This project is <a href="http://tools.ietf.org/html/rfc6265#section-4.1.1">RFC 6265</a> compliant. All special characters that are not allowed in the cookie-name or cookie-value are encoded with each one’s UTF-8 Hex equivalent using <a href="http://en.wikipedia.org/wiki/Percent-encoding">percent-encoding</a>.<br />
+The only character in cookie-name or cookie-value that is allowed and still encoded is the percent <code class="highlighter-rouge">%</code> character, it is escaped in order to interpret percent input as literal.<br />
+Please note that the default encoding/decoding strategy is meant to be interoperable <a href="https://github.com/js-cookie/js-cookie/pull/200#discussion_r63270778">only between cookies that are read/written by js-cookie</a>. To override the default encoding/decoding strategy you need to use a <a href="#converter">converter</a>.</p>
+
+<h2 id="cookie-attributes">Cookie Attributes</h2>
+
+<p>Cookie attributes defaults can be set globally by setting properties of the <code class="highlighter-rouge">Cookies.defaults</code> object or individually for each call to <code class="highlighter-rouge">Cookies.set(...)</code> by passing a plain object in the last argument. Per-call attributes override the default attributes.</p>
+
+<h3 id="expires">expires</h3>
+
+<p>Define when the cookie will be removed. Value can be a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><code class="highlighter-rouge">Number</code></a> which will be interpreted as days from time of creation or a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date"><code class="highlighter-rouge">Date</code></a> instance. If omitted, the cookie becomes a session cookie.</p>
+
+<p>To create a cookie that expires in less than a day, you can check the <a href="https://github.com/js-cookie/js-cookie/wiki/Frequently-Asked-Questions#expire-cookies-in-less-than-a-day">FAQ on the Wiki</a>.</p>
+
+<p><strong>Default:</strong> Cookie is removed when the user closes the browser.</p>
+
+<p><strong>Examples:</strong></p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span> <span class="na">expires</span><span class="p">:</span> <span class="mi">365</span> <span class="p">});</span>
+<span class="nx">Cookies</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span> <span class="c1">// =&gt; 'value'</span>
+<span class="nx">Cookies</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<h3 id="path">path</h3>
+
+<p>A <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><code class="highlighter-rouge">String</code></a> indicating the path where the cookie is visible.</p>
+
+<p><strong>Default:</strong> <code class="highlighter-rouge">/</code></p>
+
+<p><strong>Examples:</strong></p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span> <span class="na">path</span><span class="p">:</span> <span class="s1">''</span> <span class="p">});</span>
+<span class="nx">Cookies</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span> <span class="c1">// =&gt; 'value'</span>
+<span class="nx">Cookies</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="p">{</span> <span class="na">path</span><span class="p">:</span> <span class="s1">''</span> <span class="p">});</span>
+</code></pre>
+</div>
+
+<p><strong>Note regarding Internet Explorer:</strong></p>
+
+<blockquote>
+  <p>Due to an obscure bug in the underlying WinINET InternetGetCookie implementation, IE’s document.cookie will not return a cookie if it was set with a path attribute containing a filename.</p>
+</blockquote>
+
+<p>(From <a href="http://blogs.msdn.com/b/ieinternals/archive/2009/08/20/wininet-ie-cookie-internals-faq.aspx">Internet Explorer Cookie Internals (FAQ)</a>)</p>
+
+<p>This means one cannot set a path using <code class="highlighter-rouge">path: window.location.pathname</code> in case such pathname contains a filename like so: <code class="highlighter-rouge">/check.html</code> (or at least, such cookie cannot be read correctly).</p>
+
+<h3 id="domain">domain</h3>
+
+<p>A <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><code class="highlighter-rouge">String</code></a> indicating a valid domain where the cookie should be visible. The cookie will also be visible to all subdomains.</p>
+
+<p><strong>Default:</strong> Cookie is visible only to the domain or subdomain of the page where the cookie was created, except for Internet Explorer (see below).</p>
+
+<p><strong>Examples:</strong></p>
+
+<p>Assuming a cookie that is being created on <code class="highlighter-rouge">site.com</code>:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span> <span class="na">domain</span><span class="p">:</span> <span class="s1">'subdomain.site.com'</span> <span class="p">});</span>
+<span class="nx">Cookies</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span> <span class="c1">// =&gt; undefined (need to read at 'subdomain.site.com')</span>
+</code></pre>
+</div>
+
+<p><strong>Note regarding Internet Explorer default behavior:</strong></p>
+
+<blockquote>
+  <p>Q3: If I don’t specify a DOMAIN attribute (for) a cookie, IE sends it to all nested subdomains anyway?<br />
+A: Yes, a cookie set on example.com will be sent to sub2.sub1.example.com.<br />
+Internet Explorer differs from other browsers in this regard.</p>
+</blockquote>
+
+<p>(From <a href="http://blogs.msdn.com/b/ieinternals/archive/2009/08/20/wininet-ie-cookie-internals-faq.aspx">Internet Explorer Cookie Internals (FAQ)</a>)</p>
+
+<p>This means that if you omit the <code class="highlighter-rouge">domain</code> attribute, it will be visible for a subdomain in IE.</p>
+
+<h3 id="secure">secure</h3>
+
+<p>Either <code class="highlighter-rouge">true</code> or <code class="highlighter-rouge">false</code>, indicating if the cookie transmission requires a secure protocol (https).</p>
+
+<p><strong>Default:</strong> No secure protocol requirement.</p>
+
+<p><strong>Examples:</strong></p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span> <span class="na">secure</span><span class="p">:</span> <span class="kc">true</span> <span class="p">});</span>
+<span class="nx">Cookies</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span> <span class="c1">// =&gt; 'value'</span>
+<span class="nx">Cookies</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="p">{</span> <span class="na">secure</span><span class="p">:</span> <span class="kc">true</span> <span class="p">});</span>
+</code></pre>
+</div>
+
+<h2 id="converters">Converters</h2>
+
+<h3 id="read">Read</h3>
+
+<p>Create a new instance of the api that overrides the default decoding implementation.<br />
+All get methods that rely in a proper decoding to work, such as <code class="highlighter-rouge">Cookies.get()</code> and <code class="highlighter-rouge">Cookies.get('name')</code>, will run the converter first for each cookie.<br />
+The returning String will be used as the cookie value.</p>
+
+<p>Example from reading one of the cookies that can only be decoded using the <code class="highlighter-rouge">escape</code> function:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span> <span class="o">=</span> <span class="s1">'escaped=%u5317'</span><span class="p">;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span> <span class="o">=</span> <span class="s1">'default=%E5%8C%97'</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">cookies</span> <span class="o">=</span> <span class="nx">Cookies</span><span class="p">.</span><span class="nx">withConverter</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">name</span> <span class="o">===</span> <span class="s1">'escaped'</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">unescape</span><span class="p">(</span><span class="nx">value</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+<span class="nx">cookies</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'escaped'</span><span class="p">);</span> <span class="c1">// 北</span>
+<span class="nx">cookies</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'default'</span><span class="p">);</span> <span class="c1">// 北</span>
+<span class="nx">cookies</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span> <span class="c1">// { escaped: '北', default: '北' }</span>
+</code></pre>
+</div>
+
+<h3 id="write">Write</h3>
+
+<p>Create a new instance of the api that overrides the default encoding implementation:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Cookies</span><span class="p">.</span><span class="nx">withConverter</span><span class="p">({</span>
+    <span class="na">read</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Read converter</span>
+    <span class="p">},</span>
+    <span class="na">write</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Write converter</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<h2 id="server-side-integration">Server-side integration</h2>
+
+<p>Check out the <a href="/previous-events/agdq-2017/bower_components/js-cookie/SERVER_SIDE.html">Servers Docs</a></p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Check out the <a href="/previous-events/agdq-2017/bower_components/js-cookie/CONTRIBUTING.md">Contributing Guidelines</a></p>
+
+<h2 id="manual-release-steps">Manual release steps</h2>
+
+<ul>
+  <li>Increment the “version” attribute of <code class="highlighter-rouge">package.json</code></li>
+  <li>Increment the version number in the <code class="highlighter-rouge">src/js.cookie.js</code> file</li>
+  <li>Commit with the message “Release version x.x.x”</li>
+  <li>Create version tag in git</li>
+  <li>Create a github release and upload the minified file</li>
+  <li>Change the <code class="highlighter-rouge">latest</code> tag pointer to the latest commit
+    <ul>
+      <li><code class="highlighter-rouge">git tag -fa latest</code></li>
+      <li><code class="highlighter-rouge">git push &lt;remote&gt; :refs/tags/latest</code></li>
+    </ul>
+  </li>
+  <li>Commit with the message “Prepare for the next development iteration”</li>
+  <li>Release on npm</li>
+</ul>
+
+<h2 id="authors">Authors</h2>
+
+<ul>
+  <li><a href="https://github.com/carhartl">Klaus Hartl</a></li>
+  <li><a href="https://github.com/FagnerMartinsBrack">Fagner Brack</a></li>
+  <li>And awesome <a href="https://github.com/js-cookie/js-cookie/graphs/contributors">contributors</a></li>
+</ul>

@@ -1,0 +1,64 @@
+<h2 id="github-buttons">GitHub Buttons</h2>
+
+<p>Basically, a copy-pasta, standalone, Javascript version of <a href="https://github.com/mdo/github-buttons">mdo/github-buttons</a>. The reason for this library is that @mdo’s version doesn’t work with SSL and using iframes is just silly.</p>
+
+<p>The CSS is prepended with <code class="highlighter-rouge">.github-btn</code> to prepend to increase specificity to avoid conflicts with your own CSS.</p>
+
+<p>GitHub, you suck for not supporting this yourself.</p>
+
+<h3 id="installation">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>bower install github-buttons
+component install jonathanong/github-buttons
+</code></pre>
+</div>
+
+<h3 id="api">API</h3>
+
+<p>Place the buttons wherever on the page. They should have <code class="highlighter-rouge">class="github-btn"</code>. You may want to have a <code class="highlighter-rouge">class="hide"</code> as well. You should handle the loading states yourself.</p>
+
+<p>All options as shown on <a href="https://github.com/mdo/github-buttons">mdo/github-buttons</a> are available through <code class="highlighter-rouge">data-*</code> attributes. View the demo for basically every possible variation of buttons.</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"github-btn hide"</span> <span class="na">data-user=</span><span class="s">"jonathanong"</span> <span class="na">data-repo=</span><span class="s">"github-buttons"</span> <span class="na">data-type=</span><span class="s">"watch"</span> <span class="na">data-count=</span><span class="s">"1"</span><span class="nt">&gt;&lt;/span&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"github-buttons.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+<p>Note that the script should be loaded after all button definitions.</p>
+
+<h4 id="githubbuttonsel">githubButtons(el)</h4>
+
+<p>You can load a single button yourself if you’d like. Use this if you load the script before any button definitions.</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">githubButtons</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'.github-btn'</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<h4 id="githubbuttonsall">githubButtons.all()</h4>
+
+<p>Loads all buttons on the page. This is run on script load automatically.</p>
+
+<h3 id="license">License</h3>
+
+<p>The MIT License (MIT)</p>
+
+<p>Copyright (c) 2013 Jonathan Ong me@jongleberry.com</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the “Software”), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.</p>
