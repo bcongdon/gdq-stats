@@ -33,3 +33,12 @@ export const movingAverage = (arr, dataKey, windowSize) => {
   })
   return result
 }
+
+export const gameForId = (id, games) => {
+  const game = games.filter((g) => g.id === id)[0]
+  if(!game) {
+    console.debug("No game with id " + id)
+    return null
+  }
+  return game
+}

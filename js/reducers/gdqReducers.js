@@ -4,11 +4,26 @@ import { INITIAL_TIMESERIES,
   SET_CURRENT_SERIES,
   SET_BUTTON_ZOOM,
   SET_GAME_ZOOM,
-  SET_CURRENT_SECONDARY_SERIES } from '../actions/types'
+  SET_CURRENT_SECONDARY_SERIES,
+  TOGGLE_NOTIFICATION_GAME,
+  NOTIFY_GAME } from '../actions/types'
 import moment from 'moment'
 
 import Cookies from 'universal-cookie'
 const cookies = new Cookies()
+
+const getNotificationGames = () => {
+  const data = cookies.get(NOTIFY_GAME)
+  if(data) {
+    try {
+      return data.split('|').map((d) => Number.parseInt(d))
+    }
+    catch(e) {
+      console.log("Invalid JSON data: " + data)
+    }
+  }
+  return []
+}
 
 const INITIAL_STATE = {
   schedule: [],
@@ -18,7 +33,8 @@ const INITIAL_STATE = {
   series: Number.parseInt(cookies.get(SET_CURRENT_SERIES)) || 0,
   seriesSecondary: 7,
   activeButtonZoomIndex: Number.parseInt(cookies.get(SET_BUTTON_ZOOM)) || -1,
-  activeGameZoom: null
+  activeGameZoom: null,
+  notificationGames: getNotificationGames()
 }
 
 const mostRecentTime = (data) => {
@@ -47,6 +63,11 @@ const normalizeSchedule = (schedule) => {
   return schedule
 }
 
+const saveNotificationGames = (ids) => {
+  const data = ids.join('|')
+  cookies.set(NOTIFY_GAME, data, { path: '/' })
+} 
+
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case INITIAL_TIMESERIES:
@@ -66,6 +87,18 @@ export default function (state = INITIAL_STATE, action) {
       return { ...state, activeButtonZoomIndex: activeIndex, activeGameZoom: null }
     case SET_GAME_ZOOM:
       return { ...state, activeButtonZoomIndex: -1, activeGameZoom: action.payload }
+    case TOGGLE_NOTIFICATION_GAME:
+      const newState = !state.notificationGames.includes(action.payload)
+      const newGames = state.notificationGames.filter((id) => id !== action.payload)
+      if(newState) {
+        newGames.push(action.payload) 
+      }
+      saveNotificationGames(newGames)
+      return { ...state, notificationGames: newGames }
+    case NOTIFY_GAME:
+      const filteredGames = state.notificationGames.filter((id) => action.payload !== id)
+      saveNotificationGames(filteredGames)
+      return { ...state, notificationGames: filteredGames }
   }
   return state
 }
