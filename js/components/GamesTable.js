@@ -34,13 +34,13 @@ class GamesTable extends React.PureComponent {
       <IconLink
         icon='glyphicon glyphicon-bell'
         active={this.props.notificationGames.includes(id)}
-        onClick={() => this.props.toggleNotificationGame(id)}/>
+        onClick={() => this.props.toggleNotificationGame(id)} />
     )
 
     let status
-    if(gameEndTime(game).isBefore()) {
+    if (gameEndTime(game).isBefore()) {
       status = '✓'
-    } else if(game.moment.isBefore()) {
+    } else if (game.moment.isBefore()) {
       status = '🎮'
     } else {
       status = notificationIcon
@@ -93,11 +93,11 @@ class GamesTable extends React.PureComponent {
     const checkNotifications = () => {
       this.props.notificationGames.map((id) => {
         const game = gameForId(id, this.props.schedule)
-        if(!game) {
+        if (!game) {
           return
         }
         // Notify if game starts within 5 minutes
-        if(game.moment.clone().add(5, 'minutes').isAfter()) {
+        if (game.moment.clone().add(5, 'minutes').isAfter()) {
           this.props.notifyGame(id)
         }
       })

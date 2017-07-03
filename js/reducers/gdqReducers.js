@@ -14,12 +14,11 @@ const cookies = new Cookies()
 
 const getNotificationGames = () => {
   const data = cookies.get(NOTIFY_GAME)
-  if(data) {
+  if (data) {
     try {
       return data.split('|').map((d) => Number.parseInt(d))
-    }
-    catch(e) {
-      console.log("Invalid JSON data: " + data)
+    } catch (e) {
+      console.log('Invalid JSON data: ' + data)
     }
   }
   return []
@@ -66,7 +65,7 @@ const normalizeSchedule = (schedule) => {
 const saveNotificationGames = (ids) => {
   const data = ids.join('|')
   cookies.set(NOTIFY_GAME, data, { path: '/' })
-} 
+}
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -90,8 +89,8 @@ export default function (state = INITIAL_STATE, action) {
     case TOGGLE_NOTIFICATION_GAME:
       const newState = !state.notificationGames.includes(action.payload)
       const newGames = state.notificationGames.filter((id) => id !== action.payload)
-      if(newState) {
-        newGames.push(action.payload) 
+      if (newState) {
+        newGames.push(action.payload)
       }
       saveNotificationGames(newGames)
       return { ...state, notificationGames: newGames }

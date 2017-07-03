@@ -52,10 +52,10 @@ export const toggleNotificationGame = (id) => (dispatch, getState) => {
 export const notifyGame = (id) => (dispatch, getState) => {
   const schedule = getState().gdq.schedule
   const game = gameForId(id, schedule)
-  if(!game) {
+  if (!game) {
     return
   }
-  var notification = new Notify("GDQStatus: " + game.name, {
+  var notification = new Notify('GDQStatus: ' + game.name, {
     body: game.name + ' is up next!',
     icon: 'img/favicon-196x196.png',
     notifyClick: () => {

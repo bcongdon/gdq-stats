@@ -5,7 +5,7 @@ import { PropTypes } from 'prop-types'
 const IconLink = ({ icon, onClick, active }) => {
   const color = active ? '#333' : '#ddd'
   return (
-    <a style={{cursor: 'pointer'}} onClick={onClick}><Glyphicon style={{color: color}} glyph={icon}/></a>
+    <a style={{cursor: 'pointer'}} onClick={onClick}><Glyphicon style={{color: color}} glyph={icon} /></a>
   )
 }
 
