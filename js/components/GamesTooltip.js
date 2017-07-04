@@ -21,7 +21,7 @@ export default class GamesTooltip extends React.PureComponent {
   render () {
     const { payload, label, active, schedule } = this.props
 
-    if (!active || !payload) {
+    if (!active || !payload || !schedule.length) {
       return null
     }
     const payloadObj = payload[0].payload

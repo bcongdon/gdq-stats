@@ -11,6 +11,7 @@ import { gameEndTime, gameForId } from '../utils'
 import IconLink from './IconLink'
 import { toggleNotificationGame, notifyGame } from '../actions'
 import moment from 'moment'
+import ReactDOM from 'react-dom'
 
 class GamesTable extends React.Component {
   static propTypes = {
@@ -18,6 +19,12 @@ class GamesTable extends React.Component {
     notificationGames: PropTypes.array,
     toggleNotificationGame: PropTypes.func,
     notifyGame: PropTypes.func
+  }
+
+  constructor (props) {
+    super(props)
+    this.rows = []
+    this.initialScroll = false
   }
 
   getHeader () {
@@ -66,14 +73,16 @@ class GamesTable extends React.Component {
 
     const statusNode = <span className='hidden-xs' style={{float: 'right', paddingRight: '20%'}}>{status}</span>
 
-    return (
-      <Row className='game-list-row' key={key}>
+    const row = (
+      <Row className='game-list-row' key={key} ref={(e) => this.rows[key] = e}>
         <Col sm={4} xs={5}>{name}</Col>
         <Col sm={3} xsHidden>{runners}</Col>
         <Col sm={3} xs={4}>{moment.format('MMM D, h:mm a')} {statusNode}</Col>
         <Col sm={2} xs={3}>{duration}</Col>
       </Row>
     )
+
+    return row
   }
 
   getRows () {
@@ -86,15 +95,25 @@ class GamesTable extends React.Component {
     return this.props.schedule.filter((g) => gameEndTime(g).isBefore()).length
   }
 
+  getActiveGame () {
+    for(let i = 0; i < this.props.schedule.length; i++) {
+      const game = this.props.schedule[i]
+      if(game.moment.isAfter()) {
+        return i - 1
+      }
+    }
+    return 0
+  }
+
   render () {
-    return (
+    const table = (
       <div className='section'>
         <h2>Games</h2>
         <div className='table-content'>
           <div id='game-list'>
             <Grid id='gamesTable'>
               {this.getHeader()}
-              <div className='games-list-body'>
+              <div className='games-list-body' ref={(e) => this.body = e}>
                 {this.getRows()}
               </div>
             </Grid>
@@ -105,6 +124,15 @@ class GamesTable extends React.Component {
         </div>
       </div>
     )
+    return table
+  }
+
+  componentDidUpdate() {
+    const activeRow = ReactDOM.findDOMNode(this.rows[this.getActiveGame()])
+    if(activeRow && !this.initialScroll) {
+      this.initialScroll = true
+      this.body.scrollTop = activeRow.offsetTop - this.body.offsetTop
+    }
   }
 
   componentWillMount () {
