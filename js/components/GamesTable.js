@@ -5,11 +5,14 @@ import { PropTypes } from 'prop-types'
 import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Grid from 'react-bootstrap/lib/Grid'
+import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger'
+import Tooltip from 'react-bootstrap/lib/Tooltip'
 import { gameEndTime, gameForId } from '../utils'
 import IconLink from './IconLink'
 import { toggleNotificationGame, notifyGame } from '../actions'
+import moment from 'moment'
 
-class GamesTable extends React.PureComponent {
+class GamesTable extends React.Component {
   static propTypes = {
     schedule: PropTypes.array.isRequired,
     notificationGames: PropTypes.array,
@@ -30,11 +33,26 @@ class GamesTable extends React.PureComponent {
 
   toRow (game, key) {
     const { id, name, runners, moment, duration } = game
+    const notificationActive = this.props.notificationGames.includes(id)
     const notificationIcon = (
       <IconLink
         icon='glyphicon glyphicon-bell'
-        active={this.props.notificationGames.includes(id)}
+        active={notificationActive}
         onClick={() => this.props.toggleNotificationGame(id)} />
+    )
+
+    const notificationTooltip = (
+      <Tooltip
+        id='notification-tooltip'
+        style={{color:'red'}}>
+        Click to be notified right before<br/>'<b>{game.name}</b>'<br/> starts!
+      </Tooltip>
+    )
+
+    const tooltipAppliedNotification = notificationActive ? notificationIcon : (
+      <OverlayTrigger placement='top' overlay={notificationTooltip}>
+        {notificationIcon}
+      </OverlayTrigger>
     )
 
     let status
@@ -43,7 +61,7 @@ class GamesTable extends React.PureComponent {
     } else if (game.moment.isBefore()) {
       status = '🎮'
     } else {
-      status = notificationIcon
+      status = tooltipAppliedNotification
     }
 
     const statusNode = <span className='hidden-xs' style={{float: 'right', paddingRight: '20%'}}>{status}</span>
@@ -97,13 +115,15 @@ class GamesTable extends React.PureComponent {
           return
         }
         // Notify if game starts within 5 minutes
-        if (game.moment.clone().add(5, 'minutes').isAfter()) {
+        if (game.moment.clone().subtract(5, 'minutes').isBefore()) {
           this.props.notifyGame(id)
         }
       })
+      // Force update to catch when a game change occurs
+      this.forceUpdate()
     }
     checkNotifications()
-    setInterval(checkNotifications, 60 * 1000)
+    setInterval(checkNotifications, 5 * 1000)
   }
 }
 

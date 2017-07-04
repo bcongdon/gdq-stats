@@ -27,7 +27,7 @@ const zoomButtons = [
   { label: '3d', hours: 72 }
 ]
 
-class GraphContainer extends React.PureComponent {
+class GraphContainer extends React.Component {
   static propTypes = {
     setCurrentSeries: PropTypes.func.isRequired,
     activeSeries: PropTypes.number.isRequired,
