@@ -39,7 +39,7 @@ export const setCurrentSeries = (series) => (dispatch) => dispatch({ type: SET_C
 export const setCurrentSecondarySeries = (series) => (dispatch) => dispatch({ type: SET_CURRENT_SECONDARY_SERIES, payload: series })
 
 export const setButtonZoom = (idx) => (dispatch) => dispatch({ type: SET_BUTTON_ZOOM, payload: idx })
-export const setGameZoom = (idx) => (dispatch) => dispatch({ type: SET_GAME_ZOOM, payload: idx })
+export const setGameZoom = (id) => (dispatch) => dispatch({ type: SET_GAME_ZOOM, payload: id })
 
 export const toggleNotificationGame = (id) => (dispatch, getState) => {
   // If we're adding a new game and we need permission, ask for it
