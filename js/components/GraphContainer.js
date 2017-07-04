@@ -16,7 +16,7 @@ import VerticalLabel from './VerticalLabel'
 import GamesTooltip from './GamesTooltip'
 import GRAPHS from '../graph-definitions'
 import Select from 'react-select'
-import { movingAverage } from '../utils'
+import { movingAverage, gameForId } from '../utils'
 
 const zoomButtons = [
   { label: '1h', hours: 1 },
@@ -34,7 +34,7 @@ class GraphContainer extends React.Component {
     timeseries: PropTypes.array.isRequired,
     schedule: PropTypes.array.isRequired,
     activeButtonZoomIndex: PropTypes.number,
-    activeGameZoom: PropTypes.object,
+    activeGameZoom: PropTypes.number,
     setGameZoom: PropTypes.func.isRequired,
     setButtonZoom: PropTypes.func.isRequired,
     fullscreen: PropTypes.bool,
@@ -89,6 +89,7 @@ class GraphContainer extends React.Component {
   // Returns [min, max] moment times of domain based on current state of graph options
   getDomain () {
     const { activeButtonZoomIndex, activeGameZoom } = this.props
+    const activeGame = gameForId(activeGameZoom, this.props.schedule)
     const maxTime = this.props.timeseries[this.props.timeseries.length - 1].time
     const minTime = this.props.timeseries[0].time
     let min = moment(minTime).clone()
@@ -96,10 +97,10 @@ class GraphContainer extends React.Component {
     if (activeButtonZoomIndex >= 0) {
       const zoomHours = zoomButtons[activeButtonZoomIndex].hours
       min = moment(maxTime).subtract(zoomHours, 'hours')
-    } else if (activeGameZoom) {
-      const [hours, minutes, seconds] = activeGameZoom.duration.split(':')
-      min = activeGameZoom.moment
-      max = activeGameZoom.moment.clone()
+    } else if (activeGame) {
+      const [hours, minutes, seconds] = activeGame.duration.split(':')
+      min = activeGame.moment
+      max = activeGame.moment.clone()
         .add(hours, 'hours')
         .add(minutes, 'minutes')
         .add(seconds, 'seconds')
@@ -125,6 +126,8 @@ class GraphContainer extends React.Component {
         {activeGraph.name}
       </VerticalLabel>
     )
+    // Force a 0-based chart when no zoom is active
+    const minDomain = (this.props.activeGameZoom || this.props.activeButtonZoomIndex) ? 'dataMin' : 0
     return [
       <Line
         type='basis'
@@ -142,7 +145,7 @@ class GraphContainer extends React.Component {
         axisLine={{stroke: '#ddd'}}
         tickLine={{stroke: '#ddd'}}
         tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
-        domain={[0, 'dataMax']}
+        domain={[minDomain, 'dataMax']}
         interval='preserveStartEnd'
         minTickGap={0}
         label={yAxisLabel}
@@ -200,6 +203,7 @@ class GraphContainer extends React.Component {
     const tooltipFormatSecondary = secondaryActiveGraph.tooltipFormat || secondaryActiveGraph.format
 
     const selectOptions = this.props.schedule.filter((obj) => obj.moment.isBefore())
+    const activeGame = this.props.activeGameZoom ? gameForId(this.props.activeGameZoom, this.props.schedule) : null
     return (
       <Grid className='graph-container-fullscreen'>
         <Row>
@@ -251,8 +255,8 @@ class GraphContainer extends React.Component {
               labelKey='name'
               valueKey='name'
               placeholder='Zoom to Game...'
-              value={this.props.activeGameZoom ? this.props.activeGameZoom.name : null}
-              onChange={this.props.setGameZoom}
+              value={this.props.activeGameZoom ? activeGame.name : null}
+              onChange={(obj) => this.props.setGameZoom(obj ? obj.id : null)}
             />
           </Col>
           <Col sm={5}>

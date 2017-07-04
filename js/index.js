@@ -6,10 +6,21 @@ import { Provider } from 'react-redux'
 import reducers from './reducers'
 import reduxThunk from 'redux-thunk'
 import 'react-select/dist/react-select.css'
-import { setCurrentSeries, setButtonZoom } from './actions'
+import { setCurrentSeries, setButtonZoom, setGameZoom } from './actions'
+import { gameForId } from './utils'
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore)
 const store = createStoreWithMiddleware(reducers)
+
+const urlParams = new URLSearchParams(window.location.search)
+if (urlParams.get('series')) {
+  setCurrentSeries(parseInt(urlParams.get('series')))(store.dispatch)
+}
+if (urlParams.get('zoom')) {
+  setButtonZoom(parseInt(urlParams.get('zoom')))(store.dispatch)
+} else if (urlParams.get('game')) {
+  setGameZoom(parseInt(urlParams.get('game')))(store.dispatch)
+}
 
 store.subscribe(() => {
   const state = store.getState()
@@ -20,22 +31,13 @@ store.subscribe(() => {
   } else {
     urlParams.delete('zoom')
   }
-  // if(state.gdq.activeGameZoom) {
-  //   urlParams.set('game', state.gdq.activeGameZoom.name)
-  // }
+  if(state.gdq.activeGameZoom) {
+    urlParams.set('game', state.gdq.activeGameZoom) 
+  } else if(state.gdq.scheduleLoaded) {
+    urlParams.delete('game')
+  }
   history.replaceState('', '', '?' + urlParams.toString())
 })
-
-const urlParams = new URLSearchParams(window.location.search)
-if (urlParams.has('series')) {
-  setCurrentSeries(parseInt(urlParams.get('series')))(store.dispatch)
-}
-if (urlParams.has('zoom')) {
-  setButtonZoom(parseInt(urlParams.get('zoom')))(store.dispatch)
-}
-if (urlParams.has('game')) {
-
-}
 
 ReactDOM.render(
   <Provider store={store}>
