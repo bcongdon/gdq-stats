@@ -27,7 +27,7 @@ const zoomButtons = [
   { label: '3d', hours: 72 }
 ]
 
-class GraphContainer extends React.PureComponent {
+class GraphContainer extends React.Component {
   static propTypes = {
     setCurrentSeries: PropTypes.func.isRequired,
     activeSeries: PropTypes.number.isRequired,
@@ -69,7 +69,15 @@ class GraphContainer extends React.PureComponent {
       return acc
     }
     const derive = (acc, val) => {
-      const newVal = acc.length ? (val[baseKey] - acc[acc.length - 1][baseKey]) : 0
+      // Get most recent value
+      let mostRecentVal = 0
+      for(let i = acc.length - 1; i > 0; i--) {
+        if(acc[i][baseKey]) {
+          mostRecentVal = acc[i][baseKey]
+          break
+        }
+      }
+      const newVal = val[baseKey] - mostRecentVal
       val[key] = newVal
       acc.push({...val})
       return acc
