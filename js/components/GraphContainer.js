@@ -256,7 +256,7 @@ class GraphContainer extends React.Component {
               valueKey='name'
               placeholder='Zoom to Game...'
               value={this.props.activeGameZoom ? activeGame.name : null}
-              onChange={(obj) => this.props.setGameZoom(obj.id)}
+              onChange={(obj) => this.props.setGameZoom(obj ? obj.id : null)}
             />
           </Col>
           <Col sm={5}>
