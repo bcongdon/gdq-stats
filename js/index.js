@@ -7,7 +7,6 @@ import reducers from './reducers'
 import reduxThunk from 'redux-thunk'
 import 'react-select/dist/react-select.css'
 import { setCurrentSeries, setButtonZoom, setGameZoom } from './actions'
-import { gameForId } from './utils'
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore)
 const store = createStoreWithMiddleware(reducers)
@@ -31,9 +30,9 @@ store.subscribe(() => {
   } else {
     urlParams.delete('zoom')
   }
-  if(state.gdq.activeGameZoom) {
-    urlParams.set('game', state.gdq.activeGameZoom) 
-  } else if(state.gdq.scheduleLoaded) {
+  if (state.gdq.activeGameZoom) {
+    urlParams.set('game', state.gdq.activeGameZoom)
+  } else if (state.gdq.scheduleLoaded) {
     urlParams.delete('game')
   }
   history.replaceState('', '', '?' + urlParams.toString())

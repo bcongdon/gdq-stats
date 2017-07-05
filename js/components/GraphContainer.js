@@ -72,8 +72,8 @@ class GraphContainer extends React.Component {
     const derive = (acc, val) => {
       // Get most recent value
       let mostRecentVal = 0
-      for(let i = acc.length - 1; i > 0; i--) {
-        if(acc[i][baseKey]) {
+      for (let i = acc.length - 1; i > 0; i--) {
+        if (acc[i][baseKey]) {
           mostRecentVal = acc[i][baseKey]
           break
         }
@@ -282,7 +282,7 @@ class GraphContainer extends React.Component {
     return (
       <div className='section'>
         <h2>Live Stats</h2>
-        {graph || <PacmanLoader color={PRIMARY_COLOR} className='graph-loader'/>}
+        {graph || <PacmanLoader color={PRIMARY_COLOR} className='graph-loader' />}
       </div>
     )
   }

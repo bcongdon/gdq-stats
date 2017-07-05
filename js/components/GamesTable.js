@@ -10,7 +10,6 @@ import Tooltip from 'react-bootstrap/lib/Tooltip'
 import { gameEndTime, gameForId } from '../utils'
 import IconLink from './IconLink'
 import { toggleNotificationGame, notifyGame } from '../actions'
-import moment from 'moment'
 import ReactDOM from 'react-dom'
 
 class GamesTable extends React.Component {
@@ -51,8 +50,8 @@ class GamesTable extends React.Component {
     const notificationTooltip = (
       <Tooltip
         id='notification-tooltip'
-        style={{color:'red'}}>
-        Click to be notified right before<br/>'<b>{game.name}</b>'<br/> starts!
+        style={{color: 'red'}}>
+        Click to be notified right before<br />'<b>{game.name}</b>'<br /> starts!
       </Tooltip>
     )
 
@@ -74,7 +73,7 @@ class GamesTable extends React.Component {
     const statusNode = <span className='hidden-xs' style={{float: 'right', paddingRight: '20%'}}>{status}</span>
 
     const row = (
-      <Row className='game-list-row' key={key} ref={(e) => this.rows[key] = e}>
+      <Row className='game-list-row' key={key} ref={(e) => { this.rows[key] = e }}>
         <Col sm={4} xs={5}>{name}</Col>
         <Col sm={3} xsHidden>{runners}</Col>
         <Col sm={3} xs={4}>{moment.format('MMM D, h:mm a')} {statusNode}</Col>
@@ -96,9 +95,9 @@ class GamesTable extends React.Component {
   }
 
   getActiveGame () {
-    for(let i = 0; i < this.props.schedule.length; i++) {
+    for (let i = 0; i < this.props.schedule.length; i++) {
       const game = this.props.schedule[i]
-      if(game.moment.isAfter()) {
+      if (game.moment.isAfter()) {
         return i - 1
       }
     }
@@ -113,7 +112,7 @@ class GamesTable extends React.Component {
           <div id='game-list'>
             <Grid id='gamesTable'>
               {this.getHeader()}
-              <div className='games-list-body' ref={(e) => this.body = e}>
+              <div className='games-list-body' ref={(e) => { this.body = e }}>
                 {this.getRows()}
               </div>
             </Grid>
@@ -127,9 +126,9 @@ class GamesTable extends React.Component {
     return table
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     const activeRow = ReactDOM.findDOMNode(this.rows[this.getActiveGame()])
-    if(activeRow && !this.initialScroll) {
+    if (activeRow && !this.initialScroll) {
       this.initialScroll = true
       this.body.scrollTop = activeRow.offsetTop - this.body.offsetTop
     }

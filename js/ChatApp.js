@@ -1,11 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { connect } from 'react-redux'
-import { PropTypes } from 'prop-types'
-import moment from 'moment'
 import axios from 'axios'
-import { GDQ_API_ENDPOINT, GDQ_STORAGE_ENDPOINT, PRIMARY_COLOR } from './constants'
-import { BarChart, Bar, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Text } from 'recharts'
+import { GDQ_STORAGE_ENDPOINT, PRIMARY_COLOR } from './constants'
+import { BarChart, Bar, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts'
 import PacmanLoader from 'halogen/PacmanLoader'
 import VerticalLabel from './components/VerticalLabel'
 
@@ -27,12 +24,12 @@ class ChatApp extends React.PureComponent {
       .then((response) => this.setState({ chatWords: response.data }))
   }
 
-  getLoader() {
-    return <PacmanLoader color={PRIMARY_COLOR} className='graph-loader'/>
+  getLoader () {
+    return <PacmanLoader color={PRIMARY_COLOR} className='graph-loader' />
   }
 
-  getUserGraph() {
-    if(!this.state.chatUsers) {
+  getUserGraph () {
+    if (!this.state.chatUsers) {
       return this.getLoader()
     }
     const yAxisLabel = (
@@ -47,18 +44,18 @@ class ChatApp extends React.PureComponent {
     return (
       <ResponsiveContainer width='100%' minHeight={600}>
         <BarChart margin={GRAPH_MARGINS} barGap={150} layout='vertical' data={this.state.chatUsers}>
-          <Tooltip labelFormater={() => "foo"}formatter={(val) => `${val} messages sent`}/>
-          <CartesianGrid style={{strokeWidth: 0.25}}/>
-          <XAxis label='Number of Messages Sent' orientation='top' type="number"/>
-          <YAxis label={yAxisLabel} className="chat-y-axis" interval={0} type="category" dataKey="user" />
-          <Bar dataKey="count" fill={PRIMARY_COLOR} />
+          <Tooltip labelFormater={() => 'foo'}formatter={(val) => `${val} messages sent`} />
+          <CartesianGrid horizontal={false} />
+          <XAxis label='Number of Messages Sent' orientation='top' type='number' />
+          <YAxis label={yAxisLabel} className='chat-y-axis' interval={0} type='category' dataKey='user' />
+          <Bar dataKey='count' fill={PRIMARY_COLOR} />
         </BarChart>
       </ResponsiveContainer>
     )
   }
 
-  getWordGraph() {
-    if(!this.state.chatWords) {
+  getWordGraph () {
+    if (!this.state.chatWords) {
       return this.getLoader()
     }
     const yAxisLabel = (
@@ -73,11 +70,11 @@ class ChatApp extends React.PureComponent {
     return (
       <ResponsiveContainer width='100%' minHeight={600}>
         <BarChart margin={GRAPH_MARGINS} barGap={150} layout='vertical' data={this.state.chatWords}>
-          <Tooltip formatter={(val) => `${val} uses`}/>
-          <CartesianGrid style={{strokeWidth: 0.25}}/>
-          <XAxis label={'Number of Uses in Chat'} orientation='top' type="number"/>
-          <YAxis label={yAxisLabel} interval={0} type="category" dataKey="word" />
-          <Bar dataKey="count" fill={PRIMARY_COLOR} />
+          <Tooltip formatter={(val) => `${val} uses`} />
+          <CartesianGrid horizontal={false} />
+          <XAxis label={'Number of Uses in Chat'} orientation='top' type='number' />
+          <YAxis label={yAxisLabel} interval={0} type='category' dataKey='word' />
+          <Bar dataKey='count' fill={PRIMARY_COLOR} />
         </BarChart>
       </ResponsiveContainer>
     )
@@ -87,12 +84,12 @@ class ChatApp extends React.PureComponent {
     return (
       <div>
         <h3><a style={{border: '1.5px solid #ccc', padding: 5, backgroundColor: '#ddd'}} href='/'>Return Home</a></h3>
-        <div className="section">
+        <div className='section'>
           <h2>Most Active Chat Users</h2>
           {this.getUserGraph()}
         </div>
 
-        <div className="section">
+        <div className='section'>
           <h2>Most Used "Words" in Chat</h2>
           {this.getWordGraph()}
         </div>
@@ -105,4 +102,3 @@ ReactDOM.render(
   <ChatApp />,
   document.getElementById('react-root')
 )
-

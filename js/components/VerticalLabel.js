@@ -28,7 +28,8 @@ VerticalLabel.propTypes = {
   fontSize: PropTypes.number,
   children: PropTypes.any,
   xOffset: PropTypes.number,
-  yOffset: PropTypes.number
+  yOffset: PropTypes.number,
+  className: PropTypes.string
 }
 
 VerticalLabel.defaultProps = {

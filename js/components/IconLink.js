@@ -8,7 +8,7 @@ const IconLink = ({ icon, active, ...props }) => {
     <a
       style={{cursor: 'pointer'}}
       {...props}>
-      <Glyphicon style={{color: color}} glyph={icon}/>
+      <Glyphicon style={{color: color}} glyph={icon} />
     </a>
   )
 }

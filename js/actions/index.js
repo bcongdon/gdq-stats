@@ -13,7 +13,6 @@ import { INITIAL_TIMESERIES,
 import { gameForId } from '../utils'
 import { GDQ_API_ENDPOINT, GDQ_STORAGE_ENDPOINT } from '../constants'
 
-
 export const fetchInitialTimeseries = () => (dispatch) =>
   axios.get(GDQ_STORAGE_ENDPOINT + '/latest.json')
     .then(response => {
