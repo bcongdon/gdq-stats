@@ -76,7 +76,7 @@ tbody tr .selected { background-color: #9ee5ff; }
 
 .current_stats { text-align: left; font-size: 16px; background-color: #EEE; margin-top: 0px; }
 
-.gdq-links { background-color: #E6E6E6; border-top: 2px #DDD solid; }
+.gdq-links { background-color: #E6E6E6; border-top: 2px #DDD solid; width: inherit; }
 .gdq-links div { display: inline-block; text-align: center; font-size: 16px; padding-top: 5px; padding-bottom: 5px; font-weight: bold; font-family: "Cubano"; }
 
 .current_header { padding-right: 10px; }
@@ -121,7 +121,7 @@ tbody tr .selected { background-color: #9ee5ff; }
 
 .emoji { display: inline-block; font-size: 20px; vertical-align: middle; }
 
-.info-section { font-size: 16px; font-weight: 100; padding-left: 0px; padding-right: 25px; padding-top: 0px; }
+.info-section { font-size: 16px; font-weight: 100; }
 .info-section h3 { margin-top: 0px; }
 
 .loading-image { margin: auto; display: block; padding: 260px; }
