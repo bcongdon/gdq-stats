@@ -96,6 +96,8 @@ in Internet Explorer on Windows 7 for instance (because of the wrong MIME type).
 
 <p><em>IMPORTANT! when deleting a cookie, you must pass the exact same path and domain attributes that was used to set the cookie, unless you’re relying on the <a href="#cookie-attributes">default attributes</a>.</em></p>
 
+<p><em>Note: Removing unexisting cookie does not raise any exception nor return any value</em></p>
+
 <h2 id="namespace-conflicts">Namespace conflicts</h2>
 
 <p>If there is any danger of a conflict with the namespace <code class="highlighter-rouge">Cookies</code>, the <code class="highlighter-rouge">noConflict</code> method will allow you to define a new namespace and preserve the original one. This is especially useful when running the script on third party sites e.g. as part of a widget or SDK.</p>
@@ -144,7 +146,7 @@ in Internet Explorer on Windows 7 for instance (because of the wrong MIME type).
 
 <p>This project is <a href="http://tools.ietf.org/html/rfc6265#section-4.1.1">RFC 6265</a> compliant. All special characters that are not allowed in the cookie-name or cookie-value are encoded with each one’s UTF-8 Hex equivalent using <a href="http://en.wikipedia.org/wiki/Percent-encoding">percent-encoding</a>.<br />
 The only character in cookie-name or cookie-value that is allowed and still encoded is the percent <code class="highlighter-rouge">%</code> character, it is escaped in order to interpret percent input as literal.<br />
-Please note that the default encoding/decoding strategy is meant to be interoperable <a href="https://github.com/js-cookie/js-cookie/pull/200#discussion_r63270778">only between cookies that are read/written by js-cookie</a>. To override the default encoding/decoding strategy you need to use a <a href="#converter">converter</a>.</p>
+Please note that the default encoding/decoding strategy is meant to be interoperable <a href="https://github.com/js-cookie/js-cookie/pull/200#discussion_r63270778">only between cookies that are read/written by js-cookie</a>. To override the default encoding/decoding strategy you need to use a <a href="#converters">converter</a>.</p>
 
 <h2 id="cookie-attributes">Cookie Attributes</h2>
 
@@ -271,11 +273,15 @@ The returning String will be used as the cookie value.</p>
 
 <h2 id="server-side-integration">Server-side integration</h2>
 
-<p>Check out the <a href="/previous-events/agdq-2017/bower_components/js-cookie/SERVER_SIDE.html">Servers Docs</a></p>
+<p>Check out the <a href="/pages/bcongdon/gdq-stats/previous-events/agdq-2017/bower_components/js-cookie/SERVER_SIDE.html">Servers Docs</a></p>
 
 <h2 id="contributing">Contributing</h2>
 
-<p>Check out the <a href="/previous-events/agdq-2017/bower_components/js-cookie/CONTRIBUTING.md">Contributing Guidelines</a></p>
+<p>Check out the <a href="/pages/bcongdon/gdq-stats/previous-events/agdq-2017/bower_components/js-cookie/CONTRIBUTING.md">Contributing Guidelines</a></p>
+
+<h2 id="security">Security</h2>
+
+<p>For vulnerability reports, send an e-mail to <code class="highlighter-rouge">jscookie at gmail dot com</code></p>
 
 <h2 id="manual-release-steps">Manual release steps</h2>
 
@@ -287,11 +293,11 @@ The returning String will be used as the cookie value.</p>
   <li>Create a github release and upload the minified file</li>
   <li>Change the <code class="highlighter-rouge">latest</code> tag pointer to the latest commit
     <ul>
-      <li><code class="highlighter-rouge">git tag -fa latest</code></li>
+      <li><code class="highlighter-rouge">git tag -f latest</code></li>
       <li><code class="highlighter-rouge">git push &lt;remote&gt; :refs/tags/latest</code></li>
+      <li><code class="highlighter-rouge">git push origin master --tags</code></li>
     </ul>
   </li>
-  <li>Commit with the message “Prepare for the next development iteration”</li>
   <li>Release on npm</li>
 </ul>
 
