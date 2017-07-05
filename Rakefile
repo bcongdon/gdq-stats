@@ -13,7 +13,7 @@ desc "Builds javascript bundles"
 task :webpack do
   puts "##Building..."
   system('rm -r dist/')
-  system('webpack --optimize-minimize --devtool none --progress --define process.env.NODE_ENV="\'production\'"')
+  system('npm run build')
   puts "##Webpack build complete"
 end
 
@@ -26,7 +26,7 @@ task :build do
   system('rm -r _site/js/')
 end
 
-desc "Bower install"
+desc "NPM install"
 task :install do
   puts "##Installing..."
   system('npm i')

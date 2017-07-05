@@ -5,6 +5,7 @@
   "main": " ",
   "scripts": {
     "start": "webpack --watch --progress",
+    "build": "webpack --optimize-minimize --devtool none --progress --define process.env.NODE_ENV=\"'production'\"",
     "lint": "eslint js --fix",
     "profile": "webpack --profile --json > webpack-stats.json"
   },
