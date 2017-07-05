@@ -36,7 +36,7 @@
           <ul>
             {% for previous_event in site.previous_events %}
               <li>
-                <a style="font-weight:400;" href="/previous-events/{{ previous_event.name }}-{{ previous_event.year }}">{{ previous_event.name }} {{ previous_event.year }}</a>
+                <a style="font-weight:400;" href="/previous-events/{{ previous_event.name | downcase }}-{{ previous_event.year }}">{{ previous_event.name }} {{ previous_event.year }}</a>
               </li>
             {% endfor %}
           </ul>
