@@ -222,6 +222,7 @@ tbody {
 .gdq-links {
   background-color: $panel-recessed-color;
   border-top: 2px $panel-border-color solid;
+  width: inherit;
 
   div {
     display: inline-block;
@@ -368,9 +369,6 @@ tbody {
 .info-section {
   font-size: 16px;
   font-weight: 100;
-  padding-left: 0px;
-  padding-right: 25px;
-  padding-top: 0px;
 
   h3 {
     margin-top: 0px;
