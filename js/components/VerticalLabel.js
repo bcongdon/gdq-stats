@@ -1,10 +1,10 @@
 import React from 'react'
 import { PropTypes } from 'prop-types'
 
-const VerticalLabel = ({ viewBox, fill, fontWeight, xOffset, fontSize, children }) => {
+const VerticalLabel = ({ viewBox, fill, fontWeight, xOffset, yOffset, fontSize, children, ...props }) => {
   const { x } = viewBox
   const cx = x + xOffset
-  const cy = 20
+  const cy = 20 + yOffset
   const rot = `270 ${cx} ${cy}`
   return (
     <text
@@ -14,7 +14,8 @@ const VerticalLabel = ({ viewBox, fill, fontWeight, xOffset, fontSize, children 
       textAnchor='end'
       fill={fill}
       fontWeight={fontWeight}
-      fontSize={fontSize}>
+      fontSize={fontSize}
+      {...props}>
       {children}
     </text>
   )
@@ -26,7 +27,13 @@ VerticalLabel.propTypes = {
   fontWeight: PropTypes.number,
   fontSize: PropTypes.number,
   children: PropTypes.any,
-  xOffset: PropTypes.number
+  xOffset: PropTypes.number,
+  yOffset: PropTypes.number
+}
+
+VerticalLabel.defaultProps = {
+  xOffset: 0,
+  yOffset: 0
 }
 
 export default VerticalLabel

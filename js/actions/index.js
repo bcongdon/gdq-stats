@@ -11,9 +11,8 @@ import { INITIAL_TIMESERIES,
   TOGGLE_NOTIFICATION_GAME,
   NOTIFY_GAME } from '../actions/types'
 import { gameForId } from '../utils'
+import { GDQ_API_ENDPOINT, GDQ_STORAGE_ENDPOINT } from '../constants'
 
-const GDQ_API_ENDPOINT = 'https://api.gdqstat.us'
-const GDQ_STORAGE_ENDPOINT = 'http://storage.api.gdqstat.us'
 
 export const fetchInitialTimeseries = () => (dispatch) =>
   axios.get(GDQ_STORAGE_ENDPOINT + '/latest.json')

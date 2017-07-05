@@ -17,6 +17,7 @@ import GamesTooltip from './GamesTooltip'
 import GRAPHS from '../graph-definitions'
 import Select from 'react-select'
 import { movingAverage, gameForId } from '../utils'
+import { PRIMARY_COLOR, SECONDARY_COLOR } from '../constants'
 
 const zoomButtons = [
   { label: '1h', hours: 1 },
@@ -127,13 +128,13 @@ class GraphContainer extends React.Component {
       </VerticalLabel>
     )
     // Force a 0-based chart when no zoom is active
-    const minDomain = (this.props.activeGameZoom || this.props.activeButtonZoomIndex) ? 'dataMin' : 0
+    const minDomain = (this.props.activeGameZoom !== null || this.props.activeButtonZoomIndex !== null) ? 'dataMin' : 0
     return [
       <Line
         type='basis'
         dataKey={activeGraph.key}
         name={activeGraph.name}
-        stroke={isPrimary ? '#00AEEF' : '#F21847'}
+        stroke={isPrimary ? PRIMARY_COLOR : SECONDARY_COLOR}
         strokeWidth={1.5}
         dot={false}
         activeDot
@@ -281,7 +282,7 @@ class GraphContainer extends React.Component {
     return (
       <div className='section'>
         <h2>Live Stats</h2>
-        {graph || <PacmanLoader color='#00AEEF' className='graph-loader' />}
+        {graph || <PacmanLoader color={PRIMARY_COLOR} className='graph-loader'/>}
       </div>
     )
   }
