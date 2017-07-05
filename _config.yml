@@ -5,6 +5,7 @@ description: >
 author: Benjamin Congdon
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://gdqstat.us" # the base hostname & protocol for your site
+repository: bcongdon/gdq-stats
 
 sass:
   sass_dir: _scss
@@ -19,7 +20,7 @@ markdown: kramdown
 # Exclude
 exclude: [LICENSE, README.md, Rakefile, Gemfile, Gemfile.lock, other_graphs.html,
           bower.json, node_modules, gdq-stats.sublime-project, webpack.config.js,
-          package.json, package-lock.js, flipclock.html, webpack-stats.json]
+          package.json, package-lock.js, flipclock.html, webpack-stats.json, vendor]
 
 previous_events:
   - name: AGDQ

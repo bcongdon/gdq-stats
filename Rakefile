@@ -21,10 +21,7 @@ desc "Build _site"
 task :build do
   puts "\n## Generating site files"
   ENV["JEKYLL_ENV"] = "production"
-  Jekyll::Site.new(Jekyll.configuration({
-    "source"      => ".",
-    "destination" => "_site"
-  })).process
+  system('ruby -S bundle exec jekyll build')
   # js/ isn't ignored in development because it messes with jekyll watch
   system('rm -r _site/js/')
 end
