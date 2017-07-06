@@ -1,7 +1,6 @@
 import isArray from '../utils/is-array';
 import isObject from '../utils/is-object';
 import isObjectEmpty from '../utils/is-object-empty';
-import isUndefined from '../utils/is-undefined';
 import isNumber from '../utils/is-number';
 import isDate from '../utils/is-date';
 import map from '../utils/map';
@@ -64,7 +63,7 @@ export function prepareConfig (config) {
 
 function configFromInput(config) {
     var input = config._i;
-    if (isUndefined(input)) {
+    if (input === undefined) {
         config._d = new Date(hooks.now());
     } else if (isDate(input)) {
         config._d = new Date(input.valueOf());
@@ -75,7 +74,7 @@ function configFromInput(config) {
             return parseInt(obj, 10);
         });
         configFromArray(config);
-    } else if (isObject(input)) {
+    } else if (typeof(input) === 'object') {
         configFromObject(config);
     } else if (isNumber(input)) {
         // from milliseconds

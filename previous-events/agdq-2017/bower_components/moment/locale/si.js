@@ -49,7 +49,7 @@ var si = moment.defineLocale('si', {
         y : 'වසර',
         yy : 'වසර %d'
     },
-    dayOfMonthOrdinalParse: /\d{1,2} වැනි/,
+    ordinalParse: /\d{1,2} වැනි/,
     ordinal : function (number) {
         return number + ' වැනි';
     },

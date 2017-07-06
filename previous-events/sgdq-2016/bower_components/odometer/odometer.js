@@ -641,10 +641,10 @@
   }
 
   if (typeof define === 'function' && define.amd) {
-    define([], function() {
+    define(['jquery'], function() {
       return Odometer;
     });
-  } else if (typeof exports !== "undefined" && exports !== null) {
+  } else if (typeof exports === !'undefined') {
     module.exports = Odometer;
   } else {
     window.Odometer = Odometer;

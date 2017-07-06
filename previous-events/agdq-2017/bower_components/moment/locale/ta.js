@@ -72,7 +72,7 @@ var ta = moment.defineLocale('ta', {
         y : 'ஒரு வருடம்',
         yy : '%d ஆண்டுகள்'
     },
-    dayOfMonthOrdinalParse: /\d{1,2}வது/,
+    ordinalParse: /\d{1,2}வது/,
     ordinal : function (number) {
         return number + 'வது';
     },

@@ -1,44 +1,5 @@
 <h1 id="changelog">Changelog</h1>
 
-<h3 id="2181">2.18.1</h3>
-
-<ul>
-  <li>
-    <p>Release Mar 22, 2017</p>
-  </li>
-  <li>
-    <p><a href="https://github.com/moment/moment/pull/3853">#3853</a> [misc] Fix invalid whitespace character causing inability to parse
-moment.js</p>
-  </li>
-</ul>
-
-<h3 id="2180-see-full-changelog">2.18.0 <a href="https://gist.github.com/ichernev/78920c5a1e419fb28c6e4546d1b7235c">See full changelog</a></h3>
-
-<ul>
-  <li>Release Mar 18, 2017</li>
-</ul>
-
-<h2 id="features">Features</h2>
-
-<ul>
-  <li><a href="https://github.com/moment/moment/pull/3708">#3708</a> [feature] RFC2822 parsing</li>
-  <li><a href="https://github.com/moment/moment/pull/3611">#3611</a> [feature] Durations gain validity</li>
-  <li><a href="https://github.com/moment/moment/pull/3738">#3738</a> [feature] Enable relative time for multiple seconds, request <a href="https://github.com/moment/moment/issues/2558">#2558</a></li>
-  <li><a href="https://github.com/moment/moment/pull/3766">#3766</a> [feature] Add support for k and kk format parsing</li>
-</ul>
-
-<h2 id="bugfixes">Bugfixes</h2>
-
-<ul>
-  <li><a href="https://github.com/moment/moment/pull/3643">#3643</a> [bugfix] Fixes <a href="https://github.com/moment/moment/issues/3520">#3520</a>, parseZone incorrectly handled minutes under 16</li>
-  <li><a href="https://github.com/moment/moment/pull/3710">#3710</a> [bugfix] Fixes <a href="https://github.com/moment/moment/issues/3632">#3632</a>, toISOString returns null for invalid date</li>
-  <li><a href="https://github.com/moment/moment/pull/3787">#3787</a> [bugfix] Fixes <a href="https://github.com/moment/moment/issues/3717">#3717</a>, ensure day-of-year is non-zero</li>
-  <li><a href="https://github.com/moment/moment/pull/3780">#3780</a> [bugfix] Fixes <a href="https://github.com/moment/moment/issues/3765">#3765</a>: Ensure year 0 is formatted with YYYY</li>
-  <li><a href="https://github.com/moment/moment/pull/3806">#3806</a> [bugfix] Fixes <a href="https://github.com/moment/moment/issues/3805">#3805</a>, fix locale month getters for standalone/format cases</li>
-</ul>
-
-<p>7 new locales, many locale improvements and some misc changes</p>
-
 <h3 id="2171-also-available-here">2.17.1 <a href="https://gist.github.com/ichernev/f38280b2b29c4932914a6d3a4e50bfb2">Also available here</a></h3>
 <ul>
   <li>
@@ -68,13 +29,13 @@ moment.js</p>
   <li>Release Nov 9, 2016</li>
 </ul>
 
-<h2 id="features-1">Features</h2>
+<h2 id="features">Features</h2>
 <ul>
   <li><a href="https://github.com/moment/moment/pull/3530">#3530</a> [feature] Check whether input is date before checking if format is array</li>
   <li><a href="https://github.com/moment/moment/pull/3515">#3515</a> [feature] Fix <a href="https://github.com/moment/moment/issues/2300">#2300</a>: Default to current week.</li>
 </ul>
 
-<h2 id="bugfixes-1">Bugfixes</h2>
+<h2 id="bugfixes">Bugfixes</h2>
 <ul>
   <li><a href="https://github.com/moment/moment/pull/3546">#3546</a> [bugfix] Implement lazy-loading of child locales with missing prents</li>
   <li><a href="https://github.com/moment/moment/pull/3523">#3523</a> [bugfix] parseZone should handle UTC</li>
@@ -116,7 +77,7 @@ moment.js</p>
   <li><a href="https://github.com/moment/moment/pull/3333">#3333</a> [new locale] zh-hk: Chinese (Hong Kong) locale</li>
 </ul>
 
-<h2 id="bugfixes-2">Bugfixes</h2>
+<h2 id="bugfixes-1">Bugfixes</h2>
 <ul>
   <li><a href="https://github.com/moment/moment/pull/3276">#3276</a> [bugfix] duration: parser: Support ms durations in .NET syntax</li>
   <li><a href="https://github.com/moment/moment/pull/3312">#3312</a> [bugfix] locales: Enable locale-data getters without moment (fixes <a href="https://github.com/moment/moment/issues/3284">#3284</a>)</li>
@@ -148,37 +109,35 @@ moment.js</p>
 
 <h2 id="new-features">New Features</h2>
 <ul>
-  <li><a href="https://github.com/moment/moment/pull/3233">#3233</a> Introduce month.isFormat for format/standalone discovery</li>
-  <li><a href="https://github.com/moment/moment/pull/2848">#2848</a> Allow user to get/set the rounding method used when calculating relative time</li>
-  <li><a href="https://github.com/moment/moment/pull/3112">#3112</a> optimize configFromStringAndFormat</li>
-  <li><a href="https://github.com/moment/moment/pull/3147">#3147</a> Call calendar format function with moment context</li>
-  <li><a href="https://github.com/moment/moment/pull/3160">#3160</a> deprecate isDSTShifted</li>
-  <li><a href="https://github.com/moment/moment/pull/3175">#3175</a> make moment calendar extensible with ad-hoc options</li>
-  <li><a href="https://github.com/moment/moment/pull/3191">#3191</a> toDate returns a copy of the internal date object</li>
-  <li><a href="https://github.com/moment/moment/pull/3192">#3192</a> Adding support for rollup import.</li>
-  <li><a href="https://github.com/moment/moment/pull/3238">#3238</a> Handle empty object and empty array for creation as now</li>
-  <li><a href="https://github.com/moment/moment/pull/3082">#3082</a> Use relative AMD moment dependency</li>
+  <li><a href="http://github.com/moment/moment/pull/3233">#3233</a> Introduce month.isFormat for format/standalone discovery</li>
+  <li><a href="http://github.com/moment/moment/pull/2848">#2848</a> Allow user to get/set the rounding method used when calculating relative time</li>
+  <li><a href="http://github.com/moment/moment/pull/3112">#3112</a> optimize configFromStringAndFormat</li>
+  <li><a href="http://github.com/moment/moment/pull/3147">#3147</a> Call calendar format function with moment context</li>
+  <li><a href="http://github.com/moment/moment/pull/3160">#3160</a> deprecate isDSTShifted</li>
+  <li><a href="http://github.com/moment/moment/pull/3175">#3175</a> make moment calendar extensible with ad-hoc options</li>
+  <li><a href="http://github.com/moment/moment/pull/3191">#3191</a> toDate returns a copy of the internal date object</li>
+  <li><a href="http://github.com/moment/moment/pull/3192">#3192</a> Adding support for rollup import.</li>
+  <li><a href="http://github.com/moment/moment/pull/3238">#3238</a> Handle empty object and empty array for creation as now</li>
+  <li><a href="http://github.com/moment/moment/pull/3082">#3082</a> Use relative AMD moment dependency</li>
 </ul>
 
-<h2 id="bugfixes-3">Bugfixes</h2>
+<h2 id="bugfixes-2">Bugfixes</h2>
 <ul>
-  <li><a href="https://github.com/moment/moment/pull/3241">#3241</a> Escape all 24 mixed pieces, not only first 12 in computeMonthsParse</li>
-  <li><a href="https://github.com/moment/moment/pull/3008">#3008</a> Object setter orders sets based on size of unit</li>
-  <li><a href="https://github.com/moment/moment/pull/3177">#3177</a> Bug Fix <a href="https://github.com/moment/moment/pull/2704">#2704</a> - isoWeekday(String) inconsistent with isoWeekday(Number)</li>
-  <li><a href="https://github.com/moment/moment/pull/3230">#3230</a> fix passing date with format string to ignore format string</li>
-  <li><a href="https://github.com/moment/moment/pull/3232">#3232</a> Fix negative 0 in certain diff cases</li>
-  <li><a href="https://github.com/moment/moment/pull/3235">#3235</a> Use proper locale inheritance for the base locale, fixes <a href="https://github.com/moment/moment/pull/3137">#3137</a></li>
+  <li><a href="http://github.com/moment/moment/pull/3241">#3241</a> Escape all 24 mixed pieces, not only first 12 in computeMonthsParse</li>
+  <li><a href="http://github.com/moment/moment/pull/3008">#3008</a> Object setter orders sets based on size of unit</li>
+  <li><a href="http://github.com/moment/moment/pull/3177">#3177</a> Bug Fix <a href="http://github.com/moment/moment/pull/2704">#2704</a> - isoWeekday(String) inconsistent with isoWeekday(Number)</li>
+  <li><a href="http://github.com/moment/moment/pull/3230">#3230</a> fix passing date with format string to ignore format string</li>
+  <li><a href="http://github.com/moment/moment/pull/3232">#3232</a> Fix negative 0 in certain diff cases</li>
+  <li><a href="http://github.com/moment/moment/pull/3235">#3235</a> Use proper locale inheritance for the base locale, fixes <a href="http://github.com/moment/moment/pull/3137">#3137</a></li>
 </ul>
 
 <p>Plus es-do locale and locale bugfixes</p>
 
 <h3 id="2130-see-full-changelog">2.13.0 <a href="https://gist.github.com/ichernev/0132fcf5b61f7fc140b0bb0090480d49">See full changelog</a></h3>
 <ul>
-  <li>Release April 18, 2016</li>
-</ul>
-
-<h2 id="enhancements">Enhancements:</h2>
-<ul>
+  <li>Release April 18, 2016
+    <h2 id="enhancements">Enhancements:</h2>
+  </li>
   <li><a href="https://github.com/moment/moment/pull/2982">#2982</a> Add ‘date’ as alias to ‘day’ for startOf() and endOf().</li>
   <li><a href="https://github.com/moment/moment/pull/2955">#2955</a> Add parsing negative components in durations when ISO 8601</li>
   <li><a href="https://github.com/moment/moment/pull/2991">#2991</a> isBetween support for both open and closed intervals</li>
@@ -186,7 +145,7 @@ moment.js</p>
   <li><a href="https://github.com/moment/moment/pull/3102">#3102</a> Add k and kk formatting tokens</li>
 </ul>
 
-<h2 id="bugfixes-4">Bugfixes</h2>
+<h2 id="bugfixes-3">Bugfixes</h2>
 <ul>
   <li><a href="https://github.com/moment/moment/pull/3109">#3109</a> Fix <a href="https://github.com/moment/moment/issues/1756">#1756</a> Resolved thread-safe issue on server side.</li>
   <li><a href="https://github.com/moment/moment/pull/3078">#3078</a> Fix parsing for months/weekdays with weird characters</li>
@@ -213,7 +172,7 @@ moment.js</p>
   <li><a href="https://github.com/moment/moment/pull/2774">#2774</a> Implement locale inheritance and locale updating</li>
 </ul>
 
-<h2 id="bugfixes-5">Bugfixes:</h2>
+<h2 id="bugfixes-4">Bugfixes:</h2>
 <ul>
   <li><a href="https://github.com/moment/moment/pull/2970">#2970</a> change add subtract to handle decimal values by rounding</li>
   <li><a href="https://github.com/moment/moment/pull/2887">#2887</a> Fix toJSON casting of invalid moment</li>
@@ -245,7 +204,7 @@ moment.js</p>
   <li>Release January 9, 2016</li>
 </ul>
 
-<h2 id="bugfixes-6">Bugfixes:</h2>
+<h2 id="bugfixes-5">Bugfixes:</h2>
 <ul>
   <li><a href="https://github.com/moment/moment/pull/2881">#2881</a> Revert “Merge pull request #2746 from mbad0la:develop” Sep-&gt;Sept</li>
   <li><a href="https://github.com/moment/moment/pull/2868">#2868</a> Add format and parse token Y, so it actually works</li>

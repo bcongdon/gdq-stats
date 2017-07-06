@@ -1,12 +1,11 @@
 define( [
 	"../core",
-	"../core/stripAndCollapse",
 	"../core/parseHTML",
 	"../ajax",
 	"../traversing",
 	"../manipulation",
 	"../selector"
-], function( jQuery, stripAndCollapse ) {
+], function( jQuery ) {
 
 "use strict";
 
@@ -19,7 +18,7 @@ jQuery.fn.load = function( url, params, callback ) {
 		off = url.indexOf( " " );
 
 	if ( off > -1 ) {
-		selector = stripAndCollapse( url.slice( off ) );
+		selector = jQuery.trim( url.slice( off ) );
 		url = url.slice( 0, off );
 	}
 

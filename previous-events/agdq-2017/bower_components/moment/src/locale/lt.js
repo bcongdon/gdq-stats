@@ -96,7 +96,7 @@ export default moment.defineLocale('lt', {
         y : translateSingular,
         yy : translate
     },
-    dayOfMonthOrdinalParse: /\d{1,2}-oji/,
+    ordinalParse: /\d{1,2}-oji/,
     ordinal : function (number) {
         return number + '-oji';
     },

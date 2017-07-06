@@ -42,7 +42,7 @@ export function copyConfig(to, from) {
     }
 
     if (momentProperties.length > 0) {
-        for (i = 0; i < momentProperties.length; i++) {
+        for (i in momentProperties) {
             prop = momentProperties[i];
             val = from[prop];
             if (!isUndefined(val)) {
