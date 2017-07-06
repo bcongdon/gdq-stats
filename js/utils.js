@@ -22,16 +22,18 @@ export const gameFromTime = (schedule, time) => {
 }
 
 export const movingAverage = (arr, dataKey, windowSize) => {
-  let result = []
-  arr.slice(windowSize).map((obj, idx) => {
-    const windowSum = arr.slice(idx, idx + windowSize).reduce((acc, currObj) => {
-      return acc + currObj[dataKey]
-    }, 0)
-    const copy = Object.assign({}, obj)
-    copy[dataKey] = windowSum / windowSize
-    result.push(copy)
-  })
-  return result
+  // Exponential moving average 
+  // Adopted from: https://stackoverflow.com/a/40058688/2421634
+  return arr.reduce((previous, current, idx) => {
+    if(!idx) {
+      return previous
+    }
+    const scaleFactor = (windowSize - 1)/(windowSize + 1)
+    const newVal = 2 * current[dataKey] / (windowSize + 1) + previous[previous.length - 1][dataKey] * scaleFactor
+    current[dataKey] = newVal
+    return previous.concat(current)
+  }, [arr[0]])
+  
 }
 
 export const gameForId = (id, games) => {

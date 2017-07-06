@@ -69,22 +69,23 @@ class GraphContainer extends React.Component {
       acc.push({...val})
       return acc
     }
-    const derive = (acc, val) => {
+    const derive = (acc, val, idx) => {
       // Get most recent value
       let mostRecentVal = 0
-      for (let i = acc.length - 1; i > 0; i--) {
+      for (let i = acc.length - 1; i >= 0; i--) {
         if (acc[i][baseKey]) {
           mostRecentVal = acc[i][baseKey]
           break
         }
       }
+      // Force initial value to be 0
       const newVal = val[baseKey] - mostRecentVal
       val[key] = newVal
       acc.push({...val})
       return acc
     }
     const reduceFunc = key.slice(baseKey.length + 1) === 'acc' ? accumulate : derive
-    return series.reduce(reduceFunc, [])
+    return series.reduce(reduceFunc, []).slice(1)
   }
 
   // Returns [min, max] moment times of domain based on current state of graph options
@@ -193,11 +194,11 @@ class GraphContainer extends React.Component {
       })
 
     if (activeGraph.movingAverage) {
-      resampleSeries = movingAverage(resampleSeries, activeGraph.key, Math.ceil(trimmedTimeseries.length / 100))
+      resampleSeries = movingAverage(resampleSeries, activeGraph.key, Math.ceil(trimmedTimeseries.length / 250))
     }
 
     if (secondaryActiveGraph.movingAverage) {
-      resampleSeries = movingAverage(resampleSeries, secondaryActiveGraph.key, Math.ceil(trimmedTimeseries.length / 100))
+      resampleSeries = movingAverage(resampleSeries, secondaryActiveGraph.key, Math.ceil(trimmedTimeseries.length / 250))
     }
 
     const tooltipFormat = activeGraph.tooltipFormat || activeGraph.format

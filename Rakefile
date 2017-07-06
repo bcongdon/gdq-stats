@@ -13,7 +13,7 @@ desc "Builds javascript bundles"
 task :webpack do
   puts "##Building..."
   system('rm -r dist/')
-  system('npm run build')
+  system('npm run build') or exit!(1)
   puts "##Webpack build complete"
 end
 
@@ -21,7 +21,8 @@ desc "Build _site"
 task :build do
   puts "\n## Generating site files"
   ENV["JEKYLL_ENV"] = "production"
-  system('ruby -S bundle exec jekyll build')
+  system('ruby -S bundle exec jekyll build') or exit!(1)
+
   # js/ isn't ignored in development because it messes with jekyll watch
   system('rm -r _site/js/')
 end
@@ -29,7 +30,7 @@ end
 desc "NPM install"
 task :install do
   puts "##Installing..."
-  system('npm i')
+  system('npm i') or exit!(1)
   puts "##npm install complete"
 end
 
@@ -63,6 +64,10 @@ task :minify do
         puts "Skipping: #{file}"
       end
   end
+  
+  # js/ isn't ignored in development because it messes with jekyll watch
+  system('rm -r _site/js/')
+
   puts "Total compression %0.2f\%" % (((original-compressed)/original)*100)
 end
 
@@ -73,12 +78,9 @@ task :generate do
   end
 end
 
-desc "Build and serve minified version of site"
+desc "Build and serve"
 task :serve do
-  Rake::Task['generate'].execute
-  Dir.chdir '_site/'
-  puts "\n## Serving site"
-  system "python -m SimpleHTTPServer"
+  system('ruby -S bundle exec jekyll serve')
 end
 
 GITHUB_REPONAME = "bcongdon/gdq-stats"
@@ -91,7 +93,7 @@ task :publish do
 
     system "git init"
     system "git remote add origin git@github.com:#{GITHUB_REPONAME}.git"
-    system "git pull origin gh-pages"
+    system("git pull origin gh-pages") or exit!(1)
 
     cp_r "#{pwd}/_site/.", tmp
 
