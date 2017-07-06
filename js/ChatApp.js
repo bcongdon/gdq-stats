@@ -5,6 +5,7 @@ import { GDQ_STORAGE_ENDPOINT, PRIMARY_COLOR } from './constants'
 import { BarChart, Bar, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts'
 import PacmanLoader from 'halogen/PacmanLoader'
 import VerticalLabel from './components/VerticalLabel'
+import ReturnHome from './components/ReturnHome'
 
 const GRAPH_MARGINS = {top: 25, left: 100, bottom: 24, right: 24}
 
@@ -83,7 +84,7 @@ class ChatApp extends React.PureComponent {
   render () {
     return (
       <div>
-        <h3><a style={{border: '1.5px solid #ccc', padding: 5, backgroundColor: '#ddd'}} href='/'>Return Home</a></h3>
+        <ReturnHome />
         <div className='section'>
           <h2>Most Active Chat Users</h2>
           {this.getUserGraph()}

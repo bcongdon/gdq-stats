@@ -6,6 +6,7 @@ import { fetchInitialTimeseries, fetchSchedule, fetchRecentTimeseries } from './
 import moment from 'moment'
 import Grid from 'react-bootstrap/lib/Grid'
 import Col from 'react-bootstrap/lib/Col'
+import ReturnHome from './components/ReturnHome'
 
 class App extends React.PureComponent {
   static propTypes = {
@@ -24,7 +25,7 @@ class App extends React.PureComponent {
   render () {
     return (
       <Grid>
-        <h3><a style={{border: '1.5px solid #ccc', padding: 5, backgroundColor: '#ddd'}} href='/'>Return Home</a></h3>
+        <ReturnHome />
         <Col xsHidden smHidden>
           <GraphContainer fullscreen />
         </Col>
