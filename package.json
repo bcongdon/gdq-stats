@@ -37,7 +37,8 @@
     "recharts": "^1.0.0-alpha.1",
     "redux": "^3.7.1",
     "redux-thunk": "^2.2.0",
-    "universal-cookie": "^2.0.8"
+    "universal-cookie": "^2.0.8",
+    "visibilityjs": "^1.2.4"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",

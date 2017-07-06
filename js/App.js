@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
 import { fetchInitialTimeseries, fetchSchedule, fetchRecentTimeseries } from './actions'
 import moment from 'moment'
+import Visibility from 'visibilityjs'
 
 class App extends React.PureComponent {
   static propTypes = {
@@ -18,7 +19,11 @@ class App extends React.PureComponent {
     this.props.fetchInitialTimeseries()
     this.props.fetchSchedule()
 
-    setInterval(() => this.props.fetchRecentTimeseries(moment().subtract(1, 'hours').toDate()), 60 * 1000)
+    // Refresh every minute when page is active, every 5 minutes when not active
+    const minute = 60 * 1000
+    Visibility.every(minute, 5 * minute, () => {
+      this.props.fetchRecentTimeseries(moment().subtract(1, 'hours').toDate())
+    })
   }
 
   render () {
