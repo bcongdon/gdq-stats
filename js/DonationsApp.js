@@ -40,6 +40,10 @@ class DonationsApp extends React.PureComponent {
     // Fetch donation words
     axios.get(GDQ_STORAGE_ENDPOINT + '/donation_words.json')
       .then((response) => this.setState({ donationWords: response.data }))
+
+    // Fetch top donors
+    axios.get(GDQ_STORAGE_ENDPOINT + '/top_donors.json')
+      .then((response) => this.setState({ topDonors: response.data }))
   }
 
   getLoader () {
@@ -209,6 +213,37 @@ class DonationsApp extends React.PureComponent {
     )
   }
 
+  getFrequentDonorsChart() {
+    if(!this.state.topDonors) {
+      return this.getLoader() 
+    }
+    console.log(this.state.topDonors)
+    const yAxisLabel = (
+      <VerticalLabel
+        axisType='yAxis'
+        xOffset={0}
+        yOffset={275}
+        className='recharts-label'>
+        Donor
+      </VerticalLabel>
+    )
+    return (
+      <ResponsiveContainer width='100%' minHeight={600}>
+        <BarChart 
+          margin={{top: 25, left: 150, bottom: 24, right: 24}}
+          barGap={150}
+          layout='vertical'
+          data={this.state.topDonors.frequent}>
+          <Tooltip formatter={(val) => `${val} uses`} />
+          <CartesianGrid horizontal={false} />
+          <XAxis label={'Most Frequent Donors'} orientation='top' type='number' />
+          <YAxis label={yAxisLabel} interval={0} type='category' dataKey='name' />
+          <Bar dataKey='count' fill={PRIMARY_COLOR} />
+        </BarChart>
+      </ResponsiveContainer>
+    )
+  }
+
   render () {
     return (
       <div>
@@ -223,6 +258,10 @@ class DonationsApp extends React.PureComponent {
             <Col md={6} xs={12}>{this.getCommentCountPieChart()}</Col>
             <Col md={6} xs={12}>{this.getCommentSumPieChart()}</Col>
           </Grid>
+        </div>
+        <div className='section'>
+          <h2>Most Frequent Donors</h2>
+          {this.getFrequentDonorsChart()}
         </div>
         <div className='section'>
           <h2>Most Commonly Used Words in Donation Comments</h2>
