@@ -376,13 +376,6 @@ class DonationsApp extends React.PureComponent {
           </Grid>
         </div>
         <div className='section'>
-          <h2>Donation Comment Stats</h2>
-          <Grid>
-            <Col md={6} xs={12}>{this.getCommentCountPieChart()}</Col>
-            <Col md={6} xs={12}>{this.getCommentSumPieChart()}</Col>
-          </Grid>
-        </div>
-        <div className='section'>
           <h2>Anonymous Donation Stats</h2>
           <Grid>
             <Col md={6} xs={12}>{this.getAnonymousCountPieChart()}</Col>
@@ -400,6 +393,13 @@ class DonationsApp extends React.PureComponent {
         <div className='section'>
           <h2>Most Generous Donors</h2>
           {this.getGenerousDonorsChart()}
+        </div>
+        <div className='section'>
+          <h2>Donation Comment Stats</h2>
+          <Grid>
+            <Col md={6} xs={12}>{this.getCommentCountPieChart()}</Col>
+            <Col md={6} xs={12}>{this.getCommentSumPieChart()}</Col>
+          </Grid>
         </div>
         <div className='section'>
           <h2>Median Donation Over Time</h2>
