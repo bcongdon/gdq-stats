@@ -219,7 +219,7 @@ class DonationsApp extends React.PureComponent {
       <ResponsiveContainer width='100%' height={500}>
         <LineChart data={medians} margin={{top: 20}}>
           <Line
-            type='basis'
+            type='natural'
             dataKey='median'
             name='Median Donation Amount'
             stroke={PRIMARY_COLOR}
