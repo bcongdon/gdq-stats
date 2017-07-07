@@ -11,6 +11,7 @@ import ReturnHome from './components/ReturnHome'
 import { format } from 'd3-format'
 import Grid from 'react-bootstrap/lib/Grid'
 import Col from 'react-bootstrap/lib/Col'
+import Row from 'react-bootstrap/lib/Col'
 import Stat from './components/Stat'
 import moment from 'moment'
 
@@ -86,12 +87,12 @@ class DonationsApp extends React.PureComponent {
       columns: columns,
       type: 'donut',
       names: {
+        signed: 'Signed',
         anonymous: 'Anonymous',
-        signed: 'Signed'
       },
       colors: {
-        anonymous: PRIMARY_COLOR,
-        signed: SECONDARY_COLOR
+        anonymous: SECONDARY_COLOR,
+        signed: PRIMARY_COLOR
       }
     }
     const c3Donut = {
@@ -113,19 +114,19 @@ class DonationsApp extends React.PureComponent {
     let columns = []
     this.state.donationStats.anonymous.forEach((stat) => {
       const columnArr = [stat.anonymous ? 'anonymous' : 'signed']
-      columnArr.push(stat.count)
+      columnArr.push(stat.sum)
       columns.push(columnArr)
     })
     const c3Data = {
       columns: columns,
       type: 'donut',
       names: {
-        anonymous: 'Anonymous',
-        signed: 'Signed'
+        signed: 'Signed',
+        anonymous: 'Anonymous'
       },
       colors: {
-        anonymous: PRIMARY_COLOR,
-        signed: SECONDARY_COLOR
+        anonymous: SECONDARY_COLOR,
+        signed: PRIMARY_COLOR
       }
     }
     const c3Donut = {
@@ -180,18 +181,29 @@ class DonationsApp extends React.PureComponent {
     }
     const [ commented, uncommented ] = this.state.donationStats.comment_stats
     const [ anonymous, named ] = this.state.donationStats.anonymous
-    const overall = this.state.donationStats.overall[0]
     const stats = [
-      { title: 'Median Donation - Overall', emoji: '💸', value: overall.median },
       { title: 'Median Donation w/ Comment', emoji: '🗣', value: commented.median },
       { title: 'Median Donation w/o Comment', emoji: '🙊', value: uncommented.median },
-      { title: 'Median Donation - Anonymous', emoji: '❓', value: anonymous.median }
-      { title: 'Average Donation - Overall', emoji: '💸', value: overall.avg },
+      { title: 'Median Donation - Anonymous', emoji: '❓', value: anonymous.median },
       { title: 'Average Donation w/ Comment', emoji: '🗣', value: commented.avg },
-      { title: 'Average Donation w/o Comment', emoji: '🙊', value: uncommented.avg }
+      { title: 'Average Donation w/o Comment', emoji: '🙊', value: uncommented.avg },
       { title: 'Average Donation - Anonymous', emoji: '❓', value: anonymous.avg }
     ]
     return stats.map((props, idx) => {
+      return <Stat key={idx} {...props} prefix='$' value={+(props.value.toFixed(2))} format='(,ddd).dd' />
+    })
+  }
+
+  getOverallDonationStatConatainer () {
+    if (!this.state.donationStats) {
+      return null
+    }
+    const overall = this.state.donationStats.overall[0]
+    const overall_stats = [
+      { title: 'Median Donation - Overall', emoji: '💸', value: overall.median },
+      { title: 'Average Donation - Overall', emoji: '💸', value: overall.avg },
+    ]
+    return overall_stats.map((props, idx) => {
       return <Stat key={idx} {...props} prefix='$' value={+(props.value.toFixed(2))} format='(,ddd).dd' />
     })
   }
@@ -355,7 +367,13 @@ class DonationsApp extends React.PureComponent {
         <ReturnHome />
         <div className='section'>
           <h2>Donation Distribution Stats</h2>
-          <Grid className='current_stats content'>{this.getDonationStatContainer()}</Grid>
+          <Grid className='current_stats content'>
+            {this.getDonationStatContainer()}
+            <Row>
+              <Col lg={2} md={0}/>
+              {this.getOverallDonationStatConatainer()}
+            </Row>
+          </Grid>
         </div>
         <div className='section'>
           <h2>Donation Comment Stats</h2>
