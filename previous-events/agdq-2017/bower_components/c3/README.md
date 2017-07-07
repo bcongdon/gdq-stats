@@ -15,7 +15,8 @@ Additional samples can be found in this repository:
 
 You can run these samples as:
 ```
-$ npm run serve
+$ cd c3/htdocs
+$ python -m SimpleHTTPServer 8080
 ```
 
 ## Google Group

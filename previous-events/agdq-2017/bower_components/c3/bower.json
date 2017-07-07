@@ -20,7 +20,7 @@
     "bower_components",
     "htdocs",
     "spec",
-    "src/**/*.js",
+    "src",
     "package.json",
     "component.json",
     "Gruntfile.*"

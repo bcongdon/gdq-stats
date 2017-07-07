@@ -47,7 +47,7 @@ var tlPh = moment.defineLocale('tl-ph', {
         y : 'isang taon',
         yy : '%d taon'
     },
-    dayOfMonthOrdinalParse: /\d{1,2}/,
+    ordinalParse: /\d{1,2}/,
     ordinal : function (number) {
         return number;
     },

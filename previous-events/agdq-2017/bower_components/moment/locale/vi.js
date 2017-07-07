@@ -64,7 +64,7 @@ var vi = moment.defineLocale('vi', {
         y : 'một năm',
         yy : '%d năm'
     },
-    dayOfMonthOrdinalParse: /\d{1,2}/,
+    ordinalParse: /\d{1,2}/,
     ordinal : function (number) {
         return number;
     },

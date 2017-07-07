@@ -102,7 +102,7 @@ hooks.updateOffset = function () {};
 // a second time. In case it wants us to change the offset again
 // _changeInProgress == true case, then we have to adjust, because
 // there is no such time in the given timezone.
-export function getSetOffset (input, keepLocalTime, keepMinutes) {
+export function getSetOffset (input, keepLocalTime) {
     var offset = this._offset || 0,
         localAdjust;
     if (!this.isValid()) {
@@ -114,7 +114,7 @@ export function getSetOffset (input, keepLocalTime, keepMinutes) {
             if (input === null) {
                 return this;
             }
-        } else if (Math.abs(input) < 16 && !keepMinutes) {
+        } else if (Math.abs(input) < 16) {
             input = input * 60;
         }
         if (!this._isUTC && keepLocalTime) {
@@ -172,7 +172,7 @@ export function setOffsetToLocal (keepLocalTime) {
 
 export function setOffsetToParsedOffset () {
     if (this._tzm != null) {
-        this.utcOffset(this._tzm, false, true);
+        this.utcOffset(this._tzm);
     } else if (typeof this._i === 'string') {
         var tZone = offsetFromString(matchOffset, this._i);
         if (tZone != null) {
