@@ -12,17 +12,18 @@
     {% include google_analytics.html %}
   {% endif %}
   {% include header.html %}
+
   <link rel="stylesheet" type="text/css" href="css/rechartsLabels.css">
 
 </head>
 <body>
-  <div class="container" style="max-width: 1000px;">
+  <div class="container">
     <a class='gdq-event-header' href="/">{{ site.current_event }}</a><span class='gdq-year-header'>{{ site.current_event_year }} Stats</span>
     
-    <div id="react-root"></div>
+    <div id="react-root" style="width:100%;"></div>
 
     {% include footer.html %}
     
   </div>
-  <script type="text/javascript" src="dist/chat.bundle.js"></script>
+  <script type="text/javascript" src="dist/donations.bundle.js"></script>
 </body>

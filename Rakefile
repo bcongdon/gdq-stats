@@ -64,9 +64,6 @@ task :minify do
         puts "Skipping: #{file}"
       end
   end
-  
-  # js/ isn't ignored in development because it messes with jekyll watch
-  system('rm -r _site/js/')
 
   puts "Total compression %0.2f\%" % (((original-compressed)/original)*100)
 end
