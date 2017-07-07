@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
 import { GDQ_STORAGE_ENDPOINT, PRIMARY_COLOR, SECONDARY_COLOR } from './constants'
-import { BarChart, Bar, LineChart, Line, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Pie, PieChart, Cell } from 'recharts'
-import C3Chart from 'react-c3js';
+import { BarChart, Bar, LineChart, Line, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts'
+import C3Chart from 'react-c3js'
 import 'c3/c3.css'
 import PacmanLoader from 'halogen/PacmanLoader'
 import VerticalLabel from './components/VerticalLabel'
@@ -13,18 +13,6 @@ import Grid from 'react-bootstrap/lib/Grid'
 import Col from 'react-bootstrap/lib/Col'
 import Stat from './components/Stat'
 import moment from 'moment'
-
-const RADIAN = Math.PI / 180;                    
-const customDonationLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, name }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x  = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy  + radius * Math.sin(-midAngle * RADIAN);
-  return (
-    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'}  dominantBaseline="central">
-      {`${name}\n${(percent * 100).toFixed(0)}%`}
-    </text>
-  );
-};
 
 class DonationsApp extends React.PureComponent {
   constructor (props) {
@@ -56,16 +44,16 @@ class DonationsApp extends React.PureComponent {
     }
     let columns = []
     this.state.donationStats.comment_stats.forEach((stat) => {
-      const column_arr = [stat.has_comment ? "commented" : "uncommented"]
-      column_arr.push(stat.count)
-      columns.push(column_arr)
+      const columnArr = [stat.has_comment ? 'commented' : 'uncommented']
+      columnArr.push(stat.count)
+      columns.push(columnArr)
     })
     const c3Data = {
       columns: columns,
       type: 'donut',
       names: {
-        commented: "Has Comment",
-        uncommented: "No Comment"
+        commented: 'Has Comment',
+        uncommented: 'No Comment'
       },
       colors: {
         commented: PRIMARY_COLOR,
@@ -90,16 +78,16 @@ class DonationsApp extends React.PureComponent {
     }
     let columns = []
     this.state.donationStats.comment_stats.forEach((stat) => {
-      const column_arr = [stat.has_comment ? "commented" : "uncommented"]
-      column_arr.push(stat.sum)
-      columns.push(column_arr)
+      const columnArr = [stat.has_comment ? 'commented' : 'uncommented']
+      columnArr.push(stat.sum)
+      columns.push(columnArr)
     })
     const c3Data = {
       columns: columns,
       type: 'donut',
       names: {
-        commented: "Has Comment",
-        uncommented: "No Comment"
+        commented: 'Has Comment',
+        uncommented: 'No Comment'
       },
       colors: {
         commented: PRIMARY_COLOR,
@@ -111,40 +99,40 @@ class DonationsApp extends React.PureComponent {
         format: (value) => format('$,.2s')(value)
       },
       width: 60,
-      title: 'Total Donations',
+      title: 'Total Donations'
     }
     return (
       <C3Chart data={c3Data} donut={c3Donut} />
     )
   }
 
-  getDonationStatContainer() {
-    if(!this.state.donationStats) {
+  getDonationStatContainer () {
+    if (!this.state.donationStats) {
       return this.getLoader()
     }
     const [ commented, uncommented ] = this.state.donationStats.comment_stats
     const overall = this.state.donationStats.overall[0]
     const stats = [
-      { title: 'Median Donation (Overall)', emoji: '💸', value: overall.median },
+      { title: 'Median Donation - Overall', emoji: '💸', value: overall.median },
       { title: 'Median Donation w/ Comment', emoji: '🗣', value: commented.median },
       { title: 'Median Donation w/o Comment', emoji: '🙊', value: uncommented.median },
-      { title: 'Average Donation (Overall)', emoji: '💸', value: overall.avg },
+      { title: 'Average Donation - Overall', emoji: '💸', value: overall.avg },
       { title: 'Average Donation w/ Comment', emoji: '🗣', value: commented.avg },
       { title: 'Average Donation w/o Comment', emoji: '🙊', value: uncommented.avg }
     ]
     return stats.map((props, idx) => {
-      return <Stat key={idx} prefix='$' {...props} />
+      return <Stat key={idx} {...props} prefix='$' value={+(props.value.toFixed(2))} format='(,ddd).dd' />
     })
   }
 
-  getMediansChart() {
-    if(!this.state.donationStats) {
+  getMediansChart () {
+    if (!this.state.donationStats) {
       return this.getLoader()
     }
     const medians = this.state.donationStats.medians.map((obj) => {
-      return {...obj, time: moment(obj.time).unix() }
+      return {...obj, time: moment(obj.time).unix()}
     })
-    return ( 
+    return (
       <ResponsiveContainer width='100%' height={500}>
         <LineChart data={medians} margin={{top: 20}}>
           <Line
@@ -163,10 +151,10 @@ class DonationsApp extends React.PureComponent {
             tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
             domain={[0, 'dataMax']}
             interval='preserveStartEnd'
-            minTickGap={0}/>
+            minTickGap={0} />
           <Tooltip
-            formatter={format('$,.2f')} 
-            labelFormatter={(d) => moment.unix(d).format('ddd, MMM Do YYYY, h:mm a')}/>
+            formatter={format('$,.2f')}
+            labelFormatter={(d) => moment.unix(d).format('ddd, MMM Do YYYY, h:mm a')} />
           <XAxis
             dataKey='time'
             type='number'
@@ -183,7 +171,7 @@ class DonationsApp extends React.PureComponent {
     )
   }
 
-  getDonationWordsChart() {
+  getDonationWordsChart () {
     if (!this.state.donationWords) {
       return this.getLoader()
     }
@@ -197,48 +185,94 @@ class DonationsApp extends React.PureComponent {
       </VerticalLabel>
     )
     return (
-      <ResponsiveContainer width='100%' minHeight={600}>
-        <BarChart 
+      <ResponsiveContainer width='100%' minHeight={800}>
+        <BarChart
           margin={{top: 25, left: 50, bottom: 24, right: 24}}
-          barGap={150}
+          barSize={10}
+          barCategoryGap={2}
           layout='vertical'
           data={this.state.donationWords}>
-          <Tooltip formatter={(val) => `${val} uses`} />
+          <Tooltip />
           <CartesianGrid horizontal={false} />
           <XAxis label={'Number of Uses in Donation Comments'} orientation='top' type='number' />
           <YAxis label={yAxisLabel} interval={0} type='category' dataKey='word' />
-          <Bar name='count' dataKey='entries' fill={PRIMARY_COLOR} />
+          <Bar name='Uses' dataKey='entries' fill={PRIMARY_COLOR} />
         </BarChart>
       </ResponsiveContainer>
     )
   }
 
-  getFrequentDonorsChart() {
-    if(!this.state.topDonors) {
-      return this.getLoader() 
+  getFrequentDonorsChart () {
+    if (!this.state.topDonors) {
+      return this.getLoader()
     }
-    console.log(this.state.topDonors)
     const yAxisLabel = (
       <VerticalLabel
         axisType='yAxis'
-        xOffset={0}
+        xOffset={-30}
         yOffset={275}
         className='recharts-label'>
         Donor
       </VerticalLabel>
     )
     return (
-      <ResponsiveContainer width='100%' minHeight={600}>
-        <BarChart 
-          margin={{top: 25, left: 150, bottom: 24, right: 24}}
-          barGap={150}
+      <ResponsiveContainer width='100%' height={800}>
+        <BarChart
+          margin={{top: 25, left: 60, bottom: 24, right: 24}}
+          barSize={10}
+          barCategoryGap={2}
           layout='vertical'
           data={this.state.topDonors.frequent}>
-          <Tooltip formatter={(val) => `${val} uses`} />
+          <Tooltip />
           <CartesianGrid horizontal={false} />
           <XAxis label={'Most Frequent Donors'} orientation='top' type='number' />
-          <YAxis label={yAxisLabel} interval={0} type='category' dataKey='name' />
-          <Bar dataKey='count' fill={PRIMARY_COLOR} />
+          <YAxis
+            tickFormatter={(t) => t.length < 11 ? t : (t.substring(0, 8) + '...')}
+            label={yAxisLabel}
+            interval={0}
+            type='category'
+            dataKey='name' />
+          <Bar dataKey='count' name='Number of Donations' fill={PRIMARY_COLOR} />
+        </BarChart>
+      </ResponsiveContainer>
+    )
+  }
+
+  getGenerousDonorsChart () {
+    if (!this.state.topDonors) {
+      return this.getLoader()
+    }
+    const yAxisLabel = (
+      <VerticalLabel
+        axisType='yAxis'
+        xOffset={-30}
+        yOffset={275}
+        className='recharts-label'>
+        Donor
+      </VerticalLabel>
+    )
+    return (
+      <ResponsiveContainer width='100%' height={800}>
+        <BarChart
+          margin={{top: 25, left: 60, bottom: 24, right: 24}}
+          barSize={10}
+          barCategoryGap={2}
+          layout='vertical'
+          data={this.state.topDonors.generous}>
+          <Tooltip formatter={format('$,.2f')} />
+          <CartesianGrid horizontal={false} />
+          <XAxis
+            label={'Most Generous Donors'}
+            orientation='top'
+            type='number'
+            tickFormatter={format('$,.2f')} />
+          <YAxis
+            tickFormatter={(t) => t.length < 11 ? t : (t.substring(0, 8) + '...')}
+            label={yAxisLabel}
+            interval={0}
+            type='category'
+            dataKey='name' />
+          <Bar name='Donation Total' dataKey='total' fill={PRIMARY_COLOR} />
         </BarChart>
       </ResponsiveContainer>
     )
@@ -260,12 +294,16 @@ class DonationsApp extends React.PureComponent {
           </Grid>
         </div>
         <div className='section'>
+          <h2>Most Commonly Used Words in Donation Comments</h2>
+          {this.getDonationWordsChart()}
+        </div>
+        <div className='section'>
           <h2>Most Frequent Donors</h2>
           {this.getFrequentDonorsChart()}
         </div>
         <div className='section'>
-          <h2>Most Commonly Used Words in Donation Comments</h2>
-          {this.getDonationWordsChart()}
+          <h2>Most Generous Donors</h2>
+          {this.getGenerousDonorsChart()}
         </div>
         <div className='section'>
           <h2>Median Donation Over Time</h2>

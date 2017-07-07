@@ -6,9 +6,10 @@ import Col from 'react-bootstrap/lib/Col'
 export default class Stat extends React.PureComponent {
   static propTypes = {
     title: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
+    value: PropTypes.any.isRequired,
     emoji: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    prefix: PropTypes.string
+    prefix: PropTypes.string,
+    format: PropTypes.string
   }
 
   static defaultProps = {
@@ -17,13 +18,13 @@ export default class Stat extends React.PureComponent {
 
   render () {
     return (
-      <Col md={4} sm={6} xs={12} className='stat'>
+      <Col lg={4} md={6} xs={12} className='stat'>
         <span className='current_header'>{this.props.title}:</span>
         <div className='odometer-group'>
           {this.props.prefix}
           {this.props.value === 0
             ? <span style={{paddingRight: 5}}>0</span>
-            : <Odometer value={this.props.value} />}
+            : <Odometer value={this.props.value} options={{format: this.props.format}} />}
           <div className='emoji'>{this.props.emoji}</div>
         </div>
       </Col>
