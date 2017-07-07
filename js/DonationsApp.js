@@ -72,6 +72,74 @@ class DonationsApp extends React.PureComponent {
     )
   }
 
+  getAnonymousCountPieChart () {
+    if (!this.state.donationStats) {
+      return this.getLoader()
+    }
+    let columns = []
+    this.state.donationStats.anonymous.forEach((stat) => {
+      const columnArr = [stat.anonymous ? 'anonymous' : 'signed']
+      columnArr.push(stat.count)
+      columns.push(columnArr)
+    })
+    const c3Data = {
+      columns: columns,
+      type: 'donut',
+      names: {
+        anonymous: 'Anonymous',
+        signed: 'Signed'
+      },
+      colors: {
+        anonymous: PRIMARY_COLOR,
+        signed: SECONDARY_COLOR
+      }
+    }
+    const c3Donut = {
+      label: {
+        format: (value) => format(',.0f')(value)
+      },
+      width: 60,
+      title: 'Number of Donations'
+    }
+    return (
+      <C3Chart data={c3Data} donut={c3Donut} />
+    )
+  }
+
+  getAnonymousSumPieChart () {
+    if (!this.state.donationStats) {
+      return this.getLoader()
+    }
+    let columns = []
+    this.state.donationStats.anonymous.forEach((stat) => {
+      const columnArr = [stat.anonymous ? 'anonymous' : 'signed']
+      columnArr.push(stat.count)
+      columns.push(columnArr)
+    })
+    const c3Data = {
+      columns: columns,
+      type: 'donut',
+      names: {
+        anonymous: 'Anonymous',
+        signed: 'Signed'
+      },
+      colors: {
+        anonymous: PRIMARY_COLOR,
+        signed: SECONDARY_COLOR
+      }
+    }
+    const c3Donut = {
+      label: {
+        format: (value) => format('$,.2s')(value)
+      },
+      width: 60,
+      title: 'Total Donations'
+    }
+    return (
+      <C3Chart data={c3Data} donut={c3Donut} />
+    )
+  }
+
   getCommentSumPieChart () {
     if (!this.state.donationStats) {
       return this.getLoader()
@@ -111,14 +179,17 @@ class DonationsApp extends React.PureComponent {
       return this.getLoader()
     }
     const [ commented, uncommented ] = this.state.donationStats.comment_stats
+    const [ anonymous, named ] = this.state.donationStats.anonymous
     const overall = this.state.donationStats.overall[0]
     const stats = [
       { title: 'Median Donation - Overall', emoji: '💸', value: overall.median },
       { title: 'Median Donation w/ Comment', emoji: '🗣', value: commented.median },
       { title: 'Median Donation w/o Comment', emoji: '🙊', value: uncommented.median },
+      { title: 'Median Donation - Anonymous', emoji: '❓', value: anonymous.median }
       { title: 'Average Donation - Overall', emoji: '💸', value: overall.avg },
       { title: 'Average Donation w/ Comment', emoji: '🗣', value: commented.avg },
       { title: 'Average Donation w/o Comment', emoji: '🙊', value: uncommented.avg }
+      { title: 'Average Donation - Anonymous', emoji: '❓', value: anonymous.avg }
     ]
     return stats.map((props, idx) => {
       return <Stat key={idx} {...props} prefix='$' value={+(props.value.toFixed(2))} format='(,ddd).dd' />
@@ -291,6 +362,13 @@ class DonationsApp extends React.PureComponent {
           <Grid>
             <Col md={6} xs={12}>{this.getCommentCountPieChart()}</Col>
             <Col md={6} xs={12}>{this.getCommentSumPieChart()}</Col>
+          </Grid>
+        </div>
+        <div className='section'>
+          <h2>Anonymous Donation Stats</h2>
+          <Grid>
+            <Col md={6} xs={12}>{this.getAnonymousCountPieChart()}</Col>
+            <Col md={6} xs={12}>{this.getAnonymousSumPieChart()}</Col>
           </Grid>
         </div>
         <div className='section'>
