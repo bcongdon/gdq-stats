@@ -1,39 +1,181 @@
 <h1 id="changelog">Changelog</h1>
 
+<h3 id="2181">2.18.1</h3>
+
+<ul>
+  <li>
+    <p>Release Mar 22, 2017</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/moment/moment/pull/3853">#3853</a> [misc] Fix invalid whitespace character causing inability to parse
+moment.js</p>
+  </li>
+</ul>
+
+<h3 id="2180-see-full-changelog">2.18.0 <a href="https://gist.github.com/ichernev/78920c5a1e419fb28c6e4546d1b7235c">See full changelog</a></h3>
+
+<ul>
+  <li>Release Mar 18, 2017</li>
+</ul>
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li><a href="https://github.com/moment/moment/pull/3708">#3708</a> [feature] RFC2822 parsing</li>
+  <li><a href="https://github.com/moment/moment/pull/3611">#3611</a> [feature] Durations gain validity</li>
+  <li><a href="https://github.com/moment/moment/pull/3738">#3738</a> [feature] Enable relative time for multiple seconds, request <a href="https://github.com/moment/moment/issues/2558">#2558</a></li>
+  <li><a href="https://github.com/moment/moment/pull/3766">#3766</a> [feature] Add support for k and kk format parsing</li>
+</ul>
+
+<h2 id="bugfixes">Bugfixes</h2>
+
+<ul>
+  <li><a href="https://github.com/moment/moment/pull/3643">#3643</a> [bugfix] Fixes <a href="https://github.com/moment/moment/issues/3520">#3520</a>, parseZone incorrectly handled minutes under 16</li>
+  <li><a href="https://github.com/moment/moment/pull/3710">#3710</a> [bugfix] Fixes <a href="https://github.com/moment/moment/issues/3632">#3632</a>, toISOString returns null for invalid date</li>
+  <li><a href="https://github.com/moment/moment/pull/3787">#3787</a> [bugfix] Fixes <a href="https://github.com/moment/moment/issues/3717">#3717</a>, ensure day-of-year is non-zero</li>
+  <li><a href="https://github.com/moment/moment/pull/3780">#3780</a> [bugfix] Fixes <a href="https://github.com/moment/moment/issues/3765">#3765</a>: Ensure year 0 is formatted with YYYY</li>
+  <li><a href="https://github.com/moment/moment/pull/3806">#3806</a> [bugfix] Fixes <a href="https://github.com/moment/moment/issues/3805">#3805</a>, fix locale month getters for standalone/format cases</li>
+</ul>
+
+<p>7 new locales, many locale improvements and some misc changes</p>
+
+<h3 id="2171-also-available-here">2.17.1 <a href="https://gist.github.com/ichernev/f38280b2b29c4932914a6d3a4e50bfb2">Also available here</a></h3>
+<ul>
+  <li>
+    <p>Release Dec 03, 2016</p>
+  </li>
+  <li><a href="https://github.com/moment/moment/pull/3638">#3638</a> [misc] TS: Make typescript definitions work with 1.x</li>
+  <li><a href="https://github.com/moment/moment/pull/3628">#3628</a> [misc] Adds “sign CLA” link to <code class="highlighter-rouge">CONTRIBUTING.md</code></li>
+  <li><a href="https://github.com/moment/moment/pull/3640">#3640</a> [misc] Fix locale issues</li>
+</ul>
+
+<h3 id="2170-also-available-here">2.17.0 <a href="https://gist.github.com/ichernev/ed58f76fb95205eeac653d719972b90c">Also available here</a></h3>
+<ul>
+  <li>
+    <p>Release Nov 22, 2016</p>
+  </li>
+  <li><a href="https://github.com/moment/moment/pull/3435">#3435</a> [new locale] yo: Yoruba (Nigeria) locale</li>
+  <li><a href="https://github.com/moment/moment/pull/3595">#3595</a> [bugfix] Fix accidental reference to global “value” variable</li>
+  <li><a href="https://github.com/moment/moment/pull/3506">#3506</a> [bugfix] Fix invalid moments returning valid dates to method calls</li>
+  <li><a href="https://github.com/moment/moment/pull/3563">#3563</a> [locale] ca: Change future relative time</li>
+  <li><a href="https://github.com/moment/moment/pull/3504">#3504</a> [tests] Fixes <a href="https://github.com/moment/moment/issues/3463">#3463</a>, parseZone not handling Z correctly (tests only)</li>
+  <li><a href="https://github.com/moment/moment/pull/3591">#3591</a> [misc] typescript: update typescript to 2.0.8, add strictNullChecks=true</li>
+  <li><a href="https://github.com/moment/moment/pull/3597">#3597</a> [misc] Fixed capitalization in nuget spec</li>
+</ul>
+
+<h3 id="2160-see-full-changelog">2.16.0 <a href="https://gist.github.com/ichernev/17bffc1005a032cb1a8ac4c1558b4994">See full changelog</a></h3>
+<ul>
+  <li>Release Nov 9, 2016</li>
+</ul>
+
+<h2 id="features-1">Features</h2>
+<ul>
+  <li><a href="https://github.com/moment/moment/pull/3530">#3530</a> [feature] Check whether input is date before checking if format is array</li>
+  <li><a href="https://github.com/moment/moment/pull/3515">#3515</a> [feature] Fix <a href="https://github.com/moment/moment/issues/2300">#2300</a>: Default to current week.</li>
+</ul>
+
+<h2 id="bugfixes-1">Bugfixes</h2>
+<ul>
+  <li><a href="https://github.com/moment/moment/pull/3546">#3546</a> [bugfix] Implement lazy-loading of child locales with missing prents</li>
+  <li><a href="https://github.com/moment/moment/pull/3523">#3523</a> [bugfix] parseZone should handle UTC</li>
+  <li><a href="https://github.com/moment/moment/pull/3502">#3502</a> [bugfix] Fix <a href="https://github.com/moment/moment/issues/3500">#3500</a>: ISO 8601 parsing should match the full string, not the beginning of the string.</li>
+  <li><a href="https://github.com/moment/moment/pull/3581">#3581</a> [bugfix] Fix parseZone, redo <a href="https://github.com/moment/moment/issues/3504">#3504</a>, fix <a href="https://github.com/moment/moment/issues/3463">#3463</a></li>
+</ul>
+
+<h2 id="new-locales">New Locales</h2>
+<ul>
+  <li><a href="https://github.com/moment/moment/pull/3416">#3416</a> [new locale] nl-be: Dutch (Belgium) locale</li>
+  <li><a href="https://github.com/moment/moment/pull/3393">#3393</a> [new locale] ar-dz: Arabic (Algeria) locale</li>
+  <li><a href="https://github.com/moment/moment/pull/3342">#3342</a> [new locale] tet: Tetun Dili (East Timor) locale</li>
+</ul>
+
+<p>And more locale, build and typescript improvements</p>
+
+<h3 id="2152">2.15.2</h3>
+<ul>
+  <li>Release Oct 23, 2016</li>
+  <li><a href="https://github.com/moment/moment/pull/3525">#3525</a> Speedup month standalone/format regexes <strong>(IMPORTANT)</strong></li>
+  <li><a href="https://github.com/moment/moment/pull/3466">#3466</a> Fix typo of Javanese</li>
+</ul>
+
+<h3 id="2151">2.15.1</h3>
+<ul>
+  <li>Release Sept 20, 2016</li>
+  <li><a href="https://github.com/moment/moment/pull/3438">#3438</a> Fix locale autoload, revert <a href="https://github.com/moment/moment/pull/3344">#3344</a></li>
+</ul>
+
+<h3 id="2150-see-full-changelog">2.15.0 <a href="https://gist.github.com/ichernev/10e1c5bf647545c72ca30e9628a09ed3">See full changelog</a></h3>
+<ul>
+  <li>Release Sept 12, 2016</li>
+</ul>
+
+<h2 id="new-locales-1">New Locales</h2>
+<ul>
+  <li><a href="https://github.com/moment/moment/pull/3255">#3255</a> [new locale] mi: Maori language</li>
+  <li><a href="https://github.com/moment/moment/pull/3267">#3267</a> [new locale] ar-ly: Arabic (Libya) locale</li>
+  <li><a href="https://github.com/moment/moment/pull/3333">#3333</a> [new locale] zh-hk: Chinese (Hong Kong) locale</li>
+</ul>
+
+<h2 id="bugfixes-2">Bugfixes</h2>
+<ul>
+  <li><a href="https://github.com/moment/moment/pull/3276">#3276</a> [bugfix] duration: parser: Support ms durations in .NET syntax</li>
+  <li><a href="https://github.com/moment/moment/pull/3312">#3312</a> [bugfix] locales: Enable locale-data getters without moment (fixes <a href="https://github.com/moment/moment/issues/3284">#3284</a>)</li>
+  <li><a href="https://github.com/moment/moment/pull/3381">#3381</a> [bugfix] parsing: Fix parseZone without timezone in string, fixes <a href="https://github.com/moment/moment/issues/3083">#3083</a></li>
+  <li><a href="https://github.com/moment/moment/pull/3383">#3383</a> [bugfix] toJSON: Fix isValid so that toJSON works after a moment is frozen</li>
+  <li><a href="https://github.com/moment/moment/pull/3427">#3427</a> [bugfix] ie8: Fix IE8 (regression in 2.14.x)</li>
+</ul>
+
+<h2 id="packaging">Packaging</h2>
+<ul>
+  <li><a href="https://github.com/moment/moment/pull/3299">#3299</a> [pkg] npm: Do not include .npmignore in npm package</li>
+  <li><a href="https://github.com/moment/moment/pull/3273">#3273</a> [pkg] jspm: Include moment.d.ts file in package</li>
+  <li><a href="https://github.com/moment/moment/pull/3344">#3344</a> [pkg] exports: use module.require for nodejs</li>
+</ul>
+
+<p>Also some locale and typescript improvements</p>
+
 <h3 id="2141">2.14.1</h3>
 <ul>
+  <li>Release July 20, 2016</li>
   <li><a href="https://github.com/moment/moment/pull/3280">#3280</a> Fix typescript definitions</li>
 </ul>
 
 <h3 id="2140-see-full-changelog">2.14.0 <a href="https://gist.github.com/ichernev/812e79ac36a7829a22598fe964bfc18a">See full changelog</a></h3>
 
-<h2 id="new-features">New Features</h2>
 <ul>
-  <li><a href="http://github.com/moment/moment/pull/3233">#3233</a> Introduce month.isFormat for format/standalone discovery</li>
-  <li><a href="http://github.com/moment/moment/pull/2848">#2848</a> Allow user to get/set the rounding method used when calculating relative time</li>
-  <li><a href="http://github.com/moment/moment/pull/3112">#3112</a> optimize configFromStringAndFormat</li>
-  <li><a href="http://github.com/moment/moment/pull/3147">#3147</a> Call calendar format function with moment context</li>
-  <li><a href="http://github.com/moment/moment/pull/3160">#3160</a> deprecate isDSTShifted</li>
-  <li><a href="http://github.com/moment/moment/pull/3175">#3175</a> make moment calendar extensible with ad-hoc options</li>
-  <li><a href="http://github.com/moment/moment/pull/3191">#3191</a> toDate returns a copy of the internal date object</li>
-  <li><a href="http://github.com/moment/moment/pull/3192">#3192</a> Adding support for rollup import.</li>
-  <li><a href="http://github.com/moment/moment/pull/3238">#3238</a> Handle empty object and empty array for creation as now</li>
-  <li><a href="http://github.com/moment/moment/pull/3082">#3082</a> Use relative AMD moment dependency</li>
+  <li>Release July 20, 2016</li>
 </ul>
 
-<h2 id="bugfixes">Bugfixes</h2>
+<h2 id="new-features">New Features</h2>
 <ul>
-  <li><a href="http://github.com/moment/moment/pull/3241">#3241</a> Escape all 24 mixed pieces, not only first 12 in computeMonthsParse</li>
-  <li><a href="http://github.com/moment/moment/pull/3008">#3008</a> Object setter orders sets based on size of unit</li>
-  <li><a href="http://github.com/moment/moment/pull/3177">#3177</a> Bug Fix <a href="http://github.com/moment/moment/pull/2704">#2704</a> - isoWeekday(String) inconsistent with isoWeekday(Number)</li>
-  <li><a href="http://github.com/moment/moment/pull/3230">#3230</a> fix passing date with format string to ignore format string</li>
-  <li><a href="http://github.com/moment/moment/pull/3232">#3232</a> Fix negative 0 in certain diff cases</li>
-  <li><a href="http://github.com/moment/moment/pull/3235">#3235</a> Use proper locale inheritance for the base locale, fixes <a href="http://github.com/moment/moment/pull/3137">#3137</a></li>
+  <li><a href="https://github.com/moment/moment/pull/3233">#3233</a> Introduce month.isFormat for format/standalone discovery</li>
+  <li><a href="https://github.com/moment/moment/pull/2848">#2848</a> Allow user to get/set the rounding method used when calculating relative time</li>
+  <li><a href="https://github.com/moment/moment/pull/3112">#3112</a> optimize configFromStringAndFormat</li>
+  <li><a href="https://github.com/moment/moment/pull/3147">#3147</a> Call calendar format function with moment context</li>
+  <li><a href="https://github.com/moment/moment/pull/3160">#3160</a> deprecate isDSTShifted</li>
+  <li><a href="https://github.com/moment/moment/pull/3175">#3175</a> make moment calendar extensible with ad-hoc options</li>
+  <li><a href="https://github.com/moment/moment/pull/3191">#3191</a> toDate returns a copy of the internal date object</li>
+  <li><a href="https://github.com/moment/moment/pull/3192">#3192</a> Adding support for rollup import.</li>
+  <li><a href="https://github.com/moment/moment/pull/3238">#3238</a> Handle empty object and empty array for creation as now</li>
+  <li><a href="https://github.com/moment/moment/pull/3082">#3082</a> Use relative AMD moment dependency</li>
+</ul>
+
+<h2 id="bugfixes-3">Bugfixes</h2>
+<ul>
+  <li><a href="https://github.com/moment/moment/pull/3241">#3241</a> Escape all 24 mixed pieces, not only first 12 in computeMonthsParse</li>
+  <li><a href="https://github.com/moment/moment/pull/3008">#3008</a> Object setter orders sets based on size of unit</li>
+  <li><a href="https://github.com/moment/moment/pull/3177">#3177</a> Bug Fix <a href="https://github.com/moment/moment/pull/2704">#2704</a> - isoWeekday(String) inconsistent with isoWeekday(Number)</li>
+  <li><a href="https://github.com/moment/moment/pull/3230">#3230</a> fix passing date with format string to ignore format string</li>
+  <li><a href="https://github.com/moment/moment/pull/3232">#3232</a> Fix negative 0 in certain diff cases</li>
+  <li><a href="https://github.com/moment/moment/pull/3235">#3235</a> Use proper locale inheritance for the base locale, fixes <a href="https://github.com/moment/moment/pull/3137">#3137</a></li>
 </ul>
 
 <p>Plus es-do locale and locale bugfixes</p>
 
 <h3 id="2130-see-full-changelog">2.13.0 <a href="https://gist.github.com/ichernev/0132fcf5b61f7fc140b0bb0090480d49">See full changelog</a></h3>
+<ul>
+  <li>Release April 18, 2016</li>
+</ul>
 
 <h2 id="enhancements">Enhancements:</h2>
 <ul>
@@ -44,7 +186,7 @@
   <li><a href="https://github.com/moment/moment/pull/3102">#3102</a> Add k and kk formatting tokens</li>
 </ul>
 
-<h2 id="bugfixes-1">Bugfixes</h2>
+<h2 id="bugfixes-4">Bugfixes</h2>
 <ul>
   <li><a href="https://github.com/moment/moment/pull/3109">#3109</a> Fix <a href="https://github.com/moment/moment/issues/1756">#1756</a> Resolved thread-safe issue on server side.</li>
   <li><a href="https://github.com/moment/moment/pull/3078">#3078</a> Fix parsing for months/weekdays with weird characters</li>
@@ -60,6 +202,10 @@
 
 <h3 id="2120-see-full-changelog">2.12.0 <a href="https://gist.github.com/ichernev/6e5bfdf8d6522fc4ac73">See full changelog</a></h3>
 
+<ul>
+  <li>Release March 7, 2016</li>
+</ul>
+
 <h2 id="enhancements-1">Enhancements:</h2>
 <ul>
   <li><a href="https://github.com/moment/moment/pull/2932">#2932</a> List loaded locales</li>
@@ -67,7 +213,7 @@
   <li><a href="https://github.com/moment/moment/pull/2774">#2774</a> Implement locale inheritance and locale updating</li>
 </ul>
 
-<h2 id="bugfixes-2">Bugfixes:</h2>
+<h2 id="bugfixes-5">Bugfixes:</h2>
 <ul>
   <li><a href="https://github.com/moment/moment/pull/2970">#2970</a> change add subtract to handle decimal values by rounding</li>
   <li><a href="https://github.com/moment/moment/pull/2887">#2887</a> Fix toJSON casting of invalid moment</li>
@@ -75,7 +221,7 @@
   <li><a href="https://github.com/moment/moment/pull/2946">#2946</a> Fix usage suggestions for min and max</li>
 </ul>
 
-<h2 id="new-locales">New locales:</h2>
+<h2 id="new-locales-2">New locales:</h2>
 <ul>
   <li><a href="https://github.com/moment/moment/pull/2917">#2917</a> Locale Punjabi(Gurmukhi) India format conversion</li>
 </ul>
@@ -85,12 +231,21 @@
 <h3 id="2112-fix-redos-attack-vector">2.11.2 (Fix ReDoS attack vector)</h3>
 
 <ul>
-  <li><a href="https://github.com/moment/moment/pull/2939">#2939</a> use full-string match to speed up aspnet regex match</li>
+  <li>
+    <p>Release February 7, 2016</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/moment/moment/pull/2939">#2939</a> use full-string match to speed up aspnet regex match</p>
+  </li>
 </ul>
 
 <h3 id="2111-see-full-changelog">2.11.1 <a href="https://gist.github.com/ichernev/8ec3ee25b749b4cff3c2">See full changelog</a></h3>
 
-<h2 id="bugfixes-3">Bugfixes:</h2>
+<ul>
+  <li>Release January 9, 2016</li>
+</ul>
+
+<h2 id="bugfixes-6">Bugfixes:</h2>
 <ul>
   <li><a href="https://github.com/moment/moment/pull/2881">#2881</a> Revert “Merge pull request #2746 from mbad0la:develop” Sep-&gt;Sept</li>
   <li><a href="https://github.com/moment/moment/pull/2868">#2868</a> Add format and parse token Y, so it actually works</li>
@@ -104,6 +259,9 @@
 <h3 id="2110-see-full-changelog">2.11.0 <a href="https://gist.github.com/ichernev/6594bc29719dde6b2f66">See full changelog</a></h3>
 
 <ul>
+  <li>
+    <p>Release January 4, 2016</p>
+  </li>
   <li><a href="https://github.com/moment/moment/pull/2624">#2624</a> Proper handling of invalid moments</li>
   <li><a href="https://github.com/moment/moment/pull/2634">#2634</a> Fix strict month parsing issue in cs,ru,sk</li>
   <li><a href="https://github.com/moment/moment/pull/2735">#2735</a> Reset the locale back to ‘en’ after defining all locales in min/locales.js</li>
@@ -128,10 +286,18 @@ hmm for example</li>
 
 <h3 id="2106">2.10.6</h3>
 
+<ul>
+  <li>Release July 28, 2015</li>
+</ul>
+
 <p><a href="https://github.com/moment/moment/pull/2515">#2515</a> Fix regression introduced
 in <code class="highlighter-rouge">2.10.5</code> related to <code class="highlighter-rouge">moment.ISO_8601</code> parsing.</p>
 
 <h3 id="2105-see-full-changelog">2.10.5 <a href="https://gist.github.com/ichernev/6ec13ac7efc396da44b2">See full changelog</a></h3>
+
+<ul>
+  <li>Release July 26, 2015</li>
+</ul>
 
 <p>Important changes:</p>
 <ul>
@@ -148,6 +314,9 @@ This brings the benefits of YY to YYYY</li>
 <h3 id="2103-see-full-changelog">2.10.3 <a href="https://gist.github.com/ichernev/f264b9bed5b00f8b1b7f">See full changelog</a></h3>
 
 <ul>
+  <li>
+    <p>Release May 13, 2015</p>
+  </li>
   <li>add <code class="highlighter-rouge">moment.fn.to</code> and <code class="highlighter-rouge">moment.fn.toNow</code> (similar to <code class="highlighter-rouge">from</code> and <code class="highlighter-rouge">fromNow</code>)</li>
   <li>new locales (Sinhalese (si), Montenegrin (me), Javanese (ja))</li>
   <li>performance improvements</li>
@@ -156,7 +325,12 @@ This brings the benefits of YY to YYYY</li>
 <h3 id="2102">2.10.2</h3>
 
 <ul>
-  <li>fixed moment-with-locales in browser env caused by esperanto change</li>
+  <li>
+    <p>Release April 9, 2015</p>
+  </li>
+  <li>
+    <p>fixed moment-with-locales in browser env caused by esperanto change</p>
+  </li>
 </ul>
 
 <h3 id="2101">2.10.1</h3>
@@ -170,6 +344,10 @@ This brings the benefits of YY to YYYY</li>
 <p>Ported code to es6 modules.</p>
 
 <h3 id="290-see-full-changelog">2.9.0 <a href="https://gist.github.com/ichernev/0c9a9b49951111a27ce7">See full changelog</a></h3>
+
+<ul>
+  <li>Release January 8, 2015</li>
+</ul>
 
 <p>languages:</p>
 <ul>
@@ -198,6 +376,10 @@ moment-timezone)</li>
 
 <h3 id="284-see-full-changelog">2.8.4 <a href="https://gist.github.com/ichernev/a4fcb0a46d74e4b9b996">See full changelog</a></h3>
 
+<ul>
+  <li>Release November 19, 2014</li>
+</ul>
+
 <p>Features:</p>
 
 <ul>
@@ -211,6 +393,10 @@ moment-timezone)</li>
 <p>Some bugfixes and language improvements – <a href="https://gist.github.com/ichernev/a4fcb0a46d74e4b9b996">full changelog</a></p>
 
 <h3 id="283">2.8.3</h3>
+
+<ul>
+  <li>Release September 5, 2014</li>
+</ul>
 
 <p>Bugfixes:</p>
 
@@ -230,6 +416,10 @@ moment-timezone)</li>
 
 <h3 id="282">2.8.2</h3>
 
+<ul>
+  <li>Release August 22, 2014</li>
+</ul>
+
 <p>Minor bugfixes:</p>
 
 <ul>
@@ -245,12 +435,20 @@ instead of <code class="highlighter-rouge">obj.hasOwnProperty</code> (ie8 bug)</
 <h3 id="281">2.8.1</h3>
 
 <ul>
-  <li>bugfix <a href="https://github.com/moment/moment/issues/1813">#1813</a>: fix moment().lang([key]) incompatibility</li>
+  <li>
+    <p>Release August 1, 2014</p>
+  </li>
+  <li>
+    <p>bugfix <a href="https://github.com/moment/moment/issues/1813">#1813</a>: fix moment().lang([key]) incompatibility</p>
+  </li>
 </ul>
 
 <h3 id="280-see-changelog">2.8.0 <a href="https://gist.github.com/ichernev/ac3899324a5fa6c8c9b4">See changelog</a></h3>
 
 <ul>
+  <li>
+    <p>Release July 31, 2014</p>
+  </li>
   <li>incompatible changes
     <ul>
       <li><a href="https://github.com/moment/moment/issues/1761">#1761</a>: moments created without a language are no longer following the global language, in case it changes. Only newly created moments take the global language by default. In case you’re affected by this, wait, comment on <a href="https://github.com/moment/moment/issues/1797">#1797</a> and wait for a proper reimplementation</li>
@@ -279,6 +477,9 @@ instead of <code class="highlighter-rouge">obj.hasOwnProperty</code> (ie8 bug)</
 <h3 id="270-see-changelog">2.7.0 <a href="https://gist.github.com/ichernev/b0a3d456d5a84c9901d7">See changelog</a></h3>
 
 <ul>
+  <li>
+    <p>Release June 12, 2014</p>
+  </li>
   <li>
     <p>new languages</p>
 
@@ -309,6 +510,9 @@ instead of <code class="highlighter-rouge">obj.hasOwnProperty</code> (ie8 bug)</
 <h3 id="260-see-changelog">2.6.0 <a href="https://gist.github.com/ichernev/10544682">See changelog</a></h3>
 
 <ul>
+  <li>
+    <p>Release April 12 , 2014</p>
+  </li>
   <li>languages
     <ul>
       <li><a href="https://github.com/moment/moment/issues/1529">#1529</a> Serbian-Cyrillic (sr-cyr)</li>
@@ -334,6 +538,9 @@ instead of <code class="highlighter-rouge">obj.hasOwnProperty</code> (ie8 bug)</
 <h3 id="251">2.5.1</h3>
 
 <ul>
+  <li>
+    <p>Release January 22, 2014</p>
+  </li>
   <li>languages
     <ul>
       <li><a href="https://github.com/moment/moment/issues/1392">#1392</a> Armenian (hy-am)</li>
@@ -360,6 +567,9 @@ instead of <code class="highlighter-rouge">obj.hasOwnProperty</code> (ie8 bug)</
 <h3 id="250-see-changelog">2.5.0 <a href="https://gist.github.com/ichernev/8104451">See changelog</a></h3>
 
 <ul>
+  <li>
+    <p>Release Dec 24, 2013</p>
+  </li>
   <li>New languages
     <ul>
       <li>Luxemburish (lb) <a href="https://github.com/moment/moment/issues/1247">1247</a></li>
@@ -383,6 +593,9 @@ instead of <code class="highlighter-rouge">obj.hasOwnProperty</code> (ie8 bug)</
 <h3 id="240">2.4.0</h3>
 
 <ul>
+  <li>
+    <p>Release Oct 27, 2013</p>
+  </li>
   <li><strong>Deprecate</strong> globally exported moment, will be removed in next major</li>
   <li>New languages
     <ul>
@@ -406,19 +619,35 @@ instead of <code class="highlighter-rouge">obj.hasOwnProperty</code> (ie8 bug)</
 
 <h3 id="231">2.3.1</h3>
 
+<ul>
+  <li>Release Oct 9, 2013</li>
+</ul>
+
 <p>Removed a trailing comma [1169] and fixed a bug with <code class="highlighter-rouge">months</code>, <code class="highlighter-rouge">weekdays</code> getters <a href="https://github.com/moment/moment/issues/1171">#1171</a>.</p>
 
 <h3 id="230-see-changelog">2.3.0 <a href="https://gist.github.com/ichernev/6864354">See changelog</a></h3>
+
+<ul>
+  <li>Release Oct 7, 2013</li>
+</ul>
 
 <p>Changed isValid, added strict parsing.
 Week tokens parsing.</p>
 
 <h3 id="221">2.2.1</h3>
 
+<ul>
+  <li>Release Sep 12, 2013</li>
+</ul>
+
 <p>Fixed bug in string prototype test.
 Updated authors and contributors.</p>
 
 <h3 id="220-see-changelog">2.2.0 <a href="https://gist.github.com/ichernev/00f837a9baf46a3565e4">See changelog</a></h3>
+
+<ul>
+  <li>Release  Sep 11, 2013</li>
+</ul>
 
 <p>Added bower support.</p>
 
@@ -430,6 +659,10 @@ Updated authors and contributors.</p>
 
 <h3 id="210-see-changelog">2.1.0 <a href="https://gist.github.com/timrwood/b8c2d90d528eddb53ab5">See changelog</a></h3>
 
+<ul>
+  <li>Release Jul 8, 2013</li>
+</ul>
+
 <p>Added better week support.</p>
 
 <p>Added ability to set offset with <code class="highlighter-rouge">moment#zone</code>.</p>
@@ -439,6 +672,10 @@ Updated authors and contributors.</p>
 <p>Added <code class="highlighter-rouge">moment#min</code> and <code class="highlighter-rouge">moment#max</code></p>
 
 <h3 id="200-see-changelog">2.0.0 <a href="https://gist.github.com/timrwood/e72f2eef320ed9e37c51">See changelog</a></h3>
+
+<ul>
+  <li>Release Feb 9, 2013</li>
+</ul>
 
 <p>Added short form localized tokens.</p>
 
@@ -480,13 +717,25 @@ Updated authors and contributors.</p>
 
 <h3 id="172-see-discussion">1.7.2 <a href="https://github.com/timrwood/moment/issues/456">See discussion</a></h3>
 
+<ul>
+  <li>Release Oct 2, 2012</li>
+</ul>
+
 <p>Bugfixes</p>
 
 <h3 id="171-see-discussion">1.7.1 <a href="https://github.com/timrwood/moment/issues/384">See discussion</a></h3>
 
+<ul>
+  <li>Release Oct 1, 2012</li>
+</ul>
+
 <p>Bugfixes</p>
 
 <h3 id="170-see-discussion">1.7.0 <a href="https://github.com/timrwood/moment/issues/288">See discussion</a></h3>
+
+<ul>
+  <li>Release Jul 26, 2012</li>
+</ul>
 
 <p>Added <code class="highlighter-rouge">moment.fn.endOf()</code> and <code class="highlighter-rouge">moment.fn.startOf()</code>.</p>
 
@@ -505,6 +754,10 @@ Updated authors and contributors.</p>
 <p>Various bugfixes.</p>
 
 <h3 id="160-see-discussion">1.6.0 <a href="https://github.com/timrwood/moment/pull/268">See discussion</a></h3>
+
+<ul>
+  <li>Release Apr 26, 2012</li>
+</ul>
 
 <p>Added Durations.</p>
 
@@ -532,6 +785,10 @@ Updated authors and contributors.</p>
 
 <h3 id="150-see-milestone">1.5.0 <a href="https://github.com/timrwood/moment/issues?milestone=10&amp;page=1&amp;state=closed">See milestone</a></h3>
 
+<ul>
+  <li>Release Mar 20, 2012</li>
+</ul>
+
 <p>Added UTC mode.</p>
 
 <p>Added automatic ISO8601 parsing.</p>
@@ -540,6 +797,10 @@ Updated authors and contributors.</p>
 
 <h3 id="140-see-milestone">1.4.0 <a href="https://github.com/timrwood/moment/issues?milestone=8&amp;state=closed">See milestone</a></h3>
 
+<ul>
+  <li>Release Feb 4, 2012</li>
+</ul>
+
 <p>Added <code class="highlighter-rouge">moment.fn.toDate</code> as a replacement for <code class="highlighter-rouge">moment.fn.native</code>.</p>
 
 <p>Added <code class="highlighter-rouge">moment.fn.sod</code> and <code class="highlighter-rouge">moment.fn.eod</code> to get the start and end of day.</p>
@@ -547,6 +808,10 @@ Updated authors and contributors.</p>
 <p>Various bugfixes.</p>
 
 <h3 id="130-see-milestone">1.3.0 <a href="https://github.com/timrwood/moment/issues?milestone=7&amp;state=closed">See milestone</a></h3>
+
+<ul>
+  <li>Release Jan 5, 2012</li>
+</ul>
 
 <p>Added support for parsing month names in the current language.</p>
 
@@ -560,6 +825,10 @@ Updated authors and contributors.</p>
 
 <h3 id="120-see-milestone">1.2.0 <a href="https://github.com/timrwood/moment/issues?milestone=4&amp;state=closed">See milestone</a></h3>
 
+<ul>
+  <li>Release Dec 7, 2011</li>
+</ul>
+
 <p>Added timezones to parser and formatter.</p>
 
 <p>Added <code class="highlighter-rouge">moment.fn.isDST</code>.</p>
@@ -568,13 +837,25 @@ Updated authors and contributors.</p>
 
 <h3 id="112-see-milestone">1.1.2 <a href="https://github.com/timrwood/moment/issues?milestone=6&amp;state=closed">See milestone</a></h3>
 
+<ul>
+  <li>Release Nov 18, 2011</li>
+</ul>
+
 <p>Various bugfixes</p>
 
 <h3 id="111-see-milestone">1.1.1 <a href="https://github.com/timrwood/moment/issues?milestone=5&amp;state=closed">See milestone</a></h3>
 
+<ul>
+  <li>Release Nov 12, 2011</li>
+</ul>
+
 <p>Added time specific diffs (months, days, hours, etc)</p>
 
 <h3 id="110">1.1.0</h3>
+
+<ul>
+  <li>Release Oct 28, 2011</li>
+</ul>
 
 <p>Added <code class="highlighter-rouge">moment.fn.format</code> localized masks. ‘L LL LLL LLLL’ <a href="https://github.com/timrwood/moment/pull/29">issue 29</a></p>
 
@@ -582,11 +863,19 @@ Updated authors and contributors.</p>
 
 <h3 id="101">1.0.1</h3>
 
+<ul>
+  <li>Release Oct 18, 2011</li>
+</ul>
+
 <p>Added <code class="highlighter-rouge">moment.version</code> to get the current version.</p>
 
 <p>Removed <code class="highlighter-rouge">window !== undefined</code> when checking if module exists to support browserify. <a href="https://github.com/timrwood/moment/pull/25">issue 25</a></p>
 
 <h3 id="100">1.0.0</h3>
+
+<ul>
+  <li>Release</li>
+</ul>
 
 <p>Added convenience methods for getting and setting date parts.</p>
 
@@ -598,9 +887,17 @@ Updated authors and contributors.</p>
 
 <h3 id="061">0.6.1</h3>
 
+<ul>
+  <li>Release Oct 12, 2011</li>
+</ul>
+
 <p>Added Portuguese, Italian, and French language support</p>
 
 <h3 id="060">0.6.0</h3>
+
+<ul>
+  <li>Release Sep 21, 2011</li>
+</ul>
 
 <p>Added _date.lang() support.
 Added support for passing multiple formats to try to parse a date. _date(“07-10-1986”, [“MM-DD-YYYY”, “YYYY-MM-DD”]);
@@ -608,13 +905,25 @@ Made parse from string and single format 25% faster.</p>
 
 <h3 id="052">0.5.2</h3>
 
+<ul>
+  <li>Release Jul 11, 2011</li>
+</ul>
+
 <p>Bugfix for <a href="https://github.com/timrwood/underscore.date/pull/8">issue 8</a> and <a href="https://github.com/timrwood/underscore.date/pull/9">issue 9</a>.</p>
 
 <h3 id="051">0.5.1</h3>
 
+<ul>
+  <li>Release Jun 17, 2011</li>
+</ul>
+
 <p>Bugfix for <a href="https://github.com/timrwood/underscore.date/pull/5">issue 5</a>.</p>
 
 <h3 id="050">0.5.0</h3>
+
+<ul>
+  <li>Release Jun 13, 2011</li>
+</ul>
 
 <p>Dropped the redundant <code class="highlighter-rouge">_date.date()</code> in favor of <code class="highlighter-rouge">_date()</code>.
 Removed <code class="highlighter-rouge">_date.now()</code>, as it is a duplicate of <code class="highlighter-rouge">_date()</code> with no parameters.
@@ -623,36 +932,68 @@ Exposed customization options through the <code class="highlighter-rouge">_date.
 
 <h3 id="041">0.4.1</h3>
 
+<ul>
+  <li>Release May 9, 2011</li>
+</ul>
+
 <p>Added date input formats for input strings.</p>
 
 <h3 id="040">0.4.0</h3>
+
+<ul>
+  <li>Release May 9, 2011</li>
+</ul>
 
 <p>Added underscore.date to npm. Removed dependencies on underscore.</p>
 
 <h3 id="032">0.3.2</h3>
 
+<ul>
+  <li>Release Apr 9, 2011</li>
+</ul>
+
 <p>Added <code class="highlighter-rouge">'z'</code> and <code class="highlighter-rouge">'zz'</code> to <code class="highlighter-rouge">_.date().format()</code>. Cleaned up some redundant code to trim off some bytes.</p>
 
 <h3 id="031">0.3.1</h3>
 
+<ul>
+  <li>Release Mar 25, 2011</li>
+</ul>
+
 <p>Cleaned up the namespace. Moved all date manipulation and display functions to the _.date() object.</p>
 
 <h3 id="030">0.3.0</h3>
+
+<ul>
+  <li>Release Mar 25, 2011</li>
+</ul>
 
 <p>Switched to the Underscore methodology of not mucking with the native objects’ prototypes.
 Made chaining possible.</p>
 
 <h3 id="021">0.2.1</h3>
 
+<ul>
+  <li>Release</li>
+</ul>
+
 <p>Changed date names to be a more pseudo standardized ‘dddd, MMMM Do YYYY, h:mm:ss a’.
 Added <code class="highlighter-rouge">Date.prototype</code> functions <code class="highlighter-rouge">add</code>, <code class="highlighter-rouge">subtract</code>, <code class="highlighter-rouge">isdst</code>, and <code class="highlighter-rouge">isleapyear</code>.</p>
 
 <h3 id="020">0.2.0</h3>
 
+<ul>
+  <li>Release</li>
+</ul>
+
 <p>Changed function names to be more concise.
 Changed date format from php date format to custom format.</p>
 
 <h3 id="010">0.1.0</h3>
+
+<ul>
+  <li>Release</li>
+</ul>
 
 <p>Initial release</p>
 
