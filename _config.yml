@@ -20,7 +20,8 @@ markdown: kramdown
 # Exclude
 exclude: [LICENSE, README.md, Rakefile, Gemfile, Gemfile.lock, other_graphs.html,
           bower.json, node_modules, gdq-stats.sublime-project, webpack.config.js,
-          package.json, package-lock.js, flipclock.html, webpack-stats.json, vendor]
+          package.json, package-lock.js, flipclock.html, webpack-stats.json, vendor,
+          animals.html]
 
 previous_events:
   - name: AGDQ

@@ -180,7 +180,7 @@ class DonationsApp extends React.PureComponent {
       return this.getLoader()
     }
     const [ commented, uncommented ] = this.state.donationStats.comment_stats
-    const [ anonymous, named ] = this.state.donationStats.anonymous
+    const [ anonymous ] = this.state.donationStats.anonymous
     const stats = [
       { title: 'Median Donation w/ Comment', emoji: '🗣', value: commented.median },
       { title: 'Median Donation w/o Comment', emoji: '🙊', value: uncommented.median },
@@ -199,11 +199,11 @@ class DonationsApp extends React.PureComponent {
       return null
     }
     const overall = this.state.donationStats.overall[0]
-    const overall_stats = [
+    const overallStats = [
       { title: 'Median Donation - Overall', emoji: '💸', value: overall.median },
       { title: 'Average Donation - Overall', emoji: '💸', value: overall.avg }
     ]
-    return overall_stats.map((props, idx) => {
+    return overallStats.map((props, idx) => {
       return <Stat key={idx} {...props} prefix='$' value={+(props.value.toFixed(2))} format='(,ddd).dd' />
     })
   }

@@ -7,7 +7,9 @@ module.exports = {
     index: APP_DIR + "/index.js",
     graph: APP_DIR + "/graph.js",
     chat: APP_DIR + "/ChatApp.js",
-    donations: APP_DIR + "/DonationsApp.js"
+    donations: APP_DIR + "/DonationsApp.js",
+    animals: APP_DIR + "/AnimalsApp.js",
+    games: APP_DIR + "/GamesApp.js"
   },
   output: {
     filename: "./dist/[name].bundle.js",
