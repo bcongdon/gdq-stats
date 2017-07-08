@@ -20,6 +20,7 @@ end
 desc "Build _site"
 task :build do
   puts "\n## Generating site files"
+  system('rm -r _site') or exit!(2)
   ENV["JEKYLL_ENV"] = "production"
   system('ruby -S bundle exec jekyll build') or exit!(1)
 

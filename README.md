@@ -2,23 +2,30 @@
 > :space_invader: Stats webpage for [GamesDoneQuick](gamesdonequick.com). Hosted at [gdqstat.us](http://gdqstat.us)
 
 ## Frontend
-The actual visualization is done by D3.js. Other tools used include: 
-
-* `odometer` - Cool JS animated odometers
-* `jQuery`
-* `moment.js`
+The actual visualization is done by Recharts. Other tools used include: 
+* `React` + `Redux` for rendering and application dataflow
 * `Jekyll` + `Reduce` to generate / minify the site's assets
+* `odometer` for cool JS animated odometers
+* `C3js` for pie charts
+* `moment.js`
+
+Tools used in previous versions of the site:
+* `jQuery`
+* `D3.js` - (This is still used, under the hood)
 
 ## Backend
 This page uses [gdq-collector](https://github.com/bcongdon/gdq-collector) to parse the GDQ donation tracker and to collect Twitch viewership information. This data is updated every minute.
 
-An AWS RDS PostgreSQL instance is used as the backend data repository.
+Please visit that repo for more detailed information about the gdq-stats backend.
 
 ## Run it yourself
 
 1. Clone the repo.
-2. Run `bundle install` to pull down the dependencies.
-3. Run `bundle exec jekyll serve` to build and serve the website to `http://localhost:4000`.
+2. Run `bundle install` to pull down the Ruby dependencies.
+3. Run `npm install` to pull down the NPM dependencies.
+4. Run `npm start` to build the static bundles.
+5. In a seperate terminal window, run `rake serve` to build the HTML templates.
+6. Visit `http://localhost:4000` in your browser.
 
 ## Previous Events
 
