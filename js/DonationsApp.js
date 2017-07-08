@@ -11,7 +11,7 @@ import ReturnHome from './components/ReturnHome'
 import { format } from 'd3-format'
 import Grid from 'react-bootstrap/lib/Grid'
 import Col from 'react-bootstrap/lib/Col'
-import Row from 'react-bootstrap/lib/Col'
+import Row from 'react-bootstrap/lib/Row'
 import Stat from './components/Stat'
 import moment from 'moment'
 
@@ -88,7 +88,7 @@ class DonationsApp extends React.PureComponent {
       type: 'donut',
       names: {
         signed: 'Signed',
-        anonymous: 'Anonymous',
+        anonymous: 'Anonymous'
       },
       colors: {
         anonymous: SECONDARY_COLOR,
@@ -201,7 +201,7 @@ class DonationsApp extends React.PureComponent {
     const overall = this.state.donationStats.overall[0]
     const overall_stats = [
       { title: 'Median Donation - Overall', emoji: '💸', value: overall.median },
-      { title: 'Average Donation - Overall', emoji: '💸', value: overall.avg },
+      { title: 'Average Donation - Overall', emoji: '💸', value: overall.avg }
     ]
     return overall_stats.map((props, idx) => {
       return <Stat key={idx} {...props} prefix='$' value={+(props.value.toFixed(2))} format='(,ddd).dd' />
@@ -370,7 +370,7 @@ class DonationsApp extends React.PureComponent {
           <Grid className='current_stats content'>
             {this.getDonationStatContainer()}
             <Row>
-              <Col lg={2} md={0}/>
+              <Col lg={2} md={0} />
               {this.getOverallDonationStatConatainer()}
             </Row>
           </Grid>
