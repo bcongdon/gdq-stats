@@ -7,7 +7,8 @@ import Col from 'react-bootstrap/lib/Col'
 
 const STATS = [
   {
-    title: 'Viewers',
+    // title: 'Viewers',
+    title: 'Max Viewers',
     emoji: '📺',
     key: 'viewers'
   },
@@ -67,7 +68,8 @@ class StatsContainer extends React.PureComponent {
   getValues () {
     const accumulated = this.accumulateStats()
     const values = {
-      viewers: this.getLatestData(this.props.timeseries, 'v'),
+      // viewers: this.getLatestData(this.props.timeseries, 'v'),
+      viewers: this.props.timeseries.reduce((prev, curr) => (prev > curr.v ? prev : curr.v), 0),
       donations: this.getLatestData(this.props.timeseries, 'm'),
       donors: this.getLatestData(this.props.timeseries, 'd'),
       chats: accumulated.c,

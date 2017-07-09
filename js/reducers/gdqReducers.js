@@ -70,7 +70,9 @@ const saveNotificationGames = (ids) => {
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case INITIAL_TIMESERIES:
-      return { ...state, timeseries: action.payload }
+      // return { ...state, timeseries: action.payload }
+      // TODO: Reset this
+      return { ...state, timeseries: action.payload, timeseriesLoaded: true }
     case UPDATE_TIMESERIES:
       return { ...state, timeseries: updateTimeseries(action.payload, state.timeseries), timeseriesLoaded: true }
     case UPDATE_SCHEDULE:

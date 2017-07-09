@@ -19,7 +19,7 @@ class App extends React.PureComponent {
     this.props.fetchInitialTimeseries()
     this.props.fetchSchedule()
 
-    setInterval(() => this.props.fetchRecentTimeseries(moment().subtract(1, 'hours').toDate()), 60 * 1000)
+    // setInterval(() => this.props.fetchRecentTimeseries(moment().subtract(1, 'hours').toDate()), 60 * 1000)
   }
 
   render () {

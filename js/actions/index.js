@@ -18,7 +18,8 @@ export const fetchInitialTimeseries = () => (dispatch) =>
     .then(response => {
       dispatch({ type: INITIAL_TIMESERIES, payload: response.data })
       const maxTime = moment(response.data[response.data.length - 1].time).toDate()
-      fetchRecentTimeseries(maxTime)(dispatch)
+      // TODO: Re-enable this
+      // fetchRecentTimeseries(maxTime)(dispatch)
     })
 
 export const fetchRecentTimeseries = (since) => (dispatch) =>
