@@ -116,7 +116,7 @@ class GraphContainer extends React.Component {
     return (d) => moment.unix(d).format(format)
   }
 
-  getGraphSeries (activeGraph, isPrimary) {
+  getGraphSeries ({activeGraph, isPrimary}) {
     const axisId = isPrimary ? 0 : 1
     const yAxisLabel = (
       <VerticalLabel
@@ -218,13 +218,15 @@ class GraphContainer extends React.Component {
           <Col sm={8} md={this.props.fullscreen ? 8 : 10} className='graph-container'>
             <ResponsiveContainer width='100%' height={500}>
               <LineChart data={resampleSeries} margin={{top: 20}}>
-                {this.getGraphSeries(activeGraph, true)}
-                {this.props.fullscreen ? this.getGraphSeries(secondaryActiveGraph, false) : null}
+                {this.getGraphSeries({activeGraph, isPrimary: true})}
+                {this.props.fullscreen ? this.getGraphSeries({activeGraph: secondaryActiveGraph, isPrimary: false}) : null}
                 <Tooltip
-                  content={<GamesTooltip
-                    schedule={this.props.schedule}
-                    format={tooltipFormat}
-                    secondaryFormat={tooltipFormatSecondary} />}
+                  content={
+                    <GamesTooltip
+                      schedule={this.props.schedule}
+                      format={tooltipFormat}
+                      secondaryFormat={tooltipFormatSecondary} />
+                    }
                   animationDuration={250} />
                 <XAxis
                   dataKey='time'
