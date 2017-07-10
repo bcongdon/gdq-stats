@@ -4,3 +4,6 @@ export const GDQ_STORAGE_ENDPOINT = '/data/2017/sgdq_final'
 
 export const SECONDARY_COLOR = '#F21847'
 export const PRIMARY_COLOR = '#00AEEF'
+export const PANEL_BACKGROUND_COLOR = '#EEEEEE'
+export const LIGHT_FILL_COLOR = '#DDDDDD'
+export const DARK_FILL_COLOR = '#333333'

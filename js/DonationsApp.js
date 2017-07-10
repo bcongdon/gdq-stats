@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
-import { GDQ_STORAGE_ENDPOINT, PRIMARY_COLOR, SECONDARY_COLOR } from './constants'
+import { GDQ_STORAGE_ENDPOINT, PRIMARY_COLOR, SECONDARY_COLOR, LIGHT_FILL_COLOR, DARK_FILL_COLOR } from './constants'
 import { BarChart, Bar, LineChart, Line, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts'
 import C3Chart from 'react-c3js'
 import 'c3/c3.css'
@@ -229,9 +229,9 @@ class DonationsApp extends React.PureComponent {
           <YAxis
             dataKey='median'
             tickFormatter={format('$,')}
-            axisLine={{stroke: '#ddd'}}
-            tickLine={{stroke: '#ddd'}}
-            tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
+            axisLine={{stroke: LIGHT_FILL_COLOR}}
+            tickLine={{stroke: LIGHT_FILL_COLOR}}
+            tick={{fill: DARK_FILL_COLOR, fontWeight: 300, fontSize: 13}}
             domain={[0, 'dataMax']}
             interval='preserveStartEnd'
             minTickGap={0} />

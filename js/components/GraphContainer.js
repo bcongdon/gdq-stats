@@ -17,7 +17,7 @@ import GamesTooltip from './GamesTooltip'
 import GRAPHS from '../graph-definitions'
 import Select from 'react-select'
 import { movingAverage, gameForId } from '../utils'
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../constants'
+import { PRIMARY_COLOR, SECONDARY_COLOR, DARK_FILL_COLOR, LIGHT_FILL_COLOR } from '../constants'
 
 const zoomButtons = [
   { label: '1h', hours: 1 },
@@ -121,7 +121,7 @@ class GraphContainer extends React.Component {
     const yAxisLabel = (
       <VerticalLabel
         axisType='yAxis'
-        fill='#333'
+        fill={DARK_FILL_COLOR}
         fontWeight={300}
         fontSize={13}
         xOffset={isPrimary ? 75 : -5}>
@@ -144,9 +144,9 @@ class GraphContainer extends React.Component {
       <YAxis
         dataKey={activeGraph.key}
         tickFormatter={activeGraph.format}
-        axisLine={{stroke: '#ddd'}}
-        tickLine={{stroke: '#ddd'}}
-        tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
+        axisLine={{stroke: LIGHT_FILL_COLOR}}
+        tickLine={{stroke: LIGHT_FILL_COLOR}}
+        tick={{fill: DARK_FILL_COLOR, fontWeight: 300, fontSize: 13}}
         domain={[minDomain, 'dataMax']}
         interval='preserveStartEnd'
         minTickGap={0}
@@ -214,7 +214,7 @@ class GraphContainer extends React.Component {
               {GRAPHS.map((obj, idx) => <NavItem eventKey={idx} key={idx}>{obj.name}</NavItem>)}
             </Nav>
           </Col>
-          <hr className='hidden-sm hidden-md hidden-lg' style={{borderTopWidth: 1.5, borderColor: '#ddd'}} />
+          <hr className='hidden-sm hidden-md hidden-lg' style={{borderTopWidth: 1.5, borderColor: LIGHT_FILL_COLOR}} />
           <Col sm={8} md={this.props.fullscreen ? 8 : 10} className='graph-container'>
             <ResponsiveContainer width='100%' height={500}>
               <LineChart data={resampleSeries} margin={{top: 20}}>
@@ -232,10 +232,10 @@ class GraphContainer extends React.Component {
                   dataKey='time'
                   type='number'
                   scale='time'
-                  axisLine={{stroke: '#ddd'}}
-                  tickLine={{stroke: '#ddd'}}
+                  axisLine={{stroke: LIGHT_FILL_COLOR}}
+                  tickLine={{stroke: LIGHT_FILL_COLOR}}
                   tickFormatter={dateFormat}
-                  tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
+                  tick={{fill: DARK_FILL_COLOR, fontWeight: 300, fontSize: 13}}
                   interval='preserveStart'
                   domain={['dataMin', 'dataMax']}
                   minTickGap={50} />
