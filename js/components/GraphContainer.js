@@ -285,7 +285,7 @@ class GraphContainer extends React.Component {
     return (
       <div className='section'>
         <h2>Live Stats</h2>
-        {graph || <PacmanLoader color={PRIMARY_COLOR} className='graph-loader' />}
+        {graph || <PacmanLoader color={PRIMARY_COLOR} className='gdq-loader' />}
       </div>
     )
   }

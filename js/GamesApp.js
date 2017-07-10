@@ -20,7 +20,7 @@ class GamesApp extends React.PureComponent {
   }
 
   getLoader () {
-    return <PacmanLoader color={PRIMARY_COLOR} className='graph-loader' />
+    return <PacmanLoader color={PRIMARY_COLOR} className='gdq-loader' />
   }
 
   getGameDonationsChart () {
