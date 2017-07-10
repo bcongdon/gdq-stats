@@ -1,7 +1,10 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { setCurrentSeries, setButtonZoom, setGameZoom, setCurrentSecondarySeries } from '../actions'
 import { PropTypes } from 'prop-types'
+import { connect } from 'react-redux'
+import { setCurrentSeries,
+  setButtonZoom,
+  setGameZoom,
+  setCurrentSecondarySeries } from '../actions'
 import Nav from 'react-bootstrap/lib/Nav'
 import NavItem from 'react-bootstrap/lib/NavItem'
 import Grid from 'react-bootstrap/lib/Grid'
@@ -11,13 +14,21 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import Button from 'react-bootstrap/lib/Button'
 import PacmanLoader from 'halogen/PacmanLoader'
 import moment from 'moment'
-import { LineChart, Line, Tooltip, ResponsiveContainer, XAxis, YAxis } from 'recharts'
+import { LineChart,
+  Line,
+  Tooltip,
+  ResponsiveContainer,
+  XAxis,
+  YAxis } from 'recharts'
 import VerticalLabel from './VerticalLabel'
 import GamesTooltip from './GamesTooltip'
 import GRAPHS from '../graph-definitions'
 import Select from 'react-select'
 import { movingAverage, gameForId } from '../utils'
-import { PRIMARY_COLOR, SECONDARY_COLOR, DARK_FILL_COLOR, LIGHT_FILL_COLOR } from '../constants'
+import { PRIMARY_COLOR,
+  SECONDARY_COLOR,
+  DARK_FILL_COLOR,
+  LIGHT_FILL_COLOR } from '../constants'
 
 const zoomButtons = [
   { label: '1h', hours: 1 },

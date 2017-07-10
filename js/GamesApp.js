@@ -1,8 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
-import { GDQ_STORAGE_ENDPOINT, PRIMARY_COLOR } from './constants'
-import { BarChart, Bar, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts'
+import { GDQ_STORAGE_ENDPOINT,
+  PRIMARY_COLOR } from './constants'
+import { BarChart, 
+  Bar,
+  Tooltip,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  CartesianGrid } from 'recharts'
 import PacmanLoader from 'halogen/PacmanLoader'
 import VerticalLabel from './components/VerticalLabel'
 import ReturnHome from './components/ReturnHome'

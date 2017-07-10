@@ -4,7 +4,9 @@ import GamesTable from './components/GamesTable'
 import GraphContainer from './components/GraphContainer'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
-import { fetchInitialTimeseries, fetchSchedule, fetchRecentTimeseries } from './actions'
+import { fetchInitialTimeseries,
+  fetchSchedule,
+  fetchRecentTimeseries } from './actions'
 import moment from 'moment'
 import Visibility from 'visibilityjs'
 
