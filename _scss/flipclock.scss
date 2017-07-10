@@ -1,5 +1,5 @@
 #clockdiv{
-  color: #fff;
+  color: white;
   display: inline-block;
   font-weight: 100;
   text-align: center;
@@ -8,12 +8,12 @@
   padding-left: 0px;
   width: 100%; 
   margin: 0 auto;
-  color: #000;
+  color: black;
 
   div {
     padding: 10px;
     border-radius: 3px;
-    background: #ddd;
+    background: $panel-header-color;
     display: inline-block;
     width: 20%;
 

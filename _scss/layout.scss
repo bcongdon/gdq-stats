@@ -2,7 +2,7 @@
 @import "bootstrap-extension";
 
 body {
-  background-color: #FFFFFF;
+  background-color: white;
   font-family: $standard-font;
   font-size: 10px;
   font-weight: 400;
@@ -156,8 +156,8 @@ h3 {
 }
 
 .gdq-tooltip {   
-  background-color: #fdfdfd;
-  margin: 3px solid #fdfdfd;
+  background-color: $tooltip-background-color;
+  margin: 3px solid $tooltip-background-color;
   margin-right: 10px;
   margin-right: 10px;
   border: 1.5px solid $panel-border-color;
@@ -175,7 +175,7 @@ h3 {
 
   .tool-date {
     background-color: $panel-header-color;
-    color: #777;
+    color: $light-font-color;
     font-weight: 300;
   }
 
@@ -195,7 +195,7 @@ h3 {
   .tool-footer {
     background-color: $panel-header-color;
     font-weight: 800;
-    color: #555;
+    color: $light-font-strong-color;
   }
 }
 
