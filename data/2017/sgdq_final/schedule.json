@@ -609,13 +609,6 @@
     "id": 98
   },
   {
-    "duration": "01:20:00",
-    "start_time": "2017-07-06T11:04:00",
-    "name": "Ratchet and Clank",
-    "runners": "Xem",
-    "id": 24
-  },
-  {
     "duration": "00:29:20",
     "start_time": "2017-07-06T11:33:00",
     "name": "Bleed 2",
@@ -861,11 +854,18 @@
     "id": 122
   },
   {
+    "duration": "03:02:00",
+    "start_time": "2017-07-07T18:36:37",
+    "name": "Kingdom Hearts II Final Mix",
+    "runners": "Bl00dyBizkitz",
+    "id": 123
+  },
+  {
     "duration": "00:25:59",
     "start_time": "2017-07-07T21:40:37",
     "name": "Kingdom Hearts II Final Mix",
     "runners": "Bl00dyBizkitz",
-    "id": 123
+    "id": 140
   },
   {
     "duration": "02:47:12",
