@@ -10,20 +10,43 @@ repository: bcongdon/gdq-stats
 sass:
   sass_dir: _scss
 
-current_event: Summer Games Done Quick
-current_event_short_hand: SGDQ
-current_event_year: 2017
+current_event: Awesome Games Done Quick
+current_event_short_hand: AGDQ
+current_event_year: 2018
 
 # Build settings
 markdown: kramdown
 
 # Exclude
-exclude: [LICENSE, README.md, Rakefile, Gemfile, Gemfile.lock, other_graphs.html,
-          bower.json, node_modules, gdq-stats.sublime-project, webpack.config.js,
-          package.json, package-lock.js, flipclock.html, webpack-stats.json, vendor,
-          animals.html]
+exclude: [
+  animals.html,
+  bower.json,
+  gdq-stats.sublime-project,
+  gdq-stats.sublime-workspace,
+  Gemfile,
+  Gemfile.lock,
+  LICENSE,
+  node_modules,
+  other_graphs.html,
+  package-lock.js,
+  package.json,
+  Rakefile,
+  README.md,
+  vendor,
+  js,
+  webpack-stats.json,
+  webpack.config.js,
+  chat_stats.html,
+  donations.html,
+  games.html,
+  graph.html,
+  main.html
+]
 
 previous_events:
+  - name: SGDQ
+    year: 2017
+
   - name: AGDQ
     year: 2017
 

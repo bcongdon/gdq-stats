@@ -2,7 +2,6 @@
 
 #clockdiv{
   color: white;
-  display: inline-block;
   font-weight: 100;
   text-align: center;
   font-size:  60px;
@@ -11,25 +10,58 @@
   width: 100%; 
   margin: 0 auto;
   color: black;
+  max-width: 760px;
 
-  div {
-    padding: 10px;
+  @media (max-width: 575px) {
+    font-size: 32px;
+    padding: 5px;
+  }
+}
+
+.number-container {
+  padding: 10px;
+  border-radius: 3px;
+  background: $panel-header-color;
+  display: inline-block;
+  // width: 20%;
+
+  .clock-number {
+    padding: 15px;
     border-radius: 3px;
-    background: $panel-header-color;
+    background: #aaa;
     display: inline-block;
-    width: 20%;
+  }
 
-    span {
-      padding: 15px;
-      border-radius: 3px;
-      background: #aaa;
-      width: 80%;
-      display: inline-block;
+  .clock-label {
+    padding-top: 5px;
+    font-size: 16px;
+  }
+
+  @media (max-width: 575px) {
+    font-size: 32px;
+    padding: 0px;
+    border: 10px;
+
+    .clock-label {
+      padding-bottom: 5px;
     }
   }
 }
 
-.smalltext{
-  padding-top: 5px;
-  font-size: 16px;
+
+
+.previous-events {
+  background-color: $panel-recessed-color;
+  width: inherit;
+  max-width: 760px;
+
+  div {
+    display: inline-block;
+    text-align: center;
+    font-size: 24px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    font-family: $stylized-font
+  }
 }

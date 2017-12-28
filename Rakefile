@@ -78,6 +78,7 @@ end
 
 desc "Build and serve"
 task :serve do
+  Rake::Task['generate'].execute
   system('ruby -S bundle exec jekyll serve')
 end
 

@@ -29,6 +29,7 @@ Please visit that repo for more detailed information about the gdq-stats backend
 
 ## Previous Events
 
+* [SGDQ 2017](http://gdqstat.us/previous-events/sgdq-2017)
 * [AGDQ 2017](http://gdqstat.us/previous-events/agdq-2017)
 * [SGDQ 2016](http://gdqstat.us/previous-events/sgdq-2016)
 

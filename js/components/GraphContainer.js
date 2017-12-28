@@ -262,7 +262,7 @@ class GraphContainer extends React.Component {
         </Row>
         <Row className='series-options'>
           <Col sm={4} style={{height: 32}}>
-            <span style={{position: 'relative', top: 8}}>Options {this.props.fullscreen ? null : <small><b style={{paddingLeft: 16, verticalAlign: 'middle'}}><a href='/graph'>(Advanced)</a></b></small>}</span>
+            <span style={{position: 'relative', top: 8}}>Options {this.props.fullscreen ? null : <small><b style={{paddingLeft: 16, verticalAlign: 'middle'}}><a href='graph'>(Advanced)</a></b></small>}</span>
           </Col>
           <Col sm={3} style={{fontFamily: 'Open Sans'}}>
             <Select
