@@ -1,4 +1,32 @@
-<p>#CSV-JS 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.3.0 -->
+<title>GDQ Stats | Live Data Visualizations for GamesDoneQuick Livestreams</title>
+<meta property="og:title" content="GDQ Stats" />
+<meta name="author" content="Benjamin Congdon" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Live Data Visualizations for GamesDoneQuick Livestreams" />
+<meta property="og:description" content="Live Data Visualizations for GamesDoneQuick Livestreams" />
+<link rel="canonical" href="http://gdqstat.us/previous-events/sgdq-2016/bower_components/CSV-JS/" />
+<meta property="og:url" content="http://gdqstat.us/previous-events/sgdq-2016/bower_components/CSV-JS/" />
+<meta property="og:site_name" content="GDQ Stats" />
+<script type="application/ld+json">
+{"name":null,"description":"Live Data Visualizations for GamesDoneQuick Livestreams","author":{"@type":"Person","name":"Benjamin Congdon"},"@type":"WebPage","url":"http://gdqstat.us/previous-events/sgdq-2016/bower_components/CSV-JS/","publisher":null,"image":null,"headline":"GDQ Stats","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link href="/assets/css/style.css?v=dc716ba46e1f82135e8eb3d176ed4564922e0c62" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      
+        <h1><a href="http://gdqstat.us/">GDQ Stats</a></h1>
+      
+
+      <p>#CSV-JS 
 A Comma-Separated Values parser for JavaScript</p>
 
 <hr />
@@ -20,22 +48,20 @@ A Comma-Separated Values parser for JavaScript</p>
 <h2 id="use">Use:</h2>
 <p>Simple:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    var rows = CSV.parse("one,two,three\n4,5,6")
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    var rows = CSV.parse("one,two,three\n4,5,6")
     // rows equals [["one","two","three"],[4,5,6]]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>jQuery AJAX suggestion:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$.get("csv.txt")
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$.get("csv.txt")
     .pipe( CSV.parse )
     .done( function(rows) {
        for( var i =0; i &lt; rows.length; i++){
            console.log(rows[i])
        }
  });
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="options">Options:</h2>
 
@@ -162,3 +188,15 @@ all copies or substantial portions of the Software.</p>
 
 <h2 id="author">Author:</h2>
 <p>Greg Kindel (twitter <a href="http://twitter.com/gkindel">@gkindel</a>), 2013</p>
+
+
+      
+      <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+        This site is open source. <a href="http://github.com/bcongdon/gdq-stats/edit/gh-pages/previous-events/sgdq-2016/bower_components/CSV-JS/README.md">Improve this page</a>.
+      </div>
+      
+    </div>
+    <script src="/assets/javascript/anchor-js/anchor.min.js"></script>
+    <script>anchors.add();</script>
+  </body>
+</html>

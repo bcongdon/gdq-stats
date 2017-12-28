@@ -1,4 +1,32 @@
-<h1 id="server-side-integration">Server-side integration</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.3.0 -->
+<title>Server-side integration | GDQ Stats</title>
+<meta property="og:title" content="Server-side integration" />
+<meta name="author" content="Benjamin Congdon" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Live Data Visualizations for GamesDoneQuick Livestreams" />
+<meta property="og:description" content="Live Data Visualizations for GamesDoneQuick Livestreams" />
+<link rel="canonical" href="http://gdqstat.us/previous-events/agdq-2017/bower_components/js-cookie/SERVER_SIDE.html" />
+<meta property="og:url" content="http://gdqstat.us/previous-events/agdq-2017/bower_components/js-cookie/SERVER_SIDE.html" />
+<meta property="og:site_name" content="GDQ Stats" />
+<script type="application/ld+json">
+{"name":null,"description":"Live Data Visualizations for GamesDoneQuick Livestreams","author":{"@type":"Person","name":"Benjamin Congdon"},"@type":"WebPage","url":"http://gdqstat.us/previous-events/agdq-2017/bower_components/js-cookie/SERVER_SIDE.html","publisher":null,"image":null,"headline":"Server-side integration","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link href="/assets/css/style.css?v=dc716ba46e1f82135e8eb3d176ed4564922e0c62" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      
+        <h1><a href="http://gdqstat.us/">GDQ Stats</a></h1>
+      
+
+      <h1 id="server-side-integration">Server-side integration</h1>
 
 <p>There are some servers that are not compliant with the <a href="http://tools.ietf.org/html/rfc6265">RFC 6265</a>. For those, some characters that are not encoded by JavaScript Cookie might be treated differently.</p>
 
@@ -21,15 +49,14 @@
 
 <p><strong>In PHP</strong>, use <code class="highlighter-rouge">setrawcookie()</code> instead of <code class="highlighter-rouge">setcookie()</code>:</p>
 
-<div class="language-php highlighter-rouge"><pre class="highlight"><code>setrawcookie($name, rawurlencode($value));
-</code></pre>
-</div>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">setrawcookie</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nb">rawurlencode</span><span class="p">(</span><span class="nv">$value</span><span class="p">));</span>
+</code></pre></div></div>
 
 <p><strong>In JavaScript</strong>, use a custom converter.</p>
 
 <p><strong>Example</strong>:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">PHPCookies</span> <span class="o">=</span> <span class="nx">Cookies</span><span class="p">.</span><span class="nx">withConverter</span><span class="p">({</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">PHPCookies</span> <span class="o">=</span> <span class="nx">Cookies</span><span class="p">.</span><span class="nx">withConverter</span><span class="p">({</span>
     <span class="na">write</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// Encode all characters according to the "encodeURIComponent" spec</span>
         <span class="k">return</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
@@ -46,8 +73,7 @@
             <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">(</span><span class="sr">%</span><span class="se">[</span><span class="sr">0-9A-Z</span><span class="se">]{2})</span><span class="sr">+/g</span><span class="p">,</span> <span class="nb">decodeURIComponent</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Rack seems to have <a href="https://github.com/js-cookie/js-cookie/issues/70#issuecomment-132503017">a similar problem</a>.</p>
 
@@ -59,7 +85,7 @@
 
 <p><strong>Example</strong>:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">TomcatCookies</span> <span class="o">=</span> <span class="nx">Cookies</span><span class="p">.</span><span class="nx">withConverter</span><span class="p">({</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">TomcatCookies</span> <span class="o">=</span> <span class="nx">Cookies</span><span class="p">.</span><span class="nx">withConverter</span><span class="p">({</span>
   <span class="na">write</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
       <span class="c1">// Encode all characters according to the "encodeURIComponent" spec</span>
       <span class="k">return</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
@@ -70,18 +96,16 @@
           <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">[\(\)]</span><span class="sr">/g</span><span class="p">,</span> <span class="nx">escape</span><span class="p">);</span>
   <span class="p">}</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="version--8015">Version &gt;= 8.0.15</h3>
 
 <p>Since Tomcat 8.0.15, it is possible to configure RFC 6265 compliance by changing your <code class="highlighter-rouge">conf/context.xml</code> file and adding the new <a href="https://tomcat.apache.org/tomcat-8.0-doc/config/cookie-processor.html">CookieProcessor</a> nested inside the Context element. It would be like this:</p>
 
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;Context&gt;</span>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Context&gt;</span>
   <span class="nt">&lt;CookieProcessor</span> <span class="na">className=</span><span class="s">"org.apache.tomcat.util.http.Rfc6265CookieProcessor"</span><span class="nt">/&gt;</span>
 <span class="nt">&lt;/context&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>And you’re all done.</p>
 
 <p>Alternatively, you can check the <a href="https://github.com/js-cookie/java-cookie">Java Cookie</a> project, which integrates nicely with JavaScript Cookie.</p>
@@ -92,7 +116,7 @@
 
 <p><strong>Example</strong>:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">JBossCookies</span> <span class="o">=</span> <span class="nx">Cookies</span><span class="p">.</span><span class="nx">withConverter</span><span class="p">({</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">JBossCookies</span> <span class="o">=</span> <span class="nx">Cookies</span><span class="p">.</span><span class="nx">withConverter</span><span class="p">({</span>
     <span class="na">write</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// Encode all characters according to the "encodeURIComponent" spec</span>
         <span class="k">return</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
@@ -103,7 +127,18 @@
             <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">[\[\]]</span><span class="sr">/g</span><span class="p">,</span> <span class="nb">encodeURIComponent</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Alternatively, you can check the <a href="https://github.com/js-cookie/java-cookie">Java Cookie</a> project, which integrates nicely with JavaScript Cookie.</p>
+
+
+      
+      <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+        This site is open source. <a href="http://github.com/bcongdon/gdq-stats/edit/gh-pages/previous-events/agdq-2017/bower_components/js-cookie/SERVER_SIDE.md">Improve this page</a>.
+      </div>
+      
+    </div>
+    <script src="/assets/javascript/anchor-js/anchor.min.js"></script>
+    <script>anchors.add();</script>
+  </body>
+</html>

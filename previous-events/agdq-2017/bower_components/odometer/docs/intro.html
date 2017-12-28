@@ -1,4 +1,32 @@
-<h1 id="odometer">Odometer</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.3.0 -->
+<title>Odometer | GDQ Stats</title>
+<meta property="og:title" content="Odometer" />
+<meta name="author" content="Benjamin Congdon" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Live Data Visualizations for GamesDoneQuick Livestreams" />
+<meta property="og:description" content="Live Data Visualizations for GamesDoneQuick Livestreams" />
+<link rel="canonical" href="http://gdqstat.us/previous-events/agdq-2017/bower_components/odometer/docs/intro.html" />
+<meta property="og:url" content="http://gdqstat.us/previous-events/agdq-2017/bower_components/odometer/docs/intro.html" />
+<meta property="og:site_name" content="GDQ Stats" />
+<script type="application/ld+json">
+{"name":null,"description":"Live Data Visualizations for GamesDoneQuick Livestreams","author":{"@type":"Person","name":"Benjamin Congdon"},"@type":"WebPage","url":"http://gdqstat.us/previous-events/agdq-2017/bower_components/odometer/docs/intro.html","publisher":null,"image":null,"headline":"Odometer","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link href="/assets/css/style.css?v=dc716ba46e1f82135e8eb3d176ed4564922e0c62" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      
+        <h1><a href="http://gdqstat.us/">GDQ Stats</a></h1>
+      
+
+      <h1 id="odometer">Odometer</h1>
 
 <style>
 .odometer-github-stars {
@@ -115,7 +143,7 @@ the <code class="highlighter-rouge">odometer</code> element, will work just fine
 
 <p>You can set options by creating a <code class="highlighter-rouge">odometerOptions</code> object:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nb">window</span><span class="p">.</span><span class="nx">odometerOptions</span> <span class="o">=</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">window</span><span class="p">.</span><span class="nx">odometerOptions</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">auto</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="c1">// Don't automatically initialize everything with class 'odometer'</span>
   <span class="na">selector</span><span class="p">:</span> <span class="s1">'.my-numbers'</span><span class="p">,</span> <span class="c1">// Change the selector used to automatically find things to be animated</span>
   <span class="na">format</span><span class="p">:</span> <span class="s1">'(,ddd).dd'</span><span class="p">,</span> <span class="c1">// Change how digit groups are formatted, and how many digits are shown after the decimal point</span>
@@ -124,12 +152,11 @@ the <code class="highlighter-rouge">odometer</code> element, will work just fine
   <span class="na">animation</span><span class="p">:</span> <span class="s1">'count'</span> <span class="c1">// Count is a simpler animation method which just increments the value,</span>
                      <span class="c1">// use it when you're looking for something more subtle.</span>
 <span class="p">};</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can manually initialize an odometer with the global <code class="highlighter-rouge">Odometer</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'.some-element'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'.some-element'</span><span class="p">);</span>
 
 <span class="nx">od</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Odometer</span><span class="p">({</span>
   <span class="na">el</span><span class="p">:</span> <span class="nx">el</span><span class="p">,</span>
@@ -143,22 +170,20 @@ the <code class="highlighter-rouge">odometer</code> element, will work just fine
 <span class="nx">od</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="mi">555</span><span class="p">)</span>
 <span class="c1">// or</span>
 <span class="nx">el</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="mi">555</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="format">Format</h2>
 
 <p>The format option allows you to configure how the digit groups are formatted,
 and how many digits are shown after the decimal point.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Format    -  Example
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Format    -  Example
 (,ddd)    -  12,345,678
 (,ddd).dd -  12,345,678.09
 (.ddd),dd -  12.345.678,09
 ( ddd),dd -  12 345 678,09
 d         -  12345678
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="browser-support">Browser Support</h2>
 
@@ -173,19 +198,28 @@ d         -  12345678
 <p>Odometer is built using Grunt.  To setup the build environment you first
 must have Node.js installed.  Then:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># In the project directory</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># In the project directory</span>
 npm install
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To build the project:</p>
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>grunt
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>grunt
+</code></pre></div></div>
 
 <p>To have it watch for changes and build automatically:</p>
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>grunt watch
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>grunt watch
+</code></pre></div></div>
 
 <p>We welcome pull requests!</p>
+
+
+      
+      <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+        This site is open source. <a href="http://github.com/bcongdon/gdq-stats/edit/gh-pages/previous-events/agdq-2017/bower_components/odometer/docs/intro.md">Improve this page</a>.
+      </div>
+      
+    </div>
+    <script src="/assets/javascript/anchor-js/anchor.min.js"></script>
+    <script>anchors.add();</script>
+  </body>
+</html>

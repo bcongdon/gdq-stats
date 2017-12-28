@@ -1,4 +1,32 @@
-<h1 id="jquery">jQuery</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.3.0 -->
+<title>jQuery | GDQ Stats</title>
+<meta property="og:title" content="jQuery" />
+<meta name="author" content="Benjamin Congdon" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Live Data Visualizations for GamesDoneQuick Livestreams" />
+<meta property="og:description" content="Live Data Visualizations for GamesDoneQuick Livestreams" />
+<link rel="canonical" href="http://gdqstat.us/previous-events/sgdq-2016/bower_components/jquery/" />
+<meta property="og:url" content="http://gdqstat.us/previous-events/sgdq-2016/bower_components/jquery/" />
+<meta property="og:site_name" content="GDQ Stats" />
+<script type="application/ld+json">
+{"name":null,"description":"Live Data Visualizations for GamesDoneQuick Livestreams","author":{"@type":"Person","name":"Benjamin Congdon"},"@type":"WebPage","url":"http://gdqstat.us/previous-events/sgdq-2016/bower_components/jquery/","publisher":null,"image":null,"headline":"jQuery","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link href="/assets/css/style.css?v=dc716ba46e1f82135e8eb3d176ed4564922e0c62" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      
+        <h1><a href="http://gdqstat.us/">GDQ Stats</a></h1>
+      
+
+      <h1 id="jquery">jQuery</h1>
 
 <blockquote>
   <p>jQuery is a fast, small, and feature-rich JavaScript library.</p>
@@ -15,47 +43,42 @@ For source files and issues, please visit the <a href="https://github.com/jquery
 
 <h4 id="script-tag">Script tag</h4>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://code.jquery.com/jquery-2.2.0.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-</code></pre>
-</div>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://code.jquery.com/jquery-2.2.0.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div></div>
 
 <h4 id="babel">Babel</h4>
 
 <p><a href="http://babeljs.io/">Babel</a> is a next generation JavaScript compiler. One of the features is the ability to use ES6/ES2015 modules now, even though browsers do not yet support this feature natively.</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="nx">$</span> <span class="nx">from</span> <span class="s2">"jquery"</span><span class="p">;</span>
-</code></pre>
-</div>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">$</span> <span class="k">from</span> <span class="s2">"jquery"</span><span class="p">;</span>
+</code></pre></div></div>
 
 <h4 id="browserifywebpack">Browserify/Webpack</h4>
 
 <p>There are several ways to use <a href="http://browserify.org/">Browserify</a> and <a href="https://webpack.github.io/">Webpack</a>. For more information on using these tools, please refer to the corresponding project’s documention. In the script, including jQuery will usually look like this…</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">$</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"jquery"</span><span class="p">);</span>
-</code></pre>
-</div>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">$</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"jquery"</span><span class="p">);</span>
+</code></pre></div></div>
 
 <h4 id="amd-asynchronous-module-definition">AMD (Asynchronous Module Definition)</h4>
 
 <p>AMD is a module format built for the browser. For more information, we recommend <a href="http://requirejs.org/docs/whyamd.html">require.js’ documentation</a>.</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">define</span><span class="p">([</span><span class="s2">"jquery"</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">define</span><span class="p">([</span><span class="s2">"jquery"</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
 
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="node">Node</h3>
 
 <p>To include jQuery in <a href="nodejs.org">Node</a>, first install with npm.</p>
 
-<div class="language-sh highlighter-rouge"><pre class="highlight"><code>npm install jquery
-</code></pre>
-</div>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install jquery
+</code></pre></div></div>
 
 <p>For jQuery to work in Node, a window with a document is required. Since no such window exists natively in Node, one can be mocked by tools such as <a href="https://github.com/tmpvar/jsdom">jsdom</a>. This can be useful for testing purposes.</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">require</span><span class="p">(</span><span class="s2">"jsdom"</span><span class="p">).</span><span class="nx">env</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nb">window</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">require</span><span class="p">(</span><span class="s2">"jsdom"</span><span class="p">).</span><span class="nx">env</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nb">window</span><span class="p">)</span> <span class="p">{</span>
 	<span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
 		<span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
 		<span class="k">return</span><span class="p">;</span>
@@ -63,5 +86,16 @@ For source files and issues, please visit the <a href="https://github.com/jquery
 
 	<span class="kd">var</span> <span class="nx">$</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"jquery"</span><span class="p">)(</span><span class="nb">window</span><span class="p">);</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
+
+
+      
+      <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+        This site is open source. <a href="http://github.com/bcongdon/gdq-stats/edit/gh-pages/previous-events/sgdq-2016/bower_components/jquery/README.md">Improve this page</a>.
+      </div>
+      
+    </div>
+    <script src="/assets/javascript/anchor-js/anchor.min.js"></script>
+    <script>anchors.add();</script>
+  </body>
+</html>
