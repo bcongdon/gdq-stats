@@ -14,25 +14,28 @@ current_event: Awesome Games Done Quick
 current_event_short_hand: AGDQ
 current_event_year: 2018
 
+# Set to "true" to disable home page and switch to flipclock as homepage
+countdown_enabled: false
+
+# The time that the flipclock counts down to
+event_start: "2018-01-07T08:30:00.00-08:00"
+
 # Build settings
 markdown: kramdown
 
 # Exclude
 exclude: [
   animals.html,
-  bower.json,
   gdq-stats.sublime-project,
   gdq-stats.sublime-workspace,
   Gemfile,
   Gemfile.lock,
   LICENSE,
   node_modules,
-  other_graphs.html,
   package-lock.js,
   package.json,
   Rakefile,
   README.md,
-  vendor,
   js,
   webpack-stats.json,
   webpack.config.js,
@@ -40,7 +43,6 @@ exclude: [
   donations.html,
   games.html,
   graph.html,
-  main.html
 ]
 
 previous_events:
