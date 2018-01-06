@@ -237,7 +237,7 @@ class GraphContainer extends React.Component {
                       schedule={this.props.schedule}
                       format={tooltipFormat}
                       secondaryFormat={tooltipFormatSecondary} />
-                    }
+                  }
                   animationDuration={250} />
                 <XAxis
                   dataKey='time'

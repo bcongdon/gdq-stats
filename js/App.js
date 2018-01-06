@@ -9,6 +9,7 @@ import { fetchInitialTimeseries,
   fetchRecentTimeseries } from './actions'
 import moment from 'moment'
 import Visibility from 'visibilityjs'
+import { OFFLINE_MODE } from './constants'
 
 class App extends React.PureComponent {
   static propTypes = {
@@ -22,10 +23,13 @@ class App extends React.PureComponent {
     this.props.fetchSchedule()
 
     // Refresh every minute when page is active, every 5 minutes when not active
-    // const minute = 60 * 1000
-    // Visibility.every(minute, 5 * minute, () => {
-    //   this.props.fetchRecentTimeseries(moment().subtract(1, 'hours').toDate())
-    // })
+    // Only set timeseries to refresh when we're not in offline mode
+    if (!OFFLINE_MODE) {
+      const minute = 60 * 1000
+      Visibility.every(minute, 5 * minute, () => {
+        this.props.fetchRecentTimeseries(moment().subtract(1, 'hours').toDate())
+      })
+    }
   }
 
   render () {

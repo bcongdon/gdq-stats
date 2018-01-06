@@ -11,15 +11,18 @@ import { INITIAL_TIMESERIES,
   TOGGLE_NOTIFICATION_GAME,
   NOTIFY_GAME } from '../actions/types'
 import { gameForId } from '../utils'
-import { GDQ_API_ENDPOINT, GDQ_STORAGE_ENDPOINT } from '../constants'
+import { GDQ_API_ENDPOINT, GDQ_STORAGE_ENDPOINT, OFFLINE_MODE } from '../constants'
 
 export const fetchInitialTimeseries = () => (dispatch) =>
   axios.get(GDQ_STORAGE_ENDPOINT + '/latest.json')
     .then(response => {
       dispatch({ type: INITIAL_TIMESERIES, payload: response.data })
       const maxTime = moment(response.data[response.data.length - 1].time).toDate()
-      // TODO: Re-enable this
-      // fetchRecentTimeseries(maxTime)(dispatch)
+
+      // Determines whether we fetch recent results from API endpoint
+      if (!OFFLINE_MODE) {
+        fetchRecentTimeseries(maxTime)(dispatch)
+      }
     })
 
 export const fetchRecentTimeseries = (since) => (dispatch) =>

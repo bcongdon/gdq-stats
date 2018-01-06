@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import axios from 'axios'
 import { GDQ_STORAGE_ENDPOINT,
   PRIMARY_COLOR } from './constants'
-import { BarChart, 
+import { BarChart,
   Bar,
   Tooltip,
   ResponsiveContainer,

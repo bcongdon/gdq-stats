@@ -9,6 +9,8 @@ import moment from 'moment'
 import Grid from 'react-bootstrap/lib/Grid'
 import Col from 'react-bootstrap/lib/Col'
 import ReturnHome from './components/ReturnHome'
+import Visibility from 'visibilityjs'
+import { OFFLINE_MODE } from './constants'
 
 class App extends React.PureComponent {
   static propTypes = {
@@ -21,7 +23,14 @@ class App extends React.PureComponent {
     this.props.fetchInitialTimeseries()
     this.props.fetchSchedule()
 
-    // setInterval(() => this.props.fetchRecentTimeseries(moment().subtract(1, 'hours').toDate()), 60 * 1000)
+    // Refresh every minute when page is active, every 5 minutes when not active
+    // Only set timeseries to refresh when we're not in offline mode
+    if (!OFFLINE_MODE) {
+      const minute = 60 * 1000
+      Visibility.every(minute, minute, () => {
+        this.props.fetchRecentTimeseries(moment().subtract(1, 'hours').toDate())
+      })
+    }
   }
 
   render () {
