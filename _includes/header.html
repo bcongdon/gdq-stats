@@ -8,7 +8,17 @@
 <!-- Bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
 
-<link rel="stylesheet" type="text/css" href="/css/main.css">
+<!-- Inline CSS -->
+{% capture include_to_scssify %}
+    {% include _scss/config.scss %}
+    {% include _scss/bootstrap-extension.scss %}
+    {% include _scss/rechartsLabels.scss %}
+    {% include _scss/layout.scss %}
+{% endcapture %}
+
+<style type="text/css">
+    {{ include_to_scssify | scssify }}
+</style>
 
 <!-- meta tags -->
 <meta http-equiv="x-ua-compatible" content="ie=edge">

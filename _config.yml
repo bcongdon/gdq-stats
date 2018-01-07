@@ -8,7 +8,7 @@ url: "http://gdqstat.us" # the base hostname & protocol for your site
 repository: bcongdon/gdq-stats
 
 sass:
-  sass_dir: _scss
+  style: compressed
 
 current_event: Awesome Games Done Quick
 current_event_short_hand: AGDQ

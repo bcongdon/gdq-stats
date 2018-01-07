@@ -5,6 +5,16 @@
   {% include google_analytics.html %}
   {% include header.html %}
 
+  <!-- Inline CSS -->
+  {% capture include_to_scssify %}
+      {% include _scss/config.scss %}
+      {% include _scss/flipclock.scss %}
+  {% endcapture %}
+
+  <style type="text/css">
+      {{ include_to_scssify | scssify }}
+  </style>
+
   <link rel="stylesheet" type="text/css" href="/css/main.css">
   <link rel="stylesheet" type="text/css" href="/css/flipclock.css">
 </head>
