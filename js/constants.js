@@ -2,7 +2,7 @@ export const GDQ_API_ENDPOINT = 'https://api.gdqstat.us'
 
 export const OFFLINE_MODE = false
 
-const LIVE_STORAGE_ENDPOINT = 'http://storage.api.gdqstat.us'
+const LIVE_STORAGE_ENDPOINT = 'https://storage.api.gdqstat.us'
 
 // TODO: Update this to most recent event
 const OFFLINE_STORAGE_ENDPOINT = '/data/2018/agdq_final'
