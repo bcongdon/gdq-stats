@@ -8,7 +8,6 @@ const LIVE_STORAGE_ENDPOINT = 'http://storage.api.gdqstat.us'
 const OFFLINE_STORAGE_ENDPOINT = '/data/2018/agdq_final'
 
 export const GDQ_STORAGE_ENDPOINT = OFFLINE_MODE ? OFFLINE_STORAGE_ENDPOINT : LIVE_STORAGE_ENDPOINT
-console.log(GDQ_STORAGE_ENDPOINT)
 
 export const SECONDARY_COLOR = '#F21847'
 export const PRIMARY_COLOR = '#00AEEF'
