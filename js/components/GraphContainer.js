@@ -83,14 +83,22 @@ class GraphContainer extends React.Component {
     const derive = (acc, val, idx) => {
       // Get most recent value
       let mostRecentVal = 0
+      let mostRecentIdx = -1
       for (let i = acc.length - 1; i >= 0; i--) {
         if (acc[i][baseKey]) {
           mostRecentVal = acc[i][baseKey]
+          mostRecentIdx = i
           break
         }
       }
-      // Force initial value to be 0
-      const newVal = val[baseKey] - mostRecentVal
+
+      // Estimate derived slope over window (if missing data)
+      const newVal = (val[baseKey] - mostRecentVal) / (acc.length - mostRecentIdx)
+      // Backfill data points that are missing data
+      for(let i = mostRecentIdx + 1; i < acc.length; i++) {
+        acc[i][key] = newVal
+      }
+      // Set the value of the new datapoint and append it
       val[key] = newVal
       acc.push({...val})
       return acc
