@@ -25,7 +25,6 @@ markdown: kramdown
 
 # Exclude
 exclude: [
-  animals.html,
   gdq-stats.sublime-project,
   gdq-stats.sublime-workspace,
   Gemfile,
@@ -39,10 +38,11 @@ exclude: [
   js,
   webpack-stats.json,
   webpack.config.js,
-  chat_stats.html,
-  donations.html,
-  games.html,
-  graph.html,
+  animals.html,
+  # chat_stats.html,
+  # donations.html,
+  # games.html,
+  # graph.html,
 ]
 
 previous_events:
