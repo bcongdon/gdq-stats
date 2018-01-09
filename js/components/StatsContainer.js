@@ -4,6 +4,7 @@ import { PropTypes } from 'prop-types'
 import { connect } from 'react-redux'
 import Grid from 'react-bootstrap/lib/Grid'
 import Col from 'react-bootstrap/lib/Col'
+import { DONATION_TRACKER_URL } from '../constants'
 
 const STATS = [
   {
@@ -97,7 +98,7 @@ class StatsContainer extends React.PureComponent {
         <Grid className='current_stats content'>{stats}</Grid>
         <Grid className='gdq-links'>
           <Col xs={12} sm={4}><a href='https://www.twitch.tv/gamesdonequick'>Livestream</a></Col>
-          <Col xs={12} sm={4}><a href='https://gamesdonequick.com/tracker/index/sgdq2017'>Donation Tracker</a></Col>
+          <Col xs={12} sm={4}><a href={DONATION_TRACKER_URL}>Donation Tracker</a></Col>
           <Col xs={12} sm={4}><a href='https://gamesdonequick.com/schedule'>Schedule</a></Col>
         </Grid>
       </div>

@@ -9,6 +9,8 @@ const OFFLINE_STORAGE_ENDPOINT = '/data/2018/agdq_final'
 
 export const GDQ_STORAGE_ENDPOINT = OFFLINE_MODE ? OFFLINE_STORAGE_ENDPOINT : LIVE_STORAGE_ENDPOINT
 
+export const DONATION_TRACKER_URL = 'https://gamesdonequick.com/tracker/index/agdq2018'
+
 export const SECONDARY_COLOR = '#F21847'
 export const PRIMARY_COLOR = '#00AEEF'
 export const PANEL_BACKGROUND_COLOR = '#EEEEEE'
