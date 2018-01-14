@@ -4,12 +4,11 @@ import { PropTypes } from 'prop-types'
 import { connect } from 'react-redux'
 import Grid from 'react-bootstrap/lib/Grid'
 import Col from 'react-bootstrap/lib/Col'
-import { DONATION_TRACKER_URL } from '../constants'
+import { DONATION_TRACKER_URL, OFFLINE_MODE } from '../constants'
 
 const STATS = [
   {
-    // title: 'Viewers',
-    title: 'Max Viewers',
+    title: OFFLINE_MODE ? 'Max Viewers' : 'Viewers',
     emoji: '📺',
     key: 'viewers'
   },
@@ -68,9 +67,16 @@ class StatsContainer extends React.PureComponent {
 
   getValues () {
     const accumulated = this.accumulateStats()
+
+    let viewers = this.getLatestData(this.props.timeseries, 'v')
+
+    // Display max viewers if in online mode
+    if (OFFLINE_MODE) {
+      viewers = this.props.timeseries.reduce((prev, curr) => (prev > curr.v ? prev : curr.v), 0)
+    }
+
     const values = {
-      // viewers: this.getLatestData(this.props.timeseries, 'v'),
-      viewers: this.props.timeseries.reduce((prev, curr) => (prev > curr.v ? prev : curr.v), 0),
+      viewers: viewers,
       donations: this.getLatestData(this.props.timeseries, 'm'),
       donors: this.getLatestData(this.props.timeseries, 'd'),
       chats: accumulated.c,
