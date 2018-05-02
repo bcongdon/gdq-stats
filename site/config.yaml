@@ -18,9 +18,12 @@ params:
   countdown_enabled: false
 
   # The time that the flipclock counts down to
-  event_start: "2018-01-07T08:30:00.00-08:00"
+  event_start: "2018-06-24T08:30:00.00-08:00"
 
   previous_events:
+    - name: AGDQ
+      year: 2018
+
     - name: SGDQ
       year: 2017
 

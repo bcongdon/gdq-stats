@@ -39,7 +39,7 @@
           <ul>
             {{ range $i, $previous_event := .Site.Params.previous_events }}
               <li>
-                <a style="font-weight:400;" href="/previous-events/{{ lower $previous_event.name }}-{{ $previous_event }}">{{ $previous_event.name }} {{ $previous_event.year }}</a>
+                <a style="font-weight:400;" href="/previous-events/{{ lower $previous_event.name }}-{{ $previous_event.year }}">{{ $previous_event.name }} {{ $previous_event.year }}</a>
               </li>
             {{ end }}
           </ul>

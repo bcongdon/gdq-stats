@@ -47,7 +47,7 @@
         <div class="center-block previous-events">
         {{ range $i, $previous_event := .Site.Params.previous_events }}
           <div class="col-xs-6 col-sm-4">
-            <a style="font-weight:400;" href="/previous-events/{{ lower $previous_event.name }}-{{ $previous_event }}">{{ $previous_event.name }} {{ $previous_event.year }}</a>
+            <a style="font-weight:400;" href="/previous-events/{{ lower $previous_event.name }}-{{ $previous_event.year }}">{{ $previous_event.name }} {{ $previous_event.year }}</a>
           </div>
         {{ end }}
         </div>
