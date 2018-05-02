@@ -7,7 +7,7 @@ author: Benjamin Congdon
 languageCode: "en-us"
 languageLang: "en"
 
-# disableKinds: ["RSS", "taxonomy", "taxonomyTerm"]
+disableKinds: ["RSS", "taxonomy", "taxonomyTerm"]
 
 params:
   current_event: Awesome Games Done Quick

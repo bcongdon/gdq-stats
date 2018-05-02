@@ -4,16 +4,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
 
-  {% include favicon.html %}
-  {% if jekyll.environment == "production" %}
-    {% include google_analytics.html %}
-  {% endif %}
-  {% include header.html %}
+  {{ partial "favicon.html" . }}
+  {{ if eq (getenv "NODE_ENV") "production" }}
+    {{ partial "google_analytics.html" . }}
+  {{ end }}
+  {{ partial "header.html" . }}
 
 </head>
 <body>
   <div class="container">
-    <a class='gdq-event-header' href="/">{{ site.current_event }}</a><span class='gdq-year-header'>{{ site.current_event_year }} Stats</span>
+    <a class='gdq-event-header' href="/">{{ $.Site.Params.current_event }}</a><span class='gdq-year-header'>{{ $.Site.Params.current_event_year }} Stats</span>
 
     <div id="react-root"></div>
 
@@ -21,7 +21,7 @@
       <h2>More from GDQStatus</h2>
       <div class="content container">
         <div class="col-sm-6 col-xs-12 column info-section">
-          <h3>Additional Stats for {{ site.current_event_short_hand }} {{ site.current_event_year }}</h3>
+          <h3>Additional Stats for {{ $.Site.Params.current_event_short_hand }} {{ $.Site.Params.current_event_year }}</h3>
           <ul>
             <li>
               <a style="font-weight:400;" href="chat_stats">Twitch Chat Stats</a>
@@ -37,11 +37,11 @@
         <div class="col-sm-6 col-xs-12 column info-section">
           <h3>Previous Events</h3>
           <ul>
-            {% for previous_event in site.previous_events %}
+            {{ range $i, $previous_event := .Site.Params.previous_events }}
               <li>
-                <a style="font-weight:400;" href="/previous-events/{{ previous_event.name | downcase }}-{{ previous_event.year }}">{{ previous_event.name }} {{ previous_event.year }}</a>
+                <a style="font-weight:400;" href="/previous-events/{{ lower $previous_event.name }}-{{ $previous_event }}">{{ $previous_event.name }} {{ $previous_event.year }}</a>
               </li>
-            {% endfor %}
+            {{ end }}
           </ul>
         </div>
       </div>
@@ -70,7 +70,7 @@
         </div>
       </div>
     </div>
-    {% include footer.html %}
+    {{ partial "footer.html" . }}
   </div>
-  <script type="text/javascript" src="dist/index.bundle.js"></script>
+  <script type="text/javascript" src="index.bundle.js"></script>
 </body>

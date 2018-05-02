@@ -61,12 +61,11 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.1.0",
     "eslint-plugin-standard": "^3.0.1",
+    "gulp": "^3.9.1",
     "gulp-flatten": "^0.4.0",
     "gulp-postcss": "^7.0.1",
     "gulp-sass": "^4.0.1",
     "hugo-bin": "^0.27.0",
-    "postcss-cssnext": "^3.1.0",
-    "postcss-import": "^11.1.0",
     "style-loader": "^0.18.2",
     "webpack": "^3.11.0"
   }
