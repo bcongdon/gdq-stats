@@ -1,0 +1,34 @@
+baseURL: "/"
+URL: "http://gdqstat.us"
+title: GDQ Stats
+
+author: Benjamin Congdon
+
+languageCode: "en-us"
+languageLang: "en"
+
+# disableKinds: ["RSS", "taxonomy", "taxonomyTerm"]
+
+params:
+  current_event: Awesome Games Done Quick
+  current_event_short_hand: AGDQ
+  current_event_year: 2018
+
+  # Set to "true" to disable home page and switch to flipclock as homepage
+  countdown_enabled: false
+
+  # The time that the flipclock counts down to
+  event_start: "2018-01-07T08:30:00.00-08:00"
+
+  previous_events:
+    - name: SGDQ
+      year: 2017
+
+    - name: AGDQ
+      year: 2017
+
+    - name: SGDQ
+      year: 2016
+
+  description: >
+    Live Data Visualizations for GamesDoneQuick Livestreams

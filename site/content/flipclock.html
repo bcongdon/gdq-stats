@@ -1,28 +1,18 @@
 <!DOCTYPE html>
 <head>
 
-  {% include favicon.html %}
+  {{ partial "favicon.html" . }}
   {% include google_analytics.html %}
-  {% include header.html %}
+  {{ partial "header.html" . }}
 
-  <!-- Inline CSS -->
-  {% capture include_to_scssify %}
-      {% include _scss/config.scss %}
-      {% include _scss/flipclock.scss %}
-  {% endcapture %}
-
-  <style type="text/css">
-      {{ include_to_scssify | scssify }}
-  </style>
-
-  <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <link rel="stylesheet" type="text/css" href="/css/layout.css">
   <link rel="stylesheet" type="text/css" href="/css/flipclock.css">
 </head>
 <body>
   <div class="container">
-    <a class='gdq-event-header' href="/">{{ site.current_event }}</a><span class='gdq-year-header'>{{ site.current_event_year }} Countdown</span>
+    <a class='gdq-event-header' href="/">{{ .Site.Params.current_event }}</a><span class='gdq-year-header'>{{ .Site.Params.current_event_year }} Countdown</span>
     <div class="section" style="width: 100%">
-      <h2>{{ site.current_event_short_hand }} {{ site.current_event_year }} is Coming soon...</h2>
+      <h2>{{ .Site.Params.current_event_short_hand }} {{ .Site.Params.current_event_year }} is Coming soon...</h2>
       <div id="clockdiv" class="row">
         <div class="col-sm-3 col-xs-3">
           <div class="center-block number-container">
@@ -54,15 +44,15 @@
       <h2>Previous Events</h2>
       <div class="content container">
         <div class="center-block previous-events">
-        {% for previous_event in site.previous_events %}
+        {{ range $i, $previous_event := .Site.Params.previous_events }}
           <div class="col-xs-6 col-sm-4">
-            <a style="font-weight:400;" href="/previous-events/{{ previous_event.name | downcase }}-{{ previous_event.year }}">{{ previous_event.name }} {{ previous_event.year }}</a>
+            <a style="font-weight:400;" href="/previous-events/{{ lower $previous_event.name }}-{{ $previous_event }}">{{ $previous_event.name }} {{ $previous_event.year }}</a>
           </div>
-        {% endfor %}
+        {{ end }}
         </div>
       </div>
     </div>
-    {% include footer.html %}
+    {{ partial "footer.html" . }}
   </div>
   <script type="text/javascript">
     function getTimeRemaining(endtime) {
@@ -103,7 +93,7 @@
       updateClock();
       var timeinterval = setInterval(updateClock, 1000);
     }
-    var deadline = new Date("{{ site.event_start }}");
+    var deadline = new Date("{{ .Site.Params.event_start }}");
     initializeClock('clockdiv', deadline);
   </script>
 </body>

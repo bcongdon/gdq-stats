@@ -1,6 +1,6 @@
 var path = require('path');
 const webpack = require('webpack');
-var APP_DIR = path.resolve(__dirname, 'js');
+var APP_DIR = path.resolve(__dirname, 'src', 'js');
 
 module.exports = {
   entry: {
