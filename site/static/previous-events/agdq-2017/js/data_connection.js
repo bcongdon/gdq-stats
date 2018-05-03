@@ -1,7 +1,7 @@
 'use strict'
 const GDQ_API_ENDPOINT = 'https://api.gdqstat.us'
 // const GDQ_STORAGE_ENDPOINT = 'http://storage.api.gdqstat.us'
-const GDQ_STORAGE_ENDPOINT = 'data/2017/agdq_final'
+const GDQ_STORAGE_ENDPOINT = '/data/2017/agdq_final'
 
 var DBConnection = {
   timeseries: undefined,
