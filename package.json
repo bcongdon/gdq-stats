@@ -67,6 +67,6 @@
     "gulp-sass": "^4.0.1",
     "hugo-bin": "^0.27.0",
     "style-loader": "^0.18.2",
-    "webpack": "^3.11.0"
+    "webpack": "^4.6.0"
   }
 }

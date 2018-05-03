@@ -1,6 +1,7 @@
 var path = require('path');
 const webpack = require('webpack');
 var APP_DIR = path.resolve(__dirname, 'src', 'js');
+var DIST_DIR = path.resolve(__dirname, 'dist');
 
 module.exports = {
   entry: {
@@ -12,11 +13,11 @@ module.exports = {
     games: APP_DIR + "/GamesApp.js"
   },
   output: {
-    filename: "./dist/[name].bundle.js",
-    chunkFilename: "./dist/[id].bundle.js"
+    filename: "[name].bundle.js",
+    path: DIST_DIR
   },
   module: {
-    loaders: [
+    rules: [
       {
         test : /\.js?/,
         include : APP_DIR,

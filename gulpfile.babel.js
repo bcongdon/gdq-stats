@@ -7,6 +7,7 @@ import BrowserSync from "browser-sync";
 import webpack from "webpack";
 import webpackConfig from "./webpack.config.js";
 import sass from "gulp-sass";
+import ProgressPlugin from 'webpack/lib/ProgressPlugin';
 
 const browserSync = BrowserSync.create();
 
@@ -19,7 +20,7 @@ gulp.task("hugo", (cb) => buildSite(cb));
 gulp.task("hugo-preview", (cb) => buildSite(cb, hugoArgsPreview));
 
 // Build/production tasks
-gulp.task("build", ["css", "js", "fonts"], (cb) => buildSite(cb, [], "production"));
+gulp.task("build", ["css", "js-prod", "fonts"], (cb) => buildSite(cb, [], "production"));
 gulp.task("build-preview", ["css", "js", "fonts"], (cb) => buildSite(cb, hugoArgsPreview, "production"));
 
 // Compile SCSS with gulp-sass
@@ -33,8 +34,31 @@ gulp.task("css", () => (
 // Compile Javascript
 gulp.task("js", (cb) => {
   const myConfig = Object.assign({}, webpackConfig);
+  myConfig.mode = 'development';
 
   webpack(myConfig, (err, stats) => {
+    if (err) throw new gutil.PluginError("webpack", err);
+    gutil.log("[webpack]", stats.toString({
+      colors: true,
+      progress: true
+    }));
+    browserSync.reload();
+    cb();
+  });
+});
+
+// Compile Javascript for production
+gulp.task("js-prod", (cb) => {
+  const myConfig = Object.assign({}, webpackConfig);
+  myConfig.mode = 'production';
+  myConfig.devtool = false;
+
+  var compiler = webpack(myConfig);
+  compiler.apply(new ProgressPlugin(function(percentage, msg) {
+    gutil.log("[webpack]", (percentage * 100) + '%', msg);
+  }));
+
+  compiler.run((err, stats) => {
     if (err) throw new gutil.PluginError("webpack", err);
     gutil.log("[webpack]", stats.toString({
       colors: true,
@@ -57,7 +81,10 @@ gulp.task('fonts', () => (
 gulp.task("server", ["hugo", "css", "js", "fonts"], () => {
   browserSync.init({
     server: {
-      baseDir: "./dist"
+      baseDir: "./dist",
+      serveStaticOptions: {
+          extensions: ["html"]
+      }
     }
   });
   gulp.watch("./src/js/**/*.js", ["js"]);
