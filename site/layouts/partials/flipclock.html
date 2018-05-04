@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+
+  {{ partial "favicon.html" . }}
+  {{ if eq (getenv "NODE_ENV") "production" }}
+    {{ partial "google_analytics.html" . }}
+  {{ end }}
+  {{ partial "header.html" . }}
+
+  <link rel="stylesheet" type="text/css" href="/css/flipclock.css">
+</head>
+<body>
+  <div class="container">
+    <a class='gdq-event-header' href="/">{{ .Site.Params.current_event }}</a><span class='gdq-year-header'>{{ .Site.Params.current_event_year }} Countdown</span>
+    <div class="section" style="width: 100%">
+      <h2>{{ .Site.Params.current_event_short_hand }} {{ .Site.Params.current_event_year }} is Coming soon...</h2>
+      <div id="clockdiv" class="row">
+        <div class="col-sm-3 col-xs-3">
+          <div class="center-block number-container">
+            <span class="clock-number days"></span>
+            <div class="clock-label smalltext">Days</div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-3">
+          <div class="center-block number-container">
+            <span class="clock-number hours"></span>
+            <div class="clock-label smalltext">Hours</div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-3">
+          <div class="center-block number-container">
+            <span class="clock-number minutes"></span>
+            <div class="clock-label smalltext">Minutes</div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-3">
+          <div class="center-block number-container">
+            <span class="clock-number seconds"></span>
+            <div class="clock-label smalltext">Seconds</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <h2>Previous Events</h2>
+      <div class="content container">
+        <div class="center-block previous-events">
+        {{ range $i, $previous_event := .Site.Params.previous_events }}
+          <div class="col-xs-6 col-sm-4">
+            <a style="font-weight:400;" href="/previous-events/{{ lower $previous_event.name }}-{{ $previous_event.year }}">{{ $previous_event.name }} {{ $previous_event.year }}</a>
+          </div>
+        {{ end }}
+        </div>
+      </div>
+    </div>
+    {{ partial "footer.html" . }}
+  </div>
+  <script type="text/javascript">
+    function getTimeRemaining(endtime) {
+      var t = Date.parse(endtime) - Date.parse(new Date());
+      var seconds = Math.floor((t / 1000) % 60);
+      var minutes = Math.floor((t / 1000 / 60) % 60);
+      var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+      var days = Math.floor(t / (1000 * 60 * 60 * 24));
+      return {
+        'total': t,
+        'days': days,
+        'hours': hours,
+        'minutes': minutes,
+        'seconds': seconds
+      };
+    }
+
+    function initializeClock(id, endtime) {
+      var clock = document.getElementById(id);
+      var daysSpan = clock.querySelector('.days');
+      var hoursSpan = clock.querySelector('.hours');
+      var minutesSpan = clock.querySelector('.minutes');
+      var secondsSpan = clock.querySelector('.seconds');
+
+      function updateClock() {
+        var t = getTimeRemaining(endtime);
+
+        daysSpan.innerHTML = ('0' + t.days).slice(-2);
+        hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+        minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+        secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+        if (t.total <= 0) {
+          clearInterval(timeinterval);
+        }
+      }
+
+      updateClock();
+      var timeinterval = setInterval(updateClock, 1000);
+    }
+    var deadline = new Date("{{ .Site.Params.event_start }}");
+    initializeClock('clockdiv', deadline);
+  </script>
+</body>

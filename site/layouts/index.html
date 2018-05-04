@@ -1,0 +1,5 @@
+{{ if $.Site.Params.countdown_enabled }}
+  {{ partial "flipclock.html" . }}
+{{ else }}
+  {{ partial "homepage.html" . }}
+{{ end }}

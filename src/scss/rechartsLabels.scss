@@ -1,0 +1,11 @@
+@import 'config';
+
+.recharts-label {
+    font-family: $stylized-font;
+    font-size: 14px;
+    fill: $light-font-strong-color;
+}
+
+.xAxis .recharts-label {
+    transform: translate(0px, -15px);
+}

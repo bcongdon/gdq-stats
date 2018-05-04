@@ -1,0 +1,16 @@
+@import 'config';
+
+.nav-pills>li>a {
+    border-radius: 0px;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    background-color: $primary-color;
+    color: $light-font-bold-color;
+}
+
+.nav {
+    a {
+        color: $light-font-color;
+    }
+}
