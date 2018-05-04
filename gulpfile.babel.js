@@ -16,16 +16,10 @@ const browserSync = BrowserSync.create();
 // Hugo arguments
 const hugoArgsDefault = ["-d", "./build", "-s", "site", "-v"];
 
-// Hugo tasks
-gulp.task("hugo", ["hugo-build", "hugo-sync"])
-gulp.task("hugo-prod", ["hugo-build-prod", "hugo-sync"]);
-
 // Build tasks
 gulp.task("hugo-build", (cb) => buildSite(cb));
 gulp.task("hugo-build-prod", (cb) => buildSite(cb, [], "production"));
 
-// Build/production task
-gulp.task("build", ["css", "js-prod", "fonts", "hugo-prod"]);
 
 // Compile SCSS with gulp-sass
 gulp.task("css", () => (
@@ -58,9 +52,9 @@ gulp.task("js-prod", (cb) => {
   myConfig.devtool = false;
 
   var compiler = webpack(myConfig);
-  compiler.apply(new ProgressPlugin(function(percentage, msg) {
-    gutil.log("[webpack]", (percentage * 100) + '%', msg);
-  }));
+  // compiler.apply(new ProgressPlugin(function(percentage, msg) {
+  //   gutil.log("[webpack]", (percentage * 100) + '%', msg);
+  // }));
 
   compiler.run((err, stats) => {
     if (err) throw new gutil.PluginError("webpack", err);
@@ -81,24 +75,8 @@ gulp.task('fonts', () => (
     .pipe(browserSync.stream())
 ));
 
-// Development server with browsersync
-gulp.task("server", ["hugo", "css", "js", "fonts"], () => {
-  browserSync.init({
-    server: {
-      baseDir: "./dist",
-      serveStaticOptions: {
-          extensions: ["html"]
-      }
-    }
-  });
-  gulp.watch("./src/js/**/*.js", ["js"]);
-  gulp.watch("./src/scss/*.scss", ["css"]);
-  gulp.watch("./src/fonts/**/*", ["fonts"]);
-  gulp.watch(["./site/**/*", "!./site/build/"], ["hugo"]);
-});
-
 // Sync hugo-built files to dist directory
-gulp.task("hugo-sync", ["hugo-build"], () => {
+gulp.task("hugo-sync", () =>
   gulp.src('./site/build/')
     .pipe(rsync({
       root: './site/build/',
@@ -109,13 +87,37 @@ gulp.task("hugo-sync", ["hugo-build"], () => {
       links: true,
       // Don't delete files created by css/js/fonts tasks
       exclude: ['/css/*', '/*.js', '/*.js.map', '/fonts/*'],
-    }));
-});
+    }))
+);
 
-gulp.task("clean", () => {
+gulp.task("clean", () =>
   gulp.src(["./site/build/**/*", "./site/build/**/.*", "./dist/**/.*", "./dist/**/*"], { read: false })
     .pipe(rm())
-});
+);
+
+
+// Hugo tasks
+gulp.task("hugo", gulp.series("hugo-build", "hugo-sync"));
+gulp.task("hugo-prod", gulp.series("hugo-build-prod", "hugo-sync"));
+
+// Build/production task
+gulp.task("build", gulp.parallel("css", "js-prod", "fonts", "hugo-prod"));
+
+// Development server with browsersync
+gulp.task("server", gulp.series(gulp.parallel("hugo", "css", "js", "fonts"), () => {
+  browserSync.init({
+    server: {
+      baseDir: "./dist",
+      serveStaticOptions: {
+          extensions: ["html"]
+      }
+    }
+  });
+  gulp.watch("./src/js/**/*.js", gulp.parallel("js"));
+  gulp.watch("./src/scss/*.scss", gulp.parallel("css"));
+  gulp.watch("./src/fonts/**/*", gulp.parallel("fonts"));
+  gulp.watch(["./site/**/*", "!./site/build/**/*"], gulp.parallel("hugo"));
+}));
 
 /**
  * Run hugo and build the site

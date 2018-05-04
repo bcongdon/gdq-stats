@@ -4,9 +4,9 @@
   "description": "> :space_invader: Stats webpage for [GamesDoneQuick](gamesdonequick.com). Hosted at [gdqstat.us](http://gdqstat.us)",
   "main": " ",
   "scripts": {
-    "start": "webpack --watch --progress",
-    "build": "webpack --optimize-minimize --devtool none --progress --define process.env.NODE_ENV=\"'production'\"",
-    "lint": "eslint js --fix",
+    "start": "gulp server",
+    "build": "gulp clean && gulp build",
+    "lint": "eslint src/js --fix",
     "profile": "webpack --profile --json > webpack-stats.json"
   },
   "repository": {
@@ -61,7 +61,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.1.0",
     "eslint-plugin-standard": "^3.0.1",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-flatten": "^0.4.0",
     "gulp-postcss": "^7.0.1",
     "gulp-rm": "^1.0.5",
