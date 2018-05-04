@@ -12,8 +12,8 @@ disableKinds: ["RSS", "taxonomy", "taxonomyTerm", "sitemap", "404"]
 enableRobotsTXT: true
 
 params:
-  current_event: Awesome Games Done Quick
-  current_event_short_hand: AGDQ
+  current_event: Summer Games Done Quick
+  current_event_short_hand: SGDQ
   current_event_year: 2018
 
   # Set to "true" to disable home page and switch to flipclock as homepage
