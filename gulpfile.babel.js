@@ -108,7 +108,7 @@ gulp.task("hugo-sync", ["hugo-build"], () => {
       silent: true,
       links: true,
       // Don't delete files created by css/js/fonts tasks
-      exclude: ['css/', 'js/', 'fonts/', '*.bundle.js', '*.bundle.js.map'],
+      exclude: ['/css/*', '/*.js', '/*.js.map', '/fonts/*'],
     }));
 });
 
