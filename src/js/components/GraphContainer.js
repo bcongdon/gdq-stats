@@ -95,7 +95,7 @@ class GraphContainer extends React.Component {
       // Estimate derived slope over window (if missing data)
       const newVal = (val[baseKey] - mostRecentVal) / (acc.length - mostRecentIdx)
       // Backfill data points that are missing data
-      for(let i = mostRecentIdx + 1; i < acc.length; i++) {
+      for (let i = mostRecentIdx + 1; i < acc.length; i++) {
         acc[i][key] = newVal
       }
       // Set the value of the new datapoint and append it

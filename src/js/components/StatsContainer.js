@@ -30,7 +30,7 @@ const STATS = [
   },
   {
     title: 'Twitch Emotes',
-    emoji: <img src='img/kappa.png' width='22' alt='kappa' />,
+    emoji: <img src='/img/kappa.png' width='22' alt='kappa' />,
     key: 'emotes'
   },
   {
