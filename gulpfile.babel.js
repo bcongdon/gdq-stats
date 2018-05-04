@@ -8,20 +8,24 @@ import webpack from "webpack";
 import webpackConfig from "./webpack.config.js";
 import sass from "gulp-sass";
 import ProgressPlugin from 'webpack/lib/ProgressPlugin';
+import rsync from 'gulp-rsync';
+import rm from 'gulp-rm';
 
 const browserSync = BrowserSync.create();
 
 // Hugo arguments
-const hugoArgsDefault = ["-d", "../dist", "-s", "site", "-v"];
-const hugoArgsPreview = ["--buildDrafts", "--buildFuture"];
+const hugoArgsDefault = ["-d", "./build", "-s", "site", "-v"];
 
-// Development tasks
-gulp.task("hugo", (cb) => buildSite(cb));
-gulp.task("hugo-preview", (cb) => buildSite(cb, hugoArgsPreview));
+// Hugo tasks
+gulp.task("hugo", ["hugo-build", "hugo-sync"])
+gulp.task("hugo-prod", ["hugo-build-prod", "hugo-sync"]);
 
-// Build/production tasks
-gulp.task("build", ["css", "js-prod", "fonts"], (cb) => buildSite(cb, [], "production"));
-gulp.task("build-preview", ["css", "js", "fonts"], (cb) => buildSite(cb, hugoArgsPreview, "production"));
+// Build tasks
+gulp.task("hugo-build", (cb) => buildSite(cb));
+gulp.task("hugo-build-prod", (cb) => buildSite(cb, [], "production"));
+
+// Build/production task
+gulp.task("build", ["css", "js-prod", "fonts", "hugo-prod"]);
 
 // Compile SCSS with gulp-sass
 gulp.task("css", () => (
@@ -90,7 +94,27 @@ gulp.task("server", ["hugo", "css", "js", "fonts"], () => {
   gulp.watch("./src/js/**/*.js", ["js"]);
   gulp.watch("./src/scss/*.scss", ["css"]);
   gulp.watch("./src/fonts/**/*", ["fonts"]);
-  gulp.watch("./site/**/*", ["hugo"]);
+  gulp.watch(["./site/**/*", "!./site/build/"], ["hugo"]);
+});
+
+// Sync hugo-built files to dist directory
+gulp.task("hugo-sync", ["hugo-build"], () => {
+  gulp.src('./site/build/')
+    .pipe(rsync({
+      root: './site/build/',
+      destination: './dist',
+      recursive: true,
+      clean: true,
+      silent: true,
+      links: true,
+      // Don't delete files created by css/js/fonts tasks
+      exclude: ['css/', 'js/', 'fonts/', '*.bundle.js', '*.bundle.js.map'],
+    }));
+});
+
+gulp.task("clean", () => {
+  gulp.src(["./site/build/**/*", "./site/build/**/.*", "./dist/**/.*", "./dist/**/*"], { read: false })
+    .pipe(rm())
 });
 
 /**

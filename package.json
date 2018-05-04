@@ -64,6 +64,8 @@
     "gulp": "^3.9.1",
     "gulp-flatten": "^0.4.0",
     "gulp-postcss": "^7.0.1",
+    "gulp-rm": "^1.0.5",
+    "gulp-rsync": "0.0.8",
     "gulp-sass": "^4.0.1",
     "hugo-bin": "^0.27.0",
     "style-loader": "^0.18.2",
