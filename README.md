@@ -4,8 +4,9 @@
 ## Frontend
 The actual visualization is done by Recharts. Other tools used include: 
 * `React` + `Redux` for rendering and application dataflow
-* `Jekyll` + `Reduce` to generate / minify the site's assets
-* `odometer` for cool JS animated odometers
+* `Webpack` + `Gulp` to generate / minify the site's assets
+* `Hugo` for minor HTML templating
+* `odometer` for animated odometers
 * `C3js` for pie charts
 * `moment.js`
 
@@ -21,14 +22,13 @@ Please visit that repo for more detailed information about the gdq-stats backend
 ## Run it yourself
 
 1. Clone the repo.
-2. Run `bundle install` to pull down the Ruby dependencies.
-3. Run `npm install` to pull down the NPM dependencies.
-4. Run `npm start` to build the static bundles.
-5. In a seperate terminal window, run `rake serve` to build the HTML templates.
-6. Visit `http://localhost:4000` in your browser.
+1. Run `npm install` to pull down the NPM dependencies.
+1. Run `npm start` to build the site and start a local server.
+1. Visit `http://localhost:3000` in your browser.
 
 ## Previous Events
 
+* [AGDQ 2019](http://gdqstat.us/previous-events/agdq-2018)
 * [SGDQ 2017](http://gdqstat.us/previous-events/sgdq-2017)
 * [AGDQ 2017](http://gdqstat.us/previous-events/agdq-2017)
 * [SGDQ 2016](http://gdqstat.us/previous-events/sgdq-2016)
