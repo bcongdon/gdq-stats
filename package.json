@@ -63,6 +63,7 @@
     "eslint-plugin-standard": "^3.0.1",
     "gulp": "^4.0.0",
     "gulp-flatten": "^0.4.0",
+    "gulp-minifier": "^1.2.2",
     "gulp-postcss": "^7.0.1",
     "gulp-rm": "^1.0.5",
     "gulp-rsync": "0.0.8",

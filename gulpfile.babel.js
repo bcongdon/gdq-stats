@@ -10,6 +10,7 @@ import sass from "gulp-sass";
 import ProgressPlugin from 'webpack/lib/ProgressPlugin';
 import rsync from 'gulp-rsync';
 import rm from 'gulp-rm';
+import minify from 'gulp-minifier';
 
 const browserSync = BrowserSync.create();
 
@@ -95,13 +96,25 @@ gulp.task("clean", () =>
     .pipe(rm())
 );
 
+gulp.task('minify', () =>
+  gulp.src('dist/**/*').pipe(minify({
+    minify: true,
+    minifyHTML: {
+      removeComments: true,
+      collapseWhitespace: true,
+      conservativeCollapse: true,
+    },
+    minifyCSS: true,
+    minifyJS: false,
+  })).pipe(gulp.dest('dist'))
+);
 
 // Hugo tasks
 gulp.task("hugo", gulp.series("hugo-build", "hugo-sync"));
 gulp.task("hugo-prod", gulp.series("hugo-build-prod", "hugo-sync"));
 
 // Build/production task
-gulp.task("build", gulp.parallel("css", "js-prod", "fonts", "hugo-prod"));
+gulp.task("build", gulp.series(gulp.parallel("css", "js-prod", "fonts", "hugo-prod"), "minify"));
 
 // Development server with browsersync
 gulp.task("server", gulp.series(gulp.parallel("hugo", "css", "js", "fonts"), () => {
