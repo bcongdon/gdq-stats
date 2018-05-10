@@ -13,7 +13,7 @@ import Row from 'react-bootstrap/lib/Row'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import Button from 'react-bootstrap/lib/Button'
 import PacmanLoader from 'halogen/PacmanLoader'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { LineChart,
   Line,
   Tooltip,
@@ -113,11 +113,11 @@ class GraphContainer extends React.Component {
     const activeGame = gameForId(activeGameZoom, this.props.schedule)
     const maxTime = this.props.timeseries[this.props.timeseries.length - 1].time
     const minTime = this.props.timeseries[0].time
-    let min = moment(minTime).clone()
-    let max = moment(maxTime).clone()
+    let min = dayjs(minTime).clone()
+    let max = dayjs(maxTime).clone()
     if (activeButtonZoomIndex >= 0) {
       const zoomHours = zoomButtons[activeButtonZoomIndex].hours
-      min = moment(maxTime).subtract(zoomHours, 'hours')
+      min = dayjs(maxTime).subtract(zoomHours, 'hours')
     } else if (activeGame) {
       const [hours, minutes, seconds] = activeGame.duration.split(':')
       min = activeGame.moment
@@ -132,7 +132,7 @@ class GraphContainer extends React.Component {
   getDateFormatter (domain) {
     const [min, max] = domain
     const format = min.clone().add(1, 'days').isBefore(max) ? 'ddd, hA' : 'h:mm A'
-    return (d) => moment.unix(d).format(format)
+    return (d) => dayjs(d * 1000).format(format)
   }
 
   getGraphSeries ({activeGraph, isPrimary}) {
@@ -199,7 +199,7 @@ class GraphContainer extends React.Component {
     const trimmedTimeseries = series
       // Filter to correct domain
       .filter((obj) => {
-        const objMoment = moment(obj.time)
+        const objMoment = dayjs(obj.time)
         return objMoment.isAfter(domain[0]) && objMoment.isBefore(domain[1])
       })
 
@@ -209,7 +209,7 @@ class GraphContainer extends React.Component {
       .filter((d, idx) => idx % rate === 0 && Number.isFinite(d[activeGraph.key]) && d[activeGraph.key] >= 0 &&
         (!secondaryActiveGraph.key || (Number.isFinite(d[secondaryActiveGraph.key]) && d[secondaryActiveGraph.key] >= 0)))
       .map((o) => {
-        return { ...o, time: moment(o.time).unix() }
+        return { ...o, time: dayjs(o.time).unix() }
       })
 
     if (activeGraph.movingAverage) {
@@ -223,7 +223,7 @@ class GraphContainer extends React.Component {
     const tooltipFormat = activeGraph.tooltipFormat || activeGraph.format
     const tooltipFormatSecondary = secondaryActiveGraph.tooltipFormat || secondaryActiveGraph.format
 
-    const selectOptions = this.props.schedule.filter((obj) => obj.moment.isBefore())
+    const selectOptions = this.props.schedule.filter((obj) => obj.moment.isBefore(dayjs()))
     const activeGame = this.props.activeGameZoom ? gameForId(this.props.activeGameZoom, this.props.schedule) : null
     return (
       <Grid className='graph-container-fullscreen'>

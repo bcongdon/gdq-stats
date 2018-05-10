@@ -25,7 +25,7 @@ import Grid from 'react-bootstrap/lib/Grid'
 import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Stat from './components/Stat'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 class DonationsApp extends React.PureComponent {
   constructor (props) {
@@ -225,7 +225,7 @@ class DonationsApp extends React.PureComponent {
       return this.getLoader()
     }
     const medians = this.state.donationStats.medians.map((obj) => {
-      return {...obj, time: moment(obj.time).unix()}
+      return {...obj, time: dayjs(obj.time).unix()}
     })
     return (
       <ResponsiveContainer width='100%' height={500}>
@@ -249,14 +249,14 @@ class DonationsApp extends React.PureComponent {
             minTickGap={0} />
           <Tooltip
             formatter={format('$,.2f')}
-            labelFormatter={(d) => moment.unix(d).format('ddd, MMM Do YYYY, h:mm a')} />
+            labelFormatter={(d) => dayjs(d * 1000).format('dddd, MMM Do YYYY, h:mm a')} />
           <XAxis
             dataKey='time'
             type='number'
             scale='time'
             axisLine={{stroke: '#ddd'}}
             tickLine={{stroke: '#ddd'}}
-            tickFormatter={(d) => moment.unix(d).format('ddd, hA')}
+            tickFormatter={(d) => dayjs(d * 1000).format('dddd, hA')}
             tick={{fill: '#333', fontWeight: 300, fontSize: 13}}
             interval='preserveStart'
             domain={['dataMin', 'dataMax']}

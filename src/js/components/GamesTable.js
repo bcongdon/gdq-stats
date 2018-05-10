@@ -11,6 +11,7 @@ import { gameEndTime, gameForId } from '../utils'
 import IconLink from './IconLink'
 import { toggleNotificationGame, notifyGame } from '../actions'
 import ReactDOM from 'react-dom'
+import dayjs from 'dayjs'
 
 class GamesTable extends React.Component {
   static propTypes = {
@@ -62,9 +63,9 @@ class GamesTable extends React.Component {
     )
 
     let status
-    if (gameEndTime(game).isBefore()) {
+    if (gameEndTime(game).isBefore(dayjs())) {
       status = '✓'
-    } else if (game.moment.isBefore()) {
+    } else if (game.moment.isBefore(dayjs())) {
       status = '🎮'
     } else {
       status = tooltipAppliedNotification
@@ -91,13 +92,13 @@ class GamesTable extends React.Component {
   }
 
   getGamesCompleted () {
-    return this.props.schedule.filter((g) => gameEndTime(g).isBefore()).length
+    return this.props.schedule.filter((g) => gameEndTime(g).isBefore(dayjs())).length
   }
 
   getActiveGame () {
     for (let i = 0; i < this.props.schedule.length; i++) {
       const game = this.props.schedule[i]
-      if (game.moment.isAfter()) {
+      if (game.moment.isAfter(dayjs())) {
         return i - 1
       }
     }
@@ -142,7 +143,7 @@ class GamesTable extends React.Component {
           return
         }
         // Notify if game starts within 5 minutes
-        if (game.moment.clone().subtract(5, 'minutes').isBefore()) {
+        if (game.moment.clone().subtract(5, 'minutes').isBefore(dayjs())) {
           this.props.notifyGame(id)
         }
       })

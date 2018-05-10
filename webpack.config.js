@@ -33,8 +33,5 @@ module.exports = {
       }
     ]
   },
-  'plugins': [
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-  ],
   devtool: '#cheap-source-map'
 }

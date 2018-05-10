@@ -1,5 +1,5 @@
 import axios from 'axios'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import Notify from 'notifyjs'
 import { INITIAL_TIMESERIES,
   UPDATE_TIMESERIES,
@@ -17,7 +17,7 @@ export const fetchInitialTimeseries = () => (dispatch) =>
   axios.get(GDQ_STORAGE_ENDPOINT + '/latest.json')
     .then(response => {
       dispatch({ type: INITIAL_TIMESERIES, payload: response.data })
-      const maxTime = moment(response.data[response.data.length - 1].time).toDate()
+      const maxTime = dayjs(response.data[response.data.length - 1].time).toDate()
 
       // Determines whether we fetch recent results from API endpoint
       if (!OFFLINE_MODE) {
@@ -26,7 +26,8 @@ export const fetchInitialTimeseries = () => (dispatch) =>
     })
 
 export const fetchRecentTimeseries = (since) => (dispatch) =>
-  axios.get(`${GDQ_API_ENDPOINT}/recentEvents?since=${moment.utc(since).format('YYYY-MM-DDTHH:mm[Z]')}`)
+  // TODO: Fix this! Dayjs doesn't have a UTC constructor currently
+  axios.get(`${GDQ_API_ENDPOINT}/recentEvents?since=${dayjs.utc(since).format('YYYY-MM-DDTHH:mm[Z]')}`)
     .then(response => {
       dispatch({ type: UPDATE_TIMESERIES, payload: response.data })
     })

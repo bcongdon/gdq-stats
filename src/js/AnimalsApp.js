@@ -19,7 +19,7 @@ import Col from 'react-bootstrap/lib/Col'
 import Stat from './components/Stat'
 import C3Chart from 'react-c3js'
 import 'c3/c3.css'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { format } from 'd3-format'
 
 const GRAPH_MARGINS = {top: 25, left: 100, bottom: 24, right: 24}
@@ -95,7 +95,7 @@ class AnimalsApp extends React.PureComponent {
     const time = ['time']
     this.state.bidData.filter((obj, idx) => idx % 10 === 0)
       .forEach((obj) => {
-        time.push(moment(obj.time).toDate())
+        time.push(dayjs(obj.time).toDate())
         kill.push(obj.kill)
         save.push(obj.save)
       })
@@ -135,7 +135,7 @@ class AnimalsApp extends React.PureComponent {
     const time = ['time']
     this.state.bidData.filter((obj, idx) => idx % 10 === 0)
       .forEach((obj) => {
-        time.push(moment(obj.time).toDate())
+        time.push(dayjs(obj.time).toDate())
         console.log(obj)
         diff.push(obj.save - obj.kill)
       })

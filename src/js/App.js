@@ -7,7 +7,7 @@ import { PropTypes } from 'prop-types'
 import { fetchInitialTimeseries,
   fetchSchedule,
   fetchRecentTimeseries } from './actions'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import Visibility from 'visibilityjs'
 import { OFFLINE_MODE } from './constants'
 
@@ -27,7 +27,7 @@ class App extends React.PureComponent {
     if (!OFFLINE_MODE) {
       const minute = 60 * 1000
       Visibility.every(minute, 5 * minute, () => {
-        this.props.fetchRecentTimeseries(moment().subtract(1, 'hours').toDate())
+        this.props.fetchRecentTimeseries(dayjs().subtract(1, 'hours').toDate())
       })
     }
   }

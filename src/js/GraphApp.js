@@ -5,7 +5,7 @@ import { PropTypes } from 'prop-types'
 import { fetchInitialTimeseries,
   fetchSchedule,
   fetchRecentTimeseries } from './actions'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import Grid from 'react-bootstrap/lib/Grid'
 import Col from 'react-bootstrap/lib/Col'
 import ReturnHome from './components/ReturnHome'
@@ -28,7 +28,7 @@ class App extends React.PureComponent {
     if (!OFFLINE_MODE) {
       const minute = 60 * 1000
       Visibility.every(minute, minute, () => {
-        this.props.fetchRecentTimeseries(moment().subtract(1, 'hours').toDate())
+        this.props.fetchRecentTimeseries(dayjs().subtract(1, 'hours').toDate())
       })
     }
   }

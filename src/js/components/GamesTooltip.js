@@ -1,7 +1,7 @@
 import React from 'react'
 import { gameFromTime } from '../utils'
 import { PropTypes } from 'prop-types'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 export default class GamesTooltip extends React.PureComponent {
   static propTypes = {
@@ -39,14 +39,14 @@ export default class GamesTooltip extends React.PureComponent {
 
     const secondaryField = payload.length > 1 ? (<div className='tool-secondary'>{secondaryPayloadProps.name}: {secondaryValue}</div>) : null
 
-    const game = gameFromTime(schedule, moment.unix(label))
+    const game = gameFromTime(schedule, dayjs(label * 1000))
 
     return (
       <div className='gdq-tooltip'>
         <div className='tool-game'>{game.name}</div>
         <div className='tool-primary'>{payloadProps.name}: {value}</div>
         {secondaryField}
-        <div className='tool-date'>{moment.unix(label).format('ddd, MMM Do YYYY, h:mm a')}</div>
+        <div className='tool-date'>{dayjs(label * 1000).format('dddd, MMM D YYYY, h:mm a')}</div>
       </div>
     )
   }
