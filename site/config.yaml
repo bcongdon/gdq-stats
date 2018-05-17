@@ -1,8 +1,9 @@
-baseURL: "/"
 URL: "http://gdqstat.us"
-title: GDQ Stats
+title: GDQStat.us
 
 author: Benjamin Congdon
+
+googleAnalytics: UA-72102716-2
 
 languageCode: "en-us"
 languageLang: "en"

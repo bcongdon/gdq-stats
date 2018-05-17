@@ -2,9 +2,6 @@
 <head>
 
   {{ partial "favicon.html" . }}
-  {{ if eq (getenv "NODE_ENV") "production" }}
-    {{ partial "google_analytics.html" . }}
-  {{ end }}
   {{ partial "header.html" . }}
 
   <link rel="stylesheet" type="text/css" href="/css/flipclock.css">
