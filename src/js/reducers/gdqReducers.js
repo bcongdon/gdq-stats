@@ -8,6 +8,7 @@ import { INITIAL_TIMESERIES,
   TOGGLE_NOTIFICATION_GAME,
   NOTIFY_GAME } from '../actions/types'
 import dayjs from 'dayjs'
+import { OFFLINE_MODE } from '../constants.js'
 
 import Cookies from 'universal-cookie'
 const cookies = new Cookies()
@@ -72,9 +73,11 @@ const saveNotificationGames = (ids) => {
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case INITIAL_TIMESERIES:
-      // return { ...state, timeseries: action.payload }
-      // TODO: Reset this
-      return { ...state, timeseries: action.payload, timeseriesLoaded: true }
+      if (OFFLINE_MODE) {
+        return { ...state, timeseries: action.payload, timeseriesLoaded: true }
+      } else {
+        return { ...state, timeseries: action.payload }
+      }
     case UPDATE_TIMESERIES:
       return { ...state, timeseries: updateTimeseries(action.payload, state.timeseries), timeseriesLoaded: true }
     case UPDATE_SCHEDULE:
