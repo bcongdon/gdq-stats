@@ -7,7 +7,8 @@ import { INITIAL_TIMESERIES,
   SET_CURRENT_SECONDARY_SERIES,
   TOGGLE_NOTIFICATION_GAME,
   NOTIFY_GAME } from '../actions/types'
-import dayjs from 'dayjs'
+import { utcToLocal } from '../utils.js'
+import { OFFLINE_MODE } from '../constants.js'
 
 import Cookies from 'universal-cookie'
 const cookies = new Cookies()
@@ -57,9 +58,7 @@ const updateTimeseries = (newData, current) => {
 
 const normalizeSchedule = (schedule) => {
   for (var i = 0; i < schedule.length; i++) {
-    // TODO: Fix localization from UTC to local time
-    // BUG: This is currently BROKEN until this gets addressed
-    schedule[i].moment = dayjs(schedule[i].start_time)
+    schedule[i].moment = utcToLocal(schedule[i].start_time)
   }
   return schedule
 }
@@ -72,9 +71,11 @@ const saveNotificationGames = (ids) => {
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case INITIAL_TIMESERIES:
-      // return { ...state, timeseries: action.payload }
-      // TODO: Reset this
-      return { ...state, timeseries: action.payload, timeseriesLoaded: true }
+      if (OFFLINE_MODE) {
+        return { ...state, timeseries: action.payload, timeseriesLoaded: true }
+      } else {
+        return { ...state, timeseries: action.payload }
+      }
     case UPDATE_TIMESERIES:
       return { ...state, timeseries: updateTimeseries(action.payload, state.timeseries), timeseriesLoaded: true }
     case UPDATE_SCHEDULE:
