@@ -71,13 +71,13 @@ class GamesTable extends React.Component {
       status = tooltipAppliedNotification
     }
 
-    const statusNode = <span className='hidden-xs' style={{float: 'right', paddingRight: '20%'}}>{status}</span>
+    const statusNode = <span className='hidden-xs game-table-status'>{status}</span>
 
     const row = (
       <Row className='game-list-row' key={key} ref={(e) => { this.rows[key] = e }}>
         <Col sm={4} xs={5}>{name}</Col>
         <Col sm={3} xsHidden>{runners}</Col>
-        <Col sm={3} xs={4}>{moment.format('MMM D, h:mm a')} {statusNode}</Col>
+        <Col sm={3} xs={4}>{moment.format('MMM D, h:mma')} {statusNode}</Col>
         <Col sm={2} xs={3}>{duration}</Col>
       </Row>
     )
