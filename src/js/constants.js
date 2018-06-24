@@ -1,6 +1,6 @@
 export const GDQ_API_ENDPOINT = 'https://api.gdqstat.us'
 
-export const OFFLINE_MODE = true
+export const OFFLINE_MODE = false
 
 const LIVE_STORAGE_ENDPOINT = 'https://storage.api.gdqstat.us'
 
