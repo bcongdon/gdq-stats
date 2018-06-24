@@ -10,7 +10,7 @@ import { INITIAL_TIMESERIES,
   SET_CURRENT_SECONDARY_SERIES,
   TOGGLE_NOTIFICATION_GAME,
   NOTIFY_GAME } from '../actions/types'
-import { gameForId } from '../utils'
+import { gameForId, utcToLocal } from '../utils'
 import { GDQ_API_ENDPOINT, GDQ_STORAGE_ENDPOINT, OFFLINE_MODE } from '../constants'
 
 export const fetchInitialTimeseries = () => (dispatch) =>
@@ -26,8 +26,7 @@ export const fetchInitialTimeseries = () => (dispatch) =>
     })
 
 export const fetchRecentTimeseries = (since) => (dispatch) =>
-  // TODO: Fix this! Dayjs doesn't have a UTC constructor currently
-  axios.get(`${GDQ_API_ENDPOINT}/recentEvents?since=${dayjs.utc(since).format('YYYY-MM-DDTHH:mm[Z]')}`)
+  axios.get(`${GDQ_API_ENDPOINT}/recentEvents?since=${utcToLocal(since).format('YYYY-MM-DDTHH:mm[Z]')}`)
     .then(response => {
       dispatch({ type: UPDATE_TIMESERIES, payload: response.data })
     })

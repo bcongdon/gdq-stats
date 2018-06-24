@@ -7,7 +7,7 @@ import { INITIAL_TIMESERIES,
   SET_CURRENT_SECONDARY_SERIES,
   TOGGLE_NOTIFICATION_GAME,
   NOTIFY_GAME } from '../actions/types'
-import dayjs from 'dayjs'
+import { utcToLocal } from '../utils.js'
 import { OFFLINE_MODE } from '../constants.js'
 
 import Cookies from 'universal-cookie'
@@ -58,9 +58,7 @@ const updateTimeseries = (newData, current) => {
 
 const normalizeSchedule = (schedule) => {
   for (var i = 0; i < schedule.length; i++) {
-    // TODO: Fix localization from UTC to local time
-    // BUG: This is currently BROKEN until this gets addressed
-    schedule[i].moment = dayjs(schedule[i].start_time)
+    schedule[i].moment = utcToLocal(schedule[i].start_time)
   }
   return schedule
 }

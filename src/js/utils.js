@@ -43,3 +43,8 @@ export const gameForId = (id, games) => {
   }
   return game
 }
+
+export const utcToLocal = (inputDate) => {
+  const date = dayjs(inputDate)
+  return date.add(-1 * new Date().getTimezoneOffset(), 'minute')
+}
