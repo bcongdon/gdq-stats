@@ -5,7 +5,8 @@ import { GDQ_STORAGE_ENDPOINT,
   PRIMARY_COLOR,
   SECONDARY_COLOR,
   LIGHT_FILL_COLOR,
-  DARK_FILL_COLOR } from './constants'
+  DARK_FILL_COLOR,
+  EVENT_START_DATE } from './constants'
 import { BarChart,
   Bar,
   LineChart,
@@ -26,6 +27,7 @@ import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Stat from './components/Stat'
 import dayjs from 'dayjs'
+import { utcToLocal } from './utils.js'
 
 class DonationsApp extends React.PureComponent {
   constructor (props) {
@@ -224,9 +226,11 @@ class DonationsApp extends React.PureComponent {
     if (!this.state.donationStats) {
       return this.getLoader()
     }
-    const medians = this.state.donationStats.medians.map((obj) => {
-      return {...obj, time: dayjs(obj.time).unix()}
-    })
+    const medians = this.state.donationStats.medians
+      .filter(obj => dayjs(obj.time).isAfter(EVENT_START_DATE))
+      .map((obj) => {
+        return {...obj, time: utcToLocal(obj.time).unix()}
+      })
     return (
       <ResponsiveContainer width='100%' height={500}>
         <LineChart data={medians} margin={{top: 20}}>
@@ -249,7 +253,7 @@ class DonationsApp extends React.PureComponent {
             minTickGap={0} />
           <Tooltip
             formatter={format('$,.2f')}
-            labelFormatter={(d) => dayjs(d * 1000).format('dddd, MMM Do YYYY, h:mm a')} />
+            labelFormatter={(d) => dayjs(d * 1000).format('dddd, MMM D YYYY, h:mm a')} />
           <XAxis
             dataKey='time'
             type='number'
