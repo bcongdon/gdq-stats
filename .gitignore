@@ -3,5 +3,6 @@ bower_components
 .jekyll-metadata
 .sass-cache
 dist
+!site/**/dist
 node_modules
 site/build
