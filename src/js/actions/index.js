@@ -26,10 +26,11 @@ export const fetchInitialTimeseries = () => (dispatch) =>
     })
 
 export const fetchRecentTimeseries = (since) => (dispatch) =>
-  axios.get(`${GDQ_API_ENDPOINT}/recentEvents?since=${utcToLocal(since).format('YYYY-MM-DDTHH:mm[Z]')}`)
-    .then(response => {
-      dispatch({ type: UPDATE_TIMESERIES, payload: response.data })
-    })
+  axios.get(
+    `${GDQ_API_ENDPOINT}/recentEvents?since=${utcToLocal(since).format('YYYY-MM-DDTHH:mm[Z]')}`
+  ).then(response => {
+    dispatch({ type: UPDATE_TIMESERIES, payload: response.data })
+  })
 
 export const fetchSchedule = () => (dispatch) =>
   axios.get(GDQ_STORAGE_ENDPOINT + '/schedule.json')
@@ -37,10 +38,18 @@ export const fetchSchedule = () => (dispatch) =>
       dispatch({ type: UPDATE_SCHEDULE, payload: response.data })
     })
 
-export const setCurrentSeries = (series) => (dispatch) => dispatch({ type: SET_CURRENT_SERIES, payload: series })
-export const setCurrentSecondarySeries = (series) => (dispatch) => dispatch({ type: SET_CURRENT_SECONDARY_SERIES, payload: series })
+export const setCurrentSeries = (series) => (dispatch) => dispatch({
+  type: SET_CURRENT_SERIES,
+  payload: series
+})
 
-export const setButtonZoom = (idx) => (dispatch) => dispatch({ type: SET_BUTTON_ZOOM, payload: idx })
+export const setCurrentSecondarySeries = (series) => (dispatch) => dispatch({
+  type: SET_CURRENT_SECONDARY_SERIES,
+  payload: series
+})
+
+export const setButtonZoom = (idx) =>
+  (dispatch) => dispatch({ type: SET_BUTTON_ZOOM, payload: idx })
 export const setGameZoom = (id) => (dispatch) => dispatch({ type: SET_GAME_ZOOM, payload: id })
 
 export const toggleNotificationGame = (id) => (dispatch, getState) => {

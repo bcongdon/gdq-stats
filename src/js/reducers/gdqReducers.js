@@ -77,7 +77,10 @@ export default function (state = INITIAL_STATE, action) {
         return { ...state, timeseries: action.payload }
       }
     case UPDATE_TIMESERIES:
-      return { ...state, timeseries: updateTimeseries(action.payload, state.timeseries), timeseriesLoaded: true }
+      return { ...state,
+        timeseries: updateTimeseries(action.payload, state.timeseries),
+        timeseriesLoaded: true
+      }
     case UPDATE_SCHEDULE:
       return { ...state, schedule: normalizeSchedule(action.payload), scheduleLoaded: true }
     case SET_CURRENT_SERIES:

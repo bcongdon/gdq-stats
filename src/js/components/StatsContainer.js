@@ -96,7 +96,13 @@ class StatsContainer extends React.PureComponent {
     const values = this.getValues()
 
     const stats = STATS.map((s, idx) =>
-      <Stat title={s.title} emoji={s.emoji} prefix={s.prefix} value={values[s.key] || 0} key={idx} />
+      <Stat
+        title={s.title}
+        emoji={s.emoji}
+        prefix={s.prefix}
+        value={values[s.key] || 0}
+        key={idx}
+      />
     )
     return (
       <div className='section'>

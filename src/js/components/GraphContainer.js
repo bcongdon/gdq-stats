@@ -149,7 +149,9 @@ class GraphContainer extends React.Component {
       </VerticalLabel>
     )
     // Force a 0-based chart when no zoom is active
-    const minDomain = (this.props.activeGameZoom !== null || this.props.activeButtonZoomIndex !== null) ? 'dataMin' : 0
+    const minDomain = (this.props.activeGameZoom !== null ||
+      this.props.activeButtonZoomIndex !== null)
+      ? 'dataMin' : 0
     return [
       <Line
         type='basis'
@@ -207,51 +209,83 @@ class GraphContainer extends React.Component {
     const rate = Math.ceil(trimmedTimeseries.length / 500)
     let resampleSeries = trimmedTimeseries
       // Resample
-      .filter((d, idx) => idx % rate === 0 && Number.isFinite(d[activeGraph.key]) && d[activeGraph.key] >= 0 &&
-        (!secondaryActiveGraph.key || (Number.isFinite(d[secondaryActiveGraph.key]) && d[secondaryActiveGraph.key] >= 0)))
+      .filter((d, idx) =>
+        idx % rate === 0 &&
+          Number.isFinite(d[activeGraph.key]) &&
+          d[activeGraph.key] >= 0 &&
+            (!secondaryActiveGraph.key ||
+              (Number.isFinite(d[secondaryActiveGraph.key]) &&
+                d[secondaryActiveGraph.key] >= 0)))
       .map((o) => {
         return { ...o, time: dayjs(o.time).unix() }
       })
 
     // Trim based on percentile
     if (activeGraph.percentile) {
-      const threshold = percentile(activeGraph.percentile, trimmedTimeseries, obj => obj[activeGraph.key])[activeGraph.key]
+      const threshold = percentile(
+        activeGraph.percentile,
+        trimmedTimeseries, obj => obj[activeGraph.key])[activeGraph.key]
       resampleSeries = resampleSeries.filter(obj => obj[activeGraph.key] < threshold)
     }
     if (secondaryActiveGraph.percentile) {
-      const threshold = percentile(secondaryActiveGraph.percentile, trimmedTimeseries, obj => obj[secondaryActiveGraph.key])[secondaryActiveGraph.key]
+      const threshold = percentile(
+        secondaryActiveGraph.percentile,
+        trimmedTimeseries, obj => obj[secondaryActiveGraph.key])[secondaryActiveGraph.key]
       resampleSeries = resampleSeries.filter(obj => obj[secondaryActiveGraph.key] < threshold)
     }
 
     // Perform moving average smoothing
     if (activeGraph.movingAverage) {
       const movingAverageScale = activeGraph.movingAverageScale || 1
-      resampleSeries = movingAverage(resampleSeries, activeGraph.key, movingAverageScale * Math.ceil(trimmedTimeseries.length / 250))
+      resampleSeries = movingAverage(
+        resampleSeries,
+        activeGraph.key,
+        movingAverageScale * Math.ceil(trimmedTimeseries.length / 250))
     }
     if (secondaryActiveGraph.movingAverage) {
       const movingAverageScale = activeGraph.movingAverageScale || 1
-      resampleSeries = movingAverage(resampleSeries, secondaryActiveGraph.key, movingAverageScale * Math.ceil(trimmedTimeseries.length / 250))
+      resampleSeries = movingAverage(
+        resampleSeries,
+        secondaryActiveGraph.key,
+        movingAverageScale * Math.ceil(trimmedTimeseries.length / 250))
     }
 
     const tooltipFormat = activeGraph.tooltipFormat || activeGraph.format
-    const tooltipFormatSecondary = secondaryActiveGraph.tooltipFormat || secondaryActiveGraph.format
+    const tooltipFormatSecondary = secondaryActiveGraph.tooltipFormat ||
+      secondaryActiveGraph.format
 
     const selectOptions = this.props.schedule.filter((obj) => obj.moment.isBefore(dayjs()))
-    const activeGame = this.props.activeGameZoom ? gameForId(this.props.activeGameZoom, this.props.schedule) : null
+    const activeGame = this.props.activeGameZoom
+      ? gameForId(this.props.activeGameZoom, this.props.schedule) : null
+
+    const advancedButton = <small>
+      <b style={{paddingLeft: 16, verticalAlign: 'middle'}}>
+        <a href='graph'>(Advanced)</a>
+      </b>
+    </small>
+
     return (
       <Grid className='graph-container-fullscreen'>
         <Row>
           <Col sm={4} md={2} className='graph-series-chooser'>
-            <Nav bsStyle='pills' stacked activeKey={this.props.activeSeries} onSelect={this.onSelect}>
+            <Nav
+              bsStyle='pills'
+              stacked
+              activeKey={this.props.activeSeries}
+              onSelect={this.onSelect}>
               {GRAPHS.map((obj, idx) => <NavItem eventKey={idx} key={idx}>{obj.name}</NavItem>)}
             </Nav>
           </Col>
-          <hr className='hidden-sm hidden-md hidden-lg' style={{borderTopWidth: 1.5, borderColor: LIGHT_FILL_COLOR}} />
+          <hr
+            className='hidden-sm hidden-md hidden-lg'
+            style={{borderTopWidth: 1.5, borderColor: LIGHT_FILL_COLOR}} />
           <Col sm={8} md={this.props.fullscreen ? 8 : 10} className='graph-container'>
             <ResponsiveContainer width='100%' height={500}>
               <LineChart data={resampleSeries} margin={{top: 20}}>
                 {this.getGraphSeries({activeGraph, isPrimary: true})}
-                {this.props.fullscreen ? this.getGraphSeries({activeGraph: secondaryActiveGraph, isPrimary: false}) : null}
+                {this.props.fullscreen
+                  ? this.getGraphSeries({activeGraph: secondaryActiveGraph, isPrimary: false})
+                  : null}
                 <Tooltip
                   content={
                     <GamesTooltip
@@ -276,14 +310,22 @@ class GraphContainer extends React.Component {
           </Col>
           {this.props.fullscreen
             ? (<Col sm={4} md={2} className='graph-series-secondary-chooser'>
-              <Nav bsStyle='pills' stacked activeKey={this.props.activeSeriesSecondary} onSelect={this.onSelectSecondary}>
+              <Nav
+                bsStyle='pills'
+                stacked
+                activeKey={this.props.activeSeriesSecondary}
+                onSelect={this.onSelectSecondary}>
                 {GRAPHS.map((obj, idx) => <NavItem eventKey={idx} key={idx}>{obj.name}</NavItem>)}
               </Nav>
             </Col>) : null }
         </Row>
         <Row className='series-options'>
           <Col sm={4} style={{height: 32}}>
-            <span style={{position: 'relative', top: 8}}>Options {this.props.fullscreen ? null : <small><b style={{paddingLeft: 16, verticalAlign: 'middle'}}><a href='graph'>(Advanced)</a></b></small>}</span>
+            <span
+              style={{position: 'relative', top: 8}}>Options {
+                this.props.fullscreen ? null : advancedButton
+              }
+            </span>
           </Col>
           <Col sm={3} style={{fontFamily: 'Open Sans'}}>
             <Select
@@ -334,4 +376,9 @@ function mapStateToProps (state) {
   }
 }
 
-export default connect(mapStateToProps, { setCurrentSeries, setButtonZoom, setGameZoom, setCurrentSecondarySeries })(GraphContainer)
+export default connect(mapStateToProps, {
+  setCurrentSeries,
+  setButtonZoom,
+  setGameZoom,
+  setCurrentSecondarySeries
+})(GraphContainer)

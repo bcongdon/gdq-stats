@@ -37,7 +37,9 @@ export default class GamesTooltip extends React.PureComponent {
       secondaryValue = this.props.secondaryFormat(secondaryPayloadObj[secondaryDataKey])
     }
 
-    const secondaryField = payload.length > 1 ? (<div className='tool-secondary'>{secondaryPayloadProps.name}: {secondaryValue}</div>) : null
+    const secondaryField = payload.length > 1
+      ? (<div className='tool-secondary'>{secondaryPayloadProps.name}: {secondaryValue}</div>)
+      : null
 
     const game = gameFromTime(schedule, dayjs(label * 1000))
 

@@ -55,7 +55,13 @@ class ChatApp extends React.PureComponent {
           <Tooltip labelFormater={() => 'foo'}formatter={(val) => `${val} messages sent`} />
           <CartesianGrid horizontal={false} />
           <XAxis label='Number of Messages Sent' orientation='top' type='number' />
-          <YAxis label={yAxisLabel} className='chat-y-axis' interval={0} type='category' dataKey='user' />
+          <YAxis
+            label={yAxisLabel}
+            className='chat-y-axis'
+            interval={0}
+            type='category'
+            dataKey='user'
+          />
           <Bar dataKey='count' fill={PRIMARY_COLOR} />
         </BarChart>
       </ResponsiveContainer>

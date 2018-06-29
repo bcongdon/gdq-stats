@@ -204,7 +204,13 @@ class DonationsApp extends React.PureComponent {
       { title: 'Average Donation - Anonymous', emoji: '❓', value: anonymous.avg }
     ]
     return stats.map((props, idx) => {
-      return <Stat key={idx} {...props} prefix='$' value={+(props.value.toFixed(2))} format='(,ddd).dd' />
+      return <Stat
+        key={idx}
+        {...props}
+        prefix='$'
+        value={+(props.value.toFixed(2))}
+        format='(,ddd).dd'
+      />
     })
   }
 
@@ -218,7 +224,13 @@ class DonationsApp extends React.PureComponent {
       { title: 'Average Donation - Overall', emoji: '💸', value: overall.avg }
     ]
     return overallStats.map((props, idx) => {
-      return <Stat key={idx} {...props} prefix='$' value={+(props.value.toFixed(2))} format='(,ddd).dd' />
+      return <Stat
+        key={idx}
+        {...props}
+        prefix='$'
+        value={+(props.value.toFixed(2))}
+        format='(,ddd).dd'
+      />
     })
   }
 

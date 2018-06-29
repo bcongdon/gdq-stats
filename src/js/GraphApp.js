@@ -43,7 +43,10 @@ class App extends React.PureComponent {
         <Col lgHidden mdHidden className='section'>
           <h2>Oops!</h2>
           <div className='content'>
-            <h3>Currently, advanced graphs are only supported on desktop. <a href='/'>Return Home</a></h3>
+            <h3>
+              Currently, advanced graphs are only supported on desktop.
+              {'  '}<a href='/'>Return Home</a>
+            </h3>
           </div>
         </Col>
       </Grid>

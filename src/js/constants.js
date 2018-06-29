@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import dayjs from 'dayjs'
 
 export const GDQ_API_ENDPOINT = 'https://api.gdqstat.us'

@@ -29,7 +29,8 @@ export const movingAverage = (arr, dataKey, windowSize) => {
       return previous
     }
     const scaleFactor = (windowSize - 1) / (windowSize + 1)
-    const newVal = 2 * current[dataKey] / (windowSize + 1) + previous[previous.length - 1][dataKey] * scaleFactor
+    const newVal = (2 * current[dataKey] / (windowSize + 1)) +
+      (previous[previous.length - 1][dataKey] * scaleFactor)
     current[dataKey] = newVal
     return previous.concat(current)
   }, [arr[0]])
