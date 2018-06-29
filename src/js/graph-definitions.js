@@ -20,6 +20,7 @@ const GRAPHS = [
     key: 'm_drv',
     format: fullNumberCurrency,
     movingAverage: true,
+    movingAverageScale: 0.5,
     percentile: 99
   },
   {

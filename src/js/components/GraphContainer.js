@@ -225,10 +225,12 @@ class GraphContainer extends React.Component {
 
     // Perform moving average smoothing
     if (activeGraph.movingAverage) {
-      resampleSeries = movingAverage(resampleSeries, activeGraph.key, Math.ceil(trimmedTimeseries.length / 250))
+      const movingAverageScale = activeGraph.movingAverageScale || 1
+      resampleSeries = movingAverage(resampleSeries, activeGraph.key, movingAverageScale * Math.ceil(trimmedTimeseries.length / 250))
     }
     if (secondaryActiveGraph.movingAverage) {
-      resampleSeries = movingAverage(resampleSeries, secondaryActiveGraph.key, Math.ceil(trimmedTimeseries.length / 250))
+      const movingAverageScale = activeGraph.movingAverageScale || 1
+      resampleSeries = movingAverage(resampleSeries, secondaryActiveGraph.key, movingAverageScale * Math.ceil(trimmedTimeseries.length / 250))
     }
 
     const tooltipFormat = activeGraph.tooltipFormat || activeGraph.format
