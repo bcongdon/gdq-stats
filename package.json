@@ -26,6 +26,7 @@
     "dayjs": "^1.6.10",
     "halogen": "^0.2.0",
     "notifyjs": "^3.0.0",
+    "percentile": "^1.2.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.0",

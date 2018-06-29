@@ -19,7 +19,8 @@ const GRAPHS = [
     name: 'Donations per minute',
     key: 'm_drv',
     format: fullNumberCurrency,
-    movingAverage: true
+    movingAverage: true,
+    percentile: 99
   },
   {
     name: 'Donors',

@@ -29,6 +29,7 @@ import { PRIMARY_COLOR,
   SECONDARY_COLOR,
   DARK_FILL_COLOR,
   LIGHT_FILL_COLOR } from '../constants'
+import percentile from 'percentile'
 
 const zoomButtons = [
   { label: '1h', hours: 1 },
@@ -212,10 +213,20 @@ class GraphContainer extends React.Component {
         return { ...o, time: dayjs(o.time).unix() }
       })
 
+    // Trim based on percentile
+    if (activeGraph.percentile) {
+      const threshold = percentile(activeGraph.percentile, trimmedTimeseries, obj => obj[activeGraph.key])[activeGraph.key]
+      resampleSeries = resampleSeries.filter(obj => obj[activeGraph.key] < threshold)
+    }
+    if (secondaryActiveGraph.percentile) {
+      const threshold = percentile(secondaryActiveGraph.percentile, trimmedTimeseries, obj => obj[secondaryActiveGraph.key])[secondaryActiveGraph.key]
+      resampleSeries = resampleSeries.filter(obj => obj[secondaryActiveGraph.key] < threshold)
+    }
+
+    // Perform moving average smoothing
     if (activeGraph.movingAverage) {
       resampleSeries = movingAverage(resampleSeries, activeGraph.key, Math.ceil(trimmedTimeseries.length / 250))
     }
-
     if (secondaryActiveGraph.movingAverage) {
       resampleSeries = movingAverage(resampleSeries, secondaryActiveGraph.key, Math.ceil(trimmedTimeseries.length / 250))
     }
