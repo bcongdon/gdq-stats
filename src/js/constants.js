@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 
 export const GDQ_API_ENDPOINT = 'https://api.gdqstat.us'
 
-export const OFFLINE_MODE = false
+export const OFFLINE_MODE = true
 
 const LIVE_STORAGE_ENDPOINT = 'https://storage.api.gdqstat.us'
 
@@ -12,7 +12,7 @@ export const EVENT_YEAR = 2018
 export const EVENT_SHORT_NAME = 'sgdq'
 export const EVENT_START_DATE = dayjs('6-24-18')
 
-const OFFLINE_STORAGE_ENDPOINT = `/data/${EVENT_YEAR}/${EVENT_SHORT_NAME}`
+const OFFLINE_STORAGE_ENDPOINT = `/data/${EVENT_YEAR}/${EVENT_SHORT_NAME}_final`
 
 export const GDQ_STORAGE_ENDPOINT = OFFLINE_MODE ? OFFLINE_STORAGE_ENDPOINT : LIVE_STORAGE_ENDPOINT
 
