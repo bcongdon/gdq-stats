@@ -13,17 +13,20 @@ disableKinds: ["RSS", "taxonomy", "taxonomyTerm", "sitemap", "404"]
 enableRobotsTXT: true
 
 params:
-  current_event: Summer Games Done Quick
-  current_event_short_hand: SGDQ
-  current_event_year: 2018
+  current_event: Awesome Games Done Quick
+  current_event_short_hand: AGDQ
+  current_event_year: 2019
 
   # Set to "true" to disable home page and switch to flipclock as homepage
-  countdown_enabled: false
+  countdown_enabled: true
 
   # The time that the flipclock counts down to
-  event_start: "2018-06-24T08:30:00.00-08:00"
+  event_start: "2019-01-06T09:00:00.00-08:00"
 
   previous_events:
+    - name: SGDQ
+      year: 2018
+
     - name: AGDQ
       year: 2018
 
