@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 
 export const GDQ_API_ENDPOINT = 'https://api.gdqstat.us'
 
-export const OFFLINE_MODE = false
+export const OFFLINE_MODE = true
 
 const LIVE_STORAGE_ENDPOINT = 'https://storage.api.gdqstat.us'
 
