@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <head>
 
   {{ partial "favicon.html" . }}
@@ -6,9 +5,11 @@
 
   <link rel="stylesheet" type="text/css" href="/css/flipclock.css">
 </head>
+
 <body>
   <div class="container">
-    <a class='gdq-event-header' href="/">{{ .Site.Params.current_event }}</a><span class='gdq-year-header'>{{ .Site.Params.current_event_year }} Countdown</span>
+    <a class='gdq-event-header' href="/">{{ .Site.Params.current_event }}</a><span
+      class='gdq-year-header'>{{ .Site.Params.current_event_year }} Countdown</span>
     <div class="section" style="width: 100%">
       <h2>{{ .Site.Params.current_event_short_hand }} {{ .Site.Params.current_event_year }} is Coming soon...</h2>
       <div id="clockdiv" class="row">
@@ -42,11 +43,13 @@
       <h2>Previous Events</h2>
       <div class="content container">
         <div class="center-block previous-events">
-        {{ range $i, $previous_event := .Site.Params.previous_events }}
+          {{ range $i, $previous_event := .Site.Params.previous_events }}
           <div class="col-xs-6 col-sm-4">
-            <a style="font-weight:400;" href="/previous-events/{{ lower $previous_event.name }}-{{ $previous_event.year }}">{{ $previous_event.name }} {{ $previous_event.year }}</a>
+            <a style="font-weight:400;"
+              href="/previous-events/{{ lower $previous_event.name }}-{{ $previous_event.year }}">{{ $previous_event.name }}
+              {{ $previous_event.year }}</a>
           </div>
-        {{ end }}
+          {{ end }}
         </div>
       </div>
     </div>
