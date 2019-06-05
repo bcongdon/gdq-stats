@@ -2,27 +2,27 @@ import dayjs from 'dayjs'
 import { bisector } from 'd3-array'
 
 export const gameEndTime = (game) => {
-  const { moment, duration } = game
+  const { startTime, duration } = game
   const split = duration.split(':')
   const hours = split[0]
   const minutes = split[1]
   const seconds = split[2]
-  return moment.clone().add(hours, 'hour').add(minutes, 'minute').add(seconds, 'second')
+  return startTime.clone().add(hours, 'hour').add(minutes, 'minute').add(seconds, 'second')
 }
 
 export const gameFromTime = (schedule, time) => {
-  if (schedule[0].moment.isAfter(time)) {
-    return { name: 'Pre-show', moment: dayjs(0) }
+  if (schedule[0].startTime.isAfter(time)) {
+    return { name: 'Pre-show', startTime: dayjs(0) }
   } else if (gameEndTime(schedule[schedule.length - 1]).isBefore(time)) {
-    return { name: 'Post-show', moment: gameEndTime(schedule[schedule.length - 1]) }
+    return { name: 'Post-show', startTime: gameEndTime(schedule[schedule.length - 1]) }
   }
 
-  const result = bisector((a, b) => a.moment.diff(b)).left(schedule, dayjs(time), 1)
+  const result = bisector((a, b) => a.startTime.diff(b)).left(schedule, dayjs(time), 1)
   return schedule[result - 1]
 }
 
 export const movingAverage = (arr, dataKey, windowSize) => {
-  // Exponential moving average 
+  // Exponential moving average
   // Adopted from: https://stackoverflow.com/a/40058688/2421634
   return arr.reduce((previous, current, idx) => {
     if (!idx) {

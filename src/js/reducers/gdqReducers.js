@@ -58,7 +58,7 @@ const updateTimeseries = (newData, current) => {
 
 const normalizeSchedule = (schedule) => {
   for (var i = 0; i < schedule.length; i++) {
-    schedule[i].moment = utcToLocal(schedule[i].start_time)
+    schedule[i].startTime = utcToLocal(schedule[i].start_time)
   }
   return schedule
 }

@@ -39,7 +39,7 @@ class GamesTable extends React.Component {
   }
 
   toRow (game, key) {
-    const { id, name, runners, moment, duration } = game
+    const { id, name, runners, startTime, duration } = game
     const notificationActive = this.props.notificationGames.includes(id)
     const notificationIcon = (
       <IconLink
@@ -65,7 +65,7 @@ class GamesTable extends React.Component {
     let status
     if (gameEndTime(game).isBefore(dayjs())) {
       status = '✓'
-    } else if (game.moment.isBefore(dayjs())) {
+    } else if (game.startTime.isBefore(dayjs())) {
       status = '🎮'
     } else {
       status = tooltipAppliedNotification
@@ -77,7 +77,7 @@ class GamesTable extends React.Component {
       <Row className='game-list-row' key={key} ref={(e) => { this.rows[key] = e }}>
         <Col sm={4} xs={5}>{name}</Col>
         <Col sm={3} xsHidden>{runners}</Col>
-        <Col sm={3} xs={4}>{moment.format('MMM D, h:mma')} {statusNode}</Col>
+        <Col sm={3} xs={4}>{startTime.format('MMM D, h:mma')} {statusNode}</Col>
         <Col sm={2} xs={3}>{duration}</Col>
       </Row>
     )
@@ -98,7 +98,7 @@ class GamesTable extends React.Component {
   getActiveGame () {
     for (let i = 0; i < this.props.schedule.length; i++) {
       const game = this.props.schedule[i]
-      if (game.moment.isAfter(dayjs())) {
+      if (game.startTime.isAfter(dayjs())) {
         return i - 1
       }
     }
@@ -143,7 +143,7 @@ class GamesTable extends React.Component {
           return
         }
         // Notify if game starts within 5 minutes
-        if (game.moment.clone().subtract(5, 'minutes').isBefore(dayjs())) {
+        if (game.startTime.clone().subtract(5, 'minutes').isBefore(dayjs())) {
           this.props.notifyGame(id)
         }
       })
