@@ -2,17 +2,13 @@
 > :space_invader: Stats webpage for [GamesDoneQuick](gamesdonequick.com). Hosted at [gdqstat.us](http://gdqstat.us)
 
 ## Frontend
-The actual visualization is done by Recharts. Other tools used include: 
+The actual visualization is done by Recharts. Other tools used include:
 * `React` + `Redux` for rendering and application dataflow
 * `Webpack` + `Gulp` to generate / minify the site's assets
 * `Hugo` for minor HTML templating
 * `odometer` for animated odometers
 * `C3js` for pie charts
-* `moment.js`
-
-Tools used in previous versions of the site:
-* `jQuery`
-* `D3.js` - (This is still used, under the hood)
+* `day.js`
 
 ## Backend
 This page uses [gdq-collector](https://github.com/bcongdon/gdq-collector) to parse the GDQ donation tracker and to collect Twitch viewership information. This data is updated every minute.
@@ -22,12 +18,14 @@ Please visit that repo for more detailed information about the gdq-stats backend
 ## Run it yourself
 
 1. Clone the repo.
-1. Run `npm install` to pull down the NPM dependencies.
-1. Run `npm start` to build the site and start a local server.
-1. Visit `http://localhost:3000` in your browser.
+2. Run `npm install` to pull down the NPM dependencies.
+3. Run `npm start` to build the site and start a local server.
+4. Visit `http://localhost:3000` in your browser.
 
 ## Previous Events
 
+* [AGDQ 2019](http://gdqstat.us/previous-events/agdq-2019)
+* [SGDQ 2018](http://gdqstat.us/previous-events/sgdq-2018)
 * [AGDQ 2018](http://gdqstat.us/previous-events/agdq-2018)
 * [SGDQ 2017](http://gdqstat.us/previous-events/sgdq-2017)
 * [AGDQ 2017](http://gdqstat.us/previous-events/agdq-2017)
