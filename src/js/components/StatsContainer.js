@@ -1,101 +1,109 @@
-import React from 'react'
-import Stat from './Stat'
-import { PropTypes } from 'prop-types'
-import { connect } from 'react-redux'
-import Grid from 'react-bootstrap/lib/Grid'
-import Col from 'react-bootstrap/lib/Col'
-import { DONATION_TRACKER_URL, OFFLINE_MODE } from '../constants'
+import React from "react";
+import Stat from "./Stat";
+import { PropTypes } from "prop-types";
+import { connect } from "react-redux";
+import Grid from "react-bootstrap/lib/Grid";
+import Col from "react-bootstrap/lib/Col";
+import { DONATION_TRACKER_URL, OFFLINE_MODE } from "../constants";
 
 const STATS = [
   {
-    title: OFFLINE_MODE ? 'Max Viewers' : 'Viewers',
-    emoji: '📺',
-    key: 'viewers'
+    title: OFFLINE_MODE ? "Max Viewers" : "Viewers",
+    emoji: "📺",
+    key: "viewers"
   },
   {
-    title: 'Donations',
-    emoji: '💸',
-    key: 'donations',
-    prefix: '$'
+    title: "Donations",
+    emoji: "💸",
+    key: "donations",
+    prefix: "$"
   },
   {
-    title: 'Number of Donations',
-    emoji: '🙌',
-    key: 'donors'
+    title: "Number of Donations",
+    emoji: "🙌",
+    key: "donors"
   },
   {
-    title: 'Twitch Chats',
-    emoji: '💬',
-    key: 'chats'
+    title: "Twitch Chats",
+    emoji: "💬",
+    key: "chats"
   },
   {
-    title: 'Twitch Emotes',
-    emoji: <img src='/img/kappa.png' width='22' alt='kappa' />,
-    key: 'emotes'
+    title: "Twitch Emotes",
+    emoji: <img src="/img/kappa.png" width="22" alt="kappa" />,
+    key: "emotes"
   },
   {
-    title: 'Tweets Tweeted',
-    emoji: '🐦',
-    key: 'tweets'
+    title: "Tweets Tweeted",
+    emoji: "🐦",
+    key: "tweets"
   }
-]
+];
 
 class StatsContainer extends React.PureComponent {
   static propTypes = {
     timeseries: PropTypes.array.isRequired,
     timeseriesLoaded: PropTypes.bool.isRequired
+  };
+
+  accumulateStats() {
+    return this.props.timeseries.reduce(
+      (prev, curr) => {
+        return {
+          c: prev.c + curr.c,
+          e: prev.e + curr.e,
+          t: prev.t + curr.t
+        };
+      },
+      { c: 0, e: 0, t: 0 }
+    );
   }
 
-  accumulateStats () {
-    return this.props.timeseries.reduce((prev, curr) => {
-      return {
-        c: prev.c + curr.c,
-        e: prev.e + curr.e,
-        t: prev.t + curr.t
-      }
-    }, { c: 0, e: 0, t: 0 })
-  }
-
-  getLatestData (timeseries, dataKey) {
+  getLatestData(timeseries, dataKey) {
     for (let i = timeseries.length - 1; i > 0; i--) {
       if (timeseries[i][dataKey] >= 0) {
-        return timeseries[i][dataKey]
+        return timeseries[i][dataKey];
       }
     }
-    return 0
+    return 0;
   }
 
-  getValues () {
-    const accumulated = this.accumulateStats()
+  getValues() {
+    const accumulated = this.accumulateStats();
 
-    let viewers = this.getLatestData(this.props.timeseries, 'v')
+    let viewers = this.getLatestData(this.props.timeseries, "v");
 
     // Display max viewers if in online mode
     if (OFFLINE_MODE) {
-      viewers = this.props.timeseries.reduce((prev, curr) => (prev > curr.v ? prev : curr.v), 0)
+      viewers = this.props.timeseries.reduce(
+        (prev, curr) => (prev > curr.v ? prev : curr.v),
+        0
+      );
     }
 
     const values = {
       viewers: viewers,
-      donations: this.getLatestData(this.props.timeseries, 'm'),
-      donors: this.getLatestData(this.props.timeseries, 'd'),
+      donations: this.getLatestData(this.props.timeseries, "m"),
+      donors: this.getLatestData(this.props.timeseries, "d"),
       chats: accumulated.c,
       emotes: accumulated.e,
       tweets: accumulated.t
-    }
+    };
 
     // Force waiting until all data has arrived before rendering stats
     if (!this.props.timeseriesLoaded) {
-      Object.keys(values).forEach(k => { values[k] = 0 })
+      Object.keys(values).forEach(k => {
+        values[k] = 0;
+      });
     }
 
-    return values
+    return values;
   }
 
-  render () {
-    const values = this.getValues()
+  render() {
+    const values = this.getValues();
 
-    const stats = STATS.map((s, idx) =>
+    const stats = STATS.map((s, idx) => (
       <Stat
         title={s.title}
         emoji={s.emoji}
@@ -103,26 +111,35 @@ class StatsContainer extends React.PureComponent {
         value={values[s.key] || 0}
         key={idx}
       />
-    )
+    ));
     return (
-      <div className='section'>
+      <div className="section">
         <h2>Event Stats</h2>
-        <Grid className='current_stats content'>{stats}</Grid>
-        <Grid className='gdq-links'>
-          <Col xs={12} sm={4}><a href='https://www.twitch.tv/gamesdonequick'>Livestream</a></Col>
-          <Col xs={12} sm={4}><a href={DONATION_TRACKER_URL}>Donation Tracker</a></Col>
-          <Col xs={12} sm={4}><a href='https://gamesdonequick.com/schedule'>Schedule</a></Col>
+        <Grid className="current_stats content">{stats}</Grid>
+        <Grid className="gdq-links">
+          <Col xs={12} lg={3} sm={6}>
+            <a href="https://www.twitch.tv/gamesdonequick">Livestream</a>
+          </Col>
+          <Col xs={12} lg={3} sm={6}>
+            <a href="http://gdqvods.com/event/agdq-2019/">VODs</a>
+          </Col>
+          <Col xs={12} lg={3} sm={6}>
+            <a href={DONATION_TRACKER_URL}>Donation Tracker</a>
+          </Col>
+          <Col xs={12} lg={3} sm={6}>
+            <a href="https://gamesdonequick.com/schedule">Schedule</a>
+          </Col>
         </Grid>
       </div>
-    )
+    );
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     timeseries: state.gdq.timeseries,
     timeseriesLoaded: state.gdq.timeseriesLoaded
-  }
+  };
 }
 
-export default connect(mapStateToProps)(StatsContainer)
+export default connect(mapStateToProps)(StatsContainer);
