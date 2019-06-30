@@ -4,7 +4,14 @@ import { PropTypes } from "prop-types";
 import { connect } from "react-redux";
 import Grid from "react-bootstrap/lib/Grid";
 import Col from "react-bootstrap/lib/Col";
-import { DONATION_TRACKER_URL, OFFLINE_MODE } from "../constants";
+import DropdownButton from "react-bootstrap/lib/DropdownButton";
+import MenuItem from "react-bootstrap/lib/MenuItem";
+import {
+  DONATION_TRACKER_URL,
+  OFFLINE_MODE,
+  EVENT_SHORT_NAME,
+  EVENT_YEAR
+} from "../constants";
 
 const STATS = [
   {
@@ -118,16 +125,64 @@ class StatsContainer extends React.PureComponent {
         <Grid className="current_stats content">{stats}</Grid>
         <Grid className="gdq-links">
           <Col xs={12} lg={3} sm={6}>
-            <a href="https://www.twitch.tv/gamesdonequick">Livestream</a>
+            <DropdownButton title={"GDQ Links"} id="gdq-links">
+              <MenuItem
+                eventKey="1"
+                href="https://www.twitch.tv/gamesdonequick"
+              >
+                Livestream
+              </MenuItem>
+              <MenuItem eventKey="2" href="http://gdqvods.com/event/agdq-2019/">
+                VODs
+              </MenuItem>
+              <MenuItem eventKey="3" href={DONATION_TRACKER_URL}>
+                Donation Tracker
+              </MenuItem>
+              <MenuItem eventKey="4" href="https://gamesdonequick.com/schedule">
+                Schedule
+              </MenuItem>
+            </DropdownButton>
           </Col>
           <Col xs={12} lg={3} sm={6}>
-            <a href="http://gdqvods.com/event/agdq-2019/">VODs</a>
+            <DropdownButton
+              title={`More from ${EVENT_SHORT_NAME.toUpperCase()} ${EVENT_YEAR}`}
+              id="additional-stats"
+            >
+              <MenuItem
+                eventKey="1"
+                href="https://www.twitch.tv/gamesdonequick"
+              >
+                Livestream
+              </MenuItem>
+              <MenuItem eventKey="2" href="http://gdqvods.com/event/agdq-2019/">
+                VODs
+              </MenuItem>
+              <MenuItem eventKey="3" href={DONATION_TRACKER_URL}>
+                Donation Tracker
+              </MenuItem>
+              <MenuItem eventKey="4" href="https://gamesdonequick.com/schedule">
+                Schedule
+              </MenuItem>
+            </DropdownButton>
           </Col>
           <Col xs={12} lg={3} sm={6}>
-            <a href={DONATION_TRACKER_URL}>Donation Tracker</a>
-          </Col>
-          <Col xs={12} lg={3} sm={6}>
-            <a href="https://gamesdonequick.com/schedule">Schedule</a>
+            <DropdownButton title={"Previous Events"} id="previous-events">
+              <MenuItem
+                eventKey="1"
+                href="https://www.twitch.tv/gamesdonequick"
+              >
+                Livestream
+              </MenuItem>
+              <MenuItem eventKey="2" href="http://gdqvods.com/event/agdq-2019/">
+                VODs
+              </MenuItem>
+              <MenuItem eventKey="3" href={DONATION_TRACKER_URL}>
+                Donation Tracker
+              </MenuItem>
+              <MenuItem eventKey="4" href="https://gamesdonequick.com/schedule">
+                Schedule
+              </MenuItem>
+            </DropdownButton>
           </Col>
         </Grid>
       </div>
