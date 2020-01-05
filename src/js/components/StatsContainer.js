@@ -118,16 +118,24 @@ class StatsContainer extends React.PureComponent {
         <Grid className="current_stats content">{stats}</Grid>
         <Grid className="gdq-links">
           <Col xs={12} lg={3} sm={6}>
-            <a href="https://www.twitch.tv/gamesdonequick">Livestream</a>
+            <a target="_blank" href="https://www.twitch.tv/gamesdonequick">
+              Livestream
+            </a>
           </Col>
           <Col xs={12} lg={3} sm={6}>
-            <a href="http://gdqvods.com/event/agdq-2019/">VODs</a>
+            <a target="_blank" href="http://gdqvods.com/event/agdq-2019/">
+              VODs
+            </a>
           </Col>
           <Col xs={12} lg={3} sm={6}>
-            <a href={DONATION_TRACKER_URL}>Donation Tracker</a>
+            <a target="_blank" href={DONATION_TRACKER_URL}>
+              Donation Tracker
+            </a>
           </Col>
           <Col xs={12} lg={3} sm={6}>
-            <a href="https://gamesdonequick.com/schedule">Schedule</a>
+            <a target="_blank" href="https://gamesdonequick.com/schedule">
+              Schedule
+            </a>
           </Col>
         </Grid>
       </div>
