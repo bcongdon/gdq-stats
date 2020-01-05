@@ -14,11 +14,11 @@ enableRobotsTXT: true
 
 params:
   current_event: Awesome Games Done Quick
-  current_event_short_hand: aGDQ
+  current_event_short_hand: AGDQ
   current_event_year: 2020
 
   # Set to "true" to disable home page and switch to flipclock as homepage
-  countdown_enabled: true
+  countdown_enabled: false
 
   # The time that the flipclock counts down to
   event_start: "2020-01-05T09:00:00.00-08:00"
@@ -46,4 +46,4 @@ params:
       year: 2016
 
   description: >
-    Live Data Visualizations for GamesDoneQuick Livestreams
+    Data Visualizations for GamesDoneQuick Marathons
