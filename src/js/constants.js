@@ -8,7 +8,7 @@ export const OFFLINE_MODE = true;
 const LIVE_STORAGE_ENDPOINT = "https://storage.api.gdqstat.us";
 
 // Note: Keep this up-to-date with the most recent event
-export const EVENT_YEAR = 2019;
+export const EVENT_YEAR = 2020;
 export const EVENT_SHORT_NAME = "agdq";
 export const EVENT_START_DATE = dayjs("01-05-20");
 
