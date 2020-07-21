@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/bcongdon/gdq-stats#readme",
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.18.1",
     "d3-array": "^1.2.0",
     "d3-format": "^1.2.0",
     "dayjs": "^1.6.10",
