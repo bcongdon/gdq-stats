@@ -1,7 +1,8 @@
 import gulp from "gulp";
 import { spawn } from "child_process";
 import hugoBin from "hugo-bin";
-import gutil from "gulp-util";
+import PluginError from "plugin-error";
+import log from "fancy-log";
 import flatten from "gulp-flatten";
 import BrowserSync from "browser-sync";
 import webpack from "webpack";
@@ -36,8 +37,8 @@ gulp.task("js", (cb) => {
   myConfig.mode = 'development';
 
   webpack(myConfig, (err, stats) => {
-    if (err) throw new gutil.PluginError("webpack", err);
-    gutil.log("[webpack]", stats.toString({
+    if (err) throw new PluginError("webpack", err);
+    log("[webpack]", stats.toString({
       colors: true,
       progress: true
     }));
@@ -55,7 +56,7 @@ gulp.task("js-prod", (cb) => {
   var compiler = webpack(myConfig);
   compiler.run((err, stats) => {
     if (err) throw new gutil.PluginError("webpack", err);
-    gutil.log("[webpack]", stats.toString({
+    log("[webpack]", stats.toString({
       colors: true,
       progress: true
     }));
