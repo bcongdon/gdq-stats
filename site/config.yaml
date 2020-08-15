@@ -21,7 +21,7 @@ params:
   countdown_enabled: true
 
   # The time that the flipclock counts down to
-  event_start: "2020-08-23T09:00:00.00-08:00"
+  event_start: "2020-08-16T09:00:00.00-08:00"
 
   previous_events:
     - name: AGDQ
