@@ -18,7 +18,7 @@ params:
   current_event_year: 2020
 
   # Set to "true" to disable home page and switch to flipclock as homepage
-  countdown_enabled: true
+  countdown_enabled: false
 
   # The time that the flipclock counts down to
   event_start: "2020-08-16T09:00:00.00-08:00"
