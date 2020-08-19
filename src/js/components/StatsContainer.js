@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import Grid from "react-bootstrap/lib/Grid";
 import Col from "react-bootstrap/lib/Col";
 import { DONATION_TRACKER_URL, OFFLINE_MODE, VODS_URL } from "../constants";
+import dayjs from "dayjs";
+import { gameEndTime } from "../utils";
 
 const STATS = [
   {
@@ -24,15 +26,20 @@ const STATS = [
     key: "donors",
   },
   {
+    title: "Games Completed",
+    emoji: "🎮",
+    key: "games",
+  },
+  {
     title: "Twitch Chats",
     emoji: "💬",
     key: "chats",
   },
-  {
-    title: "Twitch Emotes",
-    emoji: <img src="/img/kappa.png" width="22" alt="kappa" />,
-    key: "emotes",
-  },
+  // {
+  //   title: "Twitch Emotes",
+  //   emoji: <img src="/img/kappa.png" width="22" alt="kappa" />,
+  //   key: "emotes",
+  // },
   {
     title: "Tweets Tweeted",
     emoji: "🐦",
@@ -44,6 +51,7 @@ class StatsContainer extends React.PureComponent {
   static propTypes = {
     timeseries: PropTypes.array.isRequired,
     timeseriesLoaded: PropTypes.bool.isRequired,
+    schedule: PropTypes.array.isRequired,
   };
 
   accumulateStats() {
@@ -68,6 +76,11 @@ class StatsContainer extends React.PureComponent {
     return 0;
   }
 
+  getGamesCompleted() {
+    return this.props.schedule.filter((g) => gameEndTime(g).isBefore(dayjs()))
+      .length;
+  }
+
   getValues() {
     const accumulated = this.accumulateStats();
 
@@ -88,6 +101,7 @@ class StatsContainer extends React.PureComponent {
       chats: accumulated.c,
       emotes: accumulated.e,
       tweets: accumulated.t,
+      games: this.getGamesCompleted(),
     };
 
     // Force waiting until all data has arrived before rendering stats
@@ -147,6 +161,7 @@ function mapStateToProps(state) {
   return {
     timeseries: state.gdq.timeseries,
     timeseriesLoaded: state.gdq.timeseriesLoaded,
+    schedule: state.gdq.schedule,
   };
 }
 

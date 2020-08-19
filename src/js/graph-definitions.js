@@ -52,18 +52,18 @@ const GRAPHS = [
     format: fullNumber,
     movingAverage: true
   },
-  {
-    name: 'Twitch Emotes',
-    key: 'e_acc',
-    format: format(',.2s'),
-    tooltipFormat: fullNumber
-  },
-  {
-    name: 'Twitch Emotes per minute',
-    key: 'e',
-    format: fullNumber,
-    movingAverage: true
-  }
+//   {
+//     name: 'Twitch Emotes',
+//     key: 'e_acc',
+//     format: format(',.2s'),
+//     tooltipFormat: fullNumber
+//   },
+//   {
+//     name: 'Twitch Emotes per minute',
+//     key: 'e',
+//     format: fullNumber,
+//     movingAverage: true
+//   }
 ]
 
 export default GRAPHS
