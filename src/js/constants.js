@@ -19,6 +19,7 @@ export const GDQ_STORAGE_ENDPOINT = OFFLINE_MODE
   : LIVE_STORAGE_ENDPOINT;
 
 export const DONATION_TRACKER_URL = `https://gamesdonequick.com/tracker/index/${EVENT_SHORT_NAME}${EVENT_YEAR}`;
+export const VODS_URL = `http://gdqvods.com/event/${EVENT_SHORT_NAME}-${EVENT_YEAR}/`;
 
 export const SECONDARY_COLOR = "#F21847";
 export const PRIMARY_COLOR = "#00AEEF";

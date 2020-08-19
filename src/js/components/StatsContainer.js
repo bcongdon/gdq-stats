@@ -4,46 +4,46 @@ import { PropTypes } from "prop-types";
 import { connect } from "react-redux";
 import Grid from "react-bootstrap/lib/Grid";
 import Col from "react-bootstrap/lib/Col";
-import { DONATION_TRACKER_URL, OFFLINE_MODE } from "../constants";
+import { DONATION_TRACKER_URL, OFFLINE_MODE, VODS_URL } from "../constants";
 
 const STATS = [
   {
     title: OFFLINE_MODE ? "Max Viewers" : "Viewers",
     emoji: "📺",
-    key: "viewers"
+    key: "viewers",
   },
   {
     title: "Donations",
     emoji: "💸",
     key: "donations",
-    prefix: "$"
+    prefix: "$",
   },
   {
     title: "Number of Donations",
     emoji: "🙌",
-    key: "donors"
+    key: "donors",
   },
   {
     title: "Twitch Chats",
     emoji: "💬",
-    key: "chats"
+    key: "chats",
   },
   {
     title: "Twitch Emotes",
     emoji: <img src="/img/kappa.png" width="22" alt="kappa" />,
-    key: "emotes"
+    key: "emotes",
   },
   {
     title: "Tweets Tweeted",
     emoji: "🐦",
-    key: "tweets"
-  }
+    key: "tweets",
+  },
 ];
 
 class StatsContainer extends React.PureComponent {
   static propTypes = {
     timeseries: PropTypes.array.isRequired,
-    timeseriesLoaded: PropTypes.bool.isRequired
+    timeseriesLoaded: PropTypes.bool.isRequired,
   };
 
   accumulateStats() {
@@ -52,7 +52,7 @@ class StatsContainer extends React.PureComponent {
         return {
           c: prev.c + curr.c,
           e: prev.e + curr.e,
-          t: prev.t + curr.t
+          t: prev.t + curr.t,
         };
       },
       { c: 0, e: 0, t: 0 }
@@ -87,12 +87,12 @@ class StatsContainer extends React.PureComponent {
       donors: this.getLatestData(this.props.timeseries, "d"),
       chats: accumulated.c,
       emotes: accumulated.e,
-      tweets: accumulated.t
+      tweets: accumulated.t,
     };
 
     // Force waiting until all data has arrived before rendering stats
     if (!this.props.timeseriesLoaded) {
-      Object.keys(values).forEach(k => {
+      Object.keys(values).forEach((k) => {
         values[k] = 0;
       });
     }
@@ -123,7 +123,7 @@ class StatsContainer extends React.PureComponent {
             </a>
           </Col>
           <Col xs={12} lg={3} sm={6}>
-            <a target="_blank" href="http://gdqvods.com/event/agdq-2019/">
+            <a target="_blank" href={VODS_URL}>
               VODs
             </a>
           </Col>
@@ -146,7 +146,7 @@ class StatsContainer extends React.PureComponent {
 function mapStateToProps(state) {
   return {
     timeseries: state.gdq.timeseries,
-    timeseriesLoaded: state.gdq.timeseriesLoaded
+    timeseriesLoaded: state.gdq.timeseriesLoaded,
   };
 }
 
