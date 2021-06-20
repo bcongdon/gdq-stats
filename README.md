@@ -26,6 +26,14 @@ Please visit that repo for more detailed information about the gdq-stats backend
 3. Run `npm start` to build the site and start a local server.
 4. Visit `http://localhost:3000` in your browser.
 
+### Snapshot Previous Event
+
+To take a snapshot of a previous event:
+
+```
+$ npm run snapshot --name=agdq-2021 # Replace w/ the current event name
+```
+
 ## Previous Events
 
 - [SGDQ 2020](http://gdqstat.us/previous-events/sgdq-2020)
