@@ -13,7 +13,7 @@ disableKinds: ["RSS", "taxonomy", "taxonomyTerm", "sitemap", "404"]
 enableRobotsTXT: true
 
 params:
-  current_event: Awesome Games Done Quick Online
+  current_event: Awesome Games Done Quick
   current_event_short_hand: AGDQ
   current_event_year: 2022
 
